@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction } from "../../../pages/Main/Main.interfaces";
+import { Dispatch, SetStateAction } from "../../pages/Main/Main.interfaces";
 
 export interface WordsDisplayerProps {
   wordsToDisplay: Array<string>,
@@ -7,4 +7,5 @@ export interface WordsDisplayerProps {
   offSet: number,
   setYNextPosition: Dispatch<SetStateAction<number>>,
   setYFocusedPosition: Dispatch<SetStateAction<number>>
+  computedWords: Array<string>
 }

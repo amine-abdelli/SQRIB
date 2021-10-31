@@ -1,12 +1,9 @@
 import React, { ReactElement } from 'react';
-import { splitStringToSpans } from '../../pages/helpers/WordDisplayer.helper';
+import { setComputedWordsColor, splitStringToSpans } from '../../pages/helpers/WordDisplayer.helper';
 import { WordsDisplayerProps } from './WordsDisplayer.interfaces';
 import styles from './WordsDisplayer.module.scss';
 
-
-
-const WordsDisplayer = ({ wordsToDisplay, userInput, wordIndex, setYNextPosition, offSet, setYFocusedPosition }: WordsDisplayerProps) => {
-
+const WordsDisplayer = ({ wordsToDisplay, userInput, wordIndex, setYNextPosition, offSet, setYFocusedPosition, computedWords }: WordsDisplayerProps) => {
   const displayedWords = wordsToDisplay?.map((word: string, i: number): ReactElement => {
     if (i === wordIndex) {
       return (
@@ -31,11 +28,13 @@ const WordsDisplayer = ({ wordsToDisplay, userInput, wordIndex, setYNextPosition
     return (
       <span
         key={i + Date.now()}
+        style={{ color: setComputedWordsColor(word, i, wordIndex, computedWords)}}
       >
         {` ${word} `}
       </span>
     );
-  })
+  });
+
   return (
     <div className={styles.wordsDisplayer} >
       <div style={{ transform: `translate(0, ${offSet}px`}} className="content">

@@ -1,20 +1,10 @@
-import * as words from '../data/words.json';
-import * as pronoun from '../data/pronouns.json';
-import * as articles from '../data/articles.json';
-import { CountDown } from '../../components/CountDown/CountDown';
 import React, { FormEvent, KeyboardEvent, KeyboardEventHandler, useEffect, useState } from 'react';
 import { shuffleWordsStack } from '../helpers/WordDisplayer.helper';
 
-import { WordCount } from '../../components/WordAccount/WordCount';
 import { Button, InputGroup } from '@blueprintjs/core';
 import { ICountUpValues } from '../../components/CountDown/CountDown.interfaces';
 import { Scoring } from '../../components/Scoring/Scoring';
 import { WordsDisplayer } from '../../components/WordsDisplayer/WordsDisplayer';
-
-const wordList = words?.map(obj => obj.label);
-const prounounList = pronoun?.map(obj => obj.label);
-const articlesList = articles?.map(obj => obj.label);
-const data = [...wordList, ...prounounList, ...articlesList];
 
 function Main() {
   const [wordsStack, setWordsStack] = useState<Array<string>>([])
@@ -41,16 +31,15 @@ function Main() {
   }, [userInput]);
 
   useEffect(() => {
-    setWordsStack(shuffleWordsStack(data));
-    setComputedWords([...computedWords, wordsStack[wordIndex + 1]])
+    setWordsStack(shuffleWordsStack());
   }, [])
 
   function onSpacePress(e: KeyboardEvent) {
-    setComputedWords([...computedWords, wordsStack[wordIndex + 1]])
     if (e.code === 'Space') {
+      setWordCount(wordCount + 1);
       if (userInput === wordsStack[wordIndex]) {
+        setComputedWords([...computedWords, wordsStack[wordIndex]])
         setScore(score + 1);
-        setWordCount(wordCount + 1);
       }
       if (yNextPosition && (yNextPosition - yFocusedPosition) > 5) {
         setOffSet(offSet - ((yNextPosition - yFocusedPosition - 2)));
@@ -60,8 +49,9 @@ function Main() {
       e.preventDefault();
     }
   };
+  console.log('computed words', computedWords)
   function onRestart() {
-    setWordsStack(shuffleWordsStack(data));
+    setWordsStack(shuffleWordsStack());
     setIsCountDownFinished(false);
     setStartCountDown(false);
     setUserInput('');
@@ -99,6 +89,7 @@ function Main() {
             offSet={offSet}
             setYFocusedPosition={setYFocusedPosition}
             setYNextPosition={setYNextPosition}
+            computedWords={computedWords}
           />
         </div>
         <div className="flex justify-center" style={{ marginTop: '1rem' }}>

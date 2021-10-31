@@ -927,7 +927,7 @@
   {
     "type": "conj.",
     "frequency": 7824,
-    "label": "parce que"
+    "label": "parce-que"
   },
   {
     "type": "subst.",
@@ -2227,7 +2227,7 @@
   {
     "type": "conj.",
     "frequency": 3189,
-    "label": "tandis que"
+    "label": "tandis-que"
   },
   {
     "type": "verbe",
@@ -7303,5 +7303,16 @@
     "type": "verbe",
     "frequency": 602,
     "label": "dégager"
+  },
+  {
+    "type": "verbe",
+    "frequency": 602,
+    "label": "gastronomie"
+  },
+  {
+    "type": "verbe",
+    "frequency": 602,
+    "label": "piano"
   }
+
 ]

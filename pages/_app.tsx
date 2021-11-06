@@ -1,18 +1,38 @@
-import 'tailwindcss/tailwind.css';
-import KeyBoard from '../components/KeyBoard/KeyBoard';
-import '../styles/globals.css';
-import { Main } from './Main/Main';
+// import '../styles/globals.scss'
+import type { AppProps } from 'next/app';
+import { useState } from 'react';
+import Layout from '../src/components/Layout/Layout';
+import Nav from '../src/components/Nav/Nav';
+import SideBar from '../src/components/SideBar/SideBar';
+import { themes } from '../styles/theme';
+import '../styles/globals.scss';
+import LeftSideBar from '../src/components/SideBar/LeftSideBar';
+import { useRouter } from 'next/router';
+import styles from '../styles/_app.module.scss';
 
 
-function MyApp() {
+function MyApp({ Component, pageProps }: AppProps) {
+  const [theme, setTheme] = useState<any>(themes.LIGHT)
+  const [fontSize, setFontSize] = useState<number>(0);
+  const [navigationState, setNavigationState] = useState<any>('Main');
+  const router = useRouter();
+
 
   return (
-    <div style={{ display: 'flex', justifyContent: 'center'}}>
-      <div style={{ width: '65vw', height: '100vh', display: 'flex', justifyContent: 'center', flexDirection: 'column', alignItems: 'center' }}>
-        <Main />
-        <KeyBoard />
+    <Layout theme={theme}>
+      <Nav theme={theme} />
+      <div style={{ display: 'flex' }}>
+        <LeftSideBar navigationState={navigationState} theme={theme} />
+        <div className={styles.componentWrapper} >
+          <div style={{ justifyContent: 'center', display: 'flex' }}>
+            <Component {...pageProps} router={router} setNavigationState={setNavigationState} setFontSize={setFontSize} fontSize={fontSize} theme={theme} />
+          </div>
+        </div>
+        <SideBar setFontSize={setFontSize} setTheme={setTheme} theme={theme} />
       </div>
-    </div>
+    </Layout>
+
   )
 }
+
 export default MyApp

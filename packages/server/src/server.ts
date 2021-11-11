@@ -3,7 +3,9 @@ import { ApolloServer } from 'apollo-server-express';
 import dotenv from 'dotenv';
 import cookieParser from 'cookie-parser';
 import * as Query from './resolvers/Query';
+import * as Mutation from './resolvers/Mutation';
 import { typeDefs } from './graphql/models';
+import { createContext } from './helpers/context';
 
 dotenv.config();
 const PORT = process.env.PORT || 4000;
@@ -14,7 +16,9 @@ async function startServer(){
     typeDefs,
     resolvers: { 
       Query, 
+      Mutation
     },
+    context: createContext
     }
   );
   await apolloServer.start();

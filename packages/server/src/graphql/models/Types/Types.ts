@@ -2,7 +2,7 @@
  * AuthPayload type definition
  * This is the type of the data returned when a user signs up
  */
- export const AuthPayload = `
+export const AuthPayload = `
  type AuthPayload {
    user: User!
  }
@@ -17,16 +17,24 @@ export const User = `
    name: String
    email: String
    password: String
-   activated: Boolean
+   is_active: Boolean
  }`;
 
 /**
  * Message type definition
  */
- export const Message = `
+export const Message = `
  type Message {
    message: String!
  }
  `;
 
- export const Types: string[] = [User, AuthPayload, Message];
+/**
+* Void scalar definition
+*/
+export const Void = `
+scalar Void
+`;
+
+
+export const Types: string[] = [User, AuthPayload, Message, Void];

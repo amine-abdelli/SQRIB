@@ -3,7 +3,7 @@ import { shuffleWordsStack, spreadLetters } from '../../src/helpers/displayer.he
 import { Button, Icon, InputGroup } from '@blueprintjs/core';
 import { Scoring } from '../../src/components/Scoring/Scoring';
 import { WordsDisplayer } from '../../src/components/WordsDisplayer/WordsDisplayer';
-import { Dispatch, SetStateAction } from './Main.interfaces';
+import { Dispatch, SetStateAction } from '../../interfaces/Main.interfaces';
 import KeyBoard from '../../src/components/KeyBoard/KeyBoard';
 import { fontSize as font_size } from '../../src/helpers/fontsize.enum';
 import { useRouter } from 'next/router';

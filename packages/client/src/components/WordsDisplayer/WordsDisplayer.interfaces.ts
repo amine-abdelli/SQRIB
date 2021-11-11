@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction } from "../../pages/Main/Main.interfaces";
+import { Dispatch, SetStateAction } from "../../../interfaces/Main.interfaces";
 
 export interface WordsDisplayerProps {
   wordsToDisplay: Array<string>,

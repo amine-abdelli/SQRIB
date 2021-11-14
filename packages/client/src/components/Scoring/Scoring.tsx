@@ -5,7 +5,7 @@ import { Score } from '../Score/Score'
 import { WordCount } from '../WordAccount/WordCount';
 import styles from './Scoring.module.scss';
 
-const Scoring = ({ score, startCountDown, wordCount, theme, setStartCountDown, setIsTimeOut, countDown, setCountDown }: IScoringProps) => {
+const Scoring = ({ score, startCountDown, wordCount, theme, setStartCountDown, setIsTimeOut, countDown, setCountDown, gameMode, isTimeOut }: IScoringProps) => {
   return (
     <div className={styles.scoringWrapper} style={{ color: theme?.secondary, borderBottom: `1px ${theme?.secondary} solid` }}>
       <Score score={score} />
@@ -15,6 +15,7 @@ const Scoring = ({ score, startCountDown, wordCount, theme, setStartCountDown, s
         setIsTimeOut={setIsTimeOut}
         countDown={countDown}
         setCountDown={setCountDown}
+        gameMode={gameMode}
       />
       <WordCount
         wordCount={wordCount} 

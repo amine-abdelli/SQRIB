@@ -19,7 +19,7 @@ function MyApp({ Component, pageProps }: AppProps) {
   const [fontSize, setFontSize] = useState<number>(0);
   const [navigationState, setNavigationState] = useState<any>('Main');
   const [showModeSelection, setShowModeSelection] = useState<boolean>(false);
-  const [gameMode, setGameMode] = useState(GameMode.ONE);
+  const [gameMode, setGameMode] = useState<null | number>(null);
   const [language, setLanguage] = useState(Language.FR);
   const router = useRouter();
 
@@ -36,7 +36,7 @@ function MyApp({ Component, pageProps }: AppProps) {
           <SideBar position={Position.LEFT} navigationState={navigationState} theme={theme} />
           <div className={styles.componentWrapper} >
             <div style={{ justifyContent: 'center', display: 'flex' }}>
-              <Component language={language} {...pageProps} router={router} setNavigationState={setNavigationState} setFontSize={setFontSize} fontSize={fontSize} theme={theme} />
+              <Component language={language} {...pageProps} router={router} setNavigationState={setNavigationState} setFontSize={setFontSize} fontSize={fontSize} theme={theme} gameMode={gameMode} setShowModeSelection={setShowModeSelection} />
             </div>
           </div>
           <SideBar setShowModeSelection={setShowModeSelection} setLanguage={setLanguage} position={Position.RIGHT} setFontSize={setFontSize} setTheme={setTheme} theme={theme} />
@@ -48,6 +48,7 @@ function MyApp({ Component, pageProps }: AppProps) {
         setShowModeSelection={setShowModeSelection}
         theme={theme}
         onGameModeSelection={onGameModeSelection}
+        gameMode={gameMode}
       />
     </>
   )

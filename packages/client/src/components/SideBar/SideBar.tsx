@@ -5,13 +5,13 @@ import SideBarButton from './SideBarButton/SideBarButton';
 import Link from 'next/link';
 import SettingMenu from './SettingMenu/SettingMenu';
 
-const SideBar = ({ setFontSize, setTheme, theme, position, navigationState, setLanguage, setShowModeSelection }: any) => {
+const SideBar = ({ setFontSize, setTheme, theme, position, navigationState, setLanguage }: any) => {
   return (
     position === 'right' ?
       <div style={{ color: theme?.secondary, height: '80vh', borderLeft: `1px ${theme?.secondary} dashed`, alignItems: 'center', width: '15%', minWidth: '10vh' }}>
         <ul style={{ width: '100%', padding: '10px' }}>
           <Link href='/Main/Main'>
-            <SideBarButton onClick={setShowModeSelection} themeColor={theme?.secondary} icon="ninja" text="Entraine toi !" />
+            <SideBarButton themeColor={theme?.secondary} icon="ninja" text="Entraine toi !" />
           </Link>
           <Link href='/Multigaming/Multigaming'>
             <SideBarButton themeColor={theme?.secondary} icon="multi-select" text="Multijoueur" />

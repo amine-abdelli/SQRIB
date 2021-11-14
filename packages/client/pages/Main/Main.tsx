@@ -17,7 +17,7 @@ interface IMainProps {
   setIsTimeOut: any
 }
 
-function Main({ setFontSize, fontSize, theme, router, setNavigationState, language }: any) {
+function Main({ setFontSize, fontSize, theme, router, setNavigationState, language, gameMode, setShowModeSelection }: any) {
   const [wordsStack, setWordsStack] = useState<Array<string>>([])
   const [userInput, setUserInput] = useState('');
   const [score, setScore] = useState(0);
@@ -32,11 +32,13 @@ function Main({ setFontSize, fontSize, theme, router, setNavigationState, langua
   const [countDown, setCountDown] = useState<number>(60);
   const [startCountDown, setStartCountDown] = useState<boolean>(false);
   const [isTimeOut, setIsTimeOut] = useState(false);
-  const [gameMode, setGameMode] = useState<GameMode>(GameMode.ONE);
 
   useEffect(() => {
     setFontSize(font_size.MEDIUM);
     setNavigationState(router.asPath.split('/').at(-1));
+    if (gameMode === null) {
+      setShowModeSelection(true)
+    }
   }, []);
 
 
@@ -71,8 +73,7 @@ function Main({ setFontSize, fontSize, theme, router, setNavigationState, langua
       e.preventDefault();
     }
   };
-  console.log('wordsstack', wordsStack.length, 'wordcount', wordCount);
-  
+
   function onRestart() {
     setWordsStack(shuffleWordsStack(language, gameMode));
     setStartCountDown(false);
@@ -87,13 +88,14 @@ function Main({ setFontSize, fontSize, theme, router, setNavigationState, langua
   }
 
   return (
-    <div style={{ width: '100%'}}>
+    <div style={{ width: '100%' }}>
       <div style={{ textAlign: 'center' }}>
         <p style={{ fontSize: '80px', color: theme?.secondary, opacity: '0.5' }}>
           {spreadLetters(wordsStack[wordIndex], userInput, setHorizontalPosition, setLetterWidth)}
         </p>
         {horizontalPosition && letterWidth ? <p style={{ transition: 'all 0.2s ease', position: 'absolute', left: horizontalPosition + (letterWidth / 2) - 8.5, display: horizontalPosition ? 'block' : 'none', transform: 'translateY(-25px)' }}><Icon color={theme?.tertiary} icon="symbol-triangle-up" /></p> : ''}
       </div>
+      <Button onClick={() => setShowModeSelection(true)}></Button>
       <div style={{ display: 'flex', alignItems: 'center', margin: '10px 0' }}>
         <Scoring
           score={score}
@@ -105,6 +107,7 @@ function Main({ setFontSize, fontSize, theme, router, setNavigationState, langua
           theme={theme}
           setIsTimeOut={setIsTimeOut}
           isTimeOut={isTimeOut}
+          gameMode={gameMode}
         />
         <Button style={{ marginLeft: '30px', backgroundColor: theme?.tertiary, borderRadius: '25px' }} intent="success" icon="refresh" onClick={onRestart} />
       </div>
@@ -120,7 +123,7 @@ function Main({ setFontSize, fontSize, theme, router, setNavigationState, langua
           fontSize={fontSize}
         />
       </div>
-      <div className="flex justify-center" style={{ marginTop: '1rem' }}>
+      <div style={{ marginTop: '1rem' }}>
         <InputGroup
           style={{ width: '100%' }}
           onChange={(e) => setUserInput(e.target.value)}

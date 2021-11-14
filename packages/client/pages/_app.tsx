@@ -9,30 +9,47 @@ import '../styles/globals.scss';
 import { useRouter } from 'next/router';
 import styles from '../styles/_app.module.scss';
 import { Position } from '../src/components/SideBar/SideBar.enum';
+import { GameMode } from '../src/helpers/Mode.enum';
+import Modal from '../src/components/ModeSelectionModal/Modal';
+import { Language } from '../src/helpers/Language.enum';
 
 
 function MyApp({ Component, pageProps }: AppProps) {
   const [theme, setTheme] = useState<any>(themes.LIGHT)
   const [fontSize, setFontSize] = useState<number>(0);
   const [navigationState, setNavigationState] = useState<any>('Main');
-  const [language, setLanguage] = useState('fr');
+  const [showModeSelection, setShowModeSelection] = useState<boolean>(false);
+  const [gameMode, setGameMode] = useState(GameMode.ONE);
+  const [language, setLanguage] = useState(Language.FR);
   const router = useRouter();
 
+  function onGameModeSelection(selectedMode: number) {
+    setGameMode(selectedMode)
+    setShowModeSelection(false);
+  }
 
   return (
-    <Layout theme={theme}>
-      <Nav theme={theme} />
-      <div style={{ display: 'flex' }}>
-        <SideBar position={Position.LEFT} navigationState={navigationState} theme={theme} />
-        <div className={styles.componentWrapper} >
-          <div style={{ justifyContent: 'center', display: 'flex' }}>
-            <Component language={language} {...pageProps} router={router} setNavigationState={setNavigationState} setFontSize={setFontSize} fontSize={fontSize} theme={theme} />
+    <>
+      <Layout theme={theme}>
+        <Nav theme={theme} />
+        <div style={{ display: 'flex' }}>
+          <SideBar position={Position.LEFT} navigationState={navigationState} theme={theme} />
+          <div className={styles.componentWrapper} >
+            <div style={{ justifyContent: 'center', display: 'flex' }}>
+              <Component language={language} {...pageProps} router={router} setNavigationState={setNavigationState} setFontSize={setFontSize} fontSize={fontSize} theme={theme} />
+            </div>
           </div>
+          <SideBar setShowModeSelection={setShowModeSelection} setLanguage={setLanguage} position={Position.RIGHT} setFontSize={setFontSize} setTheme={setTheme} theme={theme} />
         </div>
-        <SideBar setLanguage={setLanguage} position={Position.RIGHT} setFontSize={setFontSize} setTheme={setTheme} theme={theme} />
-      </div>
-    </Layout>
-
+      </Layout>
+      {/* Selection mode modal */}
+      <Modal 
+        showModeSelection={showModeSelection}
+        setShowModeSelection={setShowModeSelection}
+        theme={theme}
+        onGameModeSelection={onGameModeSelection}
+      />
+    </>
   )
 }
 

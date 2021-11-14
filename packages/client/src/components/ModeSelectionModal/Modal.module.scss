@@ -1,0 +1,24 @@
+@import '../../../styles/variables';
+
+.modeTitle {
+  text-align: center;
+}
+.modeWrapper {
+  display: flex;
+  height: 100%;
+  width: 100%;
+  flex-direction: column;
+  align-items: center;
+
+  .mode {
+    width: 10rem;
+    padding: 5px;
+    margin: 5px;
+    cursor: pointer;
+    border-radius: $border-radius;
+    
+    &:hover {
+      transform: scale(1.02);
+    }
+  }
+}

@@ -1,16 +1,16 @@
-import { Checkbox, Icon, Menu, MenuDivider, MenuItem } from '@blueprintjs/core'
-import React from 'react'
-import { themes } from '../../../../styles/theme'
-import { dictionnaries } from '../../../dictionnaries/language.enum'
-import { fontSize } from '../../../helpers/fontsize.enum'
+import { Checkbox, Icon, Menu, MenuDivider, MenuItem } from '@blueprintjs/core';
+import React from 'react';
+import { themes } from '../../../../styles/theme';
+import { Language } from '../../../helpers/Language.enum';
+import { fontSize } from '../../../helpers/FontSize.enum';
 
-const SettingMenu = ({setTheme, setFontSize, setLanguage}: any) => {
+const SettingMenu = ({ setTheme, setFontSize, setLanguage }: any) => {
   return (
     <div>
       <Menu>
         <MenuItem icon="globe" text="Langue">
-          <MenuItem onClick={() => setLanguage(dictionnaries.FR)} icon="flag" text="Français" />
-          <MenuItem onClick={() => setLanguage(dictionnaries.EN)} icon="flag" text="Anglais" />
+          <MenuItem onClick={() => setLanguage(Language.FR)} icon="flag" text="Français" />
+          <MenuItem onClick={() => setLanguage(Language.EN)} icon="flag" text="Anglais" />
         </MenuItem>
         <MenuDivider />
         <MenuItem icon="lightbulb" text="Theme">

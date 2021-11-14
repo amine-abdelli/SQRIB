@@ -1,14 +1,16 @@
 import * as fr from '../dictionnaries/fr/fr.json';
 import * as en from '../dictionnaries/en/en.json';
+import { GameMode } from './Mode.enum';
+import { Language } from './Language.enum';
 
 /* Generate randomly a 300 long array of words*/
-function shuffleWordsStack(lang: string) {
+function shuffleWordsStack(lang: string, mode: number) {
   let data: any;
   switch (lang) {
-    case 'fr':
+    case Language.FR:
       data = [...fr?.map(obj => obj.label)];
       break;
-    case 'en':
+    case Language.EN:
       data = [...en?.map(obj => obj.label)];
   }
   let currentIndex = data?.length;
@@ -22,7 +24,7 @@ function shuffleWordsStack(lang: string) {
     [data[currentIndex], data[randomIndex]] = [
       data[randomIndex], data[currentIndex]];
   }
-  return Array.from({ length: 300 }, () => data[getRandomWordIndex(data.length - 1)]).map(word => word);
+  return Array.from({ length: mode === GameMode.ONE ? 300 : 75 }, () => data[getRandomWordIndex(data.length - 1)]).map(word => word);
 };
 
 /* Return random index */

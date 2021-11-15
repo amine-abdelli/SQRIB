@@ -1,9 +1,12 @@
-import React, { ReactElement } from 'react';
+import React, { ReactElement, useContext } from 'react';
+import { MainContext } from '../../../pages/Main/MainContext';
 import { setComputedWordsColor, splitStringToSpans } from '../../helpers/displayer.helper';
 import { WordsDisplayerProps } from './WordsDisplayer.interfaces';
 import styles from './WordsDisplayer.module.scss';
 
-const WordsDisplayer = ({ wordsToDisplay, userInput, wordIndex, setYNextPosition, offSet, setYFocusedPosition, computedWords, fontSize }: WordsDisplayerProps) => {
+const WordsDisplayer = ({ wordsToDisplay, setYNextPosition, offSet, setYFocusedPosition, computedWords, fontSize }: WordsDisplayerProps) => {
+  const { userInput, wordIndex } = useContext(MainContext);
+
   const displayedWords = wordsToDisplay?.map((word: string, i: number): ReactElement => {
     if (i === wordIndex) {
       return (

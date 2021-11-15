@@ -7,6 +7,7 @@ import { Dispatch, SetStateAction } from '../../interfaces/Main.interfaces';
 import KeyBoard from '../../src/components/KeyBoard/KeyBoard';
 import { fontSize as font_size } from '../../src/helpers/FontSize.enum';
 import { GameMode } from '../../src/helpers/Mode.enum';
+import { MainContext } from './MainContext';
 
 interface IMainProps {
   startCountDown: boolean,
@@ -50,7 +51,9 @@ function Main({ setFontSize, fontSize, theme, router, setNavigationState, langua
 
   useEffect(() => {
     setWordsStack(shuffleWordsStack(language, gameMode));
+    setCountDown(gameMode === GameMode.ONE ? 60 : 0);
   }, [language, gameMode])
+  console.log('count', countDown);
 
   function onSpacePress(e: KeyboardEvent) {
     if (e.code === 'Space') {
@@ -87,56 +90,66 @@ function Main({ setFontSize, fontSize, theme, router, setNavigationState, langua
     setCountDown(gameMode === GameMode.ONE ? 60 : 0);
   }
 
+  const MainContextProps = {
+    userInput,
+    wordIndex,
+    wordCount,
+    isTimeOut,
+    setIsTimeOut,
+    startCountDown,
+    setStartCountDown,
+    gameMode,
+    countDown,
+  }
+
   return (
-    <div style={{ width: '100%' }}>
-      <div style={{ textAlign: 'center' }}>
-        <p style={{ fontSize: '80px', color: theme?.secondary, opacity: '0.5' }}>
-          {spreadLetters(wordsStack[wordIndex], userInput, setHorizontalPosition, setLetterWidth)}
-        </p>
-        {horizontalPosition && letterWidth ? <p style={{ transition: 'all 0.2s ease', position: 'absolute', left: horizontalPosition + (letterWidth / 2) - 8.5, display: horizontalPosition ? 'block' : 'none', transform: 'translateY(-25px)' }}><Icon color={theme?.tertiary} icon="symbol-triangle-up" /></p> : ''}
+    <MainContext.Provider value={MainContextProps}>
+      <div style={{ width: '100%' }}>
+        <div style={{ textAlign: 'center' }}>
+          <p style={{ fontSize: '80px', color: theme?.secondary, opacity: '0.5', position: 'relative' }}>
+            {spreadLetters(wordsStack[wordIndex], userInput, setHorizontalPosition, setLetterWidth) || <p style={{ color: 'transparent' }}>amine</p>}
+          </p>
+          {horizontalPosition && letterWidth ? <p style={{ transition: 'all 0.2s ease', position: 'absolute', left: horizontalPosition + (letterWidth / 2) - 8.5, display: horizontalPosition ? 'block' : 'none', transform: 'translateY(-25px)' }}><Icon color={theme?.tertiary} icon="symbol-triangle-up" /></p> : ''}
+        </div>
+        {gameMode !== null && <Button style={{ position: 'absolute', top: 200 }} onClick={() => setShowModeSelection(true)}>Changer de mode</Button>}
+        <div style={{ display: 'flex', alignItems: 'center', margin: '10px 0' }}>
+          <Scoring
+            score={score}
+            startCountDown={startCountDown}
+            setStartCountDown={setStartCountDown}
+            setCountDown={setCountDown}
+            countDown={countDown}
+            theme={theme}
+            setIsTimeOut={setIsTimeOut}
+            gameMode={gameMode}
+          />
+          <Button style={{ marginLeft: '30px', backgroundColor: theme?.tertiary, borderRadius: '25px' }} intent="success" icon="refresh" onClick={onRestart} />
+        </div>
+        <div className="flex justify-center">
+          <WordsDisplayer
+            wordsToDisplay={wordsStack}
+            offSet={offSet}
+            setYFocusedPosition={setYFocusedPosition}
+            setYNextPosition={setYNextPosition}
+            computedWords={computedWords}
+            fontSize={fontSize}
+          />
+        </div>
+        <div style={{ marginTop: '1rem' }}>
+          <InputGroup
+            style={{ width: '100%' }}
+            onChange={(e) => setUserInput(e.target.value)}
+            value={userInput}
+            onKeyDown={onSpacePress}
+            asyncControl={true}
+            disabled={isTimeOut}
+            large={true}
+            placeholder="Start typing here..."
+          />
+        </div>
+        <KeyBoard theme={theme} enable={startCountDown && !isTimeOut} />
       </div>
-      <Button onClick={() => setShowModeSelection(true)}></Button>
-      <div style={{ display: 'flex', alignItems: 'center', margin: '10px 0' }}>
-        <Scoring
-          score={score}
-          startCountDown={startCountDown}
-          setStartCountDown={setStartCountDown}
-          setCountDown={setCountDown}
-          countDown={countDown}
-          wordCount={wordCount}
-          theme={theme}
-          setIsTimeOut={setIsTimeOut}
-          isTimeOut={isTimeOut}
-          gameMode={gameMode}
-        />
-        <Button style={{ marginLeft: '30px', backgroundColor: theme?.tertiary, borderRadius: '25px' }} intent="success" icon="refresh" onClick={onRestart} />
-      </div>
-      <div className="flex justify-center">
-        <WordsDisplayer
-          wordsToDisplay={wordsStack}
-          userInput={userInput}
-          wordIndex={wordIndex}
-          offSet={offSet}
-          setYFocusedPosition={setYFocusedPosition}
-          setYNextPosition={setYNextPosition}
-          computedWords={computedWords}
-          fontSize={fontSize}
-        />
-      </div>
-      <div style={{ marginTop: '1rem' }}>
-        <InputGroup
-          style={{ width: '100%' }}
-          onChange={(e) => setUserInput(e.target.value)}
-          value={userInput}
-          onKeyDown={onSpacePress}
-          asyncControl={true}
-          disabled={isTimeOut}
-          large={true}
-          placeholder="Start typing here..."
-        />
-      </div>
-      <KeyBoard theme={theme} enable={startCountDown && !isTimeOut} />
-    </div>
+    </MainContext.Provider>
   )
 }
 export default Main;

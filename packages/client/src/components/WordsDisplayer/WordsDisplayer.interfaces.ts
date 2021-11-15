@@ -2,8 +2,6 @@ import { Dispatch, SetStateAction } from "../../../interfaces/Main.interfaces";
 
 export interface WordsDisplayerProps {
   wordsToDisplay: Array<string>,
-  userInput: string,
-  wordIndex: number,
   offSet: number,
   setYNextPosition: Dispatch<SetStateAction<number>>,
   setYFocusedPosition: Dispatch<SetStateAction<number>>

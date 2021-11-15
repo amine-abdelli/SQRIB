@@ -8,7 +8,7 @@ const Nav = ({ theme }: any) => {
         className={styles.navbarContent}
         style={{ color: theme?.secondary, borderBottom: `1px ${theme?.secondary} solid` }}
       >
-        AQAYC
+        にぎやか
       </div>
     </div>
   )

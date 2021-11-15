@@ -9,10 +9,9 @@ import '../styles/globals.scss';
 import { useRouter } from 'next/router';
 import styles from '../styles/_app.module.scss';
 import { Position } from '../src/components/SideBar/SideBar.enum';
-import { GameMode } from '../src/helpers/Mode.enum';
 import Modal from '../src/components/ModeSelectionModal/Modal';
 import { Language } from '../src/helpers/Language.enum';
-
+import ModeSelection from '../src/components/ModeSelectionModal/ModeSelection';
 
 function MyApp({ Component, pageProps }: AppProps) {
   const [theme, setTheme] = useState<any>(themes.LIGHT)
@@ -34,9 +33,10 @@ function MyApp({ Component, pageProps }: AppProps) {
         <Nav theme={theme} />
         <div style={{ display: 'flex' }}>
           <SideBar position={Position.LEFT} navigationState={navigationState} theme={theme} />
-          <div className={styles.componentWrapper} >
+          <div className={styles.componentWrapper}>
             <div style={{ justifyContent: 'center', display: 'flex' }}>
-              <Component language={language} {...pageProps} router={router} setNavigationState={setNavigationState} setFontSize={setFontSize} fontSize={fontSize} theme={theme} gameMode={gameMode} setShowModeSelection={setShowModeSelection} />
+              <Component 
+              language={language} {...pageProps} router={router} setNavigationState={setNavigationState} setFontSize={setFontSize} fontSize={fontSize} theme={theme} gameMode={gameMode} setShowModeSelection={setShowModeSelection} />
             </div>
           </div>
           <SideBar setShowModeSelection={setShowModeSelection} setLanguage={setLanguage} position={Position.RIGHT} setFontSize={setFontSize} setTheme={setTheme} theme={theme} />
@@ -46,9 +46,8 @@ function MyApp({ Component, pageProps }: AppProps) {
       <Modal 
         showModeSelection={showModeSelection}
         setShowModeSelection={setShowModeSelection}
-        theme={theme}
-        onGameModeSelection={onGameModeSelection}
         gameMode={gameMode}
+        content={<ModeSelection onGameModeSelection={onGameModeSelection} theme={theme}/>}
       />
     </>
   )

@@ -1,4 +1,4 @@
 export enum GameMode {
-  ONE,
-  TWO,
+  ONE = 'one',
+  TWO = 'two',
 }

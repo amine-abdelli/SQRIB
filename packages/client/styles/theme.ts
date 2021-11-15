@@ -4,7 +4,7 @@ export const themes = {
     primary: '#343434',
     secondary: '#dfdad2',
     tertiary: '#FF8C00'
-
+    
   },
   LIGHT: {
     theme: 'light',

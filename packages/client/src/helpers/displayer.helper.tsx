@@ -4,7 +4,7 @@ import { GameMode } from './Mode.enum';
 import { Language } from './Language.enum';
 
 /* Generate randomly a 300 long array of words*/
-function shuffleWordsStack(lang: string, mode: number) {
+function shuffleWordsStack(lang: string, mode: string) {
   let data: any;
   switch (lang) {
     case Language.FR:

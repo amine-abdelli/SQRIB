@@ -1,0 +1,31 @@
+@import '../../../styles/variables';
+
+.statsWrapper {
+  padding: 2rem;
+
+  .statsContent {
+    border: 2px $tertiary-color solid;
+    border-radius: 10px;
+    width: 100%;
+    height: 100%;
+    padding: 1rem;
+
+    .mpm {
+      margin: 0;
+      padding: 0;
+      text-align: center;
+      
+      p:first-of-type {
+        text-align: center;
+      }
+
+      h3 {
+        text-align: center;
+      }
+    }
+
+    .mpmTranslation {
+      text-align: center;
+    }
+  }
+}

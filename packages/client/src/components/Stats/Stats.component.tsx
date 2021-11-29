@@ -1,6 +1,7 @@
 import React from 'react';
 import { Colors } from '../../helpers/enums';
 import { IStats } from './Stats.props';
+import styles from './Stats.module.scss';
 
 function Stats({
   wrongWords,
@@ -14,15 +15,12 @@ function Stats({
   mpm,
 }: IStats) {
   return (
-    <div style={{ padding: '2rem' }}>
-      <div style={{
-        border: '2px orange solid', borderRadius: '10px', width: '100%', height: '100%', padding: '1rem',
-      }}
-      >
-        <h1 style={{ margin: 0, padding: 0, textAlign: 'center' }}>
+    <div className={styles.statsWrapper}>
+      <div className={styles.statsContent}>
+        <h1 className={styles.mpm}>
           {`${mpm} mpm`}
         </h1>
-        <p style={{ textAlign: 'center' }}>(mot par minutes)</p>
+        <p className={styles.mpmTranslation}>(mot par minutes)</p>
         <h3 style={{ color: Colors.GREEN, textAlign: 'center' }}>
           {`${points} points`}
         </h3>

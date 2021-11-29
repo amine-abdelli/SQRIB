@@ -2,7 +2,7 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 import { useState } from 'react';
 import { Difficulty } from '../../helpers/enums/Difficulty.enum';
-import Button from '../Buttons/Button';
+import Button from '../Buttons/Button.component';
 import styles from './Modal.module.scss';
 
 function DifficultySelect({

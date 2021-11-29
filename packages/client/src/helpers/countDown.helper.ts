@@ -1,4 +1,4 @@
-import { ICountUpValues } from '../components/CountDown/CountDown.interfaces';
+import { ICountUpValues } from '../components/CountDown/CountDown.props';
 
 /* Format minutes and seconds to 00:00 format */
 function formatTimerParameters({ timerMinutes, timerSeconds }: ICountUpValues) {

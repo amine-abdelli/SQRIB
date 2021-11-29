@@ -2,10 +2,10 @@ import React, { useContext, useEffect, useState } from 'react';
 import { roundNumber } from '@aqac/utils';
 import { MainContext } from '../../contexts/MainContext';
 import { Colors } from '../../helpers/enums/Colors.enum';
-import { CountDown } from '../CountDown/CountDown';
+import { CountDown } from '../CountDown/CountDown.component';
 import Modal from '../Modal/Modal';
 import Stats from '../Stats/Stats.component';
-import ScoringItem from './ScoringItem';
+import ScoringItem from './ScoringItem/ScoringItem.component';
 import styles from './Scoring.module.scss';
 
 function Scoring() {

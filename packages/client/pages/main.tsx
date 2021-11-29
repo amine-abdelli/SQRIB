@@ -2,12 +2,12 @@ import React, {
   KeyboardEvent, useContext, useEffect,
 } from 'react';
 import { Button, InputGroup } from '@blueprintjs/core';
-import { Scoring } from '../src/components/Scoring/Scoring';
-import { Displayer } from '../src/components/Displayer/Displayer';
+import { Scoring } from '../src/components/Scoring/Scoring.component';
+import { Displayer } from '../src/components/Displayer/Displayer.component';
 import KeyBoard from '../src/components/KeyBoard/KeyBoard';
 import { MainContext } from '../src/contexts/MainContext';
 import DisplayerHeader from '../src/components/DisplayerHeader/DisplayerHeader';
-import RefreshButton from '../src/components/Buttons/RefreshButton/RefreshButton';
+import RefreshButton from '../src/components/Buttons/RefreshButton/RefreshButton.component';
 
 function Main() {
   const {

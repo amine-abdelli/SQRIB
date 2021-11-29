@@ -2,8 +2,8 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import type { AppProps } from 'next/app';
 import Layout from '../src/components/Layout/Layout';
-import Nav from '../src/components/Nav/Nav';
-import SideBar from '../src/components/SideBar/SideBar';
+import Nav from '../src/components/Nav/Nav.component';
+import SideBar from '../src/components/SideBar/SideBar.component';
 import { ITheme, themes } from '../styles/theme';
 import '../styles/globals.scss';
 import styles from '../styles/_app.module.scss';

@@ -5,8 +5,9 @@ import React from 'react';
 import { themes } from '../../../../styles/theme';
 import { Language } from '../../../helpers/enums/Language.enum';
 import { FontSize } from '../../../helpers/enums/FontSize.enum';
+import { ISettingMenu } from './SettingMenu.props';
 
-function SettingMenu({ setTheme, setFontSize, setLanguage }: any) {
+function SettingMenu({ setTheme, setFontSize, setLanguage }: ISettingMenu) {
   return (
     <div>
       <Menu>

@@ -1,7 +1,8 @@
 import React from 'react';
 import styles from './Nav.module.scss';
+import { INav } from './Nav.props';
 
-function Nav({ theme }: any) {
+function Nav({ theme }: INav) {
   return (
     <div className={styles.navbarContainer}>
       <div

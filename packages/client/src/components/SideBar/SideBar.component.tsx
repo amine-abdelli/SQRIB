@@ -2,16 +2,17 @@ import { Popover2 } from '@blueprintjs/popover2';
 import React from 'react';
 import Link from 'next/link';
 import styles from './SideBar.module.scss';
-import SideBarButton from './SideBarButton/SideBarButton';
-import SettingMenu from './SettingMenu/SettingMenu';
+import SideBarButton from './SideBarButton/SideBarButton.component';
+import SettingMenu from './SettingMenu/SettingMenu.component';
 import { Position } from '../../helpers/enums/Direction.enum';
 import { ISideBarProps } from './SideBar.props';
+import { Routes } from '../../helpers/enums/Routes.enum';
 
 function SideBar({
   setFontSize, setTheme, theme, position, setLanguage,
 }: ISideBarProps) {
   return (
-    position === Position.RIGHT
+    position === Position.RIGHT && setLanguage && setTheme && setFontSize
       ? (
         <div
           className={styles.sideBarButtons}
@@ -21,23 +22,27 @@ function SideBar({
           }}
         >
           <ul style={{ width: '100%', padding: '10px' }}>
-            <Link href='/profile' passHref>
+            <Link href={Routes.PROFILE} passHref>
               <SideBarButton themeColor={theme?.secondary} icon="person" text="Profile" />
             </Link>
-            <Link href='/main' passHref>
+            <Link href={Routes.MAIN} passHref>
               <SideBarButton themeColor={theme?.secondary} icon="ninja" text="Entraine toi !" />
             </Link>
-            <Link href='/multigaming' passHref>
+            <Link href={Routes.MULTIGAMING} passHref>
               <SideBarButton themeColor={theme?.secondary} icon="multi-select" text="Multijoueur" />
             </Link>
-            <Link href='/chat' passHref>
+            <Link href={Routes.MAIN} passHref>
               <SideBarButton themeColor={theme?.secondary} icon="chat" text="Chat" />
             </Link>
-            <Link href='/features' passHref>
+            <Link href={Routes.FEATURES} passHref>
               <SideBarButton themeColor={theme?.secondary} icon="document" text="Features" />
             </Link>
             <Popover2 className={styles.popover} content={<SettingMenu setLanguage={setLanguage} setTheme={setTheme} setFontSize={setFontSize} />} placement="right-end">
-              <SideBarButton themeColor={theme?.secondary} icon="cog" text="Paramètres" />
+              <SideBarButton
+                themeColor={theme?.secondary}
+                icon="cog"
+                text="Paramètres"
+              />
             </Popover2>
           </ul>
         </div>

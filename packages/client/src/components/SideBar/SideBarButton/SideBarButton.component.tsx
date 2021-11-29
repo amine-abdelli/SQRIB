@@ -1,10 +1,11 @@
 import { Icon } from '@blueprintjs/core';
 import React from 'react';
 import styles from '../SideBar.module.scss';
+import { ISideBarButton } from './SideBarButton.props';
 
 function SideBarButton({
-  text, onClick = null, icon, themeColor,
-}: any) {
+  text, onClick, icon, themeColor,
+}: ISideBarButton) {
   return (
     // eslint-disable-next-line jsx-a11y/click-events-have-key-events
     <div onClick={onClick}>

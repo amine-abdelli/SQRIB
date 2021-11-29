@@ -2,7 +2,7 @@
 import React, { ReactElement, useContext } from 'react';
 import { MainContext } from '../../contexts/MainContext';
 import { setComputedWordsColor, splitStringToSpans } from '../../helpers/displayer.helper';
-import Overlay from '../Overlay/Overlay';
+import Overlay from '../Overlay/Overlay.component';
 
 import styles from './Displayer.module.scss';
 

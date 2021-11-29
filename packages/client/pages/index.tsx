@@ -1,12 +1,9 @@
-import type { AppProps } from 'next/app';
-import React from 'react'
+import React from 'react';
 
-const index = () => {
-  return (
-    <div>
-      Welcome
-    </div>
-  )
-}
+const index = () => (
+  <div>
+    Welcome
+  </div>
+);
 
-export default index
+export default index;

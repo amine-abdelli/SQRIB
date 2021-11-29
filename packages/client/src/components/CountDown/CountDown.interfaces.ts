@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction } from "../../../interfaces/Main.interfaces";
+import { Dispatch, SetStateAction } from '../../../models/Main.interfaces';
 
 export interface ICountUpValues {
   timerMinutes: number,

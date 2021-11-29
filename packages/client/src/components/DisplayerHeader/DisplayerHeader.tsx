@@ -4,7 +4,7 @@ import { spreadLetters } from '../../helpers/displayer.helper';
 import Cursor from './Cursor/Cursor';
 import styles from './DisplayerHeader.module.scss';
 
-const DisplayerHeader = function () {
+function DisplayerHeader() {
   const {
     letterWidth,
     horizontalPosition,
@@ -40,6 +40,6 @@ const DisplayerHeader = function () {
       ) : ''}
     </div>
   );
-};
+}
 
 export default DisplayerHeader;

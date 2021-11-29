@@ -6,13 +6,13 @@ interface IScoreItemProps {
   content: string | number | undefined;
   color?: string;
 }
-const ScoringItem = function ({ content, color }: IScoreItemProps) {
+function ScoringItem({ content, color }: IScoreItemProps) {
   return (
     <p style={{ color, margin: 0 }}>
       {content}
     </p>
   );
-};
+}
 
 ScoringItem.defaultProps = {
   color: Colors.BLACK,

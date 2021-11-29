@@ -7,7 +7,7 @@ import SettingMenu from './SettingMenu/SettingMenu';
 import { Position } from '../../helpers/enums/Direction.enum';
 import { ISideBarProps } from './SideBar.props';
 
-const SideBar = function ({
+function SideBar({
   setFontSize, setTheme, theme, position, setLanguage,
 }: ISideBarProps) {
   return (
@@ -48,6 +48,6 @@ const SideBar = function ({
         </div>
       )
   );
-};
+}
 
 export default SideBar;

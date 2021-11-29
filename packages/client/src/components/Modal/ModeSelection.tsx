@@ -3,7 +3,7 @@ import { GameMode } from '../../helpers/enums/Mode.enum';
 import DifficultySelect from './DifficultySelect';
 import styles from './Modal.module.scss';
 
-const ModeSelection = function ({ theme, onGameModeSelection, setDifficulty }: any) {
+function ModeSelection({ theme, onGameModeSelection, setDifficulty }: any) {
   const props = {
     theme,
     setDifficulty,
@@ -19,6 +19,6 @@ const ModeSelection = function ({ theme, onGameModeSelection, setDifficulty }: a
       </div>
     </>
   );
-};
+}
 
 export default ModeSelection;

@@ -6,7 +6,7 @@ import Overlay from '../Overlay/Overlay';
 
 import styles from './Displayer.module.scss';
 
-const Displayer = function () {
+function Displayer() {
   const {
     userInput, wordIndex, wordsStack, fontSize, difficulty,
     setShowModeSelection, correctWords, offSet, setYFocusedPosition, setYNextPosition,
@@ -58,6 +58,6 @@ const Displayer = function () {
       )}
     </div>
   );
-};
+}
 
 export { Displayer };

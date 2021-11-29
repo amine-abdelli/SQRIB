@@ -1,7 +1,7 @@
 import { Dialog } from '@blueprintjs/core';
 import React from 'react';
 
-const Modal = function ({
+function Modal({
   showModeSelection, setShowModeSelection, gameMode, content,
 }: any) {
   return (
@@ -14,6 +14,6 @@ const Modal = function ({
       {content}
     </Dialog>
   );
-};
+}
 
 export default Modal;

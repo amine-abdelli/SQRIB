@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from './Layout.module.scss';
 
-const Layout = function ({ children, theme }: any) {
+function Layout({ children, theme }: any) {
   return (
     <div className={styles.gapLayoutWrapper} style={{ backgroundColor: theme?.tertiary }}>
       <div className={styles.layoutWrapper} style={{ backgroundColor: theme?.primary }}>
@@ -9,6 +9,6 @@ const Layout = function ({ children, theme }: any) {
       </div>
     </div>
   );
-};
+}
 
 export default Layout;

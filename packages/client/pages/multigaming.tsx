@@ -1,11 +1,11 @@
 import React from 'react';
 
-const Multigaming = function () {
+function Multigaming() {
   return (
     <div>
       Multiplayer
     </div>
   );
-};
+}
 
 export default Multigaming;

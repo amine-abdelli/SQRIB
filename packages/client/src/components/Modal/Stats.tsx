@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Stats = function ({
+function Stats({
   points, malus, wordCount, precision,
 }: any) {
   return (
@@ -30,6 +30,6 @@ const Stats = function ({
       </div>
     </div>
   );
-};
+}
 
 export default Stats;

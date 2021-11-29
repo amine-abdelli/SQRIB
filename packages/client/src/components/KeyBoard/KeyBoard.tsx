@@ -4,7 +4,7 @@ import { KeyBoardEnum } from './KeyBoard.enum';
 import styles from './KeyBoard.module.scss';
 import { translateKeyBoardCode } from './helpers/KeyBoard.helper';
 
-const KeyBoard = function ({ enable, theme }: { enable: boolean, theme: any }) {
+function KeyBoard({ enable, theme }: { enable: boolean, theme: any }) {
   const [keyPressed, setKeyPressed] = useState<any>(0);
 
   const keyBoardKeys = keyBoardLayout[KeyBoardEnum.DEFAULT_AZERTY];
@@ -60,6 +60,6 @@ const KeyBoard = function ({ enable, theme }: { enable: boolean, theme: any }) {
       ))}
     </div>
   );
-};
+}
 
 export default KeyBoard;

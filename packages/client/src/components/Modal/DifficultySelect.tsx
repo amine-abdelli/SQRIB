@@ -5,7 +5,7 @@ import { Difficulty } from '../../helpers/enums/Difficulty.enum';
 import Button from '../Buttons/Button';
 import styles from './Modal.module.scss';
 
-const DifficultySelect = function ({
+function DifficultySelect({
   theme, setDifficulty, onGameModeSelection, title, mode: gameMode,
 }: any) {
   const [shouldExtendModeButton, setShouldExtendModeButton] = useState<boolean>(false);
@@ -48,6 +48,6 @@ const DifficultySelect = function ({
       )}
     </Button>
   );
-};
+}
 
 export default DifficultySelect;

@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React from 'react';
 import styles from './Overlay.module.scss';
 
-const Overlay = function ({ onClick }: { onClick: () => void }): React.ReactElement {
+function Overlay({ onClick }: { onClick: () => void }): React.ReactElement {
   return (
     <div
       className={styles.overlayWrapper}
@@ -16,6 +16,6 @@ const Overlay = function ({ onClick }: { onClick: () => void }): React.ReactElem
       </div>
     </div>
   );
-};
+}
 
 export default Overlay;

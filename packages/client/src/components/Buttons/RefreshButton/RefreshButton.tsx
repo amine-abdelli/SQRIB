@@ -4,7 +4,7 @@ import { MainContext } from '../../../contexts/MainContext';
 import { shuffleWordsStack } from '../../../helpers/displayer.helper';
 import { GameOptions } from '../../../helpers/mode';
 
-const RefreshButton = function () {
+function RefreshButton() {
   const {
     setIsTimeOut,
     setStartCountDown,
@@ -47,6 +47,6 @@ const RefreshButton = function () {
       onClick={() => onRestart()}
     />
   );
-};
+}
 
 export default RefreshButton;

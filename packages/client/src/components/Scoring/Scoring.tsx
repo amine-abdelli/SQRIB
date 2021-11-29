@@ -8,7 +8,7 @@ import Stats from '../Modal/Stats';
 import ScoringItem from './ScoringItem';
 import styles from './Scoring.module.scss';
 
-const Scoring = function () {
+function Scoring() {
   const {
     wordCount, isTimeOut, computedWords, theme, correctWords,
   } = useContext(MainContext);
@@ -52,6 +52,6 @@ const Scoring = function () {
       />
     </>
   );
-};
+}
 
 export { Scoring };

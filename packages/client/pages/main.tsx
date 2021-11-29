@@ -9,7 +9,7 @@ import { MainContext } from '../src/contexts/MainContext';
 import DisplayerHeader from '../src/components/DisplayerHeader/DisplayerHeader';
 import RefreshButton from '../src/components/Buttons/RefreshButton/RefreshButton';
 
-const Main = function () {
+function Main() {
   const {
     userInput,
     wordIndex,
@@ -99,5 +99,5 @@ const Main = function () {
       <KeyBoard theme={theme} enable={startCountDown && !isTimeOut} />
     </div>
   );
-};
+}
 export default Main;

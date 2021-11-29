@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from './Nav.module.scss';
 
-const Nav = function ({ theme }: any) {
+function Nav({ theme }: any) {
   return (
     <div className={styles.navbarContainer}>
       <div
@@ -12,6 +12,6 @@ const Nav = function ({ theme }: any) {
       </div>
     </div>
   );
-};
+}
 
 export default Nav;

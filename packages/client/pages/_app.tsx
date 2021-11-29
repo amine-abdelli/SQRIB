@@ -17,7 +17,7 @@ import { MainContext } from '../src/contexts/MainContext';
 import { FontSize } from '../src/helpers/enums/FontSize.enum';
 import { shuffleWordsStack } from '../src/helpers/displayer.helper';
 
-const MyApp = function ({ Component, pageProps }: AppProps) {
+function MyApp({ Component, pageProps }: AppProps) {
   const [theme, setTheme] = useState<ITheme>(themes.LIGHT);
   const [fontSize, setFontSize] = useState<number>(FontSize.MEDIUM);
   const [showModeSelection, setShowModeSelection] = useState<boolean>(false);
@@ -155,6 +155,6 @@ const MyApp = function ({ Component, pageProps }: AppProps) {
       />
     </>
   );
-};
+}
 
 export default MyApp;

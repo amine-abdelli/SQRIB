@@ -6,7 +6,7 @@ import { themes } from '../../../../styles/theme';
 import { Language } from '../../../helpers/enums/Language.enum';
 import { FontSize } from '../../../helpers/enums/FontSize.enum';
 
-const SettingMenu = function ({ setTheme, setFontSize, setLanguage }: any) {
+function SettingMenu({ setTheme, setFontSize, setLanguage }: any) {
   return (
     <div>
       <Menu>
@@ -28,6 +28,6 @@ const SettingMenu = function ({ setTheme, setFontSize, setLanguage }: any) {
       </Menu>
     </div>
   );
-};
+}
 
 export default SettingMenu;

@@ -2,7 +2,7 @@ import { Icon } from '@blueprintjs/core';
 import React from 'react';
 import styles from '../SideBar.module.scss';
 
-const SideBarButton = function ({
+function SideBarButton({
   text, onClick = null, icon, themeColor,
 }: any) {
   return (
@@ -17,6 +17,6 @@ const SideBarButton = function ({
       </li>
     </div>
   );
-};
+}
 
 export default SideBarButton;

@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Button = function ({
+function Button({
   children, ...props
 }: any) {
   return (
@@ -11,6 +11,6 @@ const Button = function ({
       {children}
     </div>
   );
-};
+}
 
 export default Button;

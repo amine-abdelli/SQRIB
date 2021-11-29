@@ -1,0 +1,15 @@
+{
+    "settings": {
+      "import/resolver": {
+        "typescript": {
+        }
+      }
+    },
+    "extends": "../../.eslintrc.json",
+    "plugins": ["jest"],
+    "rules": {
+      "quotes": [2, "single"],
+      "no-console": "off",
+      "@typescript-eslint/no-unused-vars": ["error", { "ignoreRestSiblings": true }]
+    }
+  }

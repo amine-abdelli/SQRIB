@@ -36,5 +36,4 @@ export const Void = `
 scalar Void
 `;
 
-
 export const Types: string[] = [User, AuthPayload, Message, Void];

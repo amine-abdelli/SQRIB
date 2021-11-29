@@ -1,9 +1,12 @@
-import { PrismaClient, User } from '.prisma/client';
 import jwt, { SignOptions } from 'jsonwebtoken';
 import express, { CookieOptions } from 'express';
-import { AuthenticationError, UserInputError } from 'apollo-server-core';
-import { oneUserById, oneUserByEmail } from '../repositories/authentication/';
+import {
+  AuthenticationError,
+  UserInputError,
+} from 'apollo-server-core';
 import bcrypt from 'bcryptjs';
+import { oneUserById, oneUserByEmail } from '../repositories/authentication';
+import { PrismaClient, User } from '.prisma/client';
 import { Context } from './context';
 
 export function formatEmail(email: string) {
@@ -32,7 +35,6 @@ function generateTokenSettings() {
   };
 }
 
-
 export function createToken(
   user: Omit<User, 'password'>,
   tokenOptions: SignOptions = {},
@@ -58,7 +60,7 @@ function isTokenExpired(expiresIn: number, emittedAt: number) {
 }
 
 function getTokenPayload(token: string): Token {
-    return jwt.verify(token, APP_TOKENIZATION_SECRET) as Token;
+  return jwt.verify(token, APP_TOKENIZATION_SECRET) as Token;
 }
 
 export async function getUserId(req: express.Request, res: express.Response, prisma: PrismaClient) {
@@ -86,7 +88,7 @@ export interface LoginVariables {
   password: string
 }
 
-export async function authenticateUser({ email, password }: LoginVariables, context: Context) {  
+export async function authenticateUser({ email, password }: LoginVariables, context: Context) {
   const user = await oneUserByEmail({ email: formatEmail(email) }, context.prisma);
   const valid = await bcrypt.compare(password, user?.password || '');
   if (!user || !valid) {

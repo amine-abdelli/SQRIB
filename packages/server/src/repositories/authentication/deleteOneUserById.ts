@@ -1,4 +1,4 @@
-import { PrismaClient } from ".prisma/client"
+import { PrismaClient } from '.prisma/client';
 
 interface deleteOneUserByIdArgs {
   id: string
@@ -7,11 +7,11 @@ export async function deleteOneUserById({ id }: deleteOneUserByIdArgs, prisma: P
   await prisma.score.deleteMany({
     where: {
       userId: id,
-    }
-  })
-  return await prisma.user.delete({
+    },
+  });
+  return prisma.user.delete({
     where: {
-      id
-    }
-  })
+      id,
+    },
+  });
 }

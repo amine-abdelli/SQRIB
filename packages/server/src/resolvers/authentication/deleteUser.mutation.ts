@@ -1,4 +1,3 @@
-import bcrypt from 'bcryptjs'
 import { deleteOneUserById } from '../../repositories/authentication';
 import { authenticateUser, formatEmail } from '../../helpers/auth.utils';
 import { Context } from '../../helpers/context';
@@ -12,7 +11,7 @@ async function deleteUser(parent: any, { email, password }: deleteUserArgs, cont
     console.info('Trying to delete a user', { email });
     const { id } = await authenticateUser({
       email: formatEmail(email),
-      password
+      password,
     }, context);
     await deleteOneUserById({ id }, context.prisma);
     console.log('User deletion successful', { email });
@@ -20,8 +19,7 @@ async function deleteUser(parent: any, { email, password }: deleteUserArgs, cont
       message: `${email} has been succesfully deleted`,
     };
   } catch (e) {
-    console.log();
-    (e);
+    console.error('Error deleting user', { email, error: e });
     throw e;
   }
 }

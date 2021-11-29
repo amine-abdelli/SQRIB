@@ -1,20 +1,21 @@
 function translateKeyBoardCode(word: string) {
   switch (word) {
     case 'ShiftLeft':
-      return 'Shift'
+      return 'Shift';
     case 'ShiftRight':
-      return 'Shift'
+      return 'Shift';
     case 'Backspace':
-      return '<-'
+      return '<-';
     case 'AltRight':
-      return 'Alt'
+      return 'Alt';
     case 'AltLeft':
-      return 'Alt'
+      return 'Alt';
+    default: console.log();
   }
-  if(word.charAt(0) === 'K') {
-    return word.slice(3)
+  if (word.charAt(0) === 'K') {
+    return word.slice(3);
   }
-  return word
+  return word;
 }
 
 export { translateKeyBoardCode };

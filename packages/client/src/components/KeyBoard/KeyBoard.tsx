@@ -4,7 +4,7 @@ import { KeyBoardEnum } from './KeyBoard.enum';
 import styles from './KeyBoard.module.scss';
 import { translateKeyBoardCode } from './helpers/KeyBoard.helper';
 
-const KeyBoard = ({ enable, theme }: { enable: boolean, theme: any }) => {
+const KeyBoard = function ({ enable, theme }: { enable: boolean, theme: any }) {
   const [keyPressed, setKeyPressed] = useState<any>(0);
 
   const keyBoardKeys = keyBoardLayout[KeyBoardEnum.DEFAULT_AZERTY];
@@ -14,54 +14,52 @@ const KeyBoard = ({ enable, theme }: { enable: boolean, theme: any }) => {
       setKeyPressed(e.key);
     }
     function handleKeyUp() {
-      setKeyPressed('')
+      setKeyPressed('');
     }
     document.addEventListener('keydown', handleKeyDown);
     document.addEventListener('keyup', handleKeyUp);
     return function cleanup() {
       document.removeEventListener('keydown', handleKeyDown);
       document.removeEventListener('keyup', handleKeyUp);
-    }
+    };
   }, []);
 
-  function expressKeyStyleProperty(e: any, keyPressed: any){
-    if(e === 'Escape') {
+  function expressKeyStyleProperty(e: any, pressedKey: any) {
+    if (e === 'Escape') {
       return theme?.tertiary;
-    } else if (keyPressed === e) {
-      return theme?.secondary
-    } else {
-      return ''
+    } if (pressedKey === e) {
+      return theme?.secondary;
     }
+    return '';
   }
   return (
-    <>
-      <div style={{ borderColor: theme?.secondary}} className={styles.keyBoardWrapper}>
-        {keyBoardKeys.map((row) => {
-          return (
-            <div>
-              <div className={styles.keyBoardRow}>
-                {row.split(" ").map((e) => {
-                  const isKeyPressedAndEnable = keyPressed === e && enable;
-                  return <span 
+    <div style={{ borderColor: theme?.secondary }} className={styles.keyBoardWrapper}>
+      {keyBoardKeys.map((row, i) => (
+        <div key={row[i]}>
+          <div className={styles.keyBoardRow} style={{ cursor: enable ? 'pointer' : 'not-allowed' }}>
+            {row?.split(' ').map((e) => {
+              const isKeyPressedAndEnable = keyPressed === e && enable;
+              return (
+                <span
+                  key={e}
                   className={styles.key}
-                  style={{ 
+                  style={{
                     borderColor: theme?.secondary,
-                    opacity: !enable ? 0.6 : 1 ,
-                    transform: isKeyPressedAndEnable ? `scale(0.95)` : `scale(1)`, 
-                    backgroundColor: enable ? expressKeyStyleProperty(e, keyPressed) : 'grey', 
-                    color: isKeyPressedAndEnable ? theme?.primary : theme?.secondary 
-                  }} 
-                  >
-                    {translateKeyBoardCode(e)}
-                  </span>
-                })}
-              </div>
-            </div>
-          )
-        })}
-      </div>
-    </>
-  )
+                    opacity: enable ? 1 : 0.5,
+                    transform: isKeyPressedAndEnable ? 'scale(0.95)' : 'scale(1)',
+                    backgroundColor: enable ? expressKeyStyleProperty(e, keyPressed) : 'grey',
+                    color: isKeyPressedAndEnable ? theme?.primary : theme?.secondary,
+                  }}
+                >
+                  {translateKeyBoardCode(e)}
+                </span>
+              );
+            })}
+          </div>
+        </div>
+      ))}
+    </div>
+  );
 };
 
 export default KeyBoard;

@@ -1,10 +1,12 @@
-import { Checkbox, Icon, Menu, MenuDivider, MenuItem } from '@blueprintjs/core';
+import {
+  Checkbox, Icon, Menu, MenuDivider, MenuItem,
+} from '@blueprintjs/core';
 import React from 'react';
 import { themes } from '../../../../styles/theme';
-import { Language } from '../../../helpers/Language.enum';
-import { fontSize } from '../../../helpers/FontSize.enum';
+import { Language } from '../../../helpers/enums/Language.enum';
+import { FontSize } from '../../../helpers/enums/FontSize.enum';
 
-const SettingMenu = ({ setTheme, setFontSize, setLanguage }: any) => {
+const SettingMenu = function ({ setTheme, setFontSize, setLanguage }: any) {
   return (
     <div>
       <Menu>
@@ -19,13 +21,13 @@ const SettingMenu = ({ setTheme, setFontSize, setLanguage }: any) => {
         </MenuItem>
         <MenuItem icon="volume-off" text="Sons" shouldDismissPopover={false} labelElement={<Checkbox />} />
         <MenuItem icon="font" text="Taille">
-          <MenuItem onClick={() => setFontSize(fontSize.SMALL)} icon={<Icon icon="font" size={12} />} text="Petit" />
-          <MenuItem onClick={() => setFontSize(fontSize.MEDIUM)} icon={<Icon icon="font" size={16} />} text="Moyen" />
-          <MenuItem onClick={() => setFontSize(fontSize.LARGE)} icon={<Icon icon="font" size={20} />} text="Grand" />
+          <MenuItem onClick={() => setFontSize(FontSize.SMALL)} icon={<Icon icon="font" size={12} />} text="Petit" />
+          <MenuItem onClick={() => setFontSize(FontSize.MEDIUM)} icon={<Icon icon="font" size={16} />} text="Moyen" />
+          <MenuItem onClick={() => setFontSize(FontSize.LARGE)} icon={<Icon icon="font" size={20} />} text="Grand" />
         </MenuItem>
       </Menu>
     </div>
-  )
-}
+  );
+};
 
-export default SettingMenu
+export default SettingMenu;

@@ -1,81 +1,145 @@
 import * as fr from '../dictionnaries/fr/fr.json';
 import * as en from '../dictionnaries/en/en.json';
-import { GameMode } from './Mode.enum';
-import { Language } from './Language.enum';
+import { Language } from './enums/Language.enum';
+import { IGameOption } from './mode';
+import { Colors } from './enums/Colors.enum';
 
-/* Generate randomly a 300 long array of words*/
-function shuffleWordsStack(lang: string, mode: string) {
-  let data: any;
+export const specialCharacterRegex = /[^\w\s]/gi;
+
+const dictionnary_fr = fr.map((a) => a.label);
+const dictionnary_en = en.map((a) => a.label);
+
+function levelGenerator(array: string[]): any {
+  return {
+    easy: array.filter((
+      a: any,
+    ) => a.length <= 5 && !a.match(specialCharacterRegex)), // No accent <= 5
+    medium: array.filter((
+      a: any,
+    ) => a.length <= 8 && !a.match(specialCharacterRegex)), // less 5 word with accent per set
+    hard: array.filter((a: any) => a.length > 5), // More than 5 character with accent
+  };
+}
+
+// /* Generate randomly a 300 long array of words*/
+function shuffleWordsStack(lang: string, gameOptions: IGameOption, level = 'easy') {
+  let data: string[];
   switch (lang) {
     case Language.FR:
-      data = [...fr?.map(obj => obj.label)];
+      data = levelGenerator(dictionnary_fr)[level];
       break;
     case Language.EN:
-      data = [...en?.map(obj => obj.label)];
+      data = levelGenerator(dictionnary_en)[level];
+      break;
+    default: console.log('Language not found !');
   }
-  let currentIndex = data?.length;
-  let randomIndex;
-  // While there remain elements to shuffle...
-  while (currentIndex != 0) {
-    // Pick a remaining element...
-    randomIndex = Math.floor(Math.random() * currentIndex);
-    currentIndex--;
-    // And swap it with the current element.
-    [data[currentIndex], data[randomIndex]] = [
-      data[randomIndex], data[currentIndex]];
-  }
-  return Array.from({ length: mode === GameMode.ONE ? 300 : 75 }, () => data[getRandomWordIndex(data.length - 1)]).map(word => word);
-};
+  return Array.from({ length: gameOptions?.stackLength || 300 }, () => data[
+    getRandomWordIndex(data.length - 1)]);
+}
 
 /* Return random index */
 function getRandomWordIndex(range: number) {
   return Math.floor(Math.random() * range);
-};
+}
 
 /* Split word to spans */
 function splitStringToSpans(string: string, userInput: string) {
-  const newString = string.split('').map((letter, i) => {
+  const newString = string?.split('').map((letter, i) => {
     if (i < userInput.length) {
-      return (<span style={{ color: textColorOnTyping(string, userInput, i) }} key={i}>{i === 0 ? ' ' + letter : letter}</span>);
+      return (<span key={`${letter + i}`} style={{ color: textColorOnTyping(string, userInput, i) }}>{i === 0 ? ` ${letter}` : letter}</span>);
     }
-    return (<span key={i}>{i === 0 ? ' ' + letter : letter}</span>);
+    return (<span key={`${letter + i}`}>{i === 0 ? ` ${letter}` : letter}</span>);
   });
-  return newString;
-};
+  return <span>{newString}</span>;
+}
 
 /* Save letter's position. It helps to position triangle's */
-function lettersPosition(e: any, userInput: string, letter: string, i: number, setHorizontalPosition: any, setLetterWidth: any) {
+function lettersPosition(
+  e: any,
+  userInput: string,
+  letter: string,
+  i: number,
+  setHorizontalPosition: any,
+  setLetterWidth: any,
+) {
   if (userInput[i] === letter) {
     setHorizontalPosition(e?.getBoundingClientRect().x);
     setLetterWidth(e?.getBoundingClientRect().width);
   }
-};
+}
 
-/* Takes a string as parameter and split words into letters wrapped into span and store letter's position */
-function spreadLetters(string: string, userInput: string, setHorizontalPosition: any, setLetterWidth: any) {
-  const newString = string?.split('').map((letter, i) => {
-    return (<span ref={(e: any) => lettersPosition(e, userInput, letter, i, setHorizontalPosition, setLetterWidth)} key={i}>{i === 0 ? ' ' + letter : letter}</span>);
-  });
+/* Takes a string as parameter and split words into letters wrapped into span
+and store letter's position */
+function spreadLetters(
+  string: string,
+  userInput: string,
+  setHorizontalPosition: any,
+  setLetterWidth: any,
+) {
+  const newString = string?.split('').map((letter, i) => (
+    <span
+      ref={(e: any) => lettersPosition(
+        e,
+        userInput,
+        letter,
+        i,
+        setHorizontalPosition,
+        setLetterWidth,
+      )}
+      key={`${i + letter}`}
+    >
+      {i === 0 ? ` ${letter}` : letter}
+    </span>
+  ));
   return newString;
-};
+}
 
 /* Color letters accordingly */
 function textColorOnTyping(string: string, userInput: string, i: number) {
   if (userInput[i] === string[i]) {
-    return 'green';
-  } else if (!userInput) {
-    return 'black';
-  } else if ((userInput[i] !== string[i])) {
-    return 'red';
+    return Colors.GREEN;
+  } if (!userInput) {
+    return Colors.BLACK;
+  } if ((userInput[i] !== string[i])) {
+    return Colors.RED;
   }
-};
+  return Colors.BLACK;
+}
 
 /* Color computed words in red or green depending on if they've been typed properly */
-function setComputedWordsColor(word: string, i: number, wordIndex: number, computedWords: Array<string>) {
+function setComputedWordsColor(
+  word: string,
+  i: number,
+  wordIndex: number,
+  correctWords: Array<string>,
+) {
   if (i < wordIndex) {
-    return computedWords.includes(word) ? 'green' : 'red'
+    return correctWords.includes(word) ? Colors.GREEN : Colors.RED;
   }
   return '';
-};
+}
 
-export { shuffleWordsStack, getRandomWordIndex, splitStringToSpans, setComputedWordsColor, spreadLetters };
+// function randNameElite(): string {
+//   var pairs = "..lexegezacebiso"
+//               "usesarmaindirea."
+//               "eratenberalaveti"
+//               "edorquanteisrion";
+
+//   var pair1 = 2 * Math.floor(Math.random() * (pairs.length / 2));
+//   var pair2 = 2 * Math.floor(Math.random() * (pairs.length / 2));
+//   var pair3 = 2 * Math.floor(Math.random() * (pairs.length / 2));
+//   var pair4 = 2 * Math.floor(Math.random() * (pairs.length / 2));
+
+//   var name = "";
+//   name += pairs.substr(pair1, 2);
+//   name += pairs.substr(pair2, 2);
+//   name += pairs.substr(pair3, 2);
+//   name += pairs.substr(pair4, 2);
+//   name = name.replace(/[.]/g, "");
+
+//   return name;
+// }
+
+export {
+  shuffleWordsStack, getRandomWordIndex, splitStringToSpans, setComputedWordsColor, spreadLetters,
+};

@@ -4,9 +4,9 @@ import React, {
 import { Button, InputGroup } from '@blueprintjs/core';
 import { Scoring } from '../src/components/Scoring/Scoring.component';
 import { Displayer } from '../src/components/Displayer/Displayer.component';
-import KeyBoard from '../src/components/KeyBoard/KeyBoard';
+import KeyBoard from '../src/components/KeyBoard/KeyBoard.component';
 import { MainContext } from '../src/contexts/MainContext';
-import DisplayerHeader from '../src/components/DisplayerHeader/DisplayerHeader';
+import DisplayerHeader from '../src/components/DisplayerHeader/DisplayerHeader.component';
 import RefreshButton from '../src/components/Buttons/RefreshButton/RefreshButton.component';
 
 function Main() {

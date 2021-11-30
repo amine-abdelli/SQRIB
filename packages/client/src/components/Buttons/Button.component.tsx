@@ -1,8 +1,9 @@
 import React from 'react';
+import { IButton } from './Button.props';
 
 function Button({
   children, ...props
-}: any) {
+}: IButton) {
   return (
     // eslint-disable-next-line jsx-a11y/click-events-have-key-events
     <div
@@ -12,5 +13,10 @@ function Button({
     </div>
   );
 }
+
+Button.defaultProps = {
+  style: {},
+  className: '',
+};
 
 export default Button;

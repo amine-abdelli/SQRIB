@@ -5,10 +5,10 @@ import Layout from '../src/components/Layout/Layout';
 import Nav from '../src/components/Nav/Nav.component';
 import SideBar from '../src/components/SideBar/SideBar.component';
 import { ITheme, themes } from '../styles/theme';
-import '../styles/globals.scss';
-import styles from '../styles/_app.module.scss';
+import '../styles/sass/globals.scss';
+import styles from '../styles/sass/pages/_app.module.scss';
 import { Position } from '../src/helpers/enums/Direction.enum';
-import Modal from '../src/components/Modal/Modal';
+import Modal from '../src/components/Modal/Modal.component';
 import { Language } from '../src/helpers/enums/Language.enum';
 import ModeSelection from '../src/components/Modal/ModeSelection';
 import { GameOptions } from '../src/helpers/mode';
@@ -143,7 +143,6 @@ function MyApp({ Component, pageProps }: AppProps) {
       <Modal
         showModeSelection={showModeSelection}
         setShowModeSelection={setShowModeSelection}
-        gameMode={gameMode}
         content={(
           <ModeSelection
             setDifficulty={setDifficulty}

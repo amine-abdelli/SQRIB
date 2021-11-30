@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { MainContext } from '../../contexts/MainContext';
 import { spreadLetters } from '../../helpers/displayer.helper';
-import Cursor from './Cursor/Cursor';
+import Cursor from './Cursor/Cursor.component';
 import styles from './DisplayerHeader.module.scss';
 
 function DisplayerHeader() {

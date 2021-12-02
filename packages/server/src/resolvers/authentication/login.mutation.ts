@@ -1,8 +1,6 @@
-import { Context } from '../../helpers/context';
-import {
-  authenticateUser, COOKIE_SETTINGS, createToken, formatEmail,
-} from '../../helpers/auth.utils';
-import { updateOneUserById } from '../../repositories/authentication';
+import { randomSetService } from '../../services/sets/randomSet.service';
+import { loginService } from '../../services/auth/login.service';
+import { Context } from '../../utils/context';
 
 interface LoginArgs {
   email: string,
@@ -11,22 +9,11 @@ interface LoginArgs {
 
 async function login(parent: any, { email, password }: LoginArgs, context: Context) {
   try {
-    const user = await authenticateUser({
-      email: formatEmail(email),
-      password,
-    }, context);
-
-    const token = createToken(user);
-    context.res.cookie('session_id', token, COOKIE_SETTINGS);
-
-    await updateOneUserById(
-      { id: user.id, data: { last_activity: new Date(), is_active: true } },
-      context.prisma,
-    );
+    console.log('Trying to authenticate', { email });
+    console.log('OUAIS OUAIS', await randomSetService());
+    const user = await loginService(email, password, context);
     console.info('Authentication success', { email });
-    return {
-      user,
-    };
+    return user;
   } catch (e: any) {
     console.error('Authentication error', { email, error: e.message });
     throw e;

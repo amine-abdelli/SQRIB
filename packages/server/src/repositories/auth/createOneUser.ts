@@ -1,4 +1,4 @@
-import { prisma } from "../../../src/client";
+import { prisma } from '../../client';
 
 export interface ICreateUserArgs {
   email: string,
@@ -20,7 +20,7 @@ export function createOneUser(args: ICreateUserArgs) {
       rank: true,
       level: true,
       xp: true,
-      brotherHoodId: true
-    }
+      brotherHoodId: true,
+    },
   });
 }

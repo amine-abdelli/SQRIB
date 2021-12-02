@@ -1,5 +1,6 @@
 export const Query = `
   type Query {
-    test: Message!
+    hello: Message
+    generateWordSet(language: String): [String]!
   }
 `;

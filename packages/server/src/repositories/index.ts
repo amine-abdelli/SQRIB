@@ -1,1 +1,1 @@
-export * from './authentication/createOneUser';
+export * from './auth/createOneUser';

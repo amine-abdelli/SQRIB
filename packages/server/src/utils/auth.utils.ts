@@ -5,7 +5,7 @@ import {
   UserInputError,
 } from 'apollo-server-core';
 import bcrypt from 'bcryptjs';
-import { oneUserById, oneUserByEmail } from '../repositories/authentication';
+import { oneUserById, oneUserByEmail } from '../repositories/auth';
 import { PrismaClient, User } from '.prisma/client';
 import { Context } from './context';
 

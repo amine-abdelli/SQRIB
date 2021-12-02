@@ -1,0 +1,13 @@
+{
+  "name": "@aqac/api",
+  "version": "1.0.0",
+  "main": "index.ts",
+  "author": "Amine Abdelli",
+  "license": "MIT",
+  "dependencies": {
+    "@apollo/client": "^3.5.5",
+    "@aqac/client": "^1.0.0",
+    "@aqac/utils": "^1.0.0",
+    "next-transpile-modules": "^9.0.0"
+  }
+}

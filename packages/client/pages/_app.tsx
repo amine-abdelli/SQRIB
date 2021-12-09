@@ -1,21 +1,23 @@
 /* eslint-disable react/jsx-no-constructed-context-values */
 import React, { useEffect, useMemo, useState } from 'react';
 import type { AppProps } from 'next/app';
-import Layout from '../src/components/Layout/Layout';
+import { ApolloProvider } from '@apollo/client';
+import { shuffleWordsStack } from '@aqac/utils';
+import Layout from '../src/components/Layout/Layout.component';
 import Nav from '../src/components/Nav/Nav.component';
 import SideBar from '../src/components/SideBar/SideBar.component';
 import { ITheme, themes } from '../styles/theme';
 import '../styles/sass/globals.scss';
 import styles from '../styles/sass/pages/_app.module.scss';
-import { Position } from '../src/helpers/enums/Direction.enum';
+import { Position } from '../src/utils/enums/Direction.enum';
 import Modal from '../src/components/Modal/Modal.component';
-import { Language } from '../src/helpers/enums/Language.enum';
+import { Language } from '../src/utils/enums/Language.enum';
 import ModeSelection from '../src/components/Modal/ModeSelection';
-import { GameOptions } from '../src/helpers/mode';
-import { GameMode } from '../src/helpers/enums/Mode.enum';
-import { MainContext } from '../src/contexts/MainContext';
-import { FontSize } from '../src/helpers/enums/FontSize.enum';
-import { shuffleWordsStack } from '../src/helpers/displayer.helper';
+import { GameOptions } from '../src/utils/mode';
+import { GameMode } from '../src/utils/enums/Mode.enum';
+import { MainContext } from '../src/context/MainContext';
+import { FontSize } from '../src/utils/enums/FontSize.enum';
+import { client } from '../client';
 
 function MyApp({ Component, pageProps }: AppProps) {
   const [theme, setTheme] = useState<ITheme>(themes.LIGHT);
@@ -35,18 +37,18 @@ function MyApp({ Component, pageProps }: AppProps) {
   const [correctWords, setCorrectWords] = useState<Array<string>>([]);
   const [horizontalPosition, setHorizontalPosition] = useState<number | undefined>();
   const [letterWidth, setLetterWidth] = useState<number | undefined>();
-  const [wordsStack, setWordsStack] = useState<Array<string>>(
-    shuffleWordsStack(language, GameOptions[gameMode], difficulty),
+  const [startCountDown, setStartCountDown] = useState<boolean>(false);
+  const [isTimeOut, setIsTimeOut] = useState(false);
+  const [wordsStack, setWordsStack] = useState<any>(
+    shuffleWordsStack(language, GameOptions[gameMode].stackLength),
   );
   const [countDown, setCountDown] = useState<number>(
     GameOptions[gameMode || GameMode.ONE]?.timer || 60,
   );
-  const [startCountDown, setStartCountDown] = useState<boolean>(false);
-  const [isTimeOut, setIsTimeOut] = useState(false);
 
   useEffect(() => {
-    setWordsStack(shuffleWordsStack(language, GameOptions[gameMode], difficulty));
-  }, [language]);
+    setWordsStack(shuffleWordsStack(language, GameOptions[gameMode].stackLength));
+  }, [language, gameMode]);
 
   function onGameModeSelection(selectedMode: string) {
     setGameMode(selectedMode);
@@ -116,7 +118,7 @@ function MyApp({ Component, pageProps }: AppProps) {
   ]);
 
   return (
-    <>
+    <ApolloProvider client={client}>
       <Layout theme={theme}>
         <Nav theme={theme} />
         <div style={{ display: 'flex' }}>
@@ -124,9 +126,7 @@ function MyApp({ Component, pageProps }: AppProps) {
           <div className={styles.componentWrapper}>
             <div style={{ justifyContent: 'center', display: 'flex' }}>
               <MainContext.Provider value={MainContextProps}>
-                <Component
-                  {...pageProps}
-                />
+                <Component {...pageProps} />
               </MainContext.Provider>
             </div>
           </div>
@@ -146,13 +146,12 @@ function MyApp({ Component, pageProps }: AppProps) {
         content={(
           <ModeSelection
             setDifficulty={setDifficulty}
-            // eslint-disable-next-line react/jsx-no-bind
             onGameModeSelection={onGameModeSelection}
             theme={theme}
           />
-)}
+          )}
       />
-    </>
+    </ApolloProvider>
   );
 }
 

@@ -1,5 +1,5 @@
 import { AuthenticationError } from 'apollo-server-errors';
-import { Context } from '../../utils/context';
+import { Context } from '../../utils/context.utils';
 import { deleteOneUserById } from '../../repositories/auth';
 import { formatEmail, authenticateUser } from '../../utils/auth.utils';
 

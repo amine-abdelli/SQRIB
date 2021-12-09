@@ -1,6 +1,6 @@
 import { signupService } from '../../services/auth/signup.service';
 import { ICreateUserArgs } from '../../repositories';
-import { Context } from '../../utils/context';
+import { Context } from '../../utils/context.utils';
 
 export async function signup(parent: any, args: ICreateUserArgs, context: Context) {
   console.log('Trying to signup', { email: args?.email });

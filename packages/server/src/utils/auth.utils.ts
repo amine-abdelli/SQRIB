@@ -7,7 +7,7 @@ import {
 import bcrypt from 'bcryptjs';
 import { oneUserById, oneUserByEmail } from '../repositories/auth';
 import { PrismaClient, User } from '.prisma/client';
-import { Context } from './context';
+import { Context } from './context.utils';
 
 export function formatEmail(email: string) {
   return email.toLowerCase().trim();
@@ -64,7 +64,7 @@ function getTokenPayload(token: string): Token {
 }
 
 export async function getUserId(req: express.Request, res: express.Response, prisma: PrismaClient) {
-  const token = req.cookies.session;
+  const token = req.cookies.session_id;
   if (token) {
     const { userId, expiresIn, emittedAt } = getTokenPayload(token);
     if (isTokenExpired(expiresIn, emittedAt)) {

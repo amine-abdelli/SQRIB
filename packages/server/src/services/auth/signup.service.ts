@@ -1,6 +1,6 @@
 import bcrypt from 'bcryptjs';
 import { COOKIE_SETTINGS, formatEmail, createToken } from '../../utils/auth.utils';
-import { Context } from '../../utils/context';
+import { Context } from '../../utils/context.utils';
 import { createOneUser, ICreateUserArgs } from '../../repositories';
 
 export async function signupService(args: ICreateUserArgs, context: Context) {

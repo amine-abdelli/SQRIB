@@ -1,5 +1,5 @@
 import { deleteUserService } from '../../services/auth/deleteUser.service';
-import { Context } from '../../utils/context';
+import { Context } from '../../utils/context.utils';
 
 export interface deleteUserArgs {
   email: string,

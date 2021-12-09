@@ -1,5 +1,5 @@
 import { logoutService } from '../../services/auth/logout.service';
-import { Context } from '../../utils/context';
+import { Context } from '../../utils/context.utils';
 
 async function logout(parent: any, args: void, context: Context) {
   console.log('Trying to logout');

@@ -1,6 +1,5 @@
-import { randomSetService } from '../../services/sets/randomSet.service';
 import { loginService } from '../../services/auth/login.service';
-import { Context } from '../../utils/context';
+import { Context } from '../../utils/context.utils';
 
 interface LoginArgs {
   email: string,
@@ -10,7 +9,6 @@ interface LoginArgs {
 async function login(parent: any, { email, password }: LoginArgs, context: Context) {
   try {
     console.log('Trying to authenticate', { email });
-    console.log('OUAIS OUAIS', await randomSetService());
     const user = await loginService(email, password, context);
     console.info('Authentication success', { email });
     return user;

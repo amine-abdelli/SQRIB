@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
-import { MainContext } from '../../contexts/MainContext';
-import { spreadLetters } from '../../helpers/displayer.helper';
+import { MainContext } from '../../context/MainContext';
+import { spreadLetters } from '../../utils/displayer.utils';
 import Cursor from './Cursor/Cursor.component';
 import styles from './DisplayerHeader.module.scss';
 

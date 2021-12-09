@@ -1,8 +1,8 @@
 import { Button } from '@blueprintjs/core';
 import React, { useContext } from 'react';
-import { MainContext } from '../../../contexts/MainContext';
-import { shuffleWordsStack } from '../../../helpers/displayer.helper';
-import { GameOptions } from '../../../helpers/mode';
+import { shuffleWordsStack } from '@aqac/utils';
+import { MainContext } from '../../../context/MainContext';
+import { GameOptions } from '../../../utils/mode';
 
 function RefreshButton() {
   const {
@@ -23,7 +23,7 @@ function RefreshButton() {
   } = useContext(MainContext);
 
   function onRestart() {
-    setWordsStack(shuffleWordsStack(language, GameOptions[gameMode], 'easy'));
+    setWordsStack(shuffleWordsStack(language, GameOptions[gameMode].stackLength));
     setStartCountDown(false);
     setUserInput('');
     setWordCount(0);

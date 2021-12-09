@@ -3,8 +3,8 @@ import {
 } from '@blueprintjs/core';
 import React from 'react';
 import { themes } from '../../../../styles/theme';
-import { Language } from '../../../helpers/enums/Language.enum';
-import { FontSize } from '../../../helpers/enums/FontSize.enum';
+import { Language } from '../../../utils/enums/Language.enum';
+import { FontSize } from '../../../utils/enums/FontSize.enum';
 import { ISettingMenu } from './SettingMenu.props';
 
 function SettingMenu({ setTheme, setFontSize, setLanguage }: ISettingMenu) {
@@ -14,6 +14,8 @@ function SettingMenu({ setTheme, setFontSize, setLanguage }: ISettingMenu) {
         <MenuItem icon="globe" text="Langue">
           <MenuItem onClick={() => setLanguage(Language.FR)} icon="flag" text="Français" />
           <MenuItem onClick={() => setLanguage(Language.EN)} icon="flag" text="Anglais" />
+          <MenuItem onClick={() => setLanguage(Language.DE)} icon="flag" text="Allemand" />
+          <MenuItem onClick={() => setLanguage(Language.ES)} icon="flag" text="Espagnole" />
         </MenuItem>
         <MenuDivider />
         <MenuItem icon="lightbulb" text="Theme">

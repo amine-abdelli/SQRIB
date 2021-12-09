@@ -1,5 +1,5 @@
 import React from 'react';
-import { Colors } from '../../helpers/enums';
+import { Colors } from '../../utils/enums';
 import { IStats } from './Stats.props';
 import styles from './Stats.module.scss';
 

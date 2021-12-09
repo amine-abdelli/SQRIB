@@ -29,6 +29,7 @@
         "testing-library"
     ],
     "rules": {
+        "react/jsx-no-bind": "off",
         "tjsx-a11y/click-events-have-key-events": 0,
         "jsx-a11y/no-static-element-interactions": 0,
         "ntjsx-a11y/no-static-element-interactions": "off",

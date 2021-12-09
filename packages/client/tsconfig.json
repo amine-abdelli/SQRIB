@@ -24,8 +24,9 @@
     "**/*.tsx",
     "pages/index.tsx",
     "sandbox/sandbox.ts",
-    "node_modules/@aqac/utils"
-, "src/sandbox/sandbox.js"  ],
+    "node_modules/@aqac/utils",
+    "external.d.ts"
+, "src/sandbox/sandbox.js", "../utils/markov/Markov.ts"  ],
   "exclude": [
     "node_modules"
   ]

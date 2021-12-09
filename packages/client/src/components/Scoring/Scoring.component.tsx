@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { roundNumber } from '@aqac/utils';
-import { MainContext } from '../../contexts/MainContext';
-import { Colors } from '../../helpers/enums/Colors.enum';
+import { MainContext } from '../../context/MainContext';
+import { Colors } from '../../utils/enums/Colors.enum';
 import { CountDown } from '../CountDown/CountDown.component';
 import Modal from '../Modal/Modal.component';
 import Stats from '../Stats/Stats.component';
@@ -10,7 +10,7 @@ import styles from './Scoring.module.scss';
 
 function Scoring() {
   const {
-    wordCount, isTimeOut, computedWords, theme, correctWords,
+    wordCount, isTimeOut, computedWords, theme, correctWords, gameMode,
   } = useContext(MainContext);
   const [showStatsModal, setShowStatsModal] = useState(isTimeOut);
 
@@ -18,14 +18,14 @@ function Scoring() {
     setShowStatsModal(isTimeOut);
   }, [isTimeOut]);
 
-  const wrongWords = computedWords.length - correctWords.length;
-  const correctLetters = correctWords.join('').length + correctWords.length;
-  const totalLetters = computedWords.join('').length + correctWords.length;
-  const wrongLetters = totalLetters - correctLetters;
-  const precision = roundNumber((correctLetters / totalLetters) * 100, 0) || 0;
-  const wordPerMinute = correctLetters / 5;
-  const points = roundNumber(correctLetters * (precision / 100), 0);
-  const mpm = roundNumber(wordPerMinute, 0);
+  const wrongWords: number = computedWords.length - correctWords.length;
+  const correctLetters: number = correctWords.join('').length + correctWords.length;
+  const totalLetters: number = computedWords.join('').length + correctWords.length;
+  const wrongLetters: number = totalLetters - correctLetters;
+  const precision: number = roundNumber((correctLetters / totalLetters) * 100, 0) || 0;
+  const wordPerMinute: number = correctLetters / 5;
+  const points: number = roundNumber(correctLetters * (precision / 100), 0);
+  const mpm: number = roundNumber(wordPerMinute, 0);
 
   const statProps = {
     correctWords,

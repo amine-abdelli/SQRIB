@@ -1,5 +1,5 @@
 import React from 'react';
-import { Colors } from '../../../helpers/enums/Colors.enum';
+import { Colors } from '../../../utils/enums/Colors.enum';
 import '../Scoring.module.scss';
 
 interface IScoreItemProps {

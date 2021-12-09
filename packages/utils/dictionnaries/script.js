@@ -1,4 +1,4 @@
-// const fs = require('fs');
+const fs = require('fs');
 // const dictionnary = require('../fr/fr.json');
 
 // const specialCharacter = /[^\w\s]/gi;
@@ -21,12 +21,12 @@
 // (a) => a.length > 5); // More than 5 character with accent
 
 // Extract text and build json from it
-// const lines = fs.readFileSync('en.txt', 'utf-8')
-//   .split('\n')
-//   .filter(Boolean);
-// const array = [];
-// lines.forEach((line) => array.push({
-//   label: line,
-// }));
+const lines = fs.readFileSync('./es/es.txt', 'utf-8')
+  .split('\n')
+  .filter(Boolean);
+const array = [];
+lines.forEach((line) => array.push({
+  label: line.toLowerCase(),
+}));
 
-// fs.writeFileSync('fr5.json', JSON.stringify(array));
+fs.writeFileSync('./es/es.json', JSON.stringify(array));

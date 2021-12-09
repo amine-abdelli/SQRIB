@@ -3,6 +3,15 @@
 import _ from 'lodash';
 import fr from '../dictionnaries/fr/fr.json';
 
+function updateTransitions(transitions: any, prev: any, next: any) {
+  const key = prev + next;
+  if (transitions.hasOwnProperty(key)) { // transition déjà existante
+    transitions[key] += 1;
+  } else { // new transition
+    transitions[key] = 1;
+  }
+}
+
 function computeTransitions(database: any) {
   const transitions = {};
 
@@ -23,15 +32,6 @@ function computeTransitions(database: any) {
 
   return transitions;
 } // computeTransitions
-
-function updateTransitions(transitions: any, prev: any, next: any) {
-  const key = prev + next;
-  if (transitions.hasOwnProperty(key)) { // transition déjà existante
-    transitions[key] += 1;
-  } else { // new transition
-    transitions[key] = 1;
-  }
-}
 
 function markov(state: any, transitions: any) {
   const cumDist = []; // Fonction de répartition
@@ -78,7 +78,7 @@ function randomInteger(min: number, max: number) {
 }
 type WordLabel = { label: string}
 
-export function generate(index: number) {
+function generate(index: number) {
   const letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'é', 'è', 'ç'];
 
   const array: Array<string> = [];
@@ -99,3 +99,5 @@ export function generate(index: number) {
     letter: letters[index - 1],
   };
 }
+
+export { generate };

@@ -6282,22 +6282,13 @@
     "label": "vitre"
   },
   {
-    "label": "s’asseoir"
+    "label": "asseoir"
   },
   {
     "label": "bâiller"
   },
   {
     "label": "bosser"
-  },
-  {
-    "label": "s’endormir"
-  },
-  {
-    "label": "s’ennuyer"
-  },
-  {
-    "label": "s’installer"
   },
   {
     "label": "réchauffer"
@@ -6390,7 +6381,7 @@
     "label": "étiquette"
   },
   {
-    "label": "d’appel"
+    "label": "d'appel"
   },
   {
     "label": "alphabet"
@@ -6507,7 +6498,7 @@
     "label": "échanger"
   },
   {
-    "label": "s’excuser"
+    "label": "s'excuser"
   },
   {
     "label": "fâcher"
@@ -6573,7 +6564,7 @@
     "label": "trous"
   },
   {
-    "label": "s’amuser"
+    "label": "s'amuser"
   },
   {
     "label": "arroser"
@@ -6630,10 +6621,10 @@
     "label": "transparent"
   },
   {
-    "label": "l’endroit"
+    "label": "l'endroit"
   },
   {
-    "label": "l’envers"
+    "label": "l'envers"
   },
   {
     "label": "anorak"
@@ -6729,7 +6720,7 @@
     "label": "déshabiller"
   },
   {
-    "label": "s’habiller"
+    "label": "s'habiller"
   },
   {
     "label": "lacer"
@@ -6789,7 +6780,7 @@
     "label": "coudre"
   },
   {
-    "label": "s’écorcher"
+    "label": "s'écorcher"
   },
   {
     "label": "enfiler"
@@ -6858,7 +6849,7 @@
     "label": "zigzag"
   },
   {
-    "label": "s’arrêter"
+    "label": "s'arrêter"
   },
   {
     "label": "atterrir"
@@ -6870,7 +6861,7 @@
     "label": "démarrer"
   },
   {
-    "label": "s’envoler"
+    "label": "s'envoler"
   },
   {
     "label": "garer"
@@ -6933,7 +6924,7 @@
     "label": "mains"
   },
   {
-    "label": "d’escalade"
+    "label": "d'escalade"
   },
   {
     "label": "muscle"
@@ -6966,7 +6957,7 @@
     "label": "poutre"
   },
   {
-    "label": "d’équilibre"
+    "label": "d'équilibre"
   },
   {
     "label": "prises"
@@ -6990,10 +6981,10 @@
     "label": "tunnel"
   },
   {
-    "label": "s’accrocher"
+    "label": "s'accrocher"
   },
   {
-    "label": "s’appuyer"
+    "label": "s'appuyer"
   },
   {
     "label": "balancer"
@@ -7272,7 +7263,7 @@
     "label": "déranger"
   },
   {
-    "label": "s’échapper"
+    "label": "s'échapper"
   },
   {
     "label": "enterrer"
@@ -7287,7 +7278,7 @@
     "label": "mordre"
   },
   {
-    "label": "s’occuper"
+    "label": "s'occuper"
   },
   {
     "label": "ronger"
@@ -7488,10 +7479,10 @@
     "label": "patient"
   },
   {
-    "label": "aujourd’hui"
+    "label": "aujourd'hui"
   },
   {
-    "label": "d’abord"
+    "label": "d'abord"
   },
   {
     "label": "arc-en-ciel"
@@ -7512,7 +7503,7 @@
     "label": "tonnerre"
   },
   {
-    "label": "s’abriter"
+    "label": "s'abriter"
   },
   {
     "label": "geler"
@@ -7674,7 +7665,7 @@
     "label": "tube"
   },
   {
-    "label": "s’allonger"
+    "label": "s'allonger"
   },
   {
     "label": "coiffer"
@@ -7737,10 +7728,10 @@
     "label": "rasoir"
   },
   {
-    "label": "s’agiter"
+    "label": "s'agiter"
   },
   {
-    "label": "s’appeler"
+    "label": "s'appeler"
   },
   {
     "label": "baver"
@@ -7761,7 +7752,7 @@
     "label": "détester"
   },
   {
-    "label": "s’embrasser"
+    "label": "s'embrasser"
   },
   {
     "label": "raser"
@@ -7869,7 +7860,7 @@
     "label": "faner"
   },
   {
-    "label": "s’ouvrir"
+    "label": "s'ouvrir"
   },
   {
     "label": "planter"
@@ -7917,7 +7908,7 @@
     "label": "camper"
   },
   {
-    "label": "s’éloigner"
+    "label": "s'éloigner"
   },
   {
     "label": "griller"
@@ -7926,7 +7917,7 @@
     "label": "guetter"
   },
   {
-    "label": "s’imaginer"
+    "label": "s'imaginer"
   },
   {
     "label": "photographier"
@@ -7965,7 +7956,7 @@
     "label": "clin"
   },
   {
-    "label": "d’œil"
+    "label": "d'œil"
   },
   {
     "label": "clocher"

@@ -11,7 +11,7 @@ function WordDisplayer({
         className={className}
         key={key}
         style={style}
-        ref={(element: HTMLSpanElement | null) => setState(element?.getBoundingClientRect().y)}
+        ref={(element: HTMLSpanElement) => setState(element?.getBoundingClientRect().y)}
       >
         {word}
       </span>

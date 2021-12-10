@@ -4,4 +4,5 @@ export interface IModal {
   showModeSelection: boolean,
   setShowModeSelection: Dispatch<SetStateAction<boolean>>,
   content: ReactNode,
+  className?: string
 }

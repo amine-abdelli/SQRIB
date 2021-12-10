@@ -2,12 +2,13 @@ import React from 'react';
 import { IButton } from './Button.props';
 
 function Button({
-  children, ...props
+  children, style, className, onClick,
 }: IButton) {
   return (
-    // eslint-disable-next-line jsx-a11y/click-events-have-key-events
     <div
-      {...props}
+      className={className}
+      style={style}
+      onClick={onClick}
     >
       {children}
     </div>

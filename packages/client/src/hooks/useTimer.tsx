@@ -1,11 +1,11 @@
 import {
   useContext, useEffect, useRef, useState,
 } from 'react';
-import { formatTimerParameters } from '../helpers/countDown.helper';
-import { GameMode } from '../helpers/enums/Mode.enum';
-import { MainContext } from '../contexts/MainContext';
+import { formatTimerParameters } from '../utils/timer.utils';
+import { GameMode } from '../utils/enums/Mode.enum';
+import { MainContext } from '../context/MainContext';
 
-const useTimer = function () {
+function useTimer() {
   const {
     setIsTimeOut,
     isTimeOut,
@@ -62,6 +62,6 @@ const useTimer = function () {
   }, [startCountDown, isTimeOut]);
 
   return formatTimerParameters({ timerMinutes, timerSeconds });
-};
+}
 
 export { useTimer };

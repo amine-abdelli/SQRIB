@@ -7,10 +7,10 @@ import { translateKeyBoardCode } from './helpers/KeyBoard.helper';
 function KeyBoard({ enable, theme }: { enable: boolean, theme: any }) {
   const [keyPressed, setKeyPressed] = useState<any>(0);
 
-  const keyBoardKeys = keyBoardLayout[KeyBoardEnum.DEFAULT_AZERTY];
+  const keyBoardKeys: string[] = keyBoardLayout[KeyBoardEnum.DEFAULT_AZERTY];
 
   useEffect(() => {
-    function handleKeyDown(e: any) {
+    function handleKeyDown(e: KeyboardEvent) {
       setKeyPressed(e.key);
     }
     function handleKeyUp() {
@@ -34,11 +34,11 @@ function KeyBoard({ enable, theme }: { enable: boolean, theme: any }) {
   }
   return (
     <div style={{ borderColor: theme?.secondary }} className={styles.keyBoardWrapper}>
-      {keyBoardKeys.map((row, i) => (
+      {keyBoardKeys.map((row: string, i: number) => (
         <div key={row[i]}>
           <div className={styles.keyBoardRow} style={{ cursor: enable ? 'pointer' : 'not-allowed' }}>
-            {row?.split(' ').map((e) => {
-              const isKeyPressedAndEnable = keyPressed === e && enable;
+            {row?.split(' ').map((e: string) => {
+              const isKeyPressedAndEnable: boolean = keyPressed === e && enable;
               return (
                 <span
                   key={e}

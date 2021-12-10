@@ -10,7 +10,7 @@ import styles from './Scoring.module.scss';
 
 function Scoring() {
   const {
-    wordCount, isTimeOut, computedWords, theme, correctWords, gameMode,
+    wordCount, isTimeOut, computedWords, theme, correctWords,
   } = useContext(MainContext);
   const [showStatsModal, setShowStatsModal] = useState(isTimeOut);
 

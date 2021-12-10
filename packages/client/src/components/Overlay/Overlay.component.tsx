@@ -1,15 +1,14 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 import { faHandPointer } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import React from 'react';
+import React, { ReactElement } from 'react';
 import styles from './Overlay.module.scss';
-import { IOverlay } from './Overlay.props';
 
-function Overlay({ onClick }: IOverlay): React.ReactElement {
+function Overlay({ onClick }: any): ReactElement {
   return (
     <div
-      className={styles.overlayWrapper}
       onClick={onClick}
+      className={styles.overlayWrapper}
     >
       <div className={styles.overlay}>
         <FontAwesomeIcon className={styles.icon} icon={faHandPointer} />

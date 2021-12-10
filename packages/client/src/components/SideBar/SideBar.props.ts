@@ -1,6 +1,6 @@
 import { Dispatch, SetStateAction } from 'react';
 import { ITheme } from '../../../styles/theme';
-import { Position } from '../../helpers/enums/Direction.enum';
+import { Position } from '../../utils/enums/Direction.enum';
 
 export interface ISideBarProps {
   setFontSize?: Dispatch<SetStateAction<number>>,

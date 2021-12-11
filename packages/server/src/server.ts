@@ -5,35 +5,37 @@ import cookieParser from 'cookie-parser';
 import * as Query from './resolvers/Query';
 import * as Mutation from './resolvers/Mutation';
 import { typeDefs } from './graphql/models';
-import { createContext } from './helpers/context';
+import { createContext } from './utils/context.utils';
 
 dotenv.config();
-const PORT = process.env.PORT || 4000;
+const PORT: string | 4000 = process.env.PORT || 4000;
 
-async function startServer(){
+async function startServer() {
   const app = express();
   const apolloServer = new ApolloServer({
     typeDefs,
-    resolvers: { 
-      Query, 
-      Mutation
+    resolvers: {
+      Query,
+      Mutation,
     },
-    context: createContext
-    }
-  );
+    context: createContext,
+  });
   await apolloServer.start();
   app.use(cookieParser());
   apolloServer.applyMiddleware({
-    app, 
+    app,
     cors: {
       credentials: true,
-      origin: 'https://studio.apollographql.com',
-    }});
-    
+      origin: 'http://localhost:3000',
+      // origin: 'https://studio.apollographql.com',
+    },
+  });
+
   app.use((req, res) => {
     res.send('Hello from express apollo server');
-  })
-  app.listen(PORT, () => console.log("Server is running on port 4000"));
-};
+  });
+
+  app.listen(PORT, () => console.log('Server is running on port 4000'));
+}
 
 startServer();

@@ -12,7 +12,7 @@ const PORT: string | 4000 = process.env.PORT || 4000;
 
 async function startServer() {
   const app = express();
-  const apolloServer = new ApolloServer({
+  const apolloServer: ApolloServer<any> = new ApolloServer({
     typeDefs,
     resolvers: {
       Query,
@@ -26,8 +26,8 @@ async function startServer() {
     app,
     cors: {
       credentials: true,
-      origin: 'http://localhost:3000',
-      // origin: 'https://studio.apollographql.com',
+      // origin: 'http://localhost:3000',
+      origin: 'https://studio.apollographql.com',
     },
   });
 

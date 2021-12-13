@@ -20,7 +20,6 @@ function SettingMenu({
       setTheme(themes.LIGHT);
     }
   }
-  console.log('startCountDown', startCountDown);
   return (
     <Menu>
       <MenuItem

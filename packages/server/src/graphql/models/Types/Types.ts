@@ -14,7 +14,7 @@ export const AuthPayload = `
 export const User = `
  type User {
    id: ID!
-   name: String
+   nickname: String
    email: String
    password: String
    is_active: Boolean

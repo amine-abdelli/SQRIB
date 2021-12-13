@@ -35,7 +35,17 @@ function Main({ onSpacePress }: { onSpacePress: (e: any) => void }) {
   return (
     <div style={{ width: '100%' }}>
       <DisplayerHeader />
-      {gameMode !== null && <Button outlined style={{ position: 'absolute', top: 200 }} onClick={() => setShowModeSelection(true)}>Changer de mode</Button>}
+      {gameMode !== null && (
+      <Button
+        outlined
+        style={{
+          position: 'absolute', top: 200, color: theme.secondary, borderColor: theme.secondary,
+        }}
+        onClick={() => setShowModeSelection(true)}
+      >
+        Changer de mode
+      </Button>
+      )}
       <div style={{ display: 'flex', alignItems: 'center', margin: '10px 0' }}>
         <Scoring />
         <RefreshButton />

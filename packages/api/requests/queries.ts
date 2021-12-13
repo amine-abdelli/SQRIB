@@ -9,6 +9,7 @@ const SELF_QUERY = gql`
 query Query {
   self {
     email
+    nickname
   }
 }
 `;

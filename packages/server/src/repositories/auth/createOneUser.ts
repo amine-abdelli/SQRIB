@@ -2,7 +2,8 @@ import { prisma } from '../../client';
 
 export interface ICreateUserArgs {
   email: string,
-  password: string
+  password: string,
+  nickname: string,
 }
 
 export function createOneUser(args: ICreateUserArgs) {

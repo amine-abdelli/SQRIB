@@ -120,7 +120,13 @@ function MyApp({ Component, pageProps }: AppProps) {
   return (
     <ApolloProvider client={client}>
       <Layout theme={theme}>
-        <Nav theme={theme} />
+        <Nav
+          setTheme={setTheme}
+          setLanguage={setLanguage}
+          setFontSize={setFontSize}
+          theme={theme}
+          startCountDown={startCountDown}
+        />
         <div style={{ display: 'flex' }}>
           <SideBar position={Position.LEFT} theme={theme} />
           <div className={styles.componentWrapper}>

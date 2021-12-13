@@ -26,7 +26,7 @@ model Score {
   correct_letters Int
   total_letters   Int
   wrong_letters   Int
-  precision       Int
+  precision       Float
   points          Int
   game_mode       String
   createdAt       DateTime? @default(now())

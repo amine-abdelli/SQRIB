@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE "Score" ALTER COLUMN "precision" SET DATA TYPE DOUBLE PRECISION;

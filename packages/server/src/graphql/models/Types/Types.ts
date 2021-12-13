@@ -36,4 +36,11 @@ export const Void = `
 scalar Void
 `;
 
-export const Types: string[] = [User, AuthPayload, Message, Void];
+/**
+ * Date scalar definition
+ */
+export const Date = `
+scalar Date
+`;
+
+export const Types: string[] = [User, AuthPayload, Message, Void, Date];

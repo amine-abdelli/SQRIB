@@ -12,11 +12,7 @@ export interface IUserInputProps {
   setIsTimeOut: any
 }
 
-export interface IWordCountProps {
-  wordCount: number
-}
-
-export type IScoringProps = IUserInputProps & IWordCountProps & IScore & any
+export type IScoringProps = IUserInputProps & IScore & any
 interface IScore {
   score: number
 }

@@ -6,12 +6,30 @@ query generateWordSet($language: String, $difficulty: String) {
 }`;
 
 const SELF_QUERY = gql`
-query Query {
+query selfQuery {
   self {
     email
     nickname
-  }
+    didacticiel_level
+    scores {
+      timing
+      mpm
+      wrong_words
+      correct_letters
+      total_letters
+      wrong_letters
+      precision
+      points
+      game_mode
+      createdAt
+    }
+  },
 }
 `;
 
-export { CREATE_WORD_SET_QUERY, SELF_QUERY };
+const DIDACTICIEL_WORDSET_QUERY = gql`
+query QueryOneSet($letter: String) {
+  findOneSet(letter: $letter)
+}`;
+
+export { CREATE_WORD_SET_QUERY, SELF_QUERY, DIDACTICIEL_WORDSET_QUERY };

@@ -3,6 +3,8 @@
 
 generator client {
   provider = "prisma-client-js"
+  binaryTargets = ["native", "darwin-arm64"]
+
 }
 
 datasource db {
@@ -50,6 +52,14 @@ model User {
   scores            Score[]
   BrotherHood       BrotherHood? @relation(fields: [brotherHoodId], references: [id])
   brotherHoodId     String?
+  didacticiel_level Int?          @default(3)
+}
+
+model WordSet {
+  id                String       @id @default(uuid())
+  letter            String
+  level             Int
+  wordSet           String[]
 }
 
 model BrotherHood {

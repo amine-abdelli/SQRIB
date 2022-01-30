@@ -3,8 +3,8 @@ import styles from './Layout.module.scss';
 
 function Layout({ children, theme }: any) {
   return (
-    <div className={styles.gapLayoutWrapper} style={{ backgroundColor: theme?.tertiary }}>
-      <div className={styles.layoutWrapper} style={{ backgroundColor: theme?.primary }}>
+    <div className={styles.gapLayoutWrapper} style={{ backgroundColor: theme?.tertiary, width: '100%' }}>
+      <div className={styles.layoutWrapper} style={{ backgroundColor: theme?.primary, width: '100%' }}>
         {children}
       </div>
     </div>

@@ -1,13 +1,14 @@
 .gapLayoutWrapper {
   padding: 3px;
-  height: 100vh;
+  height: 100%;
   width: 100vw;
 
   .layoutWrapper {
     border-radius: 10px;
     display: flex;
     flex-direction: column;
-    height: 100%;
+    min-height: calc(100vh - (3px * 2));
     width: 100%;
+    overflow-y: hidden;
   }
 }

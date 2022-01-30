@@ -1,52 +1,34 @@
 import { Button } from '@blueprintjs/core';
+import { Tooltip2 } from '@blueprintjs/popover2';
 import React, { useContext } from 'react';
-import { shuffleWordsStack } from '@aqac/utils';
 import { MainContext } from '../../../context/MainContext';
-import { GameOptions } from '../../../utils/mode';
 
-function RefreshButton() {
+function RefreshButton({ disable = false }: { disable?: boolean }) {
   const {
-    setIsTimeOut,
-    setStartCountDown,
-    gameMode,
-    setWordsStack,
-    setComputedWords,
-    setCorrectWords,
-    setCountDown,
-    setWordCount,
-    setWordIndex,
-    setUserInput,
-    setScore,
-    setOffSet,
-    language,
     theme,
+    onRestart,
   } = useContext(MainContext);
 
-  function onRestart() {
-    setWordsStack(shuffleWordsStack(language, GameOptions[gameMode].stackLength));
-    setStartCountDown(false);
-    setUserInput('');
-    setWordCount(0);
-    setScore(0);
-    setWordIndex(0);
-    setOffSet(0);
-    setCorrectWords([]);
-    setComputedWords([]);
-    setIsTimeOut(false);
-    setCountDown(GameOptions[gameMode]?.timer);
-  }
   return (
-    <Button
-      style={{
-        marginLeft: '30px',
-        backgroundColor: theme?.tertiary,
-        borderRadius: '25px',
-      }}
-      intent="success"
-      icon="refresh"
-      onClick={() => onRestart()}
-    />
+    <div style={{ marginLeft: '30px' }}>
+      <Tooltip2 position='top' content="Rafraichir le page">
+        <Button
+          style={{
+            backgroundColor: disable ? 'rgba(52, 52, 52, 0.3)' : theme?.tertiary,
+            borderRadius: '25px',
+          }}
+          disabled={disable}
+          intent="success"
+          icon="refresh"
+          onClick={() => onRestart()}
+        />
+      </Tooltip2>
+    </div>
   );
 }
+
+RefreshButton.defaultProps = {
+  disable: false,
+};
 
 export default RefreshButton;

@@ -1,18 +1,19 @@
-/* eslint-disable jsx-a11y/click-events-have-key-events */
-import { faHandPointer } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { ReactElement } from 'react';
+import { BsKeyboard } from 'react-icons/bs';
 import styles from './Overlay.module.scss';
+import RefreshButton from '../Buttons/RefreshButton/RefreshButton.component';
 
-function Overlay({ onClick }: any): ReactElement {
+function Overlay({ onClick, computedWords }: any): ReactElement {
   return (
     <div
       onClick={onClick}
       className={styles.overlayWrapper}
     >
       <div className={styles.overlay}>
-        <FontAwesomeIcon className={styles.icon} icon={faHandPointer} />
-        Cliquez pour continuer
+        {computedWords.length
+          ? <RefreshButton />
+          : <BsKeyboard className={styles.icon} size={40} />}
+        {computedWords.length ? 'Cliquez sur refresh' : 'Commencez à taper pour lancer le chronomètre'}
       </div>
     </div>
   );

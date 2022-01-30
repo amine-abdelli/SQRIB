@@ -1,6 +1,7 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
+import { useRouter } from 'next/dist/client/router';
 import React, {
-  ReactElement, useContext, useState,
+  ReactElement, useContext,
 } from 'react';
 import { MainContext } from '../../context/MainContext';
 import { splitStringToSpans } from '../../utils/displayer.utils';
@@ -9,12 +10,19 @@ import Overlay from '../Overlay/Overlay.component';
 import styles from './Displayer.module.scss';
 import WordDisplayer from './subComponents/WordDisplayer.component';
 
-function Displayer() {
-  const [showOverLay, setShowOverLay] = useState(true);
+function Displayer(
+  { wordsStack, focusedLetter }: { wordsStack: string[], focusedLetter?: string },
+) {
+  const isDidacticiel = useRouter().pathname === '/didacticiel';
   const {
-    userInput, wordIndex, wordsStack, fontSize,
-    correctWords, offSet, setYFocusedPosition, setYNextPosition,
+    userInput, wordIndex, fontSize,
+    correctWords, offSet, setYFocusedPosition,
+    setYNextPosition, startCountDown, countDown, gameMode, computedWords,
   } = useContext(MainContext);
+
+  const overlayProps = {
+    gameMode, countDown, startCountDown, computedWords,
+  };
 
   const displayedWords = wordsStack?.map((word: string, i: number): ReactElement => {
     if (i === wordIndex) {
@@ -39,18 +47,22 @@ function Displayer() {
       />
     );
   });
-
+  const isOverlayTriggered = !isDidacticiel ? !startCountDown : false;
   return (
-    <div onClick={() => setShowOverLay(!showOverLay)} className={styles.displayer}>
+    <div className={styles.displayer}>
       <div className={styles.borderTop} />
       <div style={{ transform: `translate(0, ${offSet}px`, fontSize }} className="content">
         {displayedWords}
       </div>
-      {showOverLay && (
-        <Overlay />
+      {isOverlayTriggered && (
+        <Overlay {...overlayProps} />
       )}
     </div>
   );
 }
+
+Displayer.defaultProps = {
+  focusedLetter: undefined,
+};
 
 export { Displayer };

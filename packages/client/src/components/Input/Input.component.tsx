@@ -1,29 +1,38 @@
 import React, { ChangeEvent, KeyboardEvent, useContext } from 'react';
 import { InputGroup } from '@blueprintjs/core';
+import { useRouter } from 'next/dist/client/router';
 import { MainContext } from '../../context/MainContext';
 
 function Input({
-  setUserInput, userInput, gameMode, isTimeOut,
+  setUserInput, userInput, gameMode, isTimeOut, didacticielStack,
 }: any) {
+  const route = useRouter();
   const {
-    setWordCount, wordCount, setComputedWords, computedWords, wordsStack,
+    setComputedWords, computedWords, wordsStack,
     wordIndex, correctWords, setCorrectWords, setScore, score, setIsTimeOut,
     yFocusedPosition, yNextPosition, setOffSet, offSet, setWordIndex,
   } = useContext(MainContext);
+  const isDidacticiel = route.pathname === '/didacticiel';
   function onSpacePress(e: KeyboardEvent) {
     if (e.code === 'Space' && userInput) {
-      setWordCount(wordCount + 1);
-      setComputedWords([...computedWords, wordsStack[wordIndex]]);
-      /* Check if the word typed is correct */
-      if (userInput === wordsStack[wordIndex]) {
-        setCorrectWords([...correctWords, wordsStack[wordIndex]]);
+      setComputedWords([...computedWords, isDidacticiel
+        ? didacticielStack[wordIndex]
+        : wordsStack[wordIndex],
+      ]);
+
+      /* Check if the word typed in training or didacticiel mode is correct */
+      if (userInput === wordsStack[wordIndex] || userInput === didacticielStack[wordIndex]) {
+        setCorrectWords([...correctWords, isDidacticiel
+          ? didacticielStack[wordIndex]
+          : wordsStack[wordIndex],
+        ]);
         if (score) {
           setScore(score + 1);
         }
       }
 
       /* If user reach the end of the word set, end the game */
-      if (wordsStack.length === wordCount + 1) {
+      if (wordsStack.length === computedWords.length + 1) {
         setIsTimeOut(true);
       }
 

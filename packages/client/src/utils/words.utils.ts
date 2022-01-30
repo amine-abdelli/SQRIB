@@ -1,7 +1,7 @@
 import { Dispatch, SetStateAction } from 'react';
 import { Colors } from './enums';
 
-/* Color letters accordingly */
+/* Color letters accordingly. Green if correct, red if wrong, black if not computed */
 function textColorOnTyping(string: string, userInput: string, i: number) {
   if (userInput[i] === string[i]) {
     return Colors.GREEN;
@@ -26,7 +26,7 @@ function setComputedWordsColor(
   return '';
 }
 
-/* Save letter's position. It helps to position triangle's */
+/* Save letter's position. It helps to position triangle */
 function lettersPosition(
   e: any,
   userInput: string,

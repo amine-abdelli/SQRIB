@@ -5,8 +5,8 @@ import {
   UserInputError,
 } from 'apollo-server-core';
 import bcrypt from 'bcryptjs';
+import { PrismaClient, User } from '@prisma/client';
 import { oneUserById, oneUserByEmail } from '../repositories/auth';
-import { PrismaClient, User } from '.prisma/client';
 import { Context } from './context.utils';
 
 export function formatEmail(email: string) {
@@ -36,7 +36,7 @@ function generateTokenSettings() {
 }
 
 export function createToken(
-  user: Omit<User, 'password'>,
+  user: Omit<User, 'password' | 'didacticiel_level'>,
   tokenOptions: SignOptions = {},
 ): string {
   const tokenSettings = { ...generateTokenSettings(), ...tokenOptions };

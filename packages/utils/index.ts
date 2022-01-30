@@ -2,3 +2,6 @@ export * from './math';
 export * from './words';
 export * from './markov';
 export * from './dictionnaries';
+export * from './array';
+export * from './date';
+export * from './constants';

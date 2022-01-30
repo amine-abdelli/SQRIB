@@ -44,7 +44,7 @@ export function shuffleWordsStack(lang: string, setLength: number) {
       return mixUpWordsSet(setGenerator(dictionnary_de), setLength);
     case 'es':
       return mixUpWordsSet(setGenerator(dictionnary_es), setLength);
-    default: console.log('Language not found !');
+    default: mixUpWordsSet(setGenerator(dictionnary_fr), setLength);
   }
-  return '';
+  return [];
 }

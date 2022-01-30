@@ -1,7 +1,5 @@
 /* eslint-disable no-param-reassign */
 /* eslint-disable no-prototype-builtins */
-import _ from 'lodash';
-import fr from '../dictionnaries/fr/fr.json';
 
 function updateTransitions(transitions: any, prev: any, next: any) {
   const key = prev + next;
@@ -29,7 +27,6 @@ function computeTransitions(database: any) {
     next = '$';
     updateTransitions(transitions, prev, next);
   } // for i
-
   return transitions;
 } // computeTransitions
 
@@ -60,7 +57,7 @@ function markov(state: any, transitions: any) {
   return '';
 }
 
-function randNameMarkov(transitions: any) {
+function randWordMarkov(transitions: any) {
   let state = '^';
   let result = '';
 
@@ -76,28 +73,56 @@ function randNameMarkov(transitions: any) {
 function randomInteger(min: number, max: number) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
-type WordLabel = { label: string}
+// type WordLabel = { label: string }
+
+// Generate all combination of a string
+// const tree = function (leafs: any) {
+//   const branches: any[] = [];
+//   if (leafs.length === 1) return leafs;
+//   // eslint-disable-next-line guard-for-in
+//   for (const k in leafs) {
+//     const leaf: any = leafs[k];
+// eslint-disable-next-line max-len
+//     tree(leafs.join('').replace(leaf, '').split('')).concat('').map((subtree: any) => branches.push([leaf].concat(subtree)));
+//   }
+//   return branches;
+// };
+function combinator(s: any) {
+  const list_of_strings: any[] = [];
+  for (let i = 0; i < s.length; i += 1) {
+    for (let j = i + 1; j < s.length + 1; j += 1) {
+      list_of_strings.push(s.slice(i, j));
+    }
+  }
+  return list_of_strings;
+}
 
 function generate(index: number) {
-  const letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'é', 'è', 'ç'];
-
+  const alphabet: string[] = ['E', 'I', 'R', 'A', 'N', 'S', 'O', 'L', 'U', 'T', 'Y', 'M', 'D', 'C', 'H', 'É', 'G', 'P', 'B', 'K', 'F', 'V', 'W', 'È', 'X', 'Q', 'Z', 'J', 'Ç'];
   const array: Array<string> = [];
-  const preProcessedArray = fr.filter((word: WordLabel) => !_.intersection(word.label.split(''), letters.slice(index + 1, letters.length)).length);
+
+  // const prout = tree(alphabet.slice(0, index - 1)).map((str: any) => str.join(''));
+
   for (let k = 0; array.length < 50; k += 1) {
-    const randomlyGeneratedWord = randNameMarkov(
-      computeTransitions(preProcessedArray.map((w: WordLabel) => w.label)),
+    const prout = combinator(alphabet.slice(0, index - 1)).map((str: any) => str.join(''));
+    const randomlyGeneratedWord = randWordMarkov(
+      computeTransitions(prout),
     );
-    if (randomlyGeneratedWord.includes(
-      letters[index - 1],
-    ) && !array.includes(randomlyGeneratedWord)
-    && randomlyGeneratedWord.length > 2 && randomlyGeneratedWord.length < randomInteger(3, 8)) {
+    console.log('randomly generated word', randomlyGeneratedWord);
+
+    if (randomlyGeneratedWord.length > 1 && randomlyGeneratedWord.length < randomInteger(3, 8)) {
       array.push(randomlyGeneratedWord);
     }
   }
   return {
     array,
-    letter: letters[index - 1],
+    letter: alphabet[index - 2],
   };
 }
+
+const start = Date.now();
+// console.log(generate(30));
+console.log('Markov function executed within:', (Date.now() - start) > 1000 ? `${(Date.now() - start) / 1000}sec` : `${(Date.now() - start)}ms`);
+// console.log('memory used before:', process.memoryUsage().heapUsed / 1024 / 1024);
 
 export { generate };

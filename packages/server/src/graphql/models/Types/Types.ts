@@ -18,6 +18,8 @@ export const User = `
    email: String
    password: String
    is_active: Boolean
+   scores: [Score]
+   didacticiel_level: Int
  }`;
 
 /**

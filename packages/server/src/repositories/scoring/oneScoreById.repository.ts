@@ -1,8 +1,11 @@
-import { PrismaClient } from '.prisma/client';
+import { Context } from '../../utils/context.utils';
 
-export async function oneScoreById(args: any, { prisma }: { prisma: PrismaClient}) {
+export async function oneScoreById(args: any, { prisma, userId }: Context) {
   return prisma.score.create({
-    data: args,
+    data: {
+      ...args,
+      userId,
+    },
     select: {
       id: true,
       timing: true,

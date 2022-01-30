@@ -10,26 +10,11 @@ module.exports = {
     ];
   },
 };
-// const withLess = require('next-with-less');
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-// const path = require('path');
-
-// const pathToLessFileWithVariables = path.resolve(
-// 'styles',
-// );
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const withLess = require('@zeit/next-less');
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const withCSS = require('@zeit/next-css');
-
-// module.exports = withCSS(
-//   withLess({
-//     webpack(config) {
-//       return config;
-//     },
-//   }),
-// );
 
 module.exports = withCSS(withLess({
   lessLoaderOptions: {

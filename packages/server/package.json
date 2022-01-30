@@ -5,10 +5,14 @@
   "author": "Amine Abdelli <amine.abdelli@outlook.fr>",
   "license": "MIT",
   "scripts": {
-    "start": "ts-node-dev -r dotenv/config --no-notify --respawn --exit-child -r tsconfig-paths/register --transpile-only src/server"
+    "start": "ts-node-dev -r dotenv/config --no-notify --respawn --exit-child -r tsconfig-paths/register --transpile-only src/server",
+    "prisma:sandbox": "ts-node-dev -r dotenv/config -r tsconfig-paths/register --transpile-only sandbox.ts"
   },
   "dependencies": {
+    "@aqac/api": "^1.0.0",
+    "@aqac/utils": "^1.0.0",
     "@prisma/client": "3.4.2",
+    "@types/lodash": "^4.14.178",
     "@typescript-eslint/eslint-plugin": "^5.4.0",
     "@typescript-eslint/parser": "^5.4.0",
     "apollo-server": "^3.5.0",
@@ -25,9 +29,7 @@
     "graphql": "^16.0.1",
     "graphql-scalars": "^1.13.1",
     "jsonwebtoken": "^8.5.1",
-    "uuid": "^8.3.2",
-    "@aqac/utils": "^1.0.0",
-    "@aqac/api": "^1.0.0"
+    "uuid": "^8.3.2"
   },
   "devDependencies": {
     "@types/bcryptjs": "^2.4.2",

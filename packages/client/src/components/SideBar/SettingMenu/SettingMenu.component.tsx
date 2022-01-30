@@ -9,7 +9,7 @@ import { FontSize } from '../../../utils/enums/FontSize.enum';
 import { ISettingMenu } from './SettingMenu.props';
 
 function SettingMenu({
-  setTheme, setFontSize, setLanguage, submitLogout, theme, isLoggedIn, startCountDown,
+  setTheme, setFontSize, setLanguage, submitLogout, isLoggedIn, startCountDown,
 }: ISettingMenu) {
   const [isSwitchChecked, setIsSwitchChecked] = useState<boolean>();
   function onThemeChange(checked: boolean) {

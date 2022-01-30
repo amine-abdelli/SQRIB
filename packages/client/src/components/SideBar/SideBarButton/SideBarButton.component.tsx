@@ -11,8 +11,7 @@ function SideBarButton({
     <div onClick={onClick}>
       <li className={styles.sideBarButton}>
         <span style={{ borderColor: themeColor }} className={styles.top} />
-        <Icon style={{ color: themeColor, paddingRight: '5px' }} icon={icon} size={16} />
-        {' '}
+        <Icon style={{ color: themeColor, paddingRight: '5px' }} icon={icon} />
         <span style={{ fontSize: '18px' }}>{text}</span>
         <span style={{ borderColor: themeColor }} className={styles.bottom} />
       </li>

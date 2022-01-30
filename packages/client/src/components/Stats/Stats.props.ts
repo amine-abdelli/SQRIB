@@ -1,6 +1,8 @@
+import { GameMode } from '../../utils/enums';
+
 export interface IStats {
   wrongWords: number,
-  wordCount: number,
+  computedWords: string[],
   correctLetters: number,
   totalLetters: number,
   wrongLetters: number,
@@ -8,4 +10,7 @@ export interface IStats {
   points: number,
   mpm: number,
   correctWords: string[],
+  onSetFinish: any
+  gameMode: GameMode
+  setShowStatsModal: any
 }

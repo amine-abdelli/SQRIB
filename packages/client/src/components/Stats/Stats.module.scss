@@ -4,11 +4,10 @@
   padding: 2rem;
 
   .statsContent {
-    border: 2px $tertiary-color solid;
-    border-radius: 10px;
-    width: 100%;
-    height: 100%;
-    padding: 1rem;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    flex-wrap: wrap;
 
     .mpm {
       margin: 0;
@@ -25,6 +24,7 @@
     }
 
     .mpmTranslation {
+      padding: 0;
       text-align: center;
     }
   }

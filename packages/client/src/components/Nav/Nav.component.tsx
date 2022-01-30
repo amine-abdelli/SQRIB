@@ -1,13 +1,13 @@
-/* eslint-disable react/jsx-no-useless-fragment */
-/* eslint-disable no-nested-ternary */
 import { useMutation } from '@apollo/client';
 import { LOGOUT_MUTATION } from '@aqac/api';
 import {
   Dialog, Button, Icon, Spinner, Tabs, Tab,
 } from '@blueprintjs/core';
 import { Popover2 } from '@blueprintjs/popover2';
+import { useRouter } from 'next/dist/client/router';
 import React, { useCallback, useState } from 'react';
 import { useGetSelf } from '../../hooks/useGetSelf';
+import { Routes } from '../../utils/enums';
 import Login from '../Login/Login.component';
 import SettingMenu from '../SideBar/SettingMenu/SettingMenu.component';
 import Signup from '../Signup/Signup.component';
@@ -22,8 +22,10 @@ enum ModalType {
 function Nav({
   theme, setTheme, setLanguage, setFontSize, startCountDown,
 }: INav) {
+  const router = useRouter();
   const [submitLogout] = useMutation(LOGOUT_MUTATION, {
     onCompleted: () => {
+      router.push(Routes.MAIN);
       window.location.reload();
     },
   });

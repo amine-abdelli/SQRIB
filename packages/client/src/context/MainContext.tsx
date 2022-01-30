@@ -4,7 +4,6 @@ import { ITheme } from '../../styles/theme';
 export const MainContext = React.createContext<{
   userInput: string,
   wordIndex: number,
-  wordCount: number,
   isTimeOut: boolean,
   setIsTimeOut: React.Dispatch<React.SetStateAction<boolean>>,
   startCountDown: boolean,
@@ -18,7 +17,6 @@ export const MainContext = React.createContext<{
   correctWords: Array<string>,
   setCorrectWords: React.Dispatch<React.SetStateAction<Array<string>>>,
   setCountDown: React.Dispatch<React.SetStateAction<number>>,
-  setWordCount: React.Dispatch<React.SetStateAction<number>>,
   setWordIndex: React.Dispatch<React.SetStateAction<number>>,
   setUserInput: React.Dispatch<React.SetStateAction<string>>,
   score: number | undefined,
@@ -39,4 +37,5 @@ export const MainContext = React.createContext<{
   setFontSize: React.Dispatch<React.SetStateAction<number>>,
   theme: ITheme,
   setShowModeSelection: React.Dispatch<React.SetStateAction<boolean>>,
+  onRestart: any
     }>({} as any);

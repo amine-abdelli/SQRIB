@@ -8,6 +8,9 @@ export function useGetSelf(options: QueryHookOptions = {}) {
     // instead it will just redirect to login
     ...options,
   });
+  const scores = data?.self?.scores;
   const isLoggedIn = Boolean(data?.self.email);
-  return { data, isLoggedIn, ...rest };
+  return {
+    data, scores, isLoggedIn, ...rest,
+  };
 }

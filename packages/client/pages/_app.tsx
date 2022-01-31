@@ -6,6 +6,7 @@ import type { AppProps } from 'next/app';
 import { ApolloProvider } from '@apollo/client';
 import { shuffleWordsStack } from '@aqac/utils';
 import { FocusStyleManager } from '@blueprintjs/core';
+import { useRouter } from 'next/dist/client/router';
 import Layout from '../src/components/Layout/Layout.component';
 import Nav from '../src/components/Nav/Nav.component';
 import SideBar from '../src/components/SideBar/SideBar.component';
@@ -47,6 +48,9 @@ function MyApp({ Component, pageProps }: AppProps) {
   const [countDown, setCountDown] = useState<number>(
     GameOptions[gameMode || GameMode.ONE]?.timer || 60,
   );
+  useEffect(() => {
+    onRestart();
+  }, [useRouter().pathname]);
 
   const onRestart = useCallback(() => {
     setWordsStack(shuffleWordsStack(language, GameOptions[gameMode].stackLength));

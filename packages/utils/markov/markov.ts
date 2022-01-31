@@ -66,27 +66,13 @@ function randWordMarkov(transitions: any) {
     result += newLetter;
     state = newLetter;
   }
-
   return result.substr(0, result.length - 1); // supprime $ en fin de résultat
 }
 
 function randomInteger(min: number, max: number) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
-// type WordLabel = { label: string }
 
-// Generate all combination of a string
-// const tree = function (leafs: any) {
-//   const branches: any[] = [];
-//   if (leafs.length === 1) return leafs;
-//   // eslint-disable-next-line guard-for-in
-//   for (const k in leafs) {
-//     const leaf: any = leafs[k];
-// eslint-disable-next-line max-len
-//     tree(leafs.join('').replace(leaf, '').split('')).concat('').map((subtree: any) => branches.push([leaf].concat(subtree)));
-//   }
-//   return branches;
-// };
 function combinator(s: any) {
   const list_of_strings: any[] = [];
   for (let i = 0; i < s.length; i += 1) {
@@ -101,15 +87,11 @@ function generate(index: number) {
   const alphabet: string[] = ['E', 'I', 'R', 'A', 'N', 'S', 'O', 'L', 'U', 'T', 'Y', 'M', 'D', 'C', 'H', 'É', 'G', 'P', 'B', 'K', 'F', 'V', 'W', 'È', 'X', 'Q', 'Z', 'J', 'Ç'];
   const array: Array<string> = [];
 
-  // const prout = tree(alphabet.slice(0, index - 1)).map((str: any) => str.join(''));
-
   for (let k = 0; array.length < 50; k += 1) {
-    const prout = combinator(alphabet.slice(0, index - 1)).map((str: any) => str.join(''));
+    const combination = combinator(alphabet.slice(0, index - 1)).map((str: any) => str.join(''));
     const randomlyGeneratedWord = randWordMarkov(
-      computeTransitions(prout),
+      computeTransitions(combination),
     );
-    console.log('randomly generated word', randomlyGeneratedWord);
-
     if (randomlyGeneratedWord.length > 1 && randomlyGeneratedWord.length < randomInteger(3, 8)) {
       array.push(randomlyGeneratedWord);
     }
@@ -119,10 +101,5 @@ function generate(index: number) {
     letter: alphabet[index - 2],
   };
 }
-
-const start = Date.now();
-// console.log(generate(30));
-console.log('Markov function executed within:', (Date.now() - start) > 1000 ? `${(Date.now() - start) / 1000}sec` : `${(Date.now() - start)}ms`);
-// console.log('memory used before:', process.memoryUsage().heapUsed / 1024 / 1024);
 
 export { generate };

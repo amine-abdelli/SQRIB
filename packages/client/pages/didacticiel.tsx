@@ -12,6 +12,7 @@ import Input from '../src/components/Input/Input.component';
 import ProgressionCards from '../src/components/ProgressionCards/ProgressionCards.component';
 import { MainContext } from '../src/context/MainContext';
 import { useGetSelf } from '../src/hooks/useGetSelf';
+import KeyBoard from '../src/components/KeyBoard/KeyBoard.component';
 
 function Didacticiel() {
   const { data } = useGetSelf();
@@ -37,7 +38,7 @@ function Didacticiel() {
   const level = data?.self.didacticiel_level;
   const {
     userInput, setUserInput, correctWords, setCorrectWords, setOffSet, setYFocusedPosition,
-    setWordIndex,
+    setWordIndex, theme,
   } = useContext(MainContext);
 
   useEffect(() => {
@@ -50,7 +51,7 @@ function Didacticiel() {
       fetchOneSetByLetter({ variables: { letter: alphabet[level + 1] } });
     }
 
-    if (correctWords.length === 5) {
+    if (correctWords.length === 60) {
       setCorrectWords([]);
       setOffSet(0);
       setWordIndex(0);
@@ -70,6 +71,7 @@ function Didacticiel() {
         setUserInput={setUserInput}
         userInput={userInput}
       />
+      <KeyBoard theme={theme} enable />
     </div>
   );
 }

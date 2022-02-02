@@ -21,7 +21,7 @@ function Input({
       ]);
 
       /* Check if the word typed in training or didacticiel mode is correct */
-      if (userInput === wordsStack[wordIndex] || userInput === didacticielStack[wordIndex]) {
+      if (userInput === (isDidacticiel ? didacticielStack[wordIndex] : wordsStack[wordIndex])) {
         setCorrectWords([...correctWords, isDidacticiel
           ? didacticielStack[wordIndex]
           : wordsStack[wordIndex],

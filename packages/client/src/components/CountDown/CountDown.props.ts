@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction } from '../../../models/Main.interfaces';
+import { Dispatch, SetStateAction } from 'react';
 
 export interface ICountUpValues {
   timerMinutes: number,

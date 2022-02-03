@@ -18,20 +18,6 @@ function Scoring({
     setShowStatsModal(isTimeOut);
   }, [isTimeOut]);
 
-  // addNewScore({
-  //   variables: {
-  //     mpm,
-  //     wrongWords,
-  //     gameMode,
-  //     points,
-  //     precision,
-  //     wrongLetters,
-  //     totalLetters,
-  //     correctLetters,
-  //     timing: '00:00:00',
-  //   },
-  // });
-
   const statProps = {
     correctWords,
     wrongWords,

@@ -1,4 +1,4 @@
 export enum GameMode {
-  ONE = 'one',
-  TWO = 'two',
+  COUNTDOWN = 'countdown',
+  COUNTUP = 'countup',
 }

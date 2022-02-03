@@ -10,11 +10,11 @@ export interface IGameOptions {
 }
 
 export const GameOptions: any = {
-  one: {
+  countdown: {
     timer: 60,
     stackLength: 400,
   },
-  two: {
+  countup: {
     timer: 0,
     stackLength: 75,
   },

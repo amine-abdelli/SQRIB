@@ -22,12 +22,13 @@ import { GameMode } from '../src/utils/enums/Mode.enum';
 import { MainContext } from '../src/context/MainContext';
 import { FontSize } from '../src/utils/enums/FontSize.enum';
 import { client } from '../client';
+import { useTimer } from '../src/hooks/useTimer';
 
 function MyApp({ Component, pageProps }: AppProps) {
   const [theme, setTheme] = useState<ITheme>(themes.LIGHT);
   const [fontSize, setFontSize] = useState<number>(FontSize.SMALL);
   const [showModeSelection, setShowModeSelection] = useState<boolean>(false);
-  const [gameMode, setGameMode] = useState<string>(GameMode.ONE);
+  const [gameMode, setGameMode] = useState<string>(GameMode.COUNTDOWN);
   const [language, setLanguage] = useState<string>(Language.FR);
   const [difficulty, setDifficulty] = useState<string>();
   const [userInput, setUserInput] = useState('');
@@ -41,13 +42,14 @@ function MyApp({ Component, pageProps }: AppProps) {
   const [horizontalPosition, setHorizontalPosition] = useState<number | undefined>();
   const [letterWidth, setLetterWidth] = useState<number | undefined>();
   const [startCountDown, setStartCountDown] = useState<boolean>(false);
-  const [isTimeOut, setIsTimeOut] = useState(false);
+  const { isTimeOut, setIsTimeOut } = useTimer();
   const [wordsStack, setWordsStack] = useState<string[]>(
     shuffleWordsStack(language, GameOptions[gameMode].stackLength),
   );
   const [countDown, setCountDown] = useState<number>(
-    GameOptions[gameMode || GameMode.ONE]?.timer || 60,
+    GameOptions[gameMode].timer || 60,
   );
+
   useEffect(() => {
     onRestart();
   }, [useRouter().pathname]);
@@ -63,10 +65,11 @@ function MyApp({ Component, pageProps }: AppProps) {
     setComputedWords([]);
     setIsTimeOut(false);
     setCountDown(GameOptions[gameMode]?.timer);
-  }, []);
+  }, [gameMode, language, setIsTimeOut]);
 
   useEffect(() => {
     setWordsStack(shuffleWordsStack(language, GameOptions[gameMode].stackLength));
+    setCountDown(GameOptions[gameMode].timer);
   }, [language, gameMode]);
 
   function onGameModeSelection(selectedMode: string) {

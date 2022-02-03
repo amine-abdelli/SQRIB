@@ -10,13 +10,13 @@ function ModeSelection({ theme, onGameModeSelection }: any) {
       <div className={styles.modeWrapper}>
         <ModeSelect
           title="Mode 1"
-          mode={GameMode.ONE}
+          mode={GameMode.COUNTDOWN}
           theme={theme}
           onGameModeSelection={onGameModeSelection}
         />
         <ModeSelect
           title="Mode 2"
-          mode={GameMode.TWO}
+          mode={GameMode.COUNTUP}
           theme={theme}
           onGameModeSelection={onGameModeSelection}
         />

@@ -5,3 +5,4 @@ export * from './dictionnaries';
 export * from './array';
 export * from './date';
 export * from './constants';
+export * from './enums';

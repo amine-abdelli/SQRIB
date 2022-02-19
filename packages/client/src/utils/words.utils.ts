@@ -2,6 +2,16 @@ import { Dispatch, SetStateAction } from 'react';
 import { Colors } from './enums';
 
 /* Color letters accordingly. Green if correct, red if wrong, black if not computed */
+// function textColorOnTyping(string: string, userInput: string, i: number) {
+//   if (userInput[i] === string[i]) {
+//     return Colors.BLACK;
+//   } if (!userInput) {
+//     return Colors.GREY;
+//   } if ((userInput[i] !== string[i])) {
+//     return Colors.RED;
+//   }
+//   return Colors.GREY;
+// }
 function textColorOnTyping(string: string, userInput: string, i: number) {
   if (userInput[i] === string[i]) {
     return Colors.GREEN;
@@ -13,7 +23,19 @@ function textColorOnTyping(string: string, userInput: string, i: number) {
   return Colors.BLACK;
 }
 
+// TO UNCOMMENT
 /* Color computed words in red or green depending on if they've been typed properly */
+// function setComputedWordsColor(
+//   i: number,
+//   wordIndex: number,
+//   computedWords: string[],
+//   correctWords: Array<string>,
+// ) {
+//   if (i < wordIndex) {
+//     return computedWords[i] === correctWords[i] ? Colors.GREEN : Colors.RED;
+//   }
+//   return '';
+// }
 function setComputedWordsColor(
   word: string,
   i: number,
@@ -41,4 +63,4 @@ function lettersPosition(
   }
 }
 
-export { textColorOnTyping, setComputedWordsColor, lettersPosition };
+export { textColorOnTyping, lettersPosition, setComputedWordsColor };

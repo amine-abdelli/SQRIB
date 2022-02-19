@@ -1,6 +1,6 @@
 import { Context } from '../../utils/context.utils';
 
-export async function oneScoreById(args: any, { prisma, userId }: Context) {
+export function oneScoreById(args: any, { prisma, userId }: Context) {
   return prisma.score.create({
     data: {
       ...args,

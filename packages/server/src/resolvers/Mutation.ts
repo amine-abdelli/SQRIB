@@ -5,3 +5,7 @@ export * from './authentication/deleteUser.mutation';
 export * from './scoring/addScoring.mutation';
 export * from './didacticiel/createOneSet.mutation';
 export * from './didacticiel/updateLevel.mutation';
+export * from './didacticiel/createAllSets.mutation';
+export * from './settings/updateSettings.mutation';
+export * from './settings/updateNickname.mutation';
+export * from './authentication/updatePassword.mutation';

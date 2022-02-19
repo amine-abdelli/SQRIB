@@ -7,15 +7,10 @@ interface LoginArgs {
 }
 
 async function login(parent: any, { email, password }: LoginArgs, context: Context) {
-  try {
-    console.log('Trying to authenticate', { email });
-    const user = await loginService(email, password, context);
-    console.info('Authentication success', { email });
-    return user;
-  } catch (e: any) {
-    console.error('Authentication error', { email, error: e.message });
-    throw e;
-  }
+  console.log('Trying to authenticate', { email });
+  const user = await loginService(email, password, context);
+  console.info('Authentication success', { email });
+  return user;
 }
 
 export { login };

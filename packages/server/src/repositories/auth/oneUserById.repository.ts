@@ -12,6 +12,14 @@ export async function oneUserById({ id }: Pick<User, 'id'>, prisma: PrismaClient
     include: {
       scores: true,
       BrotherHood: true,
+      settings: {
+        select: {
+          language: true,
+          theme: true,
+          sound: true,
+          fontSize: true,
+        },
+      },
     },
   });
 }

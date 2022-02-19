@@ -20,6 +20,7 @@ export const User = `
    is_active: Boolean
    scores: [Score]
    didacticiel_level: Int
+   settings: Settings
  }`;
 
 /**

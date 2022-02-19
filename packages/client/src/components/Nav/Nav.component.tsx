@@ -1,15 +1,14 @@
 import { useMutation } from '@apollo/client';
 import { LOGOUT_MUTATION } from '@aqac/api';
 import {
-  Dialog, Button, Icon, Spinner, Tabs, Tab,
-} from '@blueprintjs/core';
-import { Popover2 } from '@blueprintjs/popover2';
+  Modal, Button, Spinner, Avatar, Tooltip,
+} from '@nextui-org/react';
 import { useRouter } from 'next/dist/client/router';
 import React, { useCallback, useState } from 'react';
+import { Logout } from 'react-iconly';
 import { useGetSelf } from '../../hooks/useGetSelf';
 import { Routes } from '../../utils/enums';
 import Login from '../Login/Login.component';
-import SettingMenu from '../SideBar/SettingMenu/SettingMenu.component';
 import Signup from '../Signup/Signup.component';
 import styles from './Nav.module.scss';
 import { INav } from './Nav.props';
@@ -20,7 +19,7 @@ enum ModalType {
 }
 
 function Nav({
-  theme, setTheme, setLanguage, setFontSize, startCountDown,
+  theme,
 }: INav) {
   const router = useRouter();
   const [submitLogout] = useMutation(LOGOUT_MUTATION, {
@@ -44,17 +43,6 @@ function Nav({
     },
     [],
   );
-  const menu = (
-    <SettingMenu
-      submitLogout={submitLogout}
-      setLanguage={setLanguage}
-      setFontSize={setFontSize}
-      setTheme={setTheme}
-      theme={theme}
-      isLoggedIn={isLoggedIn}
-      startCountDown={startCountDown}
-    />
-  );
   return (
     <div className={styles.navbarContainer}>
       <div
@@ -72,24 +60,26 @@ function Nav({
           {loading ? <Spinner />
             : (
               <>
-                <Button intent="none" onClick={() => onButtonClick(ModalType.LOGIN)} text="se connecter" />
-                <Button intent="primary" onClick={() => onButtonClick(ModalType.SIGNUP)} text="s'inscrire" />
-                <Dialog
-                  style={{ padding: '2rem' }}
-                  isOpen={shouldOpenModal}
-                  onClose={() => setShouldOpenModal(false)}
-                >
-                  <Tabs
-                    defaultSelectedTabId={modalType === ModalType.LOGIN ? 'login' : 'signup'}
-                    animate
-                    id="TabsExample"
-                    vertical={false}
+                <Button.Group>
+                  <Button flat onClick={() => onButtonClick(ModalType.LOGIN)}>Se connecter</Button>
+                  <Button
+                    ghost
+                    onClick={() => onButtonClick(ModalType.SIGNUP)}
                   >
-                    <Tab id="login" title="se connecter" panel={<Login />} />
-                    <Tab id="signup" title="s'inscrire" panel={<Signup />} />
-                    <Tabs.Expander />
-                  </Tabs>
-                </Dialog>
+                    S&apos;inscrire
+
+                  </Button>
+                </Button.Group>
+                <Modal
+                  closeButton
+                  style={{ padding: '2rem' }}
+                  open={shouldOpenModal}
+                  onClose={() => setShouldOpenModal(false)}
+                  blur
+                >
+                  {modalType === ModalType.LOGIN && (<Login />)}
+                  {modalType === ModalType.SIGNUP && (<Signup />)}
+                </Modal>
               </>
             )}
 
@@ -97,18 +87,9 @@ function Nav({
         )}
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
           <h2 style={{ marginBottom: 0, color: theme.secondary }}>{data?.self?.nickname}</h2>
-          <Popover2 hasBackdrop content={menu} placement="bottom-start">
-            <div style={{
-              cursor: 'pointer', backgroundColor: 'white', borderRadius: '50px', border: '1px solid black', width: '35px', height: '35px', display: 'flex', margin: '10px',
-            }}
-            >
-              <div style={{
-                width: '10px', height: '10px', borderRadius: '50%', position: 'absolute', backgroundColor: isLoggedIn ? '#00ff00' : 'red', border: '1px solid green',
-              }}
-              />
-              <Icon style={{ margin: 'auto' }} icon="person" />
-            </div>
-          </Popover2>
+          <Tooltip trigger='click' hideArrow placement='bottom' content={<Button bordered auto color='error' icon={<Logout />} onClick={() => submitLogout()} />}>
+            <Avatar style={{ cursor: 'pointer', marginLeft: '5px' }} size="md" squared src="https://picsum.photos/200" color="success" bordered />
+          </Tooltip>
         </div>
       </div>
     </div>

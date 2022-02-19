@@ -22,6 +22,7 @@ export function createOneUser(args: ICreateUserArgs) {
       level: true,
       xp: true,
       brotherHoodId: true,
+      settings: true,
     },
   });
 }

@@ -5,13 +5,15 @@ import Modal from '../Modal/Modal.component';
 import Stats from '../Stats/Stats.component';
 import ScoringItem from './ScoringItem/ScoringItem.component';
 import styles from './Scoring.module.scss';
+import useSpeedCalculator from '../../hooks/useSpeedCalculator';
 
 function Scoring({
   isTimeOut, computedWords,
   theme, correctWords, mpm, wrongWords,
   gameMode, points, precision, wrongLetters, totalLetters, correctLetters, timing, scores,
-  onSetFinish,
+  onSetFinish, startTimer,
 }: any) {
+  const [typingSpeed] = useSpeedCalculator(correctWords, startTimer, isTimeOut);
   const [showStatsModal, setShowStatsModal] = useState(isTimeOut);
 
   useEffect(() => {
@@ -33,12 +35,14 @@ function Scoring({
     scores,
     onSetFinish,
     setShowStatsModal,
+    typingSpeed,
   };
 
   return (
     <>
       <div className={styles.scoringWrapper} style={{ color: theme?.secondary, borderBottom: `1px ${theme?.secondary} solid` }}>
         <CountDown />
+        <ScoringItem content={`${!isTimeOut ? typingSpeed : 0}mpm`} />
         <ScoringItem content={`Count ${computedWords.length}`} color={theme.secondary} />
         <ScoringItem content={`+${correctWords.length}`} color={Colors.GREEN} />
         <ScoringItem content={`-${wrongWords}`} color={Colors.RED} />
@@ -51,7 +55,6 @@ function Scoring({
       <Modal
         className={styles.statsModal}
         showModeSelection={showStatsModal}
-        // showModeSelection
         setShowModeSelection={() => null}
         content={(
           <Stats {...statProps} />

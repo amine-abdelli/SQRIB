@@ -5,14 +5,17 @@ import React, {
 import {
   useApolloClient, useLazyQuery, useMutation,
 } from '@apollo/client';
-import { alphabet } from '@aqac/utils';
+import { alphabet, DEFAULT_LEVEL } from '@aqac/utils';
 import { DIDACTICIEL_WORDSET_QUERY, SELF_QUERY, UPDATE_LEVEL_MUTATION } from '@aqac/api';
+import { Button } from '@blueprintjs/core';
+import { BiReset } from 'react-icons/bi';
 import { Displayer } from '../src/components/Displayer/Displayer.component';
 import Input from '../src/components/Input/Input.component';
 import ProgressionCards from '../src/components/ProgressionCards/ProgressionCards.component';
 import { MainContext } from '../src/context/MainContext';
 import { useGetSelf } from '../src/hooks/useGetSelf';
 import KeyBoard from '../src/components/KeyBoard/KeyBoard.component';
+import useSpeedCalculator from '../src/hooks/useSpeedCalculator';
 
 function Didacticiel() {
   const { data } = useGetSelf();
@@ -38,7 +41,7 @@ function Didacticiel() {
   const level = data?.self.didacticiel_level;
   const {
     userInput, setUserInput, correctWords, setCorrectWords, setOffSet, setYFocusedPosition,
-    setWordIndex, theme,
+    setWordIndex, theme, startTimer, isTimeOut, setStartTimer,
   } = useContext(MainContext);
 
   useEffect(() => {
@@ -46,7 +49,10 @@ function Didacticiel() {
       fetchOneSetByLetter({ variables: { letter: alphabet[level] } });
       setMarkovChain(wordSet?.findOneSet);
     }
+  }, [loading, level]);
 
+  // ! TOO MUCH REFETCH MUST BE
+  useEffect(() => {
     if ((correctWords.length >= 2) && (level < alphabet.length - 1)) {
       fetchOneSetByLetter({ variables: { letter: alphabet[level + 1] } });
     }
@@ -61,10 +67,36 @@ function Didacticiel() {
     }
   }, [correctWords, loading, level]);
 
+  const [typingSpeed] = useSpeedCalculator(correctWords, startTimer, isTimeOut);
+
+  useEffect(() => {
+    if (userInput && !startTimer) {
+      setStartTimer(true);
+    }
+  }, [userInput]);
+
   return (
     <div>
       <h1>Didacticiel</h1>
-      <ProgressionCards level={level} />
+      <p style={{ margin: 0 }}>
+        Vitesse de frappe :
+        {` ${typingSpeed}mpm`}
+      </p>
+      <div style={{ width: '100%', display: 'flex', justifyContent: 'space-between' }}>
+        <ProgressionCards level={level} />
+        <Button
+          minimal
+          style={{
+            borderRadius: '10px', padding: '0px', width: '35px', height: '35px',
+          }}
+          icon={<BiReset size={25} />}
+          onClick={() => {
+            if (data.self.didacticiel_level !== DEFAULT_LEVEL) {
+              updateLevel({ variables: { level: DEFAULT_LEVEL } });
+            }
+          }}
+        />
+      </div>
       <Displayer wordsStack={markovChain || []} />
       <Input
         didacticielStack={markovChain}

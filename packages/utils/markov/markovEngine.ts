@@ -1,4 +1,4 @@
-import { alphabet } from '..';
+import { alphabet, randomIntFromInterval } from '..';
 
 const makeWord = require('make-word');
 const _ = require('lodash');
@@ -19,7 +19,7 @@ function generateRandoWordInRange(index: number) {
   const wordSet: any[] = [];
   do {
     const aa = getLetterRange(index);
-    const makeword = makeWord(2, 10);
+    const makeword = makeWord(randomIntFromInterval(3, 4), 8);
     const ii = _.intersection(aa, makeword.split(''));
     if (!ii.length) {
       wordSet.push(makeword);
@@ -30,10 +30,10 @@ function generateRandoWordInRange(index: number) {
 }
 
 /* Filter words */
-const markovChainGenerator = (i: number) => {
+function markovChainGenerator(i: number) {
   console.log('Starting Markov function...');
   const wordSet = generateRandoWordInRange(i);
-  console.log('Starting to filter word set according to letter provided...', alphabet[i - 1]);
+  console.log('Starting to filter word set according to letter provided...', alphabet[i]);
   const STACK: string[] = [];
   wordSet.forEach((word) => {
     if (word.includes(alphabet[i - 1])) {
@@ -41,6 +41,6 @@ const markovChainGenerator = (i: number) => {
     }
   });
   return STACK;
-};
+}
 
 export { markovChainGenerator };

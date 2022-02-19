@@ -4,7 +4,8 @@ import React, {
 } from 'react';
 import type { AppProps } from 'next/app';
 import { ApolloProvider } from '@apollo/client';
-import { shuffleWordsStack } from '@aqac/utils';
+import { NextUIProvider } from '@nextui-org/react';
+import { generateWordSet, FontSizes, Languages } from '@aqac/utils';
 import { FocusStyleManager } from '@blueprintjs/core';
 import { useRouter } from 'next/dist/client/router';
 import Layout from '../src/components/Layout/Layout.component';
@@ -14,23 +15,17 @@ import { ITheme, themes } from '../styles/theme';
 import '../styles/sass/globals.scss';
 import styles from '../styles/sass/pages/_app.module.scss';
 import { Position } from '../src/utils/enums/Direction.enum';
-import Modal from '../src/components/Modal/Modal.component';
-import { Language } from '../src/utils/enums/Language.enum';
-import ModeSelection from '../src/components/Modal/ModeSelection';
 import { GameOptions } from '../src/utils/mode';
 import { GameMode } from '../src/utils/enums/Mode.enum';
 import { MainContext } from '../src/context/MainContext';
-import { FontSize } from '../src/utils/enums/FontSize.enum';
 import { client } from '../client';
-import { useTimer } from '../src/hooks/useTimer';
 
 function MyApp({ Component, pageProps }: AppProps) {
   const [theme, setTheme] = useState<ITheme>(themes.LIGHT);
-  const [fontSize, setFontSize] = useState<number>(FontSize.SMALL);
-  const [showModeSelection, setShowModeSelection] = useState<boolean>(false);
-  const [gameMode, setGameMode] = useState<string>(GameMode.COUNTDOWN);
-  const [language, setLanguage] = useState<string>(Language.FR);
-  const [difficulty, setDifficulty] = useState<string>();
+  const [fontSize, setFontSize] = useState<number>(FontSizes.LARGE);
+  const [, setShowModeSelection] = useState<boolean>(false);
+  const [gameMode] = useState<string>(GameMode.COUNTDOWN);
+  const [language, setLanguage] = useState<string>(Languages.FR);
   const [userInput, setUserInput] = useState('');
   const [score, setScore] = useState(0);
   const [wordIndex, setWordIndex] = useState(0);
@@ -41,10 +36,10 @@ function MyApp({ Component, pageProps }: AppProps) {
   const [correctWords, setCorrectWords] = useState<Array<string>>([]);
   const [horizontalPosition, setHorizontalPosition] = useState<number | undefined>();
   const [letterWidth, setLetterWidth] = useState<number | undefined>();
-  const [startCountDown, setStartCountDown] = useState<boolean>(false);
-  const { isTimeOut, setIsTimeOut } = useTimer();
+  const [startTimer, setStartTimer] = useState<boolean>(false);
+  const [isTimeOut, setIsTimeOut] = useState(false);
   const [wordsStack, setWordsStack] = useState<string[]>(
-    shuffleWordsStack(language, GameOptions[gameMode].stackLength),
+    generateWordSet(language, GameOptions[gameMode].stackLength),
   );
   const [countDown, setCountDown] = useState<number>(
     GameOptions[gameMode].timer || 60,
@@ -55,8 +50,8 @@ function MyApp({ Component, pageProps }: AppProps) {
   }, [useRouter().pathname]);
 
   const onRestart = useCallback(() => {
-    setWordsStack(shuffleWordsStack(language, GameOptions[gameMode].stackLength));
-    setStartCountDown(false);
+    setWordsStack(generateWordSet(language, GameOptions[gameMode].stackLength));
+    setStartTimer(false);
     setUserInput('');
     setScore(0);
     setWordIndex(0);
@@ -68,22 +63,13 @@ function MyApp({ Component, pageProps }: AppProps) {
   }, [gameMode, language, setIsTimeOut]);
 
   useEffect(() => {
-    setWordsStack(shuffleWordsStack(language, GameOptions[gameMode].stackLength));
+    setWordsStack(generateWordSet(language, GameOptions[gameMode].stackLength));
     setCountDown(GameOptions[gameMode].timer);
   }, [language, gameMode]);
 
-  function onGameModeSelection(selectedMode: string) {
-    setGameMode(selectedMode);
-    setShowModeSelection(false);
-  }
-
-  useEffect(() => {
-    setFontSize(FontSize.SMALL);
-  }, [fontSize]);
-
   const MainContextProps = useMemo(() => ({
-    userInput, wordIndex, isTimeOut, setIsTimeOut, startCountDown, setStartCountDown, gameMode, countDown, wordsStack, setWordsStack, computedWords, setComputedWords, correctWords, setCorrectWords, setCountDown, setWordIndex, setUserInput, score, setScore, offSet, setOffSet, yFocusedPosition, setYFocusedPosition, yNextPosition, setYNextPosition, horizontalPosition, setHorizontalPosition, letterWidth, setLetterWidth, fontSize, language, difficulty, setFontSize, theme, setShowModeSelection, onRestart,
-  }), [userInput, wordIndex, isTimeOut, startCountDown, gameMode, countDown, wordsStack, setWordsStack, computedWords, correctWords, score, setScore, offSet, yFocusedPosition, yNextPosition, horizontalPosition, letterWidth, fontSize, language, difficulty, theme, onRestart]);
+    userInput, wordIndex, isTimeOut, setIsTimeOut, startTimer, setStartTimer, gameMode, countDown, wordsStack, setWordsStack, computedWords, setComputedWords, correctWords, setCorrectWords, setCountDown, setWordIndex, setUserInput, score, setScore, offSet, setOffSet, yFocusedPosition, setYFocusedPosition, yNextPosition, setYNextPosition, horizontalPosition, setHorizontalPosition, letterWidth, setLetterWidth, fontSize, language, setFontSize, theme, setShowModeSelection, onRestart, setLanguage, setTheme,
+  }), [userInput, wordIndex, isTimeOut, setTheme, startTimer, gameMode, countDown, wordsStack, setWordsStack, computedWords, correctWords, score, setScore, offSet, yFocusedPosition, yNextPosition, horizontalPosition, letterWidth, fontSize, language, theme, onRestart, setLanguage]);
 
   // Disable ugly focus on blueprint's elements
   FocusStyleManager.onlyShowFocusOnTabs();
@@ -93,17 +79,17 @@ function MyApp({ Component, pageProps }: AppProps) {
       <Layout theme={theme}>
         <Nav
           setTheme={setTheme}
-          setLanguage={setLanguage}
-          setFontSize={setFontSize}
           theme={theme}
-          startCountDown={startCountDown}
+          startTimer={startTimer}
         />
         <div style={{ display: 'flex' }}>
           <SideBar position={Position.LEFT} theme={theme} />
           <div className={styles.componentWrapper}>
             <div style={{ justifyContent: 'center', display: 'flex', height: '100%' }}>
               <MainContext.Provider value={MainContextProps}>
-                <Component theme={theme} {...pageProps} />
+                <NextUIProvider>
+                  <Component theme={theme} {...pageProps} />
+                </NextUIProvider>
               </MainContext.Provider>
             </div>
           </div>
@@ -117,17 +103,16 @@ function MyApp({ Component, pageProps }: AppProps) {
         </div>
       </Layout>
       {/* Selection mode modal */}
-      <Modal
+      {/* <Modal
         showModeSelection={showModeSelection}
         setShowModeSelection={setShowModeSelection}
         content={(
           <ModeSelection
-            setDifficulty={setDifficulty}
             onGameModeSelection={onGameModeSelection}
             theme={theme}
           />
         )}
-      />
+      /> */}
     </ApolloProvider>
   );
 }

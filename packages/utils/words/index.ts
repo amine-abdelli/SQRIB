@@ -1,1 +1,1 @@
-export * from './shuffleWords.utils';
+export * from './generateWordSet.utils';

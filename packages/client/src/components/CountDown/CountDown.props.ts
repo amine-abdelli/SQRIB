@@ -7,8 +7,8 @@ export interface ICountUpValues {
 
 export interface IUserInputProps {
   theme?: any,
-  setStartCountDown: Dispatch<SetStateAction<boolean>>,
-  startCountDown: boolean,
+  setStartTimer: Dispatch<SetStateAction<boolean>>,
+  startTimer: boolean,
   setIsTimeOut: any
 }
 

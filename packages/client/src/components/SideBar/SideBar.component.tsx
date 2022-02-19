@@ -1,10 +1,8 @@
 import React from 'react';
 import Link from 'next/link';
 import { GiNinjaHead } from 'react-icons/gi';
-import { BsKeyboard, BsChatDots } from 'react-icons/bs';
-import { MdOutlineFeaturedVideo } from 'react-icons/md';
-import { CgGames } from 'react-icons/cg';
-import { ImStatsBars } from 'react-icons/im';
+import { Game, Chart, Setting } from 'react-iconly';
+import { BsKeyboard } from 'react-icons/bs';
 import styles from './SideBar.module.scss';
 import SideBarButton from './SideBarButton/SideBarButton.component';
 import { Position } from '../../utils/enums/Direction.enum';
@@ -27,10 +25,10 @@ function SideBar({
             borderLeft: `1px ${theme?.secondary} dashed`,
           }}
         >
-          <ul style={{ width: '100%', padding: '10px' }}>
+          <ul style={{ width: '100%', margin: '2px' }}>
             {isLoggedIn && (
               <Link href={Routes.PROFILE} passHref>
-                <SideBarButton themeColor={theme?.secondary} icon={<ImStatsBars style={{ marginRight: '5px' }} size={20} />} text="Profil" />
+                <SideBarButton themeColor={theme?.secondary} icon={<Chart style={{ marginRight: '5px' }} size={20} />} text="Profil" />
               </Link>
             )}
             <Link href={Routes.MAIN} passHref>
@@ -40,15 +38,10 @@ function SideBar({
               <SideBarButton themeColor={theme?.secondary} icon={<BsKeyboard style={{ marginRight: '5px' }} size={20} />} text="Didacticiel" />
             </Link>
             <Link href={Routes.MULTIGAMING} passHref>
-              <SideBarButton themeColor={theme?.secondary} icon={<CgGames style={{ marginRight: '5px' }} size={20} />} text="Multijoueur" />
+              <SideBarButton themeColor={theme?.secondary} icon={<Game style={{ marginRight: '5px' }} size={20} />} text="Multijoueur" />
             </Link>
-            {isLoggedIn && (
-              <Link href={Routes.MAIN} passHref>
-                <SideBarButton themeColor={theme?.secondary} icon={<BsChatDots style={{ marginRight: '5px' }} size={20} />} text="Chat" />
-              </Link>
-            )}
-            <Link href={Routes.FEATURES} passHref>
-              <SideBarButton themeColor={theme?.secondary} icon={<MdOutlineFeaturedVideo style={{ marginRight: '5px' }} size={20} />} text="Features" />
+            <Link href={Routes.SETTINGS} passHref>
+              <SideBarButton themeColor={theme?.secondary} icon={<Setting style={{ marginRight: '5px' }} size={20} />} text="Settings" />
             </Link>
           </ul>
         </div>

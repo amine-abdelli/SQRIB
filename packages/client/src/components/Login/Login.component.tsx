@@ -1,68 +1,119 @@
 import { useMutation } from '@apollo/client';
-import { Form, Input } from 'antd';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { LOGIN_MUTATION } from '@aqac/api';
-import { Button, Divider } from '@blueprintjs/core';
+import {
+  Modal, Row, Text, Input, Button, Checkbox, Spacer,
+} from '@nextui-org/react';
+import { emailPolicy } from '@aqac/utils';
+import { Message, Lock } from 'react-iconly';
 
 function Login() {
+  const [login, setLogin] = useState({ email: '', password: '' });
+  const [isValid, setIsValid] = useState({ email: '', password: '' });
+  const [isAuthWrong, setIsAuthWrong] = useState(false);
+  const [triggerLoginChecking, setTriggerLoginChecking] = useState(false);
   const [submitLogin] = useMutation(LOGIN_MUTATION, {
     onCompleted: () => {
       window.location.reload();
     },
+    onError: (error) => {
+      setIsAuthWrong(Boolean(error.message));
+    },
   });
 
-  const onFinish = (values: any) => {
-    submitLogin({
-      variables: {
-        ...values,
-        email: values.email.trim(),
-      },
+  useEffect(() => {
+    setIsValid({
+      email: login.email.match(emailPolicy) ? '' : 'E-mail invalide',
+      password: login.password.length < 8 ? 'Votre mot de passe doit contenir au moins 8 caractères' : '',
     });
+    setIsAuthWrong(false);
+  }, [login.email, login.password]);
+
+  const onFinish = () => {
+    setTriggerLoginChecking(true);
+    if (isValid && login.password && login.email.match(emailPolicy)) {
+      setLogin({ email: '', password: '' });
+      setTriggerLoginChecking(false);
+      submitLogin({
+        variables: {
+          ...login,
+          email: login?.email.trim(),
+        },
+      });
+    }
   };
+
+  function onInputChangeColor(key: 'email' | 'password') {
+    if (triggerLoginChecking && isValid[key]) {
+      return 'error';
+    } if (triggerLoginChecking && !isValid[key]) {
+      return 'success';
+    }
+    return 'primary';
+  }
 
   return (
     <>
-      <h1 style={{ textAlign: 'center' }}>S&apos;identifier</h1>
-      <Form
-        name="login"
-        layout="vertical"
-        initialValues={{ remember: true }}
-        onFinish={onFinish}
-      >
-        <Form.Item
-          name="email"
-          rules={[
-            {
-              type: 'email',
-              message: 'This E-mail is not valid',
-            },
-            {
-              required: true,
-              message: 'Please input your email!',
-            },
-          ]}
-        >
-          <Input placeholder="john.doe@gmail.com" type="email" />
-        </Form.Item>
-
-        <Form.Item
-          name="password"
-          rules={[
-            { required: true, message: 'Please input your password!' },
-          ]}
-        >
-          <Input.Password />
-        </Form.Item>
-        <Divider />
-        <Form.Item>
-          <Button type="submit" autoFocus={false} fill intent="primary">
-            se connecter
-          </Button>
-          <div>
-            <Button fill intent="none" onClick={() => null}>Mot de passe oublié ?</Button>
-          </div>
-        </Form.Item>
-      </Form>
+      <Modal.Header>
+        <Text id="modal-title" size={18}>
+          Welcome to
+          {' '}
+          <Text b size={18}>
+            AQAYC
+          </Text>
+        </Text>
+      </Modal.Header>
+      <Modal.Body>
+        {isAuthWrong && (
+        <Text style={{ textAlign: 'center', marginBottom: '5px' }} color='error'>
+          L&apos;e-mail ou le mot de passe saisie est incorrecte
+        </Text>
+        )}
+        <Input
+          placeholder="e-mail"
+          bordered
+          value={login.email}
+          fullWidth
+          color={onInputChangeColor('email')}
+          size="lg"
+          type="email"
+          helperColor="error"
+          contentLeft={<Message />}
+          helperText={triggerLoginChecking && isValid.email ? 'Veuillez saisir une adresse e-mail valide' : ''}
+          onChange={(e) => setLogin({ ...login, email: e.target.value })}
+        />
+        {triggerLoginChecking && isValid.email && <Spacer y={0.1} />}
+        <Input
+          placeholder="mot de passe"
+          // visibleIcon={<BsUnlock fill="currentColor" />}
+          // hiddenIcon={<BiLock fill="currentColor" />}
+          value={login.password}
+          bordered
+          fullWidth
+          helperColor='error'
+          helperText={triggerLoginChecking && isValid.password ? 'Votre mot de passe doit contenir au moins 8 caractères' : ''}
+          color={onInputChangeColor('password')}
+          size="lg"
+          type="password"
+          contentLeft={<Lock />}
+          onChange={(e) => setLogin({ ...login, password: e.target.value })}
+        />
+        <Row justify="space-between">
+          <Checkbox>
+            <Text size={14}>
+              Remember me
+            </Text>
+          </Checkbox>
+          <Text size={14}>
+            Mot de passe oublié?
+          </Text>
+        </Row>
+      </Modal.Body>
+      <Modal.Footer>
+        <Button auto type='submit' onClick={onFinish}>
+          Se connecter
+        </Button>
+      </Modal.Footer>
     </>
   );
 }

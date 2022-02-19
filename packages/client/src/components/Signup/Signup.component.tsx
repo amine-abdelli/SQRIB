@@ -1,9 +1,7 @@
 import React, { useState } from 'react';
-import {
-  Button, Divider, FormGroup, InputGroup,
-} from '@blueprintjs/core';
 import { useMutation } from '@apollo/client';
 import { SIGNUP_MUTATION } from '@aqac/api';
+import { Input, Button, Spacer } from '@nextui-org/react';
 
 function Signup() {
   const [submitSignupForm] = useMutation(SIGNUP_MUTATION, {
@@ -11,7 +9,7 @@ function Signup() {
       window.location.reload();
     },
     onError: (error) => {
-      console.log('poke', error);
+      console.log('error', error);
     },
   });
   const [signupForm, setSignupForm] = useState({
@@ -37,51 +35,63 @@ function Signup() {
 
   function onPasswordInputChange() {
     if (signupForm.password.length === 0 && signupForm.retypedPassword.length === 0) {
-      return 'none';
+      return 'primary';
     }
     if ((signupForm.password !== signupForm.retypedPassword)
     && signupForm.password.length > 0 && signupForm.retypedPassword.length > 0) {
-      return 'danger';
+      return 'error';
     }
     if (signupForm.password === signupForm.retypedPassword) {
       return 'success';
     }
-    return 'none';
+    return 'primary';
   }
   return (
     <>
       <h1 style={{ textAlign: 'center' }}>Inscription</h1>
-      <FormGroup>
-        <InputGroup
-          style={{ marginBottom: '10px' }}
-          onChange={(e) => onFormChange(e, 'username')}
-          placeholder="username"
-        />
-        <InputGroup
-          style={{ marginBottom: '10px' }}
-          type="email"
-          onChange={(e) => onFormChange(e, 'email')}
-          placeholder="john.doe@domain.com"
-        />
-        <InputGroup
-          style={{ marginBottom: '10px' }}
-          intent={signupForm.password === signupForm.retypedPassword && signupForm.retypedPassword.length > 8 ? 'success' : 'none'}
-          onChange={(e) => onFormChange(e, 'password')}
-          type="password"
-          placeholder="mot de passe"
-        />
-        <InputGroup
-          style={{ marginBottom: '10px' }}
-          intent={onPasswordInputChange()}
-          onChange={(e) => onFormChange(e, 'retypedPassword')}
-          type="password"
-          placeholder="confirmer mot de passe"
-        />
-        {signupForm.password !== signupForm.retypedPassword && signupForm.retypedPassword.length > 0
+      <Input
+        onChange={(e) => onFormChange(e, 'username')}
+        placeholder="username"
+        fullWidth
+        color="primary"
+        bordered
+        size='lg'
+        type="userName"
+      />
+      <Spacer />
+      <Input
+        type="email"
+        onChange={(e) => onFormChange(e, 'email')}
+        placeholder="john.doe@domain.com"
+        fullWidth
+        color="primary"
+        bordered
+        size='lg'
+      />
+      <Spacer />
+      <Input.Password
+        color={signupForm.password === signupForm.retypedPassword && signupForm.retypedPassword.length > 8 ? 'success' : 'primary'}
+        onChange={(e) => onFormChange(e, 'password')}
+        type="password"
+        placeholder="mot de passe"
+        fullWidth
+        bordered
+        size='lg'
+      />
+      <Spacer />
+      <Input.Password
+        color={onPasswordInputChange()}
+        onChange={(e) => onFormChange(e, 'retypedPassword')}
+        type="password"
+        placeholder="confirmer mot de passe"
+        fullWidth
+        bordered
+        size='lg'
+      />
+      {signupForm.password !== signupForm.retypedPassword && signupForm.retypedPassword.length > 0
         && <span style={{ color: 'red', fontWeight: 'lighter' }}>vos deux mots de passe doivent être identiques</span>}
-        <Divider />
-        <Button onClick={onFormSubmit} fill intent="primary" text="s'inscrire" />
-      </FormGroup>
+      <Spacer />
+      <Button auto style={{ marginLeft: 'auto' }} onClick={onFormSubmit} color="primary">S&apos;inscrire</Button>
     </>
   );
 }

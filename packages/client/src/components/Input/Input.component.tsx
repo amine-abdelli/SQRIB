@@ -1,6 +1,6 @@
-import React, { ChangeEvent, KeyboardEvent, useContext } from 'react';
-import { InputGroup } from '@blueprintjs/core';
+import React, { KeyboardEvent, useContext } from 'react';
 import { useRouter } from 'next/dist/client/router';
+import { Input as MainInput } from '@nextui-org/react';
 import { MainContext } from '../../context/MainContext';
 
 function Input({
@@ -15,10 +15,11 @@ function Input({
   const isDidacticiel = route.pathname === '/didacticiel';
   function onSpacePress(e: KeyboardEvent) {
     if (e.code === 'Space' && userInput) {
-      setComputedWords([...computedWords, isDidacticiel
-        ? didacticielStack[wordIndex]
-        : wordsStack[wordIndex],
-      ]);
+      // setComputedWords([...computedWords, isDidacticiel
+      //   ? didacticielStack[wordIndex]
+      //   : wordsStack[wordIndex],
+      // ]);
+      setComputedWords([...computedWords, userInput]);
 
       /* Check if the word typed in training or didacticiel mode is correct */
       if (userInput === (isDidacticiel ? didacticielStack[wordIndex] : wordsStack[wordIndex])) {
@@ -38,7 +39,6 @@ function Input({
 
       /* If the offset between to span is over 5 px it means that we broke the line and
       we can move the card upward */
-
       if (yNextPosition && (yNextPosition - yFocusedPosition!) > 5) {
         setOffSet(offSet! - ((yNextPosition - yFocusedPosition! - 2)));
       }
@@ -49,14 +49,13 @@ function Input({
     }
   }
   return (
-    <InputGroup
+    <MainInput
       style={{ width: '100%' }}
-      onChange={(e: ChangeEvent<HTMLInputElement>) => setUserInput(e.target.value)}
+      onChange={(e) => setUserInput(e.target.value)}
       value={userInput}
+      fullWidth
       onKeyDown={(event: KeyboardEvent<HTMLInputElement>) => onSpacePress(event)}
-      asyncControl
       disabled={(isTimeOut || gameMode === null) && !userInput}
-      large
       placeholder="Start typing here..."
     />
   );

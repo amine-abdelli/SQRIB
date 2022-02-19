@@ -1,8 +1,6 @@
 .displayer {
-  border   : 1px #d8d8d8 solid;
   width: 100%;
   position : relative;
-  border: 1px black solid;
   font-weight: normal;
   font-size: 1.6rem;
   padding: 1rem;
@@ -10,7 +8,6 @@
   height: 8rem;
   overflow-y: hidden;
   position: relative;
-  background-color: white;
 }
 
 .displayer:after {

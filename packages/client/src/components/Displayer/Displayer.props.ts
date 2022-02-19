@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction } from '../../../models/Main.interfaces';
+import { Dispatch, SetStateAction } from 'react';
 
 export interface DisplayerProps {
   wordsToDisplay: Array<string>,
@@ -7,7 +7,5 @@ export interface DisplayerProps {
   setYFocusedPosition: Dispatch<SetStateAction<number>>
   correctWords: Array<string>,
   fontSize: number,
-  difficulty: string,
-  setDifficulty: any,
-  setShowModeSelection: any
+  setShowModeSelection: Dispatch<SetStateAction<boolean>>
 }

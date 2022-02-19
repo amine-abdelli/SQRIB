@@ -23,6 +23,12 @@ query selfQuery {
       game_mode
       createdAt
     }
+    settings {
+      language
+      fontSize
+      theme
+      sound
+    }
   },
 }
 `;

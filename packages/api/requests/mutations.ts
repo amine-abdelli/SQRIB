@@ -48,6 +48,38 @@ mutation updateLevelMutation($level: Int) {
   updateLevel(level: $level)
 }`;
 
+const UPDATE_SETTINGS_MUTATION = gql`
+mutation updateSettingsMutation($language: String, $fontSize: Int, $theme: Boolean, $sound: Boolean) {
+  updateSettings(language: $language, fontSize: $fontSize, theme: $theme, sound: $sound) {
+    language
+    theme
+    sound
+    fontSize
+  }
+}
+`;
+
+const UPDATE_NICKNAME_MUTATION = gql`
+mutation updateNicknameMutation($nickname: String) {
+  updateNickname(nickname: $nickname)
+}`;
+
+const UPDATE_PASSWORD_MUTATION = gql`
+mutation UpdatePassword($password: String!, $newPassword: String!) {
+  updatePassword(password: $password, newPassword: $newPassword) {
+    message
+  }
+}`;
+
+const DELETE_USER_MUTATION = gql`
+mutation DeleteUser($email: String, $password: String) {
+  deleteUser(email: $email, password: $password) {
+    message
+  }
+}`;
+
 export {
   LOGIN_MUTATION, LOGOUT_MUTATION, SIGNUP_MUTATION, ADD_NEW_SCORE_MUTATION, UPDATE_LEVEL_MUTATION,
+  UPDATE_SETTINGS_MUTATION, UPDATE_NICKNAME_MUTATION,
+  UPDATE_PASSWORD_MUTATION, DELETE_USER_MUTATION,
 };

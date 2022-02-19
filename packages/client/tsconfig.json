@@ -26,7 +26,7 @@
     "sandbox/sandbox.ts",
     "node_modules/@aqac/utils",
     "external.d.ts"
-, "src/sandbox/sandbox.js", "../utils/markov/Markov.ts", "src/components/DidacticielCard/DidacticielCard.component.jsx"  ],
+, "src/sandbox/sandbox.js", "../utils/markov/Markov.ts", "src/components/DidacticielCard/DidacticielCard.component.jsx", "../utils/enums/FontSize.enum.../utils/enums/Language.enum.ts"  ],
   "exclude": [
     "node_modules"
   ]

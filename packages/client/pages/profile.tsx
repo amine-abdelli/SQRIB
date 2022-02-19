@@ -6,7 +6,7 @@ import Empty from '../src/components/Empty/Empty.component';
 import ScoreCard from '../src/components/ScoreCard/ScoreCard.component';
 import { useGetSelf } from '../src/hooks/useGetSelf';
 import { ITheme } from '../styles/theme';
-import { createScoringObject } from '../src/utils/scoring.utils';
+import { createTopScoringObject } from '../src/utils/scoring.utils';
 import Histogram from '../src/components/Histogram/Histogram';
 
 function Profile({ theme }: { theme: ITheme }) {
@@ -19,7 +19,7 @@ function Profile({ theme }: { theme: ITheme }) {
 
   const {
     averageMpm, averagePoints, topMpm, topPoint, latestMpm, latestPoints, precision, totalGame,
-  } = createScoringObject(scores);
+  } = createTopScoringObject(scores);
 
   // * Scores du jour
   // * REFACTO A DONF

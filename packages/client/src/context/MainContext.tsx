@@ -6,8 +6,8 @@ export const MainContext = React.createContext<{
   wordIndex: number,
   isTimeOut: boolean,
   setIsTimeOut: React.Dispatch<React.SetStateAction<boolean>>,
-  startCountDown: boolean,
-  setStartCountDown: React.Dispatch<React.SetStateAction<boolean>>,
+  startTimer: boolean,
+  setStartTimer: React.Dispatch<React.SetStateAction<boolean>>,
   gameMode: any,
   countDown: number,
   wordsStack: Array<string>,
@@ -33,9 +33,10 @@ export const MainContext = React.createContext<{
   setLetterWidth: React.Dispatch<React.SetStateAction<any>>,
   fontSize: number,
   language: string,
-  difficulty: string | undefined,
   setFontSize: React.Dispatch<React.SetStateAction<number>>,
+  setLanguage: React.Dispatch<React.SetStateAction<string>>,
   theme: ITheme,
   setShowModeSelection: React.Dispatch<React.SetStateAction<boolean>>,
-  onRestart: any
+  onRestart: any,
+  setTheme: React.Dispatch<React.SetStateAction<ITheme>>,
     }>({} as any);

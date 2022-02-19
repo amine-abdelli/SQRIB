@@ -9,8 +9,9 @@ export function useGetSelf(options: QueryHookOptions = {}) {
     ...options,
   });
   const scores = data?.self?.scores;
+  const settings = data?.self?.settings;
   const isLoggedIn = Boolean(data?.self.email);
   return {
-    data, scores, isLoggedIn, ...rest,
+    data, scores, settings, isLoggedIn, ...rest,
   };
 }

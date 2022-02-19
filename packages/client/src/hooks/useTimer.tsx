@@ -7,61 +7,70 @@ import { MainContext } from '../context/MainContext';
 
 function useTimer() {
   const {
+    gameMode,
+    startTimer,
+    setStartTimer,
+    countDown,
     setIsTimeOut,
     isTimeOut,
-    gameMode,
-    startCountDown,
-    setStartCountDown,
-    countDown,
   } = useContext(MainContext);
 
   let count = countDown;
+  let timePassed = Date.now();
 
   const [timerMinutes, setTimerMinutes] = useState<number>(Math.floor(count / 60));
   const [timerSeconds, setTimerSeconds] = useState<number>(Math.floor(count % 60));
+  const [, setPassed] = useState<number>(0);
 
   useEffect(() => {
     setTimerMinutes(Math.floor(count / 60));
     setTimerSeconds(Math.floor(count % 60));
-  }, [countDown, gameMode, startCountDown]);
+  }, [countDown, gameMode, startTimer]);
 
   let interval: any = useRef();
 
-  function updateTimerDown(countingValue: number): void {
+  function updateTimerDown(countingValue: number, timePassedShadow: number): void {
     const minutes = Math.floor(count / 60);
     const seconds = Math.floor(count % 60);
     if (isTimeOut || countingValue < 0) {
       clearInterval(interval);
-      setStartCountDown(false);
+      setStartTimer(false);
       setIsTimeOut(true);
     } else {
+      setPassed(timePassedShadow);
       setTimerMinutes(minutes);
       setTimerSeconds(seconds);
     }
   }
 
-  function startTimer() {
+  function triggerTimer() {
     interval = setInterval(() => {
-      if (gameMode === GameMode.ONE) {
+      if (gameMode === GameMode.COUNTDOWN) {
         count -= 1;
       } else {
+        timePassed += 1;
         count += 1;
       }
-      updateTimerDown(count);
+      updateTimerDown(count, timePassed);
     }, 1000);
   }
 
   useEffect(() => {
-    if (startCountDown) {
-      startTimer();
+    if (startTimer) {
+      triggerTimer();
     }
-    updateTimerDown(count);
+    updateTimerDown(count, timePassed);
     return () => {
       clearInterval(interval);
     };
-  }, [startCountDown, isTimeOut]);
+  }, [startTimer, isTimeOut]);
 
-  return formatTimerParameters({ timerMinutes, timerSeconds });
+  return {
+    timer: formatTimerParameters({ timerMinutes, timerSeconds }),
+    isTimeOut,
+    setIsTimeOut,
+    timerSeconds,
+  };
 }
 
 export { useTimer };

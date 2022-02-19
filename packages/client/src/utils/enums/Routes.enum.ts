@@ -4,5 +4,5 @@ export enum Routes {
   MAIN = '/main',
   MULTIGAMING = '/multigaming',
   CHAT = '/chat',
-  FEATURES = '/features',
+  SETTINGS = '/settings',
 }

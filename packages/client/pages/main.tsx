@@ -1,10 +1,9 @@
 import React, {
   useContext, useEffect,
 } from 'react';
-import { Button } from '@blueprintjs/core';
 import { useApolloClient, useMutation } from '@apollo/client';
 import { ADD_NEW_SCORE_MUTATION, SELF_QUERY } from '@aqac/api';
-import { roundNumber } from '@aqac/utils';
+import { Button, Tooltip } from '@nextui-org/react';
 import { Scoring } from '../src/components/Scoring/Scoring.component';
 import { Displayer } from '../src/components/Displayer/Displayer.component';
 import KeyBoard from '../src/components/KeyBoard/KeyBoard.component';
@@ -12,14 +11,15 @@ import { MainContext } from '../src/context/MainContext';
 import DisplayerHeader from '../src/components/DisplayerHeader/DisplayerHeader.component';
 import RefreshButton from '../src/components/Buttons/RefreshButton/RefreshButton.component';
 import Input from '../src/components/Input/Input.component';
+import { createScoringObject } from '../src/utils/scoring.utils';
 
 function Main({ onSpacePress }: { onSpacePress: (e: any) => void }) {
   const { cache } = useApolloClient();
   const {
     userInput,
     isTimeOut,
-    startCountDown,
-    setStartCountDown,
+    startTimer,
+    setStartTimer,
     gameMode,
     setUserInput,
     theme,
@@ -28,8 +28,8 @@ function Main({ onSpacePress }: { onSpacePress: (e: any) => void }) {
   } = useContext(MainContext);
 
   useEffect(() => {
-    if (userInput && startCountDown === false) {
-      setStartCountDown(true);
+    if (userInput && startTimer === false) {
+      setStartTimer(true);
     }
   }, [userInput]);
 
@@ -80,14 +80,9 @@ function Main({ onSpacePress }: { onSpacePress: (e: any) => void }) {
     });
   }
 
-  const wrongWords: number = computedWords.length - correctWords.length;
-  const correctLetters: number = correctWords.join('').length + correctWords.length;
-  const totalLetters: number = computedWords.join('').length + correctWords.length;
-  const wrongLetters: number = totalLetters - correctLetters;
-  const precision: number = roundNumber((correctLetters / totalLetters) * 100, 0) || 0;
-  const wordPerMinute: number = correctLetters / 5;
-  const points: number = roundNumber(correctLetters * (precision / 100), 0);
-  const mpm: number = roundNumber(wordPerMinute, 0);
+  const {
+    wrongWords, correctLetters, totalLetters, points, precision, wrongLetters, mpm,
+  } = createScoringObject(correctWords, computedWords);
 
   return (
     <div style={{
@@ -96,15 +91,15 @@ function Main({ onSpacePress }: { onSpacePress: (e: any) => void }) {
     >
       <DisplayerHeader />
       {gameMode !== null && (
-      <Button
-        outlined
-        style={{
-          position: 'absolute', top: 200, color: theme.secondary, borderColor: theme.secondary,
-        }}
-        onClick={() => setShowModeSelection(true)}
-      >
-        Changer de mode
-      </Button>
+        <Tooltip content="Bientôt disponible">
+          <Button
+            disabled
+            color="warning"
+            onClick={() => setShowModeSelection(true)}
+          >
+            Changer de mode
+          </Button>
+        </Tooltip>
       )}
       <div style={{ display: 'flex', alignItems: 'center', margin: '10px 0' }}>
         <Scoring
@@ -121,8 +116,9 @@ function Main({ onSpacePress }: { onSpacePress: (e: any) => void }) {
           totalLetters={totalLetters}
           correctLetters={correctLetters}
           onSetFinish={onSetFinish}
+          startTimer={startTimer}
         />
-        <RefreshButton disable={!!(computedWords.length && !startCountDown)} />
+        <RefreshButton disable={!!(computedWords.length && !startTimer)} />
       </div>
       <div className="flex justify-center">
         <Displayer wordsStack={wordsStack} />
@@ -136,7 +132,7 @@ function Main({ onSpacePress }: { onSpacePress: (e: any) => void }) {
           isTimeOut={isTimeOut}
         />
       </div>
-      <KeyBoard theme={theme} enable={startCountDown && !isTimeOut} />
+      <KeyBoard theme={theme} enable={startTimer && !isTimeOut} />
     </div>
   );
 }

@@ -9,6 +9,12 @@
     flex-direction: column;
     flex-wrap: wrap;
 
+    .scoreCardWrapper {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+    }
+
     .mpm {
       margin: 0;
       padding: 0;

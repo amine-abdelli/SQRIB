@@ -10,7 +10,8 @@ export interface IStats {
   points: number,
   mpm: number,
   correctWords: string[],
-  onSetFinish: any
-  gameMode: GameMode
-  setShowStatsModal: any
+  onSetFinish: any,
+  gameMode: GameMode,
+  setShowStatsModal: any,
+  typingSpeed: number,
 }

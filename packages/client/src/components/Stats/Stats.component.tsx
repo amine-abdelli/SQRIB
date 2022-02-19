@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
 import Image from 'next/image';
-import { Button, Divider } from '@blueprintjs/core';
+import { Divider } from '@blueprintjs/core';
+import { Button, Text } from '@nextui-org/react';
 import { topValue } from '@aqac/utils';
 import { Colors } from '../../utils/enums';
 import { IStats } from './Stats.props';
@@ -24,9 +25,10 @@ function Stats({
   onSetFinish,
   gameMode,
   setShowStatsModal,
+  typingSpeed,
 }: IStats) {
-  const { onRestart } = useContext(MainContext);
   const { scores, isLoggedIn } = useGetSelf();
+  const { onRestart } = useContext(MainContext);
   const isBestScore = mpm > topValue(scores, 'mpm') && scores?.length > 0;
   const isFirstScore = scores?.length === 0;
   const isNotParticular = !isFirstScore && !isBestScore;
@@ -52,11 +54,10 @@ function Stats({
         display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column',
       }}
       >
-        {isBestScore && <h1 style={{ textAlign: 'center' }}>MEILLEUR SCORE</h1>}
+        {isBestScore && <Text style={{ textAlign: 'center' }}>MEILLEUR SCORE</Text>}
         {isBestScore && <h4 style={{ textAlign: 'center' }}>FELICITATION</h4>}
-        {isFirstScore && <h1 style={{ textAlign: 'center' }}>TON PREMIER SCORE</h1>}
-        {(isNotParticular || !isLoggedIn) && <h1 style={{ textAlign: 'center' }}>NOUVEAU SCORE</h1>}
-
+        {isFirstScore && <Text style={{ textAlign: 'center' }}>TON PREMIER SCORE</Text>}
+        {(isNotParticular || !isLoggedIn) && <Text h2 style={{ textAlign: 'center' }}>NOUVEAU SCORE</Text>}
         <Image
           src={isBestScore || isFirstScore ? Success : star}
           alt="Picture of the author"
@@ -71,16 +72,16 @@ function Stats({
           display: 'flex', justifyContent: 'center', flexDirection: 'column', flexBasis: '100%',
         }}
         >
-          <h1 className={styles.mpm}>
+          <Text h2 className={styles.mpm}>
             {`${mpm} mpm`}
-          </h1>
+          </Text>
           <p className={styles.mpmTranslation}>(mot par minute)</p>
-          <h3 style={{ color: Colors.GREEN, textAlign: 'center' }}>
+          <Text h4 style={{ color: Colors.GREEN, textAlign: 'center' }}>
             {`${points} points`}
-          </h3>
+          </Text>
         </div>
         <Divider />
-        <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center' }}>
+        <div className={styles.scoreCardWrapper}>
           <ScoreCard content={computedWords.length} title="Mots saisies" stat />
           <Divider />
           <ScoreCard content={wrongWords} title="Mots incorrects" malus stat />
@@ -96,9 +97,13 @@ function Stats({
           <ScoreCard content={correctLetters} title="Lettres corrects" bonus stat />
         </div>
         <Divider />
-        <ScoreCard content={`${precision}%`} title="Précision" stat />
+        <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center' }}>
+          <ScoreCard content={`${typingSpeed}`} title="Vitesse moyenne" stat />
+          <Divider />
+          <ScoreCard content={`${precision}%`} title="Précision" stat />
+        </div>
         <Button
-          intent='success'
+          color='success'
           onClick={submitScoreAndRestart}
           style={{
             backgroundColor: 'orange', color: 'white', width: '100%', marginTop: '5px',

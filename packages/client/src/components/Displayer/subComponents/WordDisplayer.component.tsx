@@ -7,14 +7,20 @@ function WordDisplayer({
   setState = () => null, word, className, wordKey, style, fontSize,
 }: IWordDisplayer) {
   return (
-    <div className={styles.overlay}>
+    <div
+      className={styles.overlay}
+      ref={(element: any) => setState(element?.getBoundingClientRect().y)}
+    >
       <div
         className={className}
         key={wordKey}
-        style={{ ...style, display: 'inline' }}
-        ref={(element: any) => setState(element?.getBoundingClientRect().y)}
+        style={{
+          display: 'inline', margin: 0, padding: 0,
+        }}
       >
-        <Text style={{ display: 'inline', margin: 0 }} size={fontSize}>{word}</Text>
+        <Text style={{ ...style, display: 'inline' }} size={fontSize}>
+          {word}
+        </Text>
       </div>
     </div>
   );

@@ -1,9 +1,18 @@
-import React from 'react';
+import { useRouter } from 'next/dist/client/router';
+import React, { useEffect } from 'react';
 
-const index: any = () => (
-  <div>
-    Welcome
-  </div>
-);
+function Home() {
+  const router = useRouter();
+  // Necessary 'cause of the way Next.js handles routes
+  useEffect(() => {
+    if (router.pathname !== '/') router.push('/');
+  }, []);
 
-export default index;
+  return (
+    <div>
+      Welcome
+    </div>
+  );
+}
+
+export default Home;

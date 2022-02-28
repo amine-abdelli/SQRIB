@@ -2,13 +2,15 @@ import { useMutation } from '@apollo/client';
 import React, { useEffect, useState } from 'react';
 import { LOGIN_MUTATION } from '@aqac/api';
 import {
-  Modal, Row, Text, Input, Button, Checkbox, Spacer,
+  Modal, Row, Text, Input, Button, Spacer,
 } from '@nextui-org/react';
 import { emailPolicy } from '@aqac/utils';
 import { Message, Lock } from 'react-iconly';
+import { getLocalStorageLoginItems } from '../../utils/auth.utils';
 
 function Login() {
-  const [login, setLogin] = useState({ email: '', password: '' });
+  const { localStorageEmail, localStoragePassword } = getLocalStorageLoginItems();
+  const [login, setLogin] = useState({ email: localStorageEmail || '', password: localStoragePassword || '' });
   const [isValid, setIsValid] = useState({ email: '', password: '' });
   const [isAuthWrong, setIsAuthWrong] = useState(false);
   const [triggerLoginChecking, setTriggerLoginChecking] = useState(false);
@@ -85,8 +87,6 @@ function Login() {
         {triggerLoginChecking && isValid.email && <Spacer y={0.1} />}
         <Input
           placeholder="mot de passe"
-          // visibleIcon={<BsUnlock fill="currentColor" />}
-          // hiddenIcon={<BiLock fill="currentColor" />}
           value={login.password}
           bordered
           fullWidth
@@ -99,11 +99,6 @@ function Login() {
           onChange={(e) => setLogin({ ...login, password: e.target.value })}
         />
         <Row justify="space-between">
-          <Checkbox>
-            <Text size={14}>
-              Remember me
-            </Text>
-          </Checkbox>
           <Text size={14}>
             Mot de passe oublié?
           </Text>

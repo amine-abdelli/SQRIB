@@ -19,7 +19,6 @@ export async function createContext(context: any) {
     userId = '';
   }
   httpContext.set('userId', userId);
-
   return {
     ...context,
     prisma,

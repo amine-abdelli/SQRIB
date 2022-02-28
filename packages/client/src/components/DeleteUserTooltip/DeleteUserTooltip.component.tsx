@@ -16,7 +16,9 @@ function DeleteUserTooltip({ userDeletionHandler, setIsVisible, email }: any) {
       <Spacer />
       <Text h5>Veuillez saisir votre mot de passe.</Text>
       <Spacer />
-      <div style={{ display: 'flex', justifyContent: 'space-around' }}>
+      <div
+        className='justify-around flex'
+      >
         <Input.Password onChange={(e) => setPassword(e.target.value)} placeholder="Mot de passe" />
         <Button
           color="error"

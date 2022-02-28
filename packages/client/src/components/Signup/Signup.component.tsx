@@ -2,14 +2,18 @@ import React, { useState } from 'react';
 import { useMutation } from '@apollo/client';
 import { SIGNUP_MUTATION } from '@aqac/api';
 import { Input, Button, Spacer } from '@nextui-org/react';
+import { alertService } from '../../../services';
 
 function Signup() {
   const [submitSignupForm] = useMutation(SIGNUP_MUTATION, {
     onCompleted: () => {
-      window.location.reload();
+      alertService.success('Votre compte a bien été créé', { keepAfterRouteChange: true });
+      setTimeout(() => {
+        window.location.reload();
+      }, 2000);
     },
     onError: (error) => {
-      console.log('error', error);
+      alertService.success('Une erreur est survenue lors de la création de votre compte', {});
     },
   });
   const [signupForm, setSignupForm] = useState({
@@ -88,7 +92,7 @@ function Signup() {
         bordered
         size='lg'
       />
-      {signupForm.password !== signupForm.retypedPassword && signupForm.retypedPassword.length > 0
+      {signupForm.password !== signupForm.retypedPassword && signupForm.retypedPassword.length > 6
         && <span style={{ color: 'red', fontWeight: 'lighter' }}>vos deux mots de passe doivent être identiques</span>}
       <Spacer />
       <Button auto style={{ marginLeft: 'auto' }} onClick={onFormSubmit} color="primary">S&apos;inscrire</Button>

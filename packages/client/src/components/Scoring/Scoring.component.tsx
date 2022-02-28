@@ -9,7 +9,7 @@ import useSpeedCalculator from '../../hooks/useSpeedCalculator';
 
 function Scoring({
   isTimeOut, computedWords,
-  theme, correctWords, mpm, wrongWords,
+  correctWords, mpm, wrongWords,
   gameMode, points, precision, wrongLetters, totalLetters, correctLetters, timing, scores,
   onSetFinish, startTimer,
 }: any) {
@@ -40,14 +40,14 @@ function Scoring({
 
   return (
     <>
-      <div className={styles.scoringWrapper} style={{ color: theme?.secondary, borderBottom: `1px ${theme?.secondary} solid` }}>
+      <div className={styles.scoringWrapper} style={{ borderBottom: '1px solid' }}>
         <CountDown />
         <ScoringItem content={`${!isTimeOut ? typingSpeed : 0}mpm`} />
-        <ScoringItem content={`Count ${computedWords.length}`} color={theme.secondary} />
+        <ScoringItem content={`Count ${computedWords.length}`} />
         <ScoringItem content={`+${correctWords.length}`} color={Colors.GREEN} />
         <ScoringItem content={`-${wrongWords}`} color={Colors.RED} />
-        <ScoringItem content={`Précision: ${precision}%`} color={theme.secondary} />
-        <ScoringItem content={`Mpm: ${mpm}`} color={theme.secondary} />
+        <ScoringItem content={`Précision: ${precision}%`} />
+        <ScoringItem content={`Mpm: ${mpm}`} />
         <ScoringItem content={`+${correctLetters}`} color={Colors.GREEN} />
         <ScoringItem content={`-${wrongLetters}`} color={Colors.RED} />
         <ScoringItem content={`Points: ${points}`} color={Colors.GREEN} />

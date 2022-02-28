@@ -10,9 +10,7 @@ export interface IUpdateSettings {
 }
 
 export async function updateSettings(parent: any, args: IUpdateSettings, context: Context) {
-  console.log('updateSettings', typeof args?.theme);
   const updatedSettings = await updateSettingsService(args, context);
-  console.log('updatedSettings', updatedSettings);
   if (!updatedSettings) console.log('Settings could not be updated');
   return updatedSettings;
 }

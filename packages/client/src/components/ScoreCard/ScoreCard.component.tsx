@@ -2,7 +2,6 @@ import React from 'react';
 import { BsStars } from 'react-icons/bs';
 import { IScoreCardProps } from './ScoreCard.props';
 import styles from './ScoreCard.module.scss';
-import { Colors } from '../../utils/enums';
 
 function borderColor(highlight: boolean | undefined, best: boolean | undefined) {
   if (highlight) {
@@ -13,17 +12,8 @@ function borderColor(highlight: boolean | undefined, best: boolean | undefined) 
   return '#34343490';
 }
 
-function generateBonusMalusColor(bonus: boolean | undefined, malus: boolean | undefined) {
-  if (bonus) {
-    return Colors.GREEN;
-  } if (malus) {
-    return Colors.RED;
-  }
-  return '#343434';
-}
-
 function ScoreCard({
-  content, title, highlight, best, unit = '', stat, bonus, malus,
+  content, title, highlight, best, unit = '', stat,
 }: IScoreCardProps) {
   return (
     <div
@@ -40,7 +30,7 @@ function ScoreCard({
         {best && <BsStars style={{ marginRight: '3px' }} color='gold' size={20} />}
         {title.toUpperCase()}
       </span>
-      <span style={{ color: generateBonusMalusColor(bonus, malus) }} className={styles.cardContent}>{`${content} ${unit}`}</span>
+      <span className={styles.cardContent}>{`${content} ${unit}`}</span>
     </div>
   );
 }

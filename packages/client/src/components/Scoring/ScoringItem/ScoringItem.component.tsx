@@ -1,5 +1,4 @@
 import React from 'react';
-import { Colors } from '../../../utils/enums/Colors.enum';
 import '../Scoring.module.scss';
 
 interface IScoreItemProps {
@@ -15,7 +14,7 @@ function ScoringItem({ content, color }: IScoreItemProps) {
 }
 
 ScoringItem.defaultProps = {
-  color: Colors.BLACK,
+  color: 'inherit',
 };
 
 export default ScoringItem;

@@ -1,41 +1,35 @@
-import { Divider, Spinner } from '@blueprintjs/core';
+import { Spinner } from '@blueprintjs/core';
 import React from 'react';
 import Calendar from '../src/components/Calendar/Calendar.component';
 import Chart from '../src/components/Chart/Chart.component';
-import Empty from '../src/components/Empty/Empty.component';
 import ScoreCard from '../src/components/ScoreCard/ScoreCard.component';
 import { useGetSelf } from '../src/hooks/useGetSelf';
 import { ITheme } from '../styles/theme';
 import { createTopScoringObject } from '../src/utils/scoring.utils';
-import Histogram from '../src/components/Histogram/Histogram';
+import Empty from '../src/components/Empty/Empty.component';
+import withAuth from '../src/components/withAuth/withAuth.hoc';
 
 function Profile({ theme }: { theme: ITheme }) {
   const { scores, loading } = useGetSelf();
   if (loading) return <Spinner />;
-
-  const newScores = [...scores].sort(
+  const sortedScores = [...scores].sort(
     (a: any, b: any) => Date.parse(a.createdAt) - Date.parse(b.createdAt),
   );
 
   const {
     averageMpm, averagePoints, topMpm, topPoint, latestMpm, latestPoints, precision, totalGame,
-  } = createTopScoringObject(scores);
+  } = createTopScoringObject(sortedScores);
 
-  // * Scores du jour
   // * REFACTO A DONF
   // * TYPER any
   // * Générer type API-CLIENT à réutiliser partout dans l'appli
 
   return (
-    <div style={{
-      display: 'flex', flexDirection: 'column',
-    }}
-    >
-      <h1 style={{ textAlign: 'center' }}>STATISTIQUE</h1>
-      <Divider style={{ margin: 0 }} />
-      <div style={{
-        width: '100%', height: '100%', display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between', marginBottom: '20px',
-      }}
+    <div className="flex flex-column">
+      <h1 className='text-center'>STATISTIQUE</h1>
+      <hr style={{ borderBottom: '1px solid' }} />
+      <div
+        className='h100 w100 flex justify-between flex-wrap-wrap mb20'
       >
         <ScoreCard content={totalGame} title="Parties jouées" highlight />
         <ScoreCard content={averageMpm} title="Moyenne (mpm)" unit="mpm" />
@@ -53,12 +47,11 @@ function Profile({ theme }: { theme: ITheme }) {
           : (
             <>
               <Chart
-                scores={newScores}
+                scores={sortedScores}
                 topMpm={topMpm}
               />
-              <Histogram />
               <Calendar
-                scores={newScores}
+                scores={sortedScores}
                 theme={theme}
               />
             </>
@@ -68,4 +61,4 @@ function Profile({ theme }: { theme: ITheme }) {
   );
 }
 
-export default Profile;
+export default withAuth(Profile);

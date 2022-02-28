@@ -2,9 +2,11 @@
 import React from 'react';
 import { ResponsiveCalendar } from '@nivo/calendar';
 import _ from 'lodash';
-import { formatDate, formatDateToCalendar, topValue } from '@aqac/utils';
 import {
-  Divider, Tab, Tabs,
+  calendarColors, formatDate, formatDateToCalendar, topValue,
+} from '@aqac/utils';
+import {
+  Tab, Tabs,
 } from '@blueprintjs/core';
 import { ITheme } from '../../../styles/theme';
 
@@ -29,7 +31,7 @@ function Calendar({ scores, theme }: { scores: any, theme: ITheme }) {
   return (
     <div>
       <h1 style={{ textAlign: 'center', margin: 0 }}>CALENDRIER</h1>
-      <Divider style={{ margin: 0 }} />
+      <hr style={{ border: '1px solid' }} />
       <Tabs id="calendarid" key="calendar" animate defaultSelectedTabId={hahaha.at(-1)}>
         {hahaha.map((a: string) => (
           <Tab
@@ -42,10 +44,8 @@ function Calendar({ scores, theme }: { scores: any, theme: ITheme }) {
                   data={wesh}
                   from={`${a}-01-01`}
                   to={`${a}-12-31`}
-                  // minValue={0}
-                  // maxValue={100}
-                  emptyColor="#eeeeee"
-                  colors={['#d8f3dc', '#b7e4c7', '#95d5b2', '#74c69d', '#52b788', '#40916c', '#2d6a4f', '#1b4332']}
+                  emptyColor={theme.primary}
+                  colors={calendarColors}
                   monthBorderWidth={1}
                   monthSpacing={5}
                   monthBorderColor={theme.tertiary}

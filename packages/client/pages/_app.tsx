@@ -19,6 +19,7 @@ import { GameOptions } from '../src/utils/mode';
 import { GameMode } from '../src/utils/enums/Mode.enum';
 import { MainContext } from '../src/context/MainContext';
 import { client } from '../client';
+import { Alert } from '../src/components/Alert/Alert.component';
 
 function MyApp({ Component, pageProps }: AppProps) {
   const [theme, setTheme] = useState<ITheme>(themes.LIGHT);
@@ -77,15 +78,12 @@ function MyApp({ Component, pageProps }: AppProps) {
   return (
     <ApolloProvider client={client}>
       <Layout theme={theme}>
-        <Nav
-          setTheme={setTheme}
-          theme={theme}
-          startTimer={startTimer}
-        />
-        <div style={{ display: 'flex' }}>
-          <SideBar position={Position.LEFT} theme={theme} />
+        <Alert />
+        <Nav />
+        <div className='flex'>
+          <SideBar position={Position.LEFT} />
           <div className={styles.componentWrapper}>
-            <div style={{ justifyContent: 'center', display: 'flex', height: '100%' }}>
+            <div className='flex justify-center h100'>
               <MainContext.Provider value={MainContextProps}>
                 <NextUIProvider>
                   <Component theme={theme} {...pageProps} />
@@ -97,22 +95,9 @@ function MyApp({ Component, pageProps }: AppProps) {
             setLanguage={setLanguage}
             position={Position.RIGHT}
             setFontSize={setFontSize}
-            setTheme={setTheme}
-            theme={theme}
           />
         </div>
       </Layout>
-      {/* Selection mode modal */}
-      {/* <Modal
-        showModeSelection={showModeSelection}
-        setShowModeSelection={setShowModeSelection}
-        content={(
-          <ModeSelection
-            onGameModeSelection={onGameModeSelection}
-            theme={theme}
-          />
-        )}
-      /> */}
     </ApolloProvider>
   );
 }

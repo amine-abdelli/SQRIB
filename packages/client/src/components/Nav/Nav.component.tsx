@@ -11,16 +11,13 @@ import { Routes } from '../../utils/enums';
 import Login from '../Login/Login.component';
 import Signup from '../Signup/Signup.component';
 import styles from './Nav.module.scss';
-import { INav } from './Nav.props';
 
 enum ModalType {
   LOGIN = 'login',
   SIGNUP = 'signup',
 }
 
-function Nav({
-  theme,
-}: INav) {
+function Nav() {
   const router = useRouter();
   const [submitLogout] = useMutation(LOGOUT_MUTATION, {
     onCompleted: () => {
@@ -47,7 +44,7 @@ function Nav({
     <div className={styles.navbarContainer}>
       <div
         className={styles.navbarContent}
-        style={{ color: theme?.secondary, borderBottom: `1px ${theme?.secondary} solid` }}
+        style={{ borderBottom: '1px solid' }}
       >
         にぎやか
       </div>
@@ -72,7 +69,7 @@ function Nav({
                 </Button.Group>
                 <Modal
                   closeButton
-                  style={{ padding: '2rem' }}
+                  className='p2r'
                   open={shouldOpenModal}
                   onClose={() => setShouldOpenModal(false)}
                   blur
@@ -85,10 +82,12 @@ function Nav({
 
         </div>
         )}
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-          <h2 style={{ marginBottom: 0, color: theme.secondary }}>{data?.self?.nickname}</h2>
-          <Tooltip trigger='click' hideArrow placement='bottom' content={<Button bordered auto color='error' icon={<Logout />} onClick={() => submitLogout()} />}>
-            <Avatar style={{ cursor: 'pointer', marginLeft: '5px' }} size="md" squared src="https://picsum.photos/200" color="success" bordered />
+        <div
+          className='flex align-center justify-center'
+        >
+          <h2 style={{ marginBottom: 0 }}>{data?.self?.nickname}</h2>
+          <Tooltip hidden={!isLoggedIn} trigger='click' hideArrow placement='bottom' content={<Button bordered auto color='error' icon={<Logout />} onClick={() => submitLogout()} />}>
+            <Avatar className='pointer ml5' size="md" squared src="https://picsum.photos/200" color="success" bordered />
           </Tooltip>
         </div>
       </div>

@@ -1,13 +1,16 @@
 @import "~normalize.css";
 @import "~@blueprintjs/core/lib/css/blueprint.css";
 @import "~@blueprintjs/icons/lib/css/blueprint-icons.css";
-@import url('https://fonts.googleapis.com/css2?family=Indie+Flower&family=Montserrat&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Indie+Flower&family=Montserrat&display=swap");
 @import "../sass/abstracts/variables";
+@import "../sass/abstracts/utils";
 @import "~@blueprintjs/popover2/lib/css/blueprint-popover2.css";
 @import "~antd/dist/antd.css";
+@import "./abstracts/alert";
+
 @font-face {
-  font-family: 'AvenirNextLTPro-Regular';
-  src: url('../fonts/avenir/AvenirNextLTPro-Regular.otf') format('truetype');
+  font-family: "AvenirNextLTPro-Regular";
+  src: url("../fonts/avenir/AvenirNextLTPro-Regular.otf") format("truetype");
   font-weight: normal;
   font-style: normal;
 }
@@ -15,8 +18,8 @@
 html,
 body {
   position: relative;
-  background-color:  #dfdad2;
-  font-family: 'AvenirNextLTPro-Regular', 'Montserrat', 'Indie Flower', cursive, sans-serif;
+  background-color: #dfdad2;
+  font-family: "AvenirNextLTPro-Regular", "Montserrat", "Indie Flower", cursive, sans-serif;
 }
 
 a {
@@ -28,4 +31,21 @@ a {
   box-sizing: border-box;
   padding: 0;
   margin: 0;
+}
+
+hr {
+  border: 1px solid;
+}
+
+
+.darkTheme {
+  z-index: 9999;
+  background-color: #343434;
+  color: #dfdad2;
+}
+
+.lightTheme {
+  z-index: 9999;
+  background-color: #dfdad2;
+  color: #343434;
 }

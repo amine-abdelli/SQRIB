@@ -1,4 +1,10 @@
 .chartTooltip {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: white;
   border: 0px solid white;
+  padding: 5px;
+  border-radius: 5px;
   transition: all 0.2s ease-in-out;
 }

@@ -1,8 +1,8 @@
 import React from 'react';
 import { ResponsiveLine } from '@nivo/line';
 import { topValue } from '@aqac/utils';
-import { Divider } from '@blueprintjs/core';
 import { BsStars } from 'react-icons/bs';
+import { Text } from '@nextui-org/react';
 import styles from './Chart.module.scss';
 
 function Chart({ scores, topMpm }: { scores: any, topMpm: number }) {
@@ -17,7 +17,7 @@ function Chart({ scores, topMpm }: { scores: any, topMpm: number }) {
   return (
     <div style={{ height: '200px', marginBottom: '80px' }}>
       <h1 style={{ textAlign: 'center' }}>PROGRESSION</h1>
-      <Divider style={{ margin: 0 }} />
+      <hr style={{ borderBottom: '1px solid' }} />
       <ResponsiveLine
         data={dataChart}
         curve="monotoneX"
@@ -60,21 +60,15 @@ function Chart({ scores, topMpm }: { scores: any, topMpm: number }) {
         pointSize={0}
         // eslint-disable-next-line react/no-unstable-nested-components
         tooltip={({ point }: any) => (
-          <p
+          <Text
             className={styles.chartTooltip}
             style={{
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center',
-              backgroundColor: 'white',
               border: `3px solid ${point.data.y === topMpm ? 'gold' : 'white'}`,
-              padding: '5px',
-              borderRadius: '5px',
             }}
           >
             {point.data.y === topMpm && <BsStars style={{ marginRight: '3px' }} color='gold' />}
             {`${point.data.y} mpm`}
-          </p>
+          </Text>
         )}
       />
     </div>

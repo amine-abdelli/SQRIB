@@ -1,17 +1,18 @@
 import { Icon } from '@blueprintjs/core';
+import { Text } from '@nextui-org/react';
 import React from 'react';
 import styles from '../SideBar.module.scss';
 import { ISideBarButton } from './SideBarButton.props';
 
 function SideBarButton({
-  text, onClick, icon, themeColor,
+  text, onClick, icon,
 }: ISideBarButton) {
   return (
     // eslint-disable-next-line jsx-a11y/click-events-have-key-events
     <div className={styles.sideBarButton} onClick={onClick}>
       <li>
-        <Icon style={{ color: themeColor, paddingRight: '5px' }} icon={icon} />
-        <span style={{ fontSize: '18px' }}>{text}</span>
+        <Icon style={{ paddingRight: '5px' }} icon={icon} />
+        <Text size={18} color='inherit'>{text}</Text>
       </li>
     </div>
   );

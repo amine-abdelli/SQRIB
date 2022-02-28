@@ -3,7 +3,7 @@ import {
   SELF_QUERY, UPDATE_SETTINGS_MUTATION, UPDATE_NICKNAME_MUTATION, UPDATE_PASSWORD_MUTATION,
   DELETE_USER_MUTATION,
 } from '@aqac/api';
-import { languages } from '@aqac/utils';
+import { fontSizes, languages } from '@aqac/utils';
 import {
   Button, Checkbox, Container, Input, Spacer, Switch, Text, Tooltip,
 } from '@nextui-org/react';
@@ -21,8 +21,7 @@ import { Routes } from '../src/utils/enums';
 import styles from '../styles/sass/pages/_settings.module.scss';
 import { themes } from '../styles/theme';
 import WithAuth from '../src/components/withAuth/withAuth.hoc';
-
-const fontSizes = [24, 30, 36, 48, 60];
+import { alertService } from '../services';
 
 interface ISettingsProps {
   language: string;
@@ -33,7 +32,7 @@ interface ISettingsProps {
 
 // ! TODO: Refactor cache update into one function
 function Settings() {
-  const { data } = useGetSelf();
+  const { data, loading } = useGetSelf();
   const { cache } = useApolloClient();
   const router = useRouter();
   const selfSettings = data?.self.settings;
@@ -41,6 +40,7 @@ function Settings() {
   const [updateNickname] = useMutation(UPDATE_NICKNAME_MUTATION, {
     onCompleted: (payload) => {
       setNewNickname('');
+      alertService.success('Votre pseudo a bien été modifié', {});
       const result = cache.readQuery<any, void>({ query: SELF_QUERY });
       const self = result?.self;
       cache.writeQuery({
@@ -53,19 +53,27 @@ function Settings() {
         },
       });
     },
+    onError: () => alertService.error('Une erreur est survenue lors de la modification de votre pseudo', {}),
+
   });
   const [passwordUpdateHandler] = useMutation(UPDATE_PASSWORD_MUTATION, {
-    onCompleted: () => setUpdatePasswordParams({
-      actualPassword: '',
-      newPassword: '',
-      newPasswordConfirmation: '',
-    }),
+    onCompleted: () => {
+      alertService.success('Votre mot de passe a bien été modifié', {});
+      setUpdatePasswordParams({
+        actualPassword: '',
+        newPassword: '',
+        newPasswordConfirmation: '',
+      });
+    },
+    onError: () => alertService.error('Une erreur est survenue lors de la modification de votre mot de passe', {}),
   });
 
   const [userDeletionHandler] = useMutation(DELETE_USER_MUTATION, {
     onCompleted: () => {
+      alertService.success('Votre compte a bien été supprimé', {});
       router.push(Routes.MAIN);
     },
+    onError: () => alertService.error('Une erreur est survenue lors de la suppression de votre compte', {}),
   });
 
   const [updateSettings] = useMutation(
@@ -117,7 +125,6 @@ function Settings() {
     setFontSize(fontSizeSelected);
     setLanguage(languageSelected);
     setTheme(darkMode ? themes.LIGHT : themes.DARK);
-    // setSound(isSoundActive);
     updateSettings({ variables: { ...settings } });
   }, [languageSelected, fontSizeSelected, darkMode, isSoundActive]);
 
@@ -136,12 +143,13 @@ function Settings() {
       });
     }
   }
+  if (loading) <p>LOL</p>;
   return (
-    <div style={{ display: 'flex', flexDirection: 'column' }}>
-      <Text h2>Général</Text>
+    <div className='flex flex-column'>
+      <Text color='inherit' h2>Général</Text>
       <Container>
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-          <Text h3>Langues</Text>
+        <div className='flex align-center justify-between'>
+          <Text color='inherit' h3>Langues</Text>
           <Button.Group bordered>
             {languages.map(({ flag, country }) => (
               <Button
@@ -154,8 +162,10 @@ function Settings() {
             ))}
           </Button.Group>
         </div>
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-          <Text h3>Taille de police</Text>
+        <div
+          className='flex align-center justify-between'
+        >
+          <Text color='inherit' h3>Taille de police</Text>
           <Button.Group bordered>
             {fontSizes.map((fontSize: number) => (
               <Button
@@ -165,15 +175,18 @@ function Settings() {
               >
                 <Tooltip
                   content={<Text size={fontSize}>Lorem ipsum ...</Text>}
+                  hideArrow
                 >
-                  <Text size={fontSize}>A</Text>
+                  <Text color='inherit' size={fontSize}>A</Text>
                 </Tooltip>
               </Button>
             ))}
           </Button.Group>
         </div>
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-          <Text h3>Sons</Text>
+        <div
+          className='flex align-center justify-between inherit-color'
+        >
+          <Text color='inherit' h3>Sons</Text>
           <Checkbox
             checked={selfSettings?.sound}
             onChange={(e) => onSettingParameterSelection(e.target.checked, setIsSoundActive)}
@@ -181,29 +194,33 @@ function Settings() {
             Activez les sons
           </Checkbox>
         </div>
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-          <Text h3>Thème</Text>
+        <div
+          className='flex align-center justify-between'
+        >
+          <Text color='inherit' h3>Thème</Text>
           <Switch
             checked={Boolean(selfSettings?.theme)}
             onChange={(e) => onSettingParameterSelection(e.target.checked, setDarkMode)}
             size="xl"
-            iconOn={<BiMoon />}
-            iconOff={<BiSun />}
+            iconOn={<BiSun />}
+            iconOff={<BiMoon />}
           />
         </div>
       </Container>
       <Spacer y={2} />
-      <Text h2>Mon compte</Text>
+      <Text color='inherit' h2>Mon compte</Text>
       <Spacer />
       <Container>
-        <Text h4>
+        <Text color='inherit' h4>
           Modifier mon pseudo
         </Text>
         <div style={{ justifyContent: 'space-between' }} className={styles.inputGroup}>
           <Input value={newNickname} onChange={(e) => setNewNickname(e.target.value)} placeholder="Nouveau pseudonyme" />
           <Button
             onClick={() => {
-              updateNickname({ variables: { nickname: newNickname } });
+              if (newNickname && newNickname.length >= 4) {
+                updateNickname({ variables: { nickname: newNickname } });
+              }
             }}
             auto
           >
@@ -213,7 +230,7 @@ function Settings() {
       </Container>
       <Spacer />
       <Container>
-        <Text h4>
+        <Text color='inherit' h4>
           Modifier mon mot de passe
         </Text>
         <div className={styles.inputGroup}>
@@ -225,12 +242,11 @@ function Settings() {
       </Container>
       <Spacer />
       <Container>
-        <Text h4>Supprimer mon compte</Text>
-        <div style={{
-          display: 'flex', justifyContent: 'space-between', alignItems: 'center',
-        }}
+        <Text color='inherit' h4>Supprimer mon compte</Text>
+        <div
+          className='flex justify-between align-center'
         >
-          <Text>
+          <Text color='inherit'>
             Si vous supprimez votre compte, il n&apos;y a pas de retour en arrière possible.
           </Text>
           <Tooltip
@@ -245,7 +261,7 @@ function Settings() {
               />
             )}
           >
-            <Button onClick={() => setIsUserDeletionTooltipVisible(true)} auto style={{ marginLeft: '1rem' }} ghost color="error">
+            <Button onClick={() => setIsUserDeletionTooltipVisible(true)} auto ghost color="error">
               <Delete />
             </Button>
           </Tooltip>

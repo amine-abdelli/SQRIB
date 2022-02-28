@@ -7,8 +7,8 @@ import {
 } from '@apollo/client';
 import { alphabet, DEFAULT_LEVEL } from '@aqac/utils';
 import { DIDACTICIEL_WORDSET_QUERY, SELF_QUERY, UPDATE_LEVEL_MUTATION } from '@aqac/api';
-import { Button } from '@blueprintjs/core';
-import { BiReset } from 'react-icons/bi';
+import { Button, Spacer } from '@nextui-org/react';
+import { ArrowLeftSquare } from 'react-iconly';
 import { Displayer } from '../src/components/Displayer/Displayer.component';
 import Input from '../src/components/Input/Input.component';
 import ProgressionCards from '../src/components/ProgressionCards/ProgressionCards.component';
@@ -36,12 +36,21 @@ function Didacticiel() {
     },
   });
   const [fetchOneSetByLetter,
-    { data: wordSet, loading }] = useLazyQuery(DIDACTICIEL_WORDSET_QUERY);
+    { data: wordSet, loading }] = useLazyQuery(DIDACTICIEL_WORDSET_QUERY, {
+    onCompleted: ({ findOneSet }) => {
+      cache.writeQuery({
+        query: DIDACTICIEL_WORDSET_QUERY,
+        data: {
+          findOneSet,
+        },
+      });
+    },
+  });
   const [markovChain, setMarkovChain] = useState<string[]>();
-  const level = data?.self.didacticiel_level;
+  const level = data?.self.didacticiel_level || DEFAULT_LEVEL;
   const {
     userInput, setUserInput, correctWords, setCorrectWords, setOffSet, setYFocusedPosition,
-    setWordIndex, theme, startTimer, isTimeOut, setStartTimer,
+    setWordIndex, theme, startTimer, isTimeOut, setStartTimer, setComputedWords,
   } = useContext(MainContext);
 
   useEffect(() => {
@@ -57,7 +66,8 @@ function Didacticiel() {
       fetchOneSetByLetter({ variables: { letter: alphabet[level + 1] } });
     }
 
-    if (correctWords.length === 60) {
+    if (correctWords.length === 15) {
+      setComputedWords([]);
       setCorrectWords([]);
       setOffSet(0);
       setWordIndex(0);
@@ -78,18 +88,15 @@ function Didacticiel() {
   return (
     <div>
       <h1>Didacticiel</h1>
-      <p style={{ margin: 0 }}>
-        Vitesse de frappe :
+      <p className='m0'>
+        Vitesse moyenne de frappe :
         {` ${typingSpeed}mpm`}
       </p>
-      <div style={{ width: '100%', display: 'flex', justifyContent: 'space-between' }}>
+      <div className='w100 flex justify-between'>
         <ProgressionCards level={level} />
         <Button
-          minimal
-          style={{
-            borderRadius: '10px', padding: '0px', width: '35px', height: '35px',
-          }}
-          icon={<BiReset size={25} />}
+          auto
+          icon={<ArrowLeftSquare />}
           onClick={() => {
             if (data.self.didacticiel_level !== DEFAULT_LEVEL) {
               updateLevel({ variables: { level: DEFAULT_LEVEL } });
@@ -98,11 +105,13 @@ function Didacticiel() {
         />
       </div>
       <Displayer wordsStack={markovChain || []} />
+      <Spacer />
       <Input
         didacticielStack={markovChain}
         setUserInput={setUserInput}
         userInput={userInput}
       />
+      <Spacer />
       <KeyBoard theme={theme} enable />
     </div>
   );

@@ -3,7 +3,6 @@ import React, {
 } from 'react';
 import { useApolloClient, useMutation } from '@apollo/client';
 import { ADD_NEW_SCORE_MUTATION, SELF_QUERY } from '@aqac/api';
-import { Button, Tooltip } from '@nextui-org/react';
 import { Scoring } from '../src/components/Scoring/Scoring.component';
 import { Displayer } from '../src/components/Displayer/Displayer.component';
 import KeyBoard from '../src/components/KeyBoard/KeyBoard.component';
@@ -12,6 +11,7 @@ import DisplayerHeader from '../src/components/DisplayerHeader/DisplayerHeader.c
 import RefreshButton from '../src/components/Buttons/RefreshButton/RefreshButton.component';
 import Input from '../src/components/Input/Input.component';
 import { createScoringObject } from '../src/utils/scoring.utils';
+import { alertService } from '../services';
 
 function Main({ onSpacePress }: { onSpacePress: (e: any) => void }) {
   const { cache } = useApolloClient();
@@ -23,7 +23,6 @@ function Main({ onSpacePress }: { onSpacePress: (e: any) => void }) {
     gameMode,
     setUserInput,
     theme,
-    setShowModeSelection,
     wordsStack,
   } = useContext(MainContext);
 
@@ -37,6 +36,9 @@ function Main({ onSpacePress }: { onSpacePress: (e: any) => void }) {
     onCompleted: (data) => {
       const result = cache.readQuery<any, void>({ query: SELF_QUERY });
       const self = result?.self;
+      alertService.success('Score sauvegardé !', {});
+      // const cachedValue = [...self.scores, data.addScoring];
+      // UseCacheUpdate(SELF_QUERY, 'scores', cachedValue, ...self);
       cache.writeQuery({
         query: SELF_QUERY,
         data: {
@@ -47,7 +49,10 @@ function Main({ onSpacePress }: { onSpacePress: (e: any) => void }) {
         },
       });
     },
-    onError: () => console.log('Score failed'),
+    onError: () => {
+      alertService.error('Une erreur est survenue lors de la sauvegarde de votre score', {});
+      console.log('Score failed');
+    },
   });
 
   const {
@@ -85,27 +90,31 @@ function Main({ onSpacePress }: { onSpacePress: (e: any) => void }) {
   } = createScoringObject(correctWords, computedWords);
 
   return (
-    <div style={{
-      width: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'space-between',
-    }}
+    <div
+      className='w100 flex flex-column justify-between'
     >
       <DisplayerHeader />
-      {gameMode !== null && (
-        <Tooltip content="Bientôt disponible">
-          <Button
-            disabled
-            color="warning"
-            onClick={() => setShowModeSelection(true)}
-          >
-            Changer de mode
-          </Button>
-        </Tooltip>
-      )}
-      <div style={{ display: 'flex', alignItems: 'center', margin: '10px 0' }}>
+      {/* <div>
+          {gameMode !== null && (
+          <Tooltip content="Bientôt disponible">
+            <Button
+              disabled
+              color="warning"
+              onClick={() => setShowModeSelection(true)}
+            >
+              Changer de mode
+            </Button>
+          </Tooltip>
+          )}
+        </div> */}
+      {/* <Button onClick={() => alertService.success('Success!!', {})}>Diantres</Button> */}
+      <div
+        className='flex align-center'
+        style={{ margin: '10px 0' }}
+      >
         <Scoring
           isTimeOut={isTimeOut}
           computedWords={computedWords}
-          theme={theme}
           correctWords={correctWords}
           mpm={mpm}
           wrongWords={wrongWords}

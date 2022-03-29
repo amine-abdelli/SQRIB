@@ -1,5 +1,5 @@
-import { Spinner } from '@blueprintjs/core';
 import React from 'react';
+import { Spinner } from '@nextui-org/react';
 import Calendar from '../src/components/Calendar/Calendar.component';
 import Chart from '../src/components/Chart/Chart.component';
 import ScoreCard from '../src/components/ScoreCard/ScoreCard.component';

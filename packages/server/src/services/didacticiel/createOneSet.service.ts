@@ -10,7 +10,6 @@ export async function createOneSetService(args: ICreateOneSet, context: Context)
     do {
       const generatedChain = markovChainGenerator(args.level + 1);
       wordSet.push(...generatedChain);
-      console.log(wordSet);
     } while (wordSet.length < 1000);
 
     const set = await createOneSet({

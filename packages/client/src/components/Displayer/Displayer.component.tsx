@@ -16,7 +16,7 @@ import WordDisplayer from './subComponents/WordDisplayer.component';
 function Displayer(
   { wordsStack }: { wordsStack: string[] },
 ) {
-  const isDidacticiel = useRouter().pathname === Routes.DIDACTICIEL;
+  const isMain = useRouter().pathname === Routes.MAIN;
   const { data } = useGetSelf();
   const fontSize = data?.self.settings?.fontSize || FontSizes.LARGE;
   const {
@@ -33,38 +33,47 @@ function Displayer(
 
     if (i === wordIndex) {
       return (
-        <WordDisplayer
-          className={styles.wordFocus}
-          style={{ color: Colors.GREY }}
-          key={`${word + i}`}
-          setState={setYFocusedPosition}
-          word={splitStringToSpans(word, userInput)}
-          fontSize={fontSize}
-        />
+        <>
+          {' '}
+          <WordDisplayer
+            className={styles.wordFocus}
+            style={{ color: Colors.GREY }}
+            key={`${word + i}`}
+            setState={setYFocusedPosition}
+            word={splitStringToSpans(word, userInput)}
+            fontSize={fontSize}
+          />
+        </>
       );
     }
     if (i === wordIndex + 1) {
       return (
-        <WordDisplayer
-          style={{ color: Colors.GREY }}
-          key={`${word + i}`}
-          setState={setYNextPosition}
-          word={` ${word} `}
-          fontSize={fontSize}
-        />
+        <>
+          {' '}
+          <WordDisplayer
+            style={{ color: Colors.GREY }}
+            key={`${word + i}`}
+            setState={setYNextPosition}
+            word={` ${word} `}
+            fontSize={fontSize}
+          />
+        </>
       );
     }
     if (i < wordIndex) {
       return (
-        <WordDisplayer
-          style={{
-            textDecoration: isWordPassed && (wordsStack[i] !== computedWords[i]) ? 'underline red' : '',
-          }}
-          setState={() => null}
-          key={`${word + i}`}
-          word={splitStringToSpans(wordsStack[i], computedWords[i])}
-          fontSize={fontSize}
-        />
+        <>
+          {' '}
+          <WordDisplayer
+            style={{
+              textDecoration: isWordPassed && (wordsStack[i] !== computedWords[i]) ? 'underline red' : '',
+            }}
+            setState={() => null}
+            key={`${word + i}`}
+            word={splitStringToSpans(wordsStack[i], computedWords[i])}
+            fontSize={fontSize}
+          />
+        </>
       );
     }
     return (
@@ -80,7 +89,7 @@ function Displayer(
       </>
     );
   });
-  const isOverlayTriggered = !isDidacticiel ? !startTimer : false;
+  const isOverlayTriggered = isMain ? !startTimer : false;
   return (
     <div style={{ margin: 0, padding: 0 }}>
       <Card>

@@ -50,12 +50,13 @@ function Input({
   }
   return (
     <MainInput
+      aria-label='formulaire de saisie principal'
       style={{ width: '100%' }}
       onChange={(e) => setUserInput(e.target.value)}
       value={userInput}
       fullWidth
       onKeyDown={(event: KeyboardEvent<HTMLInputElement>) => onSpacePress(event)}
-      disabled={(isTimeOut || gameMode === null) && !userInput}
+      disabled={((isTimeOut) && !userInput)}
       placeholder="Start typing here..."
     />
   );

@@ -60,13 +60,12 @@ function Didacticiel() {
     }
   }, [loading, level]);
 
-  // ! TOO MUCH REFETCH MUST BE
   useEffect(() => {
     if ((correctWords.length >= 2) && (level < alphabet.length - 1)) {
       fetchOneSetByLetter({ variables: { letter: alphabet[level + 1] } });
     }
 
-    if (correctWords.length === 15) {
+    if (correctWords.length === 100) {
       setComputedWords([]);
       setCorrectWords([]);
       setOffSet(0);
@@ -92,7 +91,7 @@ function Didacticiel() {
         Vitesse moyenne de frappe :
         {` ${typingSpeed}mpm`}
       </p>
-      <div className='w100 flex justify-between'>
+      <div className='w100 flex justify-between mb10'>
         <ProgressionCards level={level} />
         <Button
           auto

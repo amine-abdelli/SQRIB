@@ -8,6 +8,9 @@ import {
 const httpLink = createHttpLink({
   uri: 'http://localhost:4000/graphql',
   credentials: 'include',
+  cors: {
+    origin: '*',
+  },
 });
 
 const client = new ApolloClient({

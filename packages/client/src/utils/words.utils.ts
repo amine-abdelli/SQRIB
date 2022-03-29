@@ -13,19 +13,6 @@ function textColorOnTyping(string: string, userInput: string, i: number) {
   return Colors.GREY;
 }
 
-/* Color computed words in red or green depending on if they've been typed properly */
-function setComputedWordsColor(
-  i: number,
-  wordIndex: number,
-  computedWords: string[],
-  correctWords: Array<string>,
-) {
-  if (i < wordIndex) {
-    return computedWords[i] === correctWords[i] ? Colors.GREEN : Colors.RED;
-  }
-  return '';
-}
-
 /* Save letter's position. It helps to position triangle */
 function lettersPosition(
   e: any,
@@ -41,4 +28,4 @@ function lettersPosition(
   }
 }
 
-export { textColorOnTyping, lettersPosition, setComputedWordsColor };
+export { textColorOnTyping, lettersPosition };

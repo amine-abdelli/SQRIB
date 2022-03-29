@@ -9,7 +9,7 @@ function WordDisplayer({
   return (
     <div
       className={styles.overlay}
-      ref={(element: any) => setState(element?.getBoundingClientRect().y)}
+      ref={(element: HTMLDivElement | null) => setState(element?.getBoundingClientRect().y)}
     >
       <div
         className={className}

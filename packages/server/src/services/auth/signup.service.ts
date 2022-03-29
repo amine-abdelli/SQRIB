@@ -13,6 +13,7 @@ export async function signupService(args: ICreateUserArgs, context: Context) {
       password,
       nickname: args?.nickname,
     });
+    console.log('user', user);
     const settings = await createSettings(user?.id, context);
     if (!settings) console.log('Settings could not be created', { settings });
     const token = createToken(user);

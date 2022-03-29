@@ -51,7 +51,7 @@ function Main({ onSpacePress }: { onSpacePress: (e: any) => void }) {
     },
     onError: () => {
       alertService.error('Une erreur est survenue lors de la sauvegarde de votre score', {});
-      console.log('Score failed');
+      console.error('Score failed');
     },
   });
 
@@ -94,20 +94,6 @@ function Main({ onSpacePress }: { onSpacePress: (e: any) => void }) {
       className='w100 flex flex-column justify-between'
     >
       <DisplayerHeader />
-      {/* <div>
-          {gameMode !== null && (
-          <Tooltip content="Bientôt disponible">
-            <Button
-              disabled
-              color="warning"
-              onClick={() => setShowModeSelection(true)}
-            >
-              Changer de mode
-            </Button>
-          </Tooltip>
-          )}
-        </div> */}
-      {/* <Button onClick={() => alertService.success('Success!!', {})}>Diantres</Button> */}
       <div
         className='flex align-center'
         style={{ margin: '10px 0' }}
@@ -127,7 +113,7 @@ function Main({ onSpacePress }: { onSpacePress: (e: any) => void }) {
           onSetFinish={onSetFinish}
           startTimer={startTimer}
         />
-        <RefreshButton disable={!!(computedWords.length && !startTimer)} />
+        <RefreshButton disable={Boolean(computedWords.length && !startTimer)} />
       </div>
       <div className="flex justify-center">
         <Displayer wordsStack={wordsStack} />

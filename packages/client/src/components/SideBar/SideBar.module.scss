@@ -1,8 +1,6 @@
 @import "../../../styles/sass/abstracts/variables";
 .sideBarButtons {
   align-items: center;
-  width: 15%;
-  min-width: 10vh;
 
   .sideBarButton {
     position: relative;
@@ -26,5 +24,18 @@
       }
     }
   }
+}
 
+@media(max-width: 598px){
+.sideBarButtons {
+  width: 3rem;
+
+  .sideBarButton {
+    width: 3rem;
+
+    p {
+      display: none;
+    }
+  }
+}
 }

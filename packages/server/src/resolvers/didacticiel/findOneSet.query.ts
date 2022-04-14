@@ -10,5 +10,5 @@ export async function findOneSet(parent: any, args: IFindOneSet, context: Contex
   console.log('Trying to fetch a new set');
   const wordSet = await findOneSetService(args, context);
   console.log('Set fetched successfully !');
-  return _.shuffle(wordSet[0].wordSet.slice(0, 500));
+  return _.shuffle(wordSet[0].wordSet.slice(0, 500).filter((word) => (args.letter === 'a' ? !word.includes('j') : true)));
 }

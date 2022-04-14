@@ -151,7 +151,7 @@ function Settings() {
         <div className='flex align-center justify-between'>
           <Text color='inherit' h3>Langues</Text>
           <Button.Group bordered>
-            {languages.map(({ flag, country }) => (
+            {languages.map(({ flag, country }: any) => (
               <Button
                 key={country}
                 onClick={() => onSettingParameterSelection(country, setLanguageSelected)}

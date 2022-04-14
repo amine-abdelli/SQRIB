@@ -8,7 +8,8 @@ import { typeDefs } from './graphql/models';
 import { createContext } from './utils/context.utils';
 
 dotenv.config();
-const PORT: string | 4000 = process.env.PORT || 4000;
+const PORT: string | 4000 = 4000;
+console.log('PORT', PORT);
 
 async function startServer() {
   const app = express();
@@ -36,7 +37,7 @@ async function startServer() {
     res.send('Hello from express apollo server');
   });
 
-  app.listen(PORT, () => console.log('Server is running on port 4000'));
+  app.listen(PORT, () => console.log(`Server is running on port ${PORT}`));
 }
 
 startServer();

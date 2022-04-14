@@ -14,11 +14,11 @@ function splitStringToSpans(stringToCompare: string, userInput: string) {
             margin: 0, padding: 0, display: 'inline', color: textColorOnTyping(stringToCompare, userInput, i),
           }}
         >
-          {i === 0 ? ` ${letter}` : letter}
+          {i === 0 ? `${letter}` : letter}
         </span>
       );
     }
-    return (<span style={{ margin: 0, padding: 0, display: 'inline' }} key={`${letter + i}`}>{i === 0 ? ` ${letter}` : letter}</span>);
+    return (<span style={{ margin: 0, padding: 0, display: 'inline' }} key={`${letter + i}`}>{i === 0 ? `${letter}` : letter}</span>);
   });
   return (
     <span style={{ margin: 0, padding: 0, display: 'inline' }}>

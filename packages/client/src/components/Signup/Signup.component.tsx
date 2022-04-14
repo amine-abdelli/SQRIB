@@ -3,6 +3,7 @@ import { useMutation } from '@apollo/client';
 import { SIGNUP_MUTATION } from '@aqac/api';
 import { Input, Button, Spacer } from '@nextui-org/react';
 import { alertService } from '../../../services';
+import { onFormChange } from '../../utils/form';
 
 function Signup() {
   const [submitSignupForm] = useMutation(SIGNUP_MUTATION, {
@@ -22,10 +23,6 @@ function Signup() {
     password: '',
     retypedPassword: '',
   });
-
-  function onFormChange(event: any, formKey: string) {
-    setSignupForm({ ...signupForm, [formKey]: event.target.value });
-  }
 
   function onFormSubmit() {
     submitSignupForm({
@@ -54,7 +51,7 @@ function Signup() {
     <>
       <h1 style={{ textAlign: 'center' }}>Inscription</h1>
       <Input
-        onChange={(e) => onFormChange(e, 'username')}
+        onChange={(e) => onFormChange(e.target.value, 'username', setSignupForm, signupForm)}
         placeholder="username"
         fullWidth
         color="primary"
@@ -65,7 +62,7 @@ function Signup() {
       <Spacer />
       <Input
         type="email"
-        onChange={(e) => onFormChange(e, 'email')}
+        onChange={(e) => onFormChange(e.target.value, 'email', setSignupForm, signupForm)}
         placeholder="john.doe@domain.com"
         fullWidth
         color="primary"
@@ -75,7 +72,7 @@ function Signup() {
       <Spacer />
       <Input.Password
         color={signupForm.password === signupForm.retypedPassword && signupForm.retypedPassword.length > 8 ? 'success' : 'primary'}
-        onChange={(e) => onFormChange(e, 'password')}
+        onChange={(e) => onFormChange(e.target.value, 'password', setSignupForm, signupForm)}
         type="password"
         placeholder="mot de passe"
         fullWidth
@@ -85,7 +82,7 @@ function Signup() {
       <Spacer />
       <Input.Password
         color={onPasswordInputChange()}
-        onChange={(e) => onFormChange(e, 'retypedPassword')}
+        onChange={(e) => onFormChange(e.target.value, 'retypedPassword', setSignupForm, signupForm)}
         type="password"
         placeholder="confirmer mot de passe"
         fullWidth

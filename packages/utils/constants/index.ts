@@ -4,3 +4,4 @@ export * from './email';
 export * from './languages';
 export * from './fontSizes';
 export * from './calendar';
+export * from './wordAmount';

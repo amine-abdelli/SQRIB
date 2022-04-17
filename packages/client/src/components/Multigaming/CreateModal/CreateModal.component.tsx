@@ -64,7 +64,10 @@ function CreateModal({
           css={{
             width: '100%',
           }}
-          onClick={() => setHasJoined(true)}
+          onClick={() => {
+            setHasJoined(true);
+            setIsVisible(false);
+          }}
         >
           Créer une partie
         </Button>

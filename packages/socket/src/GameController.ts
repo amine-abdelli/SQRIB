@@ -1,9 +1,6 @@
-/* eslint-disable class-methods-use-this */
-/* eslint-disable no-param-reassign */
 import { generateWordSet, Languages } from '@aqac/utils';
 import { v4 } from 'uuid';
 
-// import { clientPattern } from './pattern';
 import { colorGenerator } from './services/colorGen';
 import { status } from './status.enum';
 import { GameType, SetType } from './types/game';
@@ -18,12 +15,15 @@ interface CreateRoomArgs {
   wordAmount: number;
 }
 
-function createRoom({
+function initNewGameRoom({
   games, sets, roomID, clientID, username, language = Languages.FR, wordAmount = 60,
 }: CreateRoomArgs) {
+  let updatedGameObject = games;
+  const updatedSetObject = sets;
+
   const setID = v4();
-  sets[setID] = generateWordSet(language, wordAmount);
-  games = {
+  updatedSetObject[setID] = generateWordSet(language, wordAmount);
+  updatedGameObject = {
     ...games,
     [roomID]: {
       id: roomID,
@@ -42,27 +42,30 @@ function createRoom({
       },
     },
   };
-  return { games, sets };
+  return { updatedGameObject, updatedSetObject };
 }
 
-// function joinRoom({
-//   gameId, clientId, username, games,
-// }: any) {
-//   const game = games[gameId];
-//   if (!game) {
-//     throw new Error('Game not found');
-//   }
-//   game.clients[clientId] = {
-//     ...clientPattern({
-//       roomSize: Object.keys(game.clients).length,
-//       clientId,
-//       username,
-//       gameId,
-//     }),
-//   };
-//   return game;
-// }
+function assignUserToARoom({
+  roomID, username, games, socket,
+}: any) {
+  const updatedGames = {
+    ...games,
+    [roomID]: {
+      ...games[roomID],
+      clients: {
+        ...games[roomID]?.clients,
+        [socket.id]: {
+          id: socket.id,
+          username,
+          wordIndex: 0,
+          color: colorGenerator(),
+        },
+      },
+    },
+  };
+  return updatedGames;
+}
 
 export {
-  createRoom,
+  initNewGameRoom, assignUserToARoom,
 };

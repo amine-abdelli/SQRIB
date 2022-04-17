@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import {
   Button, Modal, StyledSpacer,
 } from '@nextui-org/react';
@@ -29,12 +30,15 @@ function Container() {
   const [wordSet, setWordSet] = useState([]);
   const [gameParameters, setGameParameters] = useState<GameParametersProps>(defaultGameParameters);
   const [isGameEnded, setIsGameEnded] = useState(false);
-  const { wordIndex, setWordIndex, setOffSet } = useContext(MainContext);
+  const [winner, setWinner] = useState('');
+  const {
+    wordIndex, setOffSet, setWordIndex, setComputedWords, setCorrectWords,
+  } = useContext(MainContext);
 
   const { current: socketRef } = useRef<Socket>(socket);
   useEffect(() => {
+    socketConnect(socketRef);
     if (hasJoined) {
-      socketConnect(socketRef);
       if (roomID) {
         socketRef.emit('join-room', { roomID, username, gameParameters });
         socketRef.on('join-room', ({ wordSet: wordSetPayload }) => {
@@ -47,8 +51,6 @@ function Container() {
           alertService.success(customMessage, {});
         });
       }
-    } else {
-      socketDisconnect(socketRef);
     }
     return () => socketDisconnect(socketRef);
   }, [hasJoined]);
@@ -61,6 +63,21 @@ function Container() {
       ) => {
         if (!isGameEnded && clients.length) {
           setGame([...clients]?.sort((a, b) => b.wordIndex - a.wordIndex));
+        }
+      });
+      socketRef.on('on-win', ({ username: userNickname, clients, wordSet: newWordSet }) => {
+        if (clients) {
+          setIsGameEnded(true);
+          setWinner(userNickname);
+          setTimeout(() => {
+            setGame(clients);
+            setIsGameEnded(false);
+            setWordIndex(0);
+            setComputedWords([]);
+            setCorrectWords([]);
+            setWordSet(newWordSet);
+            setOffSet(0);
+          }, 4000);
         }
       });
     }
@@ -82,6 +99,17 @@ function Container() {
   const userList = roomList && [...roomList.flatMap(
     (room: any) => room.clients.map((client: any) => client),
   ), '34dDfdsSERbvcN?;/Sdf67ythgfE4'];
+
+  function handleLeave() {
+    setHasJoined(false);
+    socketRef.disconnect();
+    setIsGameEnded(false);
+    setWordIndex(0);
+    setComputedWords([]);
+    setCorrectWords([]);
+    setWordSet([]);
+    setOffSet(0);
+  }
 
   return (
     <div className='flex flex-column align-center' style={{ width: '100%' }}>
@@ -123,32 +151,15 @@ function Container() {
       )}
       {hasJoined && username && (
         <div>
-          <h3>{roomID}</h3>
-          {`Es-tu prêt ${username} ?`}
+          <div className='flex justify-between'>
+            <h3>{roomID}</h3>
+            <Button auto onClick={handleLeave}>Quitter</Button>
+          </div>
+          {`Bienvenue ${username}`}
           {game?.map(({
             wordIndex: index, username: nickname, color, wordAmount,
           }: any, i: number) => {
-            let progress = (index / wordAmount) * 100;
-            if (progress === 100) {
-              progress = 0;
-              socketRef.emit('on-win', { username: nickname, roomID });
-              socketRef.on('on-win', ({ username: userNickname, clients, wordSet: newWordSet }) => {
-                if (clients) {
-                  setIsGameEnded(true);
-                  setTimeout(() => {
-                    setGame(clients);
-                    setIsGameEnded(false);
-                    setWordIndex(0);
-                    // fix newWordSet generated
-                    setWordSet(newWordSet);
-                    setOffSet(0);
-                    // ? Créer un state pour partie terminée pour que tous les joueurs
-                    // ? puissent voir qu'elle est terminée et ne puisse plus rien saisir.
-                    // ? Gérer ca côté back?
-                  }, 4000);
-                }
-              });
-            }
+            const progress = (index / wordAmount) * 100;
             return (nickname && (
               <div key={nickname} className='flex align-center'>
                 <span style={{
@@ -184,7 +195,10 @@ function Container() {
         open={isGameEnded}
         onClose={() => null}
       >
-        <p>Une nouvelle partie va commencer dans quelques secondes...</p>
+        <>
+          <h3>{`${winner} remporte la victoire !`}</h3>
+          <h5>Une nouvelle partie va commencer dans quelques instants...</h5>
+        </>
       </Modal>
     </div>
   );

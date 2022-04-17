@@ -1,16 +1,10 @@
 import express from 'express';
 import http from 'http';
-
 import cors from 'cors';
-
 import { Socket } from 'socket.io';
 
-import { v4 } from 'uuid';
-import { generateWordSet } from '@aqac/utils';
 import { GameType, SetType } from './types/game';
-
-import { createRoom } from './GameController';
-import { colorGenerator } from './services/colorGen';
+import { Services } from './services/services';
 
 const app = express();
 
@@ -27,71 +21,45 @@ const io = require('socket.io')(server, {
 app.get('/', (req, res) => {
   res.sendFile(`${__dirname}/index.html`);
 });
-
+/* Global objects Games & Sets */
 let games: Record<string, GameType> = {};
 let sets: Record<string, SetType> = {};
 
 io.on('connection', (socket: Socket) => {
-  socket.on('init', () => {
-    io.emit('init', socket.id);
+  /**
+   * Remove user from global object
+   */
+  socket.on('disconnect', () => {
+    games = Services.disconnect(games, socket, io);
   });
 
-  socket.on('disconnect', () => {
-    for (const aGame of Object.values(games)) {
-      if (aGame.clients[socket.id]) {
-        delete aGame.clients[socket.id];
-        if (Object.values(aGame.clients).length === 0) {
-          delete games[aGame.id];
-        }
-        io.to(aGame.id).emit('on-disconnect', { game: games[aGame.id] });
-      }
+  /**
+   * Update user's progression and handle users win
+   */
+  socket.on('progression', ({ roomID, wordIndex }) => {
+    games = Services.progression(games, roomID, wordIndex, socket);
+    io.to(roomID).emit('progression', { clients: Object.values(games[roomID].clients) });
+    // Handle user's win
+    if (games[roomID].wordAmount === wordIndex) {
+      const { updatedSetObject, updatedGameObject } = Services
+        .onWin(games, sets, roomID, io, socket);
+      games = updatedGameObject;
+      sets = updatedSetObject;
     }
   });
 
-  socket.on('progression', ({ roomID, wordIndex }) => {
-    games = {
-      ...games,
-      [roomID]: {
-        ...games[roomID],
-        clients: {
-          ...games[roomID]?.clients,
-          [socket.id]: {
-            ...games[roomID]?.clients[socket.id],
-            wordIndex,
-            // Needed to calculate the progression out of 100
-            wordAmount: games[roomID].wordAmount,
-          },
-        },
-      },
-    };
-    io.to(roomID).emit('progression', { clients: Object.values(games[roomID].clients) });
-  });
-
+  /**
+   *  Join or create a room depending on if the room exists or not
+   */
   socket.on('join-room', ({ roomID, username, gameParameters }) => {
     if (Object.keys(games).includes(roomID)) {
-      games = {
-        ...games,
-        [roomID]: {
-          ...games[roomID],
-          clients: {
-            ...games[roomID]?.clients,
-            [socket.id]: {
-              id: socket.id,
-              username,
-              wordIndex: 0,
-              color: colorGenerator(),
-            },
-          },
-        },
-      };
+      games = Services.joinRoom(games, roomID, username, socket);
       socket.join(roomID);
     } else {
-      const { language, wordAmount } = gameParameters;
-      const { games: newGames, sets: newSets } = createRoom({
-        games, roomID, sets, clientID: socket.id, username, language, wordAmount,
-      });
-      games = newGames;
-      sets = newSets;
+      const { updatedGameObject, updatedSetObject } = Services
+        .createRoom(games, roomID, gameParameters, sets, username, socket);
+      games = updatedGameObject;
+      sets = updatedSetObject;
       socket.join(roomID);
     }
     io.to(roomID).emit('join-room', {
@@ -103,20 +71,9 @@ io.on('connection', (socket: Socket) => {
     });
   });
 
-  socket.on('on-win', ({ username, roomID }) => {
-    for (const aClient of Object.values(games[roomID].clients)) {
-      games[roomID].clients[aClient.id].wordIndex = 0;
-    }
-    const setID = v4();
-    sets[setID] = generateWordSet(games[roomID].language, games[roomID].wordAmount);
-    games[roomID].setID = setID;
-    io.to(roomID).emit('on-win', {
-      username,
-      clients: Object.values(games[roomID].clients),
-      wordSet: sets[games[roomID]?.setID],
-    });
-  });
-
+  /**
+   * Send the list of rooms with their details
+   */
   socket.on('room-list', () => {
     const roomList = Object.values(games).map(({
       id, language, wordAmount, clients,

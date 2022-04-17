@@ -13,9 +13,13 @@ export const Services = {
       if (aGame.clients[socket.id]) {
         delete aGame.clients[socket.id];
         if (Object.values(aGame.clients).length === 0) {
+          // eslint-disable-next-line no-param-reassign
           delete games[aGame.id];
         }
-        io.to(aGame.id).emit('on-disconnect', { game: games[aGame.id] });
+        // Update room player list in live when someone leave the room
+        if (games[aGame.id]?.clients) {
+          io.to(aGame.id).emit('hasBeenDisconnected', { clients: Object.values(games[aGame.id]?.clients) });
+        }
       }
     }
     return games;
@@ -105,5 +109,22 @@ export const Services = {
     });
     io.to(roomID).emit('on-win', games[roomID]?.clients[socket.id].username);
     return { updatedGameObject, updatedSetObject };
+  },
+  /**
+    * Send the list of rooms with their details
+   */
+  roomList: (games: Record<string, GameType>) => {
+    const roomList = Object.values(games).map(({
+      id, language, wordAmount, clients,
+    }: GameType) => (
+      {
+        name: id,
+        players: Object.values(games[id].clients).length,
+        lang: language,
+        wordAmount,
+        clients: Object.values(clients).map(({ username }) => username),
+      }
+    ));
+    return roomList;
   },
 };

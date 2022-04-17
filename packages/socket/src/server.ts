@@ -75,17 +75,7 @@ io.on('connection', (socket: Socket) => {
    * Send the list of rooms with their details
    */
   socket.on('room-list', () => {
-    const roomList = Object.values(games).map(({
-      id, language, wordAmount, clients,
-    }: GameType) => (
-      {
-        name: id,
-        players: Object.values(games[id].clients).length,
-        lang: language,
-        wordAmount,
-        clients: Object.values(clients).map(({ username }) => username),
-      }
-    ));
+    const roomList = Services.roomList(games);
     io.emit('room-list', roomList);
   });
 });

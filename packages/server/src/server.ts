@@ -9,7 +9,6 @@ import { createContext } from './utils/context.utils';
 
 dotenv.config();
 const PORT: string | 4000 = 4000;
-console.log('PORT', PORT);
 
 async function startServer() {
   const app = express();

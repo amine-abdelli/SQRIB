@@ -5,6 +5,7 @@ import { v4 } from 'uuid';
 
 // import { clientPattern } from './pattern';
 import { colorGenerator } from './services/colorGen';
+import { status } from './status.enum';
 import { GameType, SetType } from './types/game';
 
 interface CreateRoomArgs {
@@ -29,6 +30,7 @@ function createRoom({
       language,
       wordAmount,
       setID,
+      status: status.WAITING,
       clients: {
         ...games[roomID]?.clients,
         [clientID]: {

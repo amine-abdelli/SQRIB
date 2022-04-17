@@ -8,12 +8,12 @@ interface ClientPatternArgs {
 }
 
 function clientPattern({
-  roomSize, clientID, username, wordIndex,
+  clientID, username, wordIndex,
 }: ClientPatternArgs) {
   return {
     id: clientID,
     username,
-    color: colorGenerator(roomSize),
+    color: colorGenerator(),
     wordIndex: wordIndex || 0,
   };
 }

@@ -3,7 +3,7 @@ import http from 'http';
 import cors from 'cors';
 import { Socket } from 'socket.io';
 
-import { GameType, SetType } from './types/game';
+import { GameType, SetType } from '@aqac/utils';
 import { Services } from './services/services';
 
 const app = express();

@@ -1,9 +1,10 @@
-import { generateWordSet, Languages } from '@aqac/utils';
+import {
+  GameType, generateWordSet, Languages, SetType,
+} from '@aqac/utils';
 import { v4 } from 'uuid';
 
 import { colorGenerator } from './services/colorGen';
 import { status } from './status.enum';
-import { GameType, SetType } from './types/game';
 
 interface CreateRoomArgs {
   games: Record<string, GameType>;

@@ -1,8 +1,9 @@
-import { generateWordSet, Languages } from '@aqac/utils';
+import {
+  GameType, generateWordSet, Languages, SetType,
+} from '@aqac/utils';
 import { Socket } from 'socket.io';
 import { v4 } from 'uuid';
 import { initNewGameRoom, assignUserToARoom } from '../GameController';
-import { GameType, SetType } from '../types/game';
 
 export const Services = {
   /**

@@ -11,7 +11,7 @@ export interface GameParametersProps {
 export interface CreateModalProps {
   isVisible: boolean;
   setIsVisible: (isVisible: boolean) => void;
-  setRoomID: (roomID: string) => void;
+  setRoomID: (roomID: string | undefined) => void;
   setHasJoined: (hasJoined: boolean) => void;
   username: string
   setGameParameters: (gameParameters: GameParametersProps) => void;

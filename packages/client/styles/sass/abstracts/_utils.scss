@@ -14,6 +14,10 @@
   justify-content: space-around;
 }
 
+.flex-rom {
+  flex-direction: row;
+}
+
 .align-center {
   align-items: center;
 }
@@ -31,7 +35,7 @@
 }
 
 .w100 {
-  width: 100%;
+  width: 100% !important;
 }
 
 .h100 {
@@ -98,4 +102,12 @@
 
 .pointer {
   cursor: pointer !important;
+}
+
+.block {
+  display: block !important;
+}
+
+.inline-block {
+  display: block !important;
 }

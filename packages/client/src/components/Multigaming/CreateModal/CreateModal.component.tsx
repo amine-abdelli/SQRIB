@@ -3,8 +3,8 @@ import {
 } from '@nextui-org/react';
 import { languages, wordAmount } from '@aqac/utils';
 import React, { useEffect } from 'react';
-import { onFormChange } from '../../../utils/form';
 import { CreateModalProps, defaultGameParameters } from './CreateModal.props';
+import { onFormChange } from '../../../utils/form';
 
 function CreateModal({
   isVisible, setIsVisible, setRoomID, setHasJoined, username, setGameParameters, gameParameters,
@@ -17,14 +17,17 @@ function CreateModal({
     <Modal
       aria-labelledby="Create room modal"
       open={isVisible}
-      onClose={() => setIsVisible(false)}
+      onClose={() => {
+        setRoomID(undefined);
+        setIsVisible(false);
+      }}
     >
       <div className='m20 flex flex-column'>
         <Text h3 className='text-center'>Créer une partie</Text>
         <Input
           color='primary'
           bordered
-          css={{ width: '100%' }}
+          className='w100'
           value={defaultInputValue}
           disabled
           onChange={(e) => setRoomID(e.target.value)}
@@ -46,24 +49,14 @@ function CreateModal({
           style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}
         >
           {Object.values(wordAmount).map((words) => (
-            <Radio value={words} style={{ display: 'inline-block' }} key={words}>
+            <Radio value={words} className='inline-block' key={words}>
               <Text>{words}</Text>
             </Radio>
           ))}
         </Radio.Group>
-        {/* <Checkbox
-          style={{ justifySelf: 'flex-start' }}
-          initialChecked={false}
-          onChange={(e) =>
-            onFormChange(e.target.checked, 'private', setGameParameters, gameParameters)}
-        >
-          Partie privée
-        </Checkbox> */}
         <Button
           animated
-          css={{
-            width: '100%',
-          }}
+          className='w100'
           onClick={() => {
             setHasJoined(true);
             setIsVisible(false);
@@ -74,9 +67,7 @@ function CreateModal({
         <Button
           bordered
           animated
-          css={{
-            width: '100%',
-          }}
+          className='w100'
           onClick={() => {
             setIsVisible(false);
             setGameParameters(defaultGameParameters);

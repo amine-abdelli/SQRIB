@@ -51,7 +51,7 @@ function Input({
   return (
     <MainInput
       aria-label='formulaire de saisie principal'
-      style={{ width: '100%' }}
+      className='w100'
       onChange={(e) => setUserInput(e.target.value)}
       value={userInput}
       fullWidth

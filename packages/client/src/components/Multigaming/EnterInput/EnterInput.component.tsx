@@ -54,8 +54,8 @@ function EnterInput({ setUsername, userList, isGameEnded }: EnterInputProps) {
         </Text>
       </div>
       )}
-      <Input disabled={isGameEnded} aria-label='Pseudo' css={{ width: '100%' }} value={nickname} onChange={({ target }) => { setNickname(target.value); }} />
-      <Button shadow css={{ width: '100%' }} onClick={onEnterInputValidation}>Enregistrer</Button>
+      <Input disabled={isGameEnded} aria-label='Pseudo' className='w100' value={nickname} onChange={({ target }) => { setNickname(target.value); }} />
+      <Button shadow className='w100' onClick={onEnterInputValidation}>Enregistrer</Button>
     </div>
   );
 }

@@ -102,11 +102,12 @@ function Container() {
   }
 
   return (
-    <div className='flex flex-column align-center w100'>
-      {!hasJoined && !username && userList && (
+    <div style={{ width: '550px' }}>
+      <div className='flex flex-column align-center w100'>
+        {!hasJoined && !username && userList && (
         <EnterInput isGameEnded={isGameEnded} userList={userList} setUsername={setUsername} />
-      )}
-      {!hasJoined && username && (
+        )}
+        {!hasJoined && username && (
         <JoiningRoom
           roomID={roomID}
           setRoomID={setRoomID}
@@ -118,8 +119,8 @@ function Container() {
           gameParameters={gameParameters}
           setGameParameters={setGameParameters}
         />
-      )}
-      {hasJoined && username && (
+        )}
+        {hasJoined && username && (
         <GameRoom
           roomID={roomID}
           game={game}
@@ -129,8 +130,9 @@ function Container() {
           username={username}
           wordSet={wordSet}
         />
-      )}
-      <VictoryModal isGameEnded={isGameEnded} winnerNickname={winner} />
+        )}
+        <VictoryModal isGameEnded={isGameEnded} winnerNickname={winner} />
+      </div>
     </div>
   );
 }

@@ -64,7 +64,7 @@ function Didacticiel() {
     if ((correctWords.length >= 2) && (level < alphabet.length - 1)) {
       fetchOneSetByLetter({ variables: { letter: alphabet[level + 1] } });
     }
-
+    // ! Définir règle pour passer à une nouvelle série de mots
     if (correctWords.length === 100) {
       setComputedWords([]);
       setCorrectWords([]);
@@ -89,7 +89,7 @@ function Didacticiel() {
       <h1>Didacticiel</h1>
       <p className='m0'>
         Vitesse moyenne de frappe :
-        {` ${typingSpeed}mpm`}
+        {` ${typingSpeed} m/min`}
       </p>
       <div className='w100 flex justify-between mb10'>
         <ProgressionCards level={level} />

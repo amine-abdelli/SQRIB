@@ -116,11 +116,9 @@ function Stats({
         <Button
           color='success'
           onClick={submitScoreAndRestart}
-          style={{
-            backgroundColor: 'orange', color: 'white', width: '100%', marginTop: '5px',
-          }}
+          className={styles.statsButton}
         >
-          SAUVEGARDER
+          {isLoggedIn ? 'SAUVEGARDER' : 'CONTINUER'}
         </Button>
       </div>
     </div>

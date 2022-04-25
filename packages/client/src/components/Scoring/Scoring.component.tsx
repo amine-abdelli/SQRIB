@@ -54,8 +54,9 @@ function Scoring({
       </div>
       <Modal
         className={styles.statsModal}
-        showModeSelection={showStatsModal}
-        setShowModeSelection={() => null}
+        closable
+        isVisible={showStatsModal}
+        setIsVisible={() => null}
         content={(
           <Stats {...statProps} />
         )}

@@ -1,8 +1,9 @@
 import { Dispatch, ReactNode, SetStateAction } from 'react';
 
 export interface IModal {
-  showModeSelection: boolean,
-  setShowModeSelection: Dispatch<SetStateAction<boolean>>,
+  isVisible: boolean,
+  setIsVisible: Dispatch<SetStateAction<boolean>>,
   content: ReactNode,
   className?: string
+  closable?: boolean
 }

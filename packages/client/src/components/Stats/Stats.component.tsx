@@ -1,8 +1,9 @@
 import React, { useContext } from 'react';
 import Image from 'next/image';
 import { Divider } from '@blueprintjs/core';
-import { Button, Text } from '@nextui-org/react';
+import { Button, Text, Tooltip } from '@nextui-org/react';
 import { topValue } from '@aqac/utils';
+import { InfoCircle } from 'react-iconly';
 import { Colors } from '../../utils/enums';
 import { IStats } from './Stats.props';
 import styles from './Stats.module.scss';
@@ -63,19 +64,29 @@ function Stats({
           alt="Picture of the author"
           quality={100}
           layout='fixed'
-          width='135px'
-          height='135px'
+          width='100px'
+          height='100px'
         />
       </div>
       <div className={styles.statsContent}>
-        <div style={{
-          display: 'flex', justifyContent: 'center', flexDirection: 'column', flexBasis: '100%',
-        }}
+        <div
+          className='flex justify-center flex-column'
+          style={{
+            flexBasis: '100%', alignItems: 'center',
+          }}
         >
-          <Text h2 className={styles.mpm}>
-            {`${mpm} mpm`}
-          </Text>
-          <p className={styles.mpmTranslation}>(mot par minute)</p>
+          <span className='flex align-center'>
+            <Text h2 className={styles.mpm}>
+              {`${mpm} mpm`}
+            </Text>
+            <Tooltip
+              hideArrow
+              content={<a style={{ color: 'black' }} href='https://fr.wikipedia.org/wiki/Mot_par_minute' target='_blank' rel="noreferrer">Mot par minute</a>}
+              color='default'
+            >
+              <InfoCircle set='light' primaryColor='grey' />
+            </Tooltip>
+          </span>
           <Text h4 style={{ color: Colors.GREEN, textAlign: 'center' }}>
             {`${points} points`}
           </Text>
@@ -109,7 +120,7 @@ function Stats({
             backgroundColor: 'orange', color: 'white', width: '100%', marginTop: '5px',
           }}
         >
-          CONTINUER
+          SAUVEGARDER
         </Button>
       </div>
     </div>

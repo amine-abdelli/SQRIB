@@ -1,4 +1,3 @@
-import { Tooltip2 } from '@blueprintjs/popover2';
 import { Button } from '@nextui-org/react';
 import React, { useContext } from 'react';
 import { Play } from 'react-iconly';
@@ -12,17 +11,15 @@ function RefreshButton({ disable = false }: { disable?: boolean }) {
 
   return (
     <div style={{ marginLeft: '10px' }}>
-      <Tooltip2 position='top' content="Refresh">
-        <Button
-          style={{
-            backgroundColor: disable ? 'rgba(52, 52, 52, 0.3)' : theme?.tertiary,
-          }}
-          auto
-          disabled={disable}
-          icon={<Play set="light" primaryColor="white" />}
-          onClick={() => onRestart()}
-        />
-      </Tooltip2>
+      <Button
+        style={{
+          backgroundColor: disable ? 'rgba(52, 52, 52, 0.3)' : theme?.tertiary,
+        }}
+        auto
+        disabled={disable}
+        icon={<Play set="light" primaryColor="white" />}
+        onClick={() => onRestart()}
+      />
     </div>
   );
 }

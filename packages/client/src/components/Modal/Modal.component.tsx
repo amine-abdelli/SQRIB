@@ -1,21 +1,27 @@
-import { Dialog } from '@blueprintjs/core';
+import { Modal as Dialog } from '@nextui-org/react';
 import React from 'react';
 import { IModal } from './Modal.props';
 
 function Modal({
-  showModeSelection, setShowModeSelection, content, className,
+  isVisible, setIsVisible, content, className, closable,
 }: IModal) {
   return (
     <Dialog
+      closeButton={closable}
       className={className}
-      isOpen={showModeSelection}
+      open={isVisible}
+      aria-labelledby="scoring modal"
       onClose={() => {
-        setShowModeSelection(false);
+        setIsVisible(false);
       }}
     >
       {content}
     </Dialog>
   );
 }
+
+Modal.defaultProps = {
+  closable: false,
+};
 
 export default Modal;

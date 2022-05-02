@@ -6,6 +6,7 @@ export type ClientType = {
   wordIndex: number;
   color: string;
   wordAmount?: number;
+  status: 'waiting' | 'playing' | 'finished';
 }
 
 export type GameType = {

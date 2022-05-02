@@ -4,7 +4,7 @@ import { Input as MainInput } from '@nextui-org/react';
 import { MainContext } from '../../context/MainContext';
 
 function Input({
-  setUserInput, userInput, gameMode, isTimeOut, didacticielStack,
+  setUserInput, userInput, gameMode, isTimeOut, didacticielStack, disabled,
 }: any) {
   const route = useRouter();
   const {
@@ -13,12 +13,11 @@ function Input({
     yFocusedPosition, yNextPosition, setOffSet, offSet, setWordIndex,
   } = useContext(MainContext);
   const isDidacticiel = route.pathname === '/didacticiel';
+  const isMultigaming = route.pathname === '/multigaming';
+  // If a player join an already started game, he can't write in the input
+  const isMultigamerAndNotAllowToPlay = disabled && isMultigaming;
   function onSpacePress(e: KeyboardEvent) {
     if (e.code === 'Space' && userInput) {
-      // setComputedWords([...computedWords, isDidacticiel
-      //   ? didacticielStack[wordIndex]
-      //   : wordsStack[wordIndex],
-      // ]);
       setComputedWords([...computedWords, userInput]);
 
       /* Check if the word typed in training or didacticiel mode is correct */
@@ -56,7 +55,7 @@ function Input({
       value={userInput}
       fullWidth
       onKeyDown={(event: KeyboardEvent<HTMLInputElement>) => onSpacePress(event)}
-      disabled={((isTimeOut) && !userInput)}
+      disabled={((isTimeOut) && !userInput) || isMultigamerAndNotAllowToPlay}
       placeholder="Start typing here..."
     />
   );

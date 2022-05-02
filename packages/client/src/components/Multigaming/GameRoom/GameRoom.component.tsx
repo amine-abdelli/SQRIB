@@ -7,6 +7,7 @@ import { GameRoomProps } from './GameRoom.props';
 function GameRoom({
   roomID, handleLeave, username, game, wordSet, socketRef, isGameEnded,
 }: GameRoomProps) {
+  const self = game?.find(({ id }) => id === socketRef.id);
   return (
     <div>
       <div className='flex justify-between'>
@@ -16,10 +17,11 @@ function GameRoom({
       {`Bienvenue ${username}`}
       <ProgressList data={game} />
       {socketRef.connected && wordSet && (
-      <OnGame
-        wordSet={wordSet}
-        isGameEnded={isGameEnded}
-      />
+        <OnGame
+          wordSet={wordSet}
+          isGameEnded={isGameEnded}
+          isAllow={self?.status === 'playing'}
+        />
       )}
     </div>
   );

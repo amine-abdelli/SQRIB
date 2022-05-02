@@ -1,4 +1,5 @@
 import { colorGenerator } from './services/colorGen';
+import { GameStatus } from './utils/constants';
 
 interface ClientPatternArgs {
   roomSize: number;
@@ -15,6 +16,8 @@ function clientPattern({
     username,
     color: colorGenerator(),
     wordIndex: wordIndex || 0,
+    wordAmount: 0,
+    status: GameStatus.WAITING,
   };
 }
 
@@ -27,7 +30,7 @@ function gamePattern({
 }: GamePatternArgs) {
   return {
     gameID,
-    status: 'waiting', // waiting, playing, finished
+    status: GameStatus.WAITING, // waiting, playing, finished
     language: 'fr', // fr, en, gb, de
     host: clientID,
     clients: {

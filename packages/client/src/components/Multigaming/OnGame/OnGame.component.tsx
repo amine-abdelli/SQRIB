@@ -8,15 +8,11 @@ import { MainContext } from '../../../context/MainContext';
 interface OnGameProps {
   wordSet: string[];
   isGameEnded: boolean;
+  isAllow: boolean;
 }
 
-function OnGame({ wordSet, isGameEnded }: OnGameProps) {
+function OnGame({ wordSet, isGameEnded, isAllow }: OnGameProps) {
   const { setUserInput, userInput, theme } = useContext(MainContext);
-
-  // Join room
-  // Display number of players
-  // Start count down
-  // Start game (Update game status) waiting, started, finished
   return (
     <div>
       <Displayer wordsStack={wordSet?.slice(0, 100) || []} />
@@ -25,9 +21,10 @@ function OnGame({ wordSet, isGameEnded }: OnGameProps) {
         setUserInput={setUserInput}
         userInput={userInput}
         isTimeOut={isGameEnded}
+        disabled={!isAllow}
       />
       <Spacer />
-      <KeyBoard theme={theme} enable />
+      <KeyBoard theme={theme} enable={isAllow} />
     </div>
   );
 }

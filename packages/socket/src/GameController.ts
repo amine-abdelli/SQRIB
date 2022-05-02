@@ -5,6 +5,7 @@ import { v4 } from 'uuid';
 
 import { colorGenerator } from './services/colorGen';
 import { status } from './status.enum';
+import { GameStatus } from './utils/constants';
 
 interface CreateRoomArgs {
   games: Record<string, GameType>;
@@ -21,7 +22,6 @@ function initNewGameRoom({
 }: CreateRoomArgs) {
   let updatedGameObject = games;
   const updatedSetObject = sets;
-
   const setID = v4();
   updatedSetObject[setID] = generateWordSet(language, wordAmount);
   updatedGameObject = {
@@ -31,14 +31,16 @@ function initNewGameRoom({
       language,
       wordAmount,
       setID,
-      status: status.WAITING,
+      status: status.PLAYING,
       clients: {
         ...games[roomID]?.clients,
         [clientID]: {
+          ...games[clientID]?.clients[clientID],
           id: clientID,
           username,
           wordIndex: 0,
           color: colorGenerator(),
+          status: GameStatus.PLAYING,
         },
       },
     },
@@ -49,6 +51,8 @@ function initNewGameRoom({
 function assignUserToARoom({
   roomID, username, games, socket,
 }: any) {
+  const isGameJoinable = games[roomID].status === GameStatus.WAITING
+  || games[roomID].status === GameStatus.FINISHED;
   const updatedGames = {
     ...games,
     [roomID]: {
@@ -60,6 +64,7 @@ function assignUserToARoom({
           username,
           wordIndex: 0,
           color: colorGenerator(),
+          status: isGameJoinable ? GameStatus.PLAYING : GameStatus.WAITING,
         },
       },
     },

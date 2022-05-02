@@ -3,6 +3,7 @@ import {
 } from '@aqac/utils';
 import { Socket } from 'socket.io';
 import { v4 } from 'uuid';
+import { GameStatus } from '../utils/constants';
 import { initNewGameRoom, assignUserToARoom } from '../GameController';
 
 export const Services = {
@@ -41,7 +42,7 @@ export const Services = {
         clients: {
           ...games[roomID]?.clients,
           [socket.id]: {
-            ...games[roomID]?.clients[socket.id],
+            ...games[roomID]?.clients?.[socket.id], // ! This break everything :'()
             wordIndex,
             // Needed to calculate the progression out of 100
             wordAmount: games[roomID].wordAmount,
@@ -94,7 +95,7 @@ export const Services = {
   ) => {
     const updatedGameObject = games;
     const updatedSetObject = sets;
-    // Reset scores to zero
+    // Reset players scores to zero
     for (const aClient of Object.values(games[roomID].clients)) {
       updatedGameObject[roomID].clients[aClient.id].wordIndex = 0;
     }
@@ -104,11 +105,11 @@ export const Services = {
     updatedGameObject[roomID].setID = setID;
     // Send new game details to users
     io.to(roomID).emit('on-win', {
-      username: games[roomID]?.clients[socket.id].username,
+      username: games[roomID]?.clients[socket.id]?.username,
       clients: Object.values(games[roomID].clients),
       wordSet: sets[games[roomID]?.setID],
+      status: games[roomID]?.status,
     });
-    io.to(roomID).emit('on-win', games[roomID]?.clients[socket.id].username);
     return { updatedGameObject, updatedSetObject };
   },
   /**
@@ -127,5 +128,38 @@ export const Services = {
       }
     ));
     return roomList;
+  },
+  updateGameStatus: (
+    status: GameStatus,
+    games: Record<string, GameType>,
+    roomID: string,
+  ) => {
+    /**
+     * Mettre le joueur en waiting par défault.
+     * Si le joueur arrive dans la partie et que la partie est en cours, maintenir son status
+     * en waiting.
+     * Tant que le joueur est en status waiting, il ne peut pas participer à la partie.
+     * Dans le scoring seuls les joueurs en status playing sont pris en compte.
+     * Quand une partie arrive en status finished, tous les joueurs sont en status waiting.
+     * Après un compteur de 4 secondes, passer tous les joueurs en playing
+     */
+    const updatedGames = {
+      ...games,
+      [roomID]: {
+        ...games[roomID],
+        status,
+        clients: games[roomID]?.clients,
+      },
+    };
+    return updatedGames;
+  },
+  updatePlayersStatus: (status: GameStatus, games: Record<string, GameType>, roomID: string) => {
+    const newGameObject: Record<string, GameType> = games;
+    for (const aClient of Object.values(games[roomID]?.clients)) {
+      if (aClient.status) {
+        newGameObject[roomID].clients[aClient.id].status = status || GameStatus.PLAYING;
+      }
+    }
+    return newGameObject;
   },
 };

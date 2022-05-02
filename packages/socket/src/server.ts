@@ -5,6 +5,8 @@ import { Socket } from 'socket.io';
 
 import { GameType, SetType } from '@aqac/utils';
 import { Services } from './services/services';
+import { GameStatus } from './utils/constants';
+import { emitGameStatus } from './utils/status';
 
 const app = express();
 
@@ -21,30 +23,48 @@ const io = require('socket.io')(server, {
 app.get('/', (req, res) => {
   res.sendFile(`${__dirname}/index.html`);
 });
-/* Global objects Games & Sets */
-let games: Record<string, GameType> = {};
-let sets: Record<string, SetType> = {};
+/* Global Games & Sets objects */
+let GAMES: Record<string, GameType> = {};
+let SETS: Record<string, SetType> = {};
 
 io.on('connection', (socket: Socket) => {
   /**
    * Remove user from global object
    */
   socket.on('disconnect', () => {
-    games = Services.disconnect(games, socket, io);
+    GAMES = Services.disconnect(GAMES, socket, io);
   });
 
   /**
    * Update user's progression and handle users win
    */
   socket.on('progression', ({ roomID, wordIndex }) => {
-    games = Services.progression(games, roomID, wordIndex, socket);
-    io.to(roomID).emit('progression', { clients: Object.values(games[roomID].clients) });
-    // Handle user's win
-    if (games[roomID].wordAmount === wordIndex) {
+    GAMES = Services.progression(GAMES, roomID, wordIndex, socket);
+    io.to(roomID).emit('progression', { clients: Object.values(GAMES[roomID].clients), gameStatus: GAMES[roomID].status });
+    /**
+     * If a user win, the game status change to 'finished'
+     * users wordIndexes are set to 0 et and a new set of words is generated.
+     * after 5 seconds, the game status change to 'playing' and
+     * users are allow to play again
+     */
+    if (GAMES[roomID].wordAmount === wordIndex) {
+      GAMES = Services.updateGameStatus(GameStatus.FINISHED, GAMES, roomID);
       const { updatedSetObject, updatedGameObject } = Services
-        .onWin(games, sets, roomID, io, socket);
-      games = updatedGameObject;
-      sets = updatedSetObject;
+        .onWin(GAMES, SETS, roomID, io, socket);
+      let counter = 6;
+      const t = setInterval(() => {
+        counter -= 1;
+        io.to(roomID).emit('counter', { counter });
+        if (counter === -2) {
+          clearInterval(t);
+          SETS = updatedSetObject;
+          const transitionalObject = Services
+            .updatePlayersStatus(GameStatus.PLAYING, updatedGameObject, roomID);
+          GAMES = Services.updateGameStatus(GameStatus.PLAYING, transitionalObject, roomID);
+          emitGameStatus(GAMES, roomID, io);
+          io.to(roomID).emit('on-win', { clients: Object.values(GAMES[roomID].clients) });
+        }
+      }, 1000);
     }
   });
 
@@ -52,19 +72,19 @@ io.on('connection', (socket: Socket) => {
    *  Join or create a room depending on if the room exists or not
    */
   socket.on('join-room', ({ roomID, username, gameParameters }) => {
-    if (Object.keys(games).includes(roomID)) {
-      games = Services.joinRoom(games, roomID, username, socket);
+    if (Object.keys(GAMES).includes(roomID)) {
+      GAMES = Services.joinRoom(GAMES, roomID, username, socket);
       socket.join(roomID);
     } else {
       const { updatedGameObject, updatedSetObject } = Services
-        .createRoom(games, roomID, gameParameters, sets, username, socket);
-      games = updatedGameObject;
-      sets = updatedSetObject;
+        .createRoom(GAMES, roomID, gameParameters, SETS, username, socket);
+      GAMES = updatedGameObject;
+      SETS = updatedSetObject;
       socket.join(roomID);
     }
     io.to(roomID).emit('join-room', {
       roomID,
-      wordSet: sets[games[roomID]?.setID],
+      wordSet: SETS[GAMES[roomID]?.setID],
     });
     io.to(roomID).emit('greet', {
       playerName: username,
@@ -75,7 +95,7 @@ io.on('connection', (socket: Socket) => {
    * Send the list of rooms with their details
    */
   socket.on('room-list', () => {
-    const roomList = Services.roomList(games);
+    const roomList = Services.roomList(GAMES);
     io.emit('room-list', roomList);
   });
 });

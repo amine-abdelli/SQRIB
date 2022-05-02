@@ -2,16 +2,17 @@ import {
   Button, Input, Modal, Radio, Text,
 } from '@nextui-org/react';
 import { languages, wordAmount } from '@aqac/utils';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { CreateModalProps, defaultGameParameters } from './CreateModal.props';
 import { onFormChange } from '../../../utils/form';
 
 function CreateModal({
   isVisible, setIsVisible, setRoomID, setHasJoined, username, setGameParameters, gameParameters,
 }: CreateModalProps) {
+  const [selectedGameParameters, setSelectedGameParameters] = useState<string>();
   const defaultInputValue = `[${gameParameters.language.toLocaleUpperCase()}] ${gameParameters.wordAmount} ${gameParameters.private ? 'privé' : 'public'} hosted by ${username}`;
   useEffect(() => {
-    setRoomID(defaultInputValue);
+    setSelectedGameParameters(defaultInputValue);
   }, [defaultInputValue]);
   return (
     <Modal
@@ -19,6 +20,7 @@ function CreateModal({
       open={isVisible}
       onClose={() => {
         setRoomID(undefined);
+        setSelectedGameParameters(undefined);
         setIsVisible(false);
       }}
     >
@@ -30,7 +32,7 @@ function CreateModal({
           className='w100'
           value={defaultInputValue}
           disabled
-          onChange={(e) => setRoomID(e.target.value)}
+          onChange={(e) => setSelectedGameParameters(e.target.value)}
         />
         <Radio.Group
           value={gameParameters.language}
@@ -60,6 +62,7 @@ function CreateModal({
           onClick={() => {
             setHasJoined(true);
             setIsVisible(false);
+            setRoomID(selectedGameParameters);
           }}
         >
           Créer une partie

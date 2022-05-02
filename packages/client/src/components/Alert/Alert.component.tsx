@@ -108,8 +108,8 @@ function Alert({ id, fade }: IAlert) {
 
   return (
     <div>
-      {alerts.map((alert) => (
-        <div key={alert.message} style={{ zIndex: 999999999999, transition: 'all 1s ease-in-out' }} className={cssClasses(alert)}>
+      {alerts.map((alert, i) => (
+        <div key={`${alert.message + i}`} style={{ zIndex: 999999999999, transition: 'all 1s ease-in-out' }} className={cssClasses(alert)}>
           <a className="close" onClick={() => removeAlert(alert)}>&times;</a>
           <span dangerouslySetInnerHTML={{ __html: alert.message }} />
         </div>

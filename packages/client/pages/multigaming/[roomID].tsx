@@ -1,3 +1,4 @@
+import { Modal } from '@nextui-org/react';
 import { useRouter } from 'next/router';
 import React, {
   useEffect, useRef, useState,
@@ -13,6 +14,7 @@ import EnterInput from '../../src/components/Multigaming/EnterInput/EnterInput.c
 import GameRoom from '../../src/components/Multigaming/GameRoom/GameRoom.component';
 import VictoryModal from '../../src/components/Multigaming/VictoryModal/VictoryModal.component';
 import { useGetSelf } from '../../src/hooks/useGetSelf';
+import { useLocalStorage } from '../../src/hooks/useLocalStorage';
 
 function Room() {
   const router = useRouter();
@@ -22,6 +24,8 @@ function Room() {
   const [counter, setCounter] = useState(5);
   const [gameParameters, setGameParameters] = useState<GameParametersProps>(defaultGameParameters);
   const [winner, setWinner] = useState('');
+  const [usernameStoredInLocalStorage] = useLocalStorage('nickname', '');
+  const [shouldDisplayUsernameInput, setShouldDisplayUsernameInput] = useState(false);
   const [game, setGame] = useState<any>();
   const { current: socketRef } = useRef<Socket>(socket);
   const { data: selfData } = useGetSelf();
@@ -30,7 +34,6 @@ function Room() {
   const decryptedUrlParams = Buffer.from(`${urlParams}`, 'base64').toString('ascii').split('?');
   // Decrypted roomID (uuid)
   const roomID = decryptedUrlParams[0];
-  console.log('decryptedUrlParams', decryptedUrlParams);
   // if create=true, then create a room
   const isHost = Boolean(decryptedUrlParams[1]);
   // reencrypted roomID to be sent via URL for invitation
@@ -57,8 +60,8 @@ function Room() {
   }, [socketRef]);
 
   useEffect(() => {
-    setUsername(selfData?.self.nickname);
-  }, [selfData?.self.nickname]);
+    setUsername(selfData?.self.nickname || usernameStoredInLocalStorage);
+  }, [selfData?.self.nickname, username, usernameStoredInLocalStorage]);
   /**
    * As soon as the player land on the room page, he either join the room or create it
    * See 'join-room' socket in the socket server http://localhost:4001
@@ -93,6 +96,10 @@ function Room() {
   }
 
   useEffect(() => {
+    setShouldDisplayUsernameInput(!username);
+  }, [selfData?.self.nickname, username]);
+
+  useEffect(() => {
     socketRef.on('start-game', ({ game: currentGame }) => {
       setGame(currentGame);
     });
@@ -106,23 +113,23 @@ function Room() {
         {username}
       </h1>
 
-      {(!selfData?.self.nickname && !username) && (
+      <Modal
+        open={shouldDisplayUsernameInput}
+      >
         <EnterInput
           setUsername={setUsername}
         />
-      )}
-      {(selfData?.self.nickname || username) && (
-        <CreateModal
-          isVisible={game?.status === 'staging'}
-          roomID={encryptedRoomID}
-          username={username}
-          isHost={isHost}
-          gameParameters={gameParameters}
-          setGameParameters={setGameParameters}
-          game={game}
-          startGame={startGame}
-        />
-      )}
+      </Modal>
+      <CreateModal
+        isVisible={game?.status === 'staging'}
+        roomID={encryptedRoomID}
+        username={username}
+        isHost={isHost}
+        gameParameters={gameParameters}
+        setGameParameters={setGameParameters}
+        game={game}
+        startGame={startGame}
+      />
       {username && game && socketRef.connected && (
         <GameRoom
           roomID={roomID}

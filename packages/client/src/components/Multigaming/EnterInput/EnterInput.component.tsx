@@ -1,4 +1,6 @@
-import { Button, Input, Text } from '@nextui-org/react';
+import {
+  Button, Input, Text,
+} from '@nextui-org/react';
 import React, {
   Dispatch, SetStateAction, useEffect, useState,
 } from 'react';
@@ -42,8 +44,8 @@ function EnterInput({ setUsername }: EnterInputProps) {
   const feedbackType = errorMessage ? 'error' : 'success';
 
   return (
-    <div className='flex flex-column' style={{ width: '15rem' }}>
-      <h3 className='text-center'>Choisissez un pseudo</h3>
+    <div className='flex flex-column' style={{ width: '100%', justifyContent: 'center', padding: '1rem' }}>
+      <h3 className='text-center'>Choisis ton pseudo</h3>
       {nickname && (
       <div>
         <Text
@@ -57,7 +59,13 @@ function EnterInput({ setUsername }: EnterInputProps) {
       </div>
       )}
       <Input aria-label='Pseudo' className='w100' value={nickname} onChange={({ target }) => { setNickname(target.value); }} />
-      <Button shadow className='w100' onClick={onEnterInputValidation}>Enregistrer</Button>
+      <Button
+        shadow
+        className='w100'
+        onClick={onEnterInputValidation}
+      >
+        Enregistrer
+      </Button>
     </div>
   );
 }

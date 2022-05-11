@@ -100,8 +100,12 @@ function CreateModal({
               {game?.clients && Object.values(game?.clients).map((client: any) => (
                 username && (
                   <div key={client.id}>
-                    <div className={styles.player}>{client.id}</div>
-                    {client.username}
+                    <div
+                      className={styles.player}
+                      style={{ backgroundColor: client.color }}
+                    >
+                      {client.username}
+                    </div>
                   </div>
                 )
               ))}

@@ -1,0 +1,18 @@
+.playersWrapper {
+  display: flex;
+  justify-content: space-evenly;
+  flex-wrap: wrap;
+  
+  .player {
+    display: flex;
+    justify-content: center;
+    
+    align-items: center;
+    border: 1px black solid;
+    margin: 5px;
+    padding: 5px;
+    width: 5rem;
+    height: 5rem;
+    border-radius: 50px;
+  }
+}

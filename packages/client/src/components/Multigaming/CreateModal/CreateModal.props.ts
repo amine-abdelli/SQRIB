@@ -6,16 +6,18 @@ export interface GameParametersProps {
   playersLimit: number,
   private: boolean,
   password?: string,
+  name?: string
 }
 
 export interface CreateModalProps {
   isVisible: boolean;
-  setIsVisible: (isVisible: boolean) => void;
-  setRoomID: (roomID: string | undefined) => void;
-  setHasJoined: (hasJoined: boolean) => void;
-  username: string
-  setGameParameters: (gameParameters: GameParametersProps) => void;
+  roomID: string;
+  username?: string;
+  isHost: boolean;
   gameParameters: GameParametersProps;
+  setGameParameters: (gameParameters: GameParametersProps) => void;
+  game: any;
+  startGame: () => void;
 }
 
 export const defaultGameParameters = {

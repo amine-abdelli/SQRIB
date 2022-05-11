@@ -1,26 +1,104 @@
 import { Button } from '@nextui-org/react';
-import React from 'react';
+import React, { useContext, useEffect } from 'react';
+import { useRouter } from 'next/router';
+import { MainContext } from '../../../context/MainContext';
 import OnGame from '../OnGame/OnGame.component';
 import ProgressList from '../ProgressList/ProgressList.component';
 import { GameRoomProps } from './GameRoom.props';
 
+function updateGameWithSortedClients(currentGame: any) {
+  const sortedClients = currentGame?.clients && Object.entries(currentGame?.clients)
+    .sort(
+      ([, a]: [string, any], [, b]: [string, any]) => b.wordIndex - a.wordIndex,
+    )
+    .reduce((r, [k, v]) => ({ ...r, [k]: v }), {});
+
+  return { ...currentGame, clients: sortedClients };
+}
+
 function GameRoom({
-  roomID, handleLeave, username, game, wordSet, socketRef, isGameEnded,
+  roomID, username, game, wordSet, socketRef, isGameEnded, setGame,
+  setWordSet, setWinner, setCounter, isGameStarted,
 }: GameRoomProps) {
-  const self = game?.find(({ id }) => id === socketRef.id);
+  const clients = game?.clients && Object.values(game?.clients);
+  const self = clients?.find(({ id }) => id === socketRef.id);
+  const {
+    wordIndex, setOffSet, setWordIndex, setComputedWords, setCorrectWords,
+  } = useContext(MainContext);
+  const router = useRouter();
+
+  useEffect(() => {
+    if (socketRef.connected) {
+      socketRef.emit('progression', { roomID, wordIndex, username });
+      socketRef.on('progression', ({ game: currentGame }) => {
+        // Here sort the clients by wordIndex
+        if (!isGameEnded && clients?.length) {
+          const gameWithSortedClients = updateGameWithSortedClients(currentGame);
+          setGame(gameWithSortedClients);
+        }
+      });
+      socketRef.on('on-win', ({
+        username: userNickname,
+        game: currentGame,
+        wordSet: newWordSet,
+      }) => {
+        setGame(currentGame);
+        setWinner(userNickname);
+        setWordIndex(0);
+        setComputedWords([]);
+        setCorrectWords([]);
+        setOffSet(0);
+        if (clients.length && newWordSet?.length) {
+          setWordSet(newWordSet);
+        }
+      });
+    }
+  }, [clients.length, isGameEnded, roomID, setComputedWords, setCorrectWords, setGame, setOffSet,
+    setWinner, setWordIndex, setWordSet, socketRef, username, wordIndex]);
+
+  useEffect(() => {
+    socketRef.on('hasBeenDisconnected', ({ game: currentGame }) => {
+      const updatedGameWithSortedClients = updateGameWithSortedClients(currentGame);
+      setGame(updatedGameWithSortedClients);
+    });
+    socketRef.on('gameFinished', () => {
+      console.log('gameFinished');
+    });
+
+    if (game?.status === 'playing') {
+      setCounter(5);
+    }
+
+    socketRef.on('counter', ({ counter: currentCounter }) => {
+      setCounter(currentCounter);
+    });
+  }, [setCounter, setGame, socketRef]);
+
+  function handleLeave() {
+    setWordIndex(0);
+    setComputedWords([]);
+    setCorrectWords([]);
+    setWordSet([]);
+    setOffSet(0);
+    setCounter(5);
+    socketRef.disconnect();
+    router.push('/multigaming');
+  }
+
   return (
     <div>
       <div className='flex justify-between'>
-        <h3>{roomID}</h3>
+        <h3>{game.name}</h3>
         <Button auto onClick={handleLeave}>Quitter</Button>
       </div>
       {`Bienvenue ${username}`}
-      <ProgressList data={game} />
+      <ProgressList data={clients} />
       {socketRef.connected && wordSet && (
         <OnGame
           wordSet={wordSet}
-          isGameEnded={isGameEnded}
-          isAllow={self?.status === 'playing'}
+          isGameEnded={game?.status === 'finished' || game?.status === 'staging'}
+          isAllow={self?.status === 'playing' && game?.status === 'playing'}
+          disabled={self?.status !== 'playing' || game?.status !== 'playing'}
         />
       )}
     </div>

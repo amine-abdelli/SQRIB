@@ -41,6 +41,7 @@ function JoiningRoom({
       <Button
         onClick={() => setShouldDisplayUsernameInput(true)}
         light
+        className='w100'
         color="primary"
       >
         Je change mon pseudo

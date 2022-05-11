@@ -102,7 +102,7 @@ function CreateModal({
                   <div key={client.id}>
                     <div
                       className={styles.player}
-                      style={{ backgroundColor: client.color }}
+                      style={{ backgroundColor: client.color, fontWeight: 'bold' }}
                     >
                       {client.username}
                     </div>

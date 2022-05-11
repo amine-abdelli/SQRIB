@@ -1,5 +1,5 @@
 export enum GameStatus {
-  WAITING = 'waiting',
+  STAGING = 'staging',
   PLAYING = 'playing',
   FINISHED = 'finished'
 }

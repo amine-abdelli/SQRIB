@@ -4,7 +4,7 @@ import {
 import { Socket } from 'socket.io';
 import { v4 } from 'uuid';
 import { GameStatus } from '../utils/constants';
-import { initNewGameRoom, assignUserToARoom } from '../GameController';
+import { initNewGameRoom, assignUserToARoom, updateRoom } from '../GameController';
 
 export const Services = {
   /**
@@ -20,7 +20,7 @@ export const Services = {
         }
         // Update room player list in live when someone leave the room
         if (games[aGame.id]?.clients) {
-          io.to(aGame.id).emit('hasBeenDisconnected', { clients: Object.values(games[aGame.id]?.clients) });
+          io.to(aGame.id).emit('hasBeenDisconnected', { game: games[aGame.id] });
         }
       }
     }
@@ -45,7 +45,7 @@ export const Services = {
             ...games[roomID]?.clients?.[socket.id], // ! This break everything :'()
             wordIndex,
             // Needed to calculate the progression out of 100
-            wordAmount: games[roomID].wordAmount,
+            wordAmount: games[roomID]?.wordAmount,
           },
         },
       },
@@ -61,10 +61,13 @@ export const Services = {
     username: string,
     socket: Socket,
   ) => {
-    const updatedGames = assignUserToARoom({
-      roomID, username, games, socket,
-    });
-    return updatedGames;
+    if (!games[roomID].clients[socket.id]) {
+      const updatedGames = assignUserToARoom({
+        roomID, username, games, socket,
+      });
+      return updatedGames;
+    }
+    return games;
   },
   /**
    * Add a new game to the global object
@@ -77,9 +80,22 @@ export const Services = {
     username: string,
     socket: Socket,
   ) => {
-    const { language, wordAmount } = gameParameters;
+    const { language, wordAmount, name } = gameParameters;
+    console.log('name services', name);
     const { updatedGameObject, updatedSetObject } = initNewGameRoom({
-      games, roomID, sets, clientID: socket.id, username, language, wordAmount,
+      games, roomID, sets, clientID: socket.id, username, language, wordAmount, name,
+    });
+    return { updatedGameObject, updatedSetObject };
+  },
+  updateRoomWithNewParameters: (
+    games: Record<string, GameType>,
+    roomID: string,
+    gameParameters: Record<string, number | string | Languages | any>,
+    sets: Record<string, SetType>,
+  ) => {
+    const { language, wordAmount, name } = gameParameters;
+    const { updatedGameObject, updatedSetObject } = updateRoom({
+      games, roomID, sets, language, wordAmount, name,
     });
     return { updatedGameObject, updatedSetObject };
   },
@@ -106,7 +122,7 @@ export const Services = {
     // Send new game details to users
     io.to(roomID).emit('on-win', {
       username: games[roomID]?.clients[socket.id]?.username,
-      clients: Object.values(games[roomID].clients),
+      game: games[roomID],
       wordSet: sets[games[roomID]?.setID],
       status: games[roomID]?.status,
     });
@@ -117,16 +133,18 @@ export const Services = {
    */
   roomList: (games: Record<string, GameType>) => {
     const roomList = Object.values(games).map(({
-      id, language, wordAmount, clients,
-    }: GameType) => (
-      {
-        name: id,
-        players: Object.values(games[id].clients).length,
-        lang: language,
-        wordAmount,
-        clients: Object.values(clients).map(({ username }) => username),
-      }
-    ));
+      id, language, wordAmount, clients, name,
+    }: GameType) => ({
+      id,
+      name,
+      players: games[id] && Object.values(games[id]?.clients).length,
+      lang: language,
+      wordAmount,
+      clients: Object.values(clients).map(({ username }) => username),
+    }));
+    console.log('roomList', roomList);
+    console.log('GAMES');
+    console.dir(games, { depth: null });
     return roomList;
   },
   updateGameStatus: (

@@ -1,5 +1,5 @@
 export enum status {
-  WAITING = 'waiting',
+  STAGING = 'staging',
   PLAYING = 'playing',
   FINISHED = 'finished',
 }

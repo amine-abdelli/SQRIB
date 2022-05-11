@@ -4,7 +4,6 @@ import {
 import { v4 } from 'uuid';
 
 import { colorGenerator } from './services/colorGen';
-import { status } from './status.enum';
 import { GameStatus } from './utils/constants';
 
 interface CreateRoomArgs {
@@ -15,15 +14,26 @@ interface CreateRoomArgs {
   username: string;
   language: Languages;
   wordAmount: number;
+  name: string;
+}
+
+interface updateRoomArgs {
+  games: Record<string, GameType>;
+  roomID: string;
+  sets: Record<string, SetType>;
+  language: Languages;
+  wordAmount: number;
+  name: string;
 }
 
 function initNewGameRoom({
-  games, sets, roomID, clientID, username, language = Languages.FR, wordAmount = 60,
+  games, sets, roomID, clientID, username, language = Languages.FR, wordAmount = 60, name,
 }: CreateRoomArgs) {
   let updatedGameObject = games;
   const updatedSetObject = sets;
   const setID = v4();
   updatedSetObject[setID] = generateWordSet(language, wordAmount);
+  console.log('name', name);
   updatedGameObject = {
     ...games,
     [roomID]: {
@@ -31,7 +41,8 @@ function initNewGameRoom({
       language,
       wordAmount,
       setID,
-      status: status.PLAYING,
+      name: name || '',
+      status: GameStatus.STAGING,
       clients: {
         ...games[roomID]?.clients,
         [clientID]: {
@@ -41,8 +52,30 @@ function initNewGameRoom({
           wordIndex: 0,
           color: colorGenerator(),
           status: GameStatus.PLAYING,
+          host: true,
         },
       },
+    },
+  };
+
+  return { updatedGameObject, updatedSetObject };
+}
+
+function updateRoom({
+  games, sets, roomID, language = Languages.FR, wordAmount = 60, name,
+}: updateRoomArgs) {
+  let updatedGameObject = games;
+  const updatedSetObject = sets;
+  const setID = v4();
+  updatedSetObject[setID] = generateWordSet(language, wordAmount);
+  updatedGameObject = {
+    ...games,
+    [roomID]: {
+      ...games[roomID],
+      language,
+      wordAmount,
+      setID,
+      name,
     },
   };
   return { updatedGameObject, updatedSetObject };
@@ -51,8 +84,6 @@ function initNewGameRoom({
 function assignUserToARoom({
   roomID, username, games, socket,
 }: any) {
-  const isGameJoinable = games[roomID].status === GameStatus.WAITING
-  || games[roomID].status === GameStatus.FINISHED;
   const updatedGames = {
     ...games,
     [roomID]: {
@@ -64,7 +95,8 @@ function assignUserToARoom({
           username,
           wordIndex: 0,
           color: colorGenerator(),
-          status: isGameJoinable ? GameStatus.PLAYING : GameStatus.WAITING,
+          status: GameStatus.STAGING,
+          host: false,
         },
       },
     },
@@ -73,5 +105,5 @@ function assignUserToARoom({
 }
 
 export {
-  initNewGameRoom, assignUserToARoom,
+  initNewGameRoom, assignUserToARoom, updateRoom,
 };

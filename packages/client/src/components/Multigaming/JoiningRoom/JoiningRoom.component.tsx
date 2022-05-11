@@ -6,8 +6,7 @@ import RoomTable from '../RoomTable/RoomTable.component';
 import { JoiningRoomProps } from './JoiningRoom.props';
 
 function JoiningRoom({
-  roomID, setRoomID, roomList,
-  username, gameParameters, setGameParameters, socket,
+  roomID, setRoomID, roomList, socket, setShouldDisplayUsernameInput,
 }: JoiningRoomProps) {
   const ROOT_URL = process.env.ROOT_URL || 'http://localhost:3000';
   const router = useRouter();
@@ -38,6 +37,13 @@ function JoiningRoom({
         onClick={() => createRoomGame()}
       >
         Créer une partie
+      </Button>
+      <Button
+        onClick={() => setShouldDisplayUsernameInput(true)}
+        light
+        color="primary"
+      >
+        Je change mon pseudo
       </Button>
     </div>
   );

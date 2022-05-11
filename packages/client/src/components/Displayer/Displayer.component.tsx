@@ -38,7 +38,7 @@ function Displayer(
           <WordDisplayer
             className={styles.wordFocus}
             style={{ color: Colors.GREY }}
-            key={`${word + i}`}
+            key={`${word}`}
             setState={setYFocusedPosition}
             word={splitStringToSpans(word, userInput)}
             fontSize={fontSize}
@@ -52,7 +52,7 @@ function Displayer(
           {' '}
           <WordDisplayer
             style={{ color: Colors.GREY }}
-            key={`${word + i}`}
+            key={`${word}`}
             setState={setYNextPosition}
             word={` ${word} `}
             fontSize={fontSize}
@@ -69,7 +69,7 @@ function Displayer(
               textDecoration: isWordPassed && (wordsStack[i] !== computedWords[i]) ? 'underline red' : '',
             }}
             setState={() => null}
-            key={`${word + i}`}
+            key={`${word}`}
             word={splitStringToSpans(wordsStack[i], computedWords[i])}
             fontSize={fontSize}
           />
@@ -81,7 +81,7 @@ function Displayer(
         {/* &nbsp; */}
         <WordDisplayer
           style={{ color: Colors.GREY }}
-          key={`${word + i}`}
+          key={`${word}`}
           word={` ${word} `}
           fontSize={fontSize}
         />

@@ -13,7 +13,7 @@ function Input({
     yFocusedPosition, yNextPosition, setOffSet, offSet, setWordIndex,
   } = useContext(MainContext);
   const isDidacticiel = route.pathname === '/didacticiel';
-  const isMultigaming = route.pathname === '/multigaming';
+  const isMultigaming = route.pathname === '/multigaming/[roomID]';
   // If a player join an already started game, he can't write in the input
   const isMultigamerAndNotAllowToPlay = disabled && isMultigaming;
   function onSpacePress(e: KeyboardEvent) {

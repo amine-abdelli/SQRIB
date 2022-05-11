@@ -1,0 +1,152 @@
+import { useRouter } from 'next/router';
+import React, {
+  useEffect, useRef, useState,
+} from 'react';
+import { Socket } from 'socket.io-client';
+import { alertService } from '../../services';
+import {
+  socketConnect, socketDisconnect, socket,
+} from '../../services/socket.service';
+import CreateModal from '../../src/components/Multigaming/CreateModal/CreateModal.component';
+import { defaultGameParameters, GameParametersProps } from '../../src/components/Multigaming/CreateModal/CreateModal.props';
+import EnterInput from '../../src/components/Multigaming/EnterInput/EnterInput.component';
+import GameRoom from '../../src/components/Multigaming/GameRoom/GameRoom.component';
+import VictoryModal from '../../src/components/Multigaming/VictoryModal/VictoryModal.component';
+import { useGetSelf } from '../../src/hooks/useGetSelf';
+
+function Room() {
+  const router = useRouter();
+  const [username, setUsername] = useState<string | undefined>();
+  const [wordSet, setWordSet] = useState<string[] | undefined>();
+  const [isGameStarted, setIsGameStarted] = useState<boolean>(false);
+  const [counter, setCounter] = useState(5);
+  const [gameParameters, setGameParameters] = useState<GameParametersProps>(defaultGameParameters);
+  const [winner, setWinner] = useState('');
+  const [game, setGame] = useState<any>();
+  const { current: socketRef } = useRef<Socket>(socket);
+  const { data: selfData } = useGetSelf();
+  const { roomID: urlParams } = router.query;
+  // Params collected from url ROOT_URL/roomID?create=true
+  const decryptedUrlParams = Buffer.from(`${urlParams}`, 'base64').toString('ascii').split('?');
+  // Decrypted roomID (uuid)
+  const roomID = decryptedUrlParams[0];
+  console.log('decryptedUrlParams', decryptedUrlParams);
+  // if create=true, then create a room
+  const isHost = Boolean(decryptedUrlParams[1]);
+  // reencrypted roomID to be sent via URL for invitation
+  const encryptedRoomID = Buffer.from(`${roomID}`).toString('base64');
+
+  /**
+   * Si la room existe déjà, faire rentrer le joueur dans la game
+   * Sinon ouvrir la modal de création de la room
+   * Attendre que l'host lance la game
+   * Créer un status staging
+   * Si staging === 'true', mener vers la page de création de la room avec tous les autres joueurs
+   * Sinon, mener vers la page de jeu
+   * Passer l'username en param et à l'arrivé init une nouvel socket avec nouvel id
+   * et tout ce qui s'en suit
+   * Créer enum pour les routes
+   * Authentifier les ids avec une clef secrete isLegit
+   *
+   * User join-room
+   * -> send User list
+   */
+  useEffect(() => {
+    socketConnect(socketRef);
+    return () => socketDisconnect(socketRef);
+  }, [socketRef]);
+
+  useEffect(() => {
+    setUsername(selfData?.self.nickname);
+  }, [selfData?.self.nickname]);
+  /**
+   * As soon as the player land on the room page, he either join the room or create it
+   * See 'join-room' socket in the socket server http://localhost:4001
+   */
+  useEffect(() => {
+    if (username) {
+      socketRef.emit('join-room', {
+        roomID, username, gameParameters,
+      });
+    }
+    socketRef.on('join-room', ({ wordSet: wordSetPayload, game: currentGame, isLegit }) => {
+      // The room ID is checked on the socket server to make sure it's a legit token
+      if (!isLegit) {
+        router.push('/multigaming');
+      }
+      setWordSet(wordSetPayload);
+      setGame(currentGame);
+    });
+    socketRef.on('greet', ({ playerID, playerName }) => {
+      const customMessage = playerID === socketRef.id
+        ? 'Vous venez de rejoindre la partie'
+        : `${playerName} vient de rejoindre la partie`;
+      alertService.success(customMessage, {});
+    });
+  }, [socketRef, username]);
+
+  // Keep this order so the roomList is updated with the latest names
+  function startGame() {
+    socketRef.emit('start-game', { roomID, gameParameters });
+    socketRef.emit('room-list');
+    setIsGameStarted(true);
+  }
+
+  useEffect(() => {
+    socketRef.on('start-game', ({ game: currentGame }) => {
+      setGame(currentGame);
+    });
+  }, [socketRef]);
+
+  return (
+    <div>
+      <h1>
+        Salut
+        {' '}
+        {username}
+      </h1>
+
+      {(!selfData?.self.nickname && !username) && (
+        <EnterInput
+          setUsername={setUsername}
+        />
+      )}
+      {(selfData?.self.nickname || username) && (
+        <CreateModal
+          isVisible={game?.status === 'staging'}
+          roomID={encryptedRoomID}
+          username={username}
+          isHost={isHost}
+          gameParameters={gameParameters}
+          setGameParameters={setGameParameters}
+          game={game}
+          startGame={startGame}
+        />
+      )}
+      {username && game && socketRef.connected && (
+        <GameRoom
+          roomID={roomID}
+          game={game}
+          isGameEnded={game?.status === 'finished'}
+          socketRef={socketRef}
+          username={username}
+          wordSet={wordSet || []}
+          setWordSet={setWordSet}
+          setGame={setGame}
+          setWinner={setWinner}
+          setCounter={setCounter}
+          isGameStarted={isGameStarted}
+        />
+      )}
+      {game?.status === 'finished' && (
+        <VictoryModal
+          counter={counter}
+          isGameEnded={game?.status === 'finished'}
+          winnerNickname={winner}
+        />
+      )}
+    </div>
+  );
+}
+
+export default Room;

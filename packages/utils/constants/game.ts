@@ -6,7 +6,8 @@ export type ClientType = {
   wordIndex: number;
   color: string;
   wordAmount?: number;
-  status: 'waiting' | 'playing' | 'finished';
+  status: 'staging' | 'playing' | 'finished';
+  host: boolean;
 }
 
 export type GameType = {
@@ -15,7 +16,8 @@ export type GameType = {
   language: Languages;
   wordAmount: number;
   clients: Record<string, ClientType>;
-  status: 'waiting' | 'playing' | 'finished';
+  status: 'staging' | 'playing' | 'finished';
+  name: string;
 };
 
 export type SetType = string[];

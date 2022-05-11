@@ -6,17 +6,18 @@ import { useLocalStorage } from '../../../hooks/useLocalStorage';
 
 interface EnterInputProps {
   setUsername: Dispatch<SetStateAction<string | undefined>>;
-  userList: string[];
-  isGameEnded: boolean;
+  // userList: string[];
 }
 
-function EnterInput({ setUsername, userList, isGameEnded }: EnterInputProps) {
+function EnterInput({ setUsername }: EnterInputProps) {
   const [nickname, setNickname] = useState<string>('');
   const [storedNickname, setLocalStorageNickname] = useLocalStorage('nickname', nickname);
   const [errorMessage, setErrorMessage] = useState<string>('');
 
   function onEnterInputValidation() {
-    if (nickname.length >= 5 && nickname.length <= 18 && !userList.includes(nickname)) {
+    if (nickname.length >= 5 && nickname.length <= 18
+    // && !userList.includes(nickname)
+    ) {
       setUsername(nickname);
       setLocalStorageNickname(nickname);
     }
@@ -30,8 +31,9 @@ function EnterInput({ setUsername, userList, isGameEnded }: EnterInputProps) {
       setErrorMessage('Votre pseudo doit contenir au moins 4 caractères');
     } else if (nickname.length > 18) {
       setErrorMessage('Votre pseudo doit contenir au maximum 15 caractères');
-    } else if (userList.includes(nickname)) {
-      setErrorMessage('Ce pseudo est déjà pris');
+      // else if (userList.includes(nickname)) {
+    // setErrorMessage('Ce pseudo est déjà pris');
+    // }
     } else {
       setErrorMessage('');
     }
@@ -54,7 +56,7 @@ function EnterInput({ setUsername, userList, isGameEnded }: EnterInputProps) {
         </Text>
       </div>
       )}
-      <Input disabled={isGameEnded} aria-label='Pseudo' className='w100' value={nickname} onChange={({ target }) => { setNickname(target.value); }} />
+      <Input aria-label='Pseudo' className='w100' value={nickname} onChange={({ target }) => { setNickname(target.value); }} />
       <Button shadow className='w100' onClick={onEnterInputValidation}>Enregistrer</Button>
     </div>
   );

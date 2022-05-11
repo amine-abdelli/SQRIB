@@ -24,11 +24,12 @@ function RoomTable({ data, setRoomName }: RoomTableProps) {
       </Table.Header>
       <Table.Body>
         {data.length
-          ? data.map(({ name, players, lang }, i) => {
+          ? data.map(({
+            name, players, lang, id,
+          }, i) => {
             if (players >= 5) fullRooms.push(name);
             return (
-              // eslint-disable-next-line react/no-array-index-key
-              <Table.Row key={name}>
+              <Table.Row key={id}>
                 <Table.Cell>{name}</Table.Cell>
                 <Table.Cell>{lang}</Table.Cell>
                 <Table.Cell>{`${players}/5`}</Table.Cell>

@@ -1,14 +1,24 @@
 import { Button, StyledSpacer } from '@nextui-org/react';
+import { useRouter } from 'next/router';
 import React from 'react';
-import CreateModal from '../CreateModal/CreateModal.component';
+
 import RoomTable from '../RoomTable/RoomTable.component';
 import { JoiningRoomProps } from './JoiningRoom.props';
 
 function JoiningRoom({
-  roomID, setRoomID, roomList, setHasJoined,
-  isCreateModalOpen, setIsCreateModalOpen,
-  username, gameParameters, setGameParameters,
+  roomID, setRoomID, roomList,
+  username, gameParameters, setGameParameters, socket,
 }: JoiningRoomProps) {
+  const ROOT_URL = process.env.ROOT_URL || 'http://localhost:3000';
+  const router = useRouter();
+
+  function createRoomGame() {
+    socket.emit('generate-room-id');
+    socket.on('generate-room-id', ({ roomID: payload }) => {
+      router.push(`${ROOT_URL}/multigaming/${payload}`);
+    });
+  }
+
   return (
     <div className='w100'>
       <h3 className='text-center'>Rejoindre une partie</h3>
@@ -16,7 +26,7 @@ function JoiningRoom({
       <Button
         className='w100'
         animated
-        onClick={() => setHasJoined(true)}
+        onClick={() => roomID && router.push(`${ROOT_URL}/multigaming/${btoa(`${roomID}`)}`)}
         disabled={!roomID}
       >
         rejoindre une partie
@@ -25,19 +35,10 @@ function JoiningRoom({
       <Button
         animated
         className='w100'
-        onClick={() => setIsCreateModalOpen(true)}
+        onClick={() => createRoomGame()}
       >
         Créer une partie
       </Button>
-      <CreateModal
-        isVisible={isCreateModalOpen}
-        setIsVisible={setIsCreateModalOpen}
-        setRoomID={setRoomID}
-        setHasJoined={setHasJoined}
-        username={username}
-        setGameParameters={setGameParameters}
-        gameParameters={gameParameters}
-      />
     </div>
   );
 }

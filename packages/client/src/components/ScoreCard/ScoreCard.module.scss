@@ -6,8 +6,8 @@
   border-radius: 7.5px;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
   transition: all 0.2s ease-in-out;
-  flex-basis: 22%;
   margin: 0;
+  flex-basis: 22%;
 
   .cardContent {
     font-weight: bold;
@@ -15,5 +15,23 @@
 
   & > span {
     text-align: center;
+  }
+}
+
+@media screen and (max-width: 550px) {
+  .cardWrapper {
+    flex-basis: 100%;
+  }
+}
+
+@media screen and (min-width: 551px) and (max-width: 1124px) {
+  .cardWrapper {
+    flex-basis: calc(50% - 1px - (10 * 2px));
+  }
+}
+
+@media screen and (min-width: 1124px) {
+  .cardWrapper {
+    flex-basis: calc(25% - 1px - (10 * 2px));
   }
 }

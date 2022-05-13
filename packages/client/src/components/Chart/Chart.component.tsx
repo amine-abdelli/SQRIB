@@ -24,7 +24,7 @@ function Chart({ scores, topMpm }: { scores: any, topMpm: number }) {
         margin={{
           top: 20, right: 50, bottom: 45, left: 50,
         }}
-        lineWidth={1}
+        lineWidth={0.5}
         xScale={{ type: 'point' }}
         yScale={{
           type: 'linear', min: 0, max: topValue(scores, 'mpm') + 10, stacked: true, reverse: false,

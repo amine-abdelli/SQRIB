@@ -19,9 +19,6 @@ function SideBar({
       ? (
         <div
           className={styles.sideBarButtons}
-          style={{
-            borderLeft: '1px dashed',
-          }}
         >
           <ul style={{ width: '100%', margin: '2px', color: 'inherit' }}>
             {isLoggedIn && (

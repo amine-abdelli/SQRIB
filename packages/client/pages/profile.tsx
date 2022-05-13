@@ -8,6 +8,7 @@ import { ITheme } from '../styles/theme';
 import { createTopScoringObject } from '../src/utils/scoring.utils';
 import Empty from '../src/components/Empty/Empty.component';
 import withAuth from '../src/components/withAuth/withAuth.hoc';
+import styles from '../styles/sass/pages/_profile.module.scss';
 
 function Profile({ theme }: { theme: ITheme }) {
   const { scores, loading } = useGetSelf();
@@ -29,7 +30,7 @@ function Profile({ theme }: { theme: ITheme }) {
       <h1 className='text-center'>STATISTIQUE</h1>
       <hr style={{ borderBottom: '1px solid' }} />
       <div
-        className='h100 w100 flex justify-between flex-wrap-wrap mb20'
+        className={styles.scoreCardsWrapper}
       >
         <ScoreCard content={totalGame} title="Parties jouées" highlight />
         <ScoreCard content={averageMpm} title="Moyenne (mpm)" unit="mpm" />

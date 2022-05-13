@@ -1,6 +1,7 @@
 import { Button, StyledSpacer } from '@nextui-org/react';
 import { useRouter } from 'next/router';
 import React from 'react';
+import { useGetSelf } from '../../../hooks/useGetSelf';
 
 import RoomTable from '../RoomTable/RoomTable.component';
 import { JoiningRoomProps } from './JoiningRoom.props';
@@ -8,6 +9,7 @@ import { JoiningRoomProps } from './JoiningRoom.props';
 function JoiningRoom({
   roomID, setRoomID, roomList, socket, setShouldDisplayUsernameInput,
 }: JoiningRoomProps) {
+  const { isLoggedIn } = useGetSelf();
   const ROOT_URL = process.env.ROOT_URL || 'http://localhost:3000';
   const router = useRouter();
 
@@ -38,6 +40,7 @@ function JoiningRoom({
       >
         Créer une partie
       </Button>
+      {!isLoggedIn && (
       <Button
         onClick={() => setShouldDisplayUsernameInput(true)}
         light
@@ -46,6 +49,7 @@ function JoiningRoom({
       >
         Je change mon pseudo
       </Button>
+      )}
     </div>
   );
 }

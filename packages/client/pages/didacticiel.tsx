@@ -65,7 +65,7 @@ function Didacticiel() {
       fetchOneSetByLetter({ variables: { letter: alphabet[level + 1] } });
     }
     // ! Définir règle pour passer à une nouvelle série de mots
-    if (correctWords.length === 100) {
+    if (correctWords.length === 5) {
       setComputedWords([]);
       setCorrectWords([]);
       setOffSet(0);

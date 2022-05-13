@@ -7,6 +7,7 @@ import Stats from '../Stats/Stats.component';
 import ScoringItem from './ScoringItem/ScoringItem.component';
 import styles from './Scoring.module.scss';
 import useSpeedCalculator from '../../hooks/useSpeedCalculator';
+import { useWindowSize } from '../../hooks/useWindowSize';
 
 function Scoring({
   isTimeOut, computedWords,
@@ -16,6 +17,8 @@ function Scoring({
 }: any) {
   const [typingSpeed] = useSpeedCalculator(correctWords, startTimer, isTimeOut);
   const [showStatsModal, setShowStatsModal] = useState(isTimeOut);
+
+  const { isMediumScreen } = useWindowSize();
 
   useEffect(() => {
     setShowStatsModal(isTimeOut);
@@ -43,20 +46,26 @@ function Scoring({
     <>
       <div className={styles.scoringWrapper} style={{ borderBottom: '1px solid' }}>
         <CountDown />
+        {!isMediumScreen && (
         <Tooltip hideArrow content='Vitesse moyenne de frappe'>
           <ScoringItem content={`${!isTimeOut ? typingSpeed : 0} m/min`} />
         </Tooltip>
+        )}
         <ScoringItem content={`${computedWords.length} mots saisies`} />
-        <Tooltip hideArrow content='(nombre de lettre saisies correctement / nombre de lettre total) x 100'>
-          <ScoringItem content={`Précision: ${precision}%`} />
-        </Tooltip>
-        <Tooltip
-          hideArrow
-          content={<a href='https://fr.wikipedia.org/wiki/Mot_par_minute' target='_blank' rel="noreferrer">Mot par minute</a>}
-          color='default'
-        >
-          <ScoringItem content={`Mpm: ${mpm}`} />
-        </Tooltip>
+        {!isMediumScreen && (
+          <Tooltip hideArrow content='(nombre de lettre saisies correctement / nombre de lettre total) x 100'>
+            <ScoringItem content={`Précision: ${precision}%`} />
+          </Tooltip>
+        )}
+        {!isMediumScreen && (
+          <Tooltip
+            hideArrow
+            content={<a href='https://fr.wikipedia.org/wiki/Mot_par_minute' target='_blank' rel="noreferrer">Mot par minute</a>}
+            color='default'
+          >
+            <ScoringItem content={`Mpm: ${mpm}`} />
+          </Tooltip>
+        )}
         <Tooltip
           hideArrow
           content='nombre de lettres correctement saisies x (précision / 100)'

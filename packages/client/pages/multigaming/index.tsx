@@ -6,12 +6,14 @@ import EnterInput from '../../src/components/Multigaming/EnterInput/EnterInput.c
 import JoiningRoom from '../../src/components/Multigaming/JoiningRoom/JoiningRoom.component';
 import { useGetSelf } from '../../src/hooks/useGetSelf';
 import { useLocalStorage } from '../../src/hooks/useLocalStorage';
+import { useWindowSize } from '../../src/hooks/useWindowSize';
 
 function Multigaming() {
   const [usernameStoredInLocalStorage] = useLocalStorage('nickname', '');
   const [username, setUsername] = useState<string | undefined>(usernameStoredInLocalStorage);
   const [roomID, setRoomID] = useState<string | undefined>('');
   const [roomList, setRoomList] = useState([]);
+  const { isMediumScreen } = useWindowSize();
   const [shouldDisplayUsernameInput, setShouldDisplayUsernameInput] = useState(
     !!usernameStoredInLocalStorage,
   );
@@ -35,7 +37,7 @@ function Multigaming() {
     setShouldDisplayUsernameInput(!!(!username && roomList));
   }, [username, roomList]);
   return (
-    <div style={{ width: '550px' }}>
+    <div style={{ width: isMediumScreen ? 'auto' : '550px' }}>
       <Modal
         open={shouldDisplayUsernameInput}
       >

@@ -22,6 +22,7 @@ import styles from '../styles/sass/pages/_settings.module.scss';
 import { themes } from '../styles/theme';
 import WithAuth from '../src/components/withAuth/withAuth.hoc';
 import { alertService } from '../services';
+import { useWindowSize } from '../src/hooks/useWindowSize';
 
 interface ISettingsProps {
   language: string;
@@ -114,7 +115,7 @@ function Settings() {
   );
   const [darkMode, setDarkMode] = useState<boolean>(selfSettings?.theme);
   const [isSoundActive, setIsSoundActive] = useState<boolean>(selfSettings?.sound);
-
+  const { isMediumScreen } = useWindowSize();
   useEffect(() => {
     const settings: ISettingsProps = {
       language: languageSelected,
@@ -143,12 +144,19 @@ function Settings() {
       });
     }
   }
-  if (loading) <p>LOL</p>;
+  if (loading) <p>loading...</p>;
+  const mediumScreenLayout = {
+    flexDirection: isMediumScreen ? 'column' : 'row', padding: isMediumScreen ? '' : '0 24px', alignItems: isMediumScreen ? 'flex-start' : '',
+  };
+  const mediumScreenGap = isMediumScreen ? 0 : 2;
   return (
     <div className='flex flex-column'>
       <Text color='inherit' h2>Général</Text>
-      <Container>
-        <div className='flex align-center justify-between'>
+      <Container css={{ padding: 0 }}>
+        <div
+          className='flex align-center justify-between'
+          style={mediumScreenLayout as object}
+        >
           <Text color='inherit' h3>Langues</Text>
           <Button.Group bordered>
             {languages.map(({ flag, country }: any) => (
@@ -164,6 +172,7 @@ function Settings() {
         </div>
         <div
           className='flex align-center justify-between'
+          style={mediumScreenLayout as object}
         >
           <Text color='inherit' h3>Taille de police</Text>
           <Button.Group bordered>
@@ -185,6 +194,7 @@ function Settings() {
         </div>
         <div
           className='flex align-center justify-between inherit-color'
+          style={mediumScreenLayout as object}
         >
           <Text color='inherit' h3>Sons</Text>
           <Checkbox
@@ -196,6 +206,7 @@ function Settings() {
         </div>
         <div
           className='flex align-center justify-between'
+          style={mediumScreenLayout as object}
         >
           <Text color='inherit' h3>Thème</Text>
           <Switch
@@ -209,12 +220,11 @@ function Settings() {
       </Container>
       <Spacer y={2} />
       <Text color='inherit' h2>Mon compte</Text>
-      <Spacer />
-      <Container>
+      <Container gap={mediumScreenGap}>
         <Text color='inherit' h4>
           Modifier mon pseudo
         </Text>
-        <div style={{ justifyContent: 'space-between' }} className={styles.inputGroup}>
+        <div className={styles.inputGroup} style={{ flexDirection: isMediumScreen ? 'column' : 'row', justifyContent: 'space-between' }}>
           <Input value={newNickname} onChange={(e) => setNewNickname(e.target.value)} placeholder="Nouveau pseudonyme" />
           <Button
             onClick={() => {
@@ -228,23 +238,25 @@ function Settings() {
           </Button>
         </div>
       </Container>
-      <Spacer />
-      <Container>
+      <Container gap={mediumScreenGap}>
         <Text color='inherit' h4>
           Modifier mon mot de passe
         </Text>
-        <div className={styles.inputGroup}>
+        <div
+          className={styles.inputGroup}
+          style={{ flexDirection: isMediumScreen ? 'column' : 'row' }}
+        >
           <Input type="password" value={updatePasswordParams.actualPassword} onChange={(e) => setUpdatePasswordParams({ ...updatePasswordParams, actualPassword: e.target.value })} placeholder="Ancien mot de passe" />
           <Input type="password" value={updatePasswordParams.newPassword} onChange={(e) => setUpdatePasswordParams({ ...updatePasswordParams, newPassword: e.target.value })} placeholder="Nouveau mot de passe" />
           <Input type="password" value={updatePasswordParams.newPasswordConfirmation} onChange={(e) => setUpdatePasswordParams({ ...updatePasswordParams, newPasswordConfirmation: e.target.value })} placeholder="Confirmer mot de passe" />
           <Button auto onClick={onPasswordUpdate}><Password /></Button>
         </div>
       </Container>
-      <Spacer />
-      <Container>
+      <Container gap={mediumScreenGap}>
         <Text color='inherit' h4>Supprimer mon compte</Text>
         <div
           className='flex justify-between align-center'
+          style={{ flexDirection: isMediumScreen ? 'column' : 'row' }}
         >
           <Text color='inherit'>
             Si vous supprimez votre compte, il n&apos;y a pas de retour en arrière possible.

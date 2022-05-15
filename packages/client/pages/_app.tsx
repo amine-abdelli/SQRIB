@@ -20,6 +20,7 @@ import { GameMode } from '../src/utils/enums/Mode.enum';
 import { MainContext } from '../src/context/MainContext';
 import { client } from '../client';
 import { Alert } from '../src/components/Alert/Alert.component';
+import { useWindowSize } from '../src/hooks/useWindowSize';
 
 function MyApp({ Component, pageProps }: AppProps) {
   const [theme, setTheme] = useState<ITheme>(themes.LIGHT);
@@ -75,6 +76,7 @@ function MyApp({ Component, pageProps }: AppProps) {
   // Disable ugly focus on blueprint's elements
   FocusStyleManager.onlyShowFocusOnTabs();
 
+  const { isMediumScreen } = useWindowSize();
   return (
     <ApolloProvider client={client}>
       <Layout theme={theme}>
@@ -87,6 +89,8 @@ function MyApp({ Component, pageProps }: AppProps) {
               <MainContext.Provider value={MainContextProps}>
                 <NextUIProvider>
                   <Component theme={theme} {...pageProps} />
+                  {/* Compensate the height of the side bar appearing on the bottom of the screen on mobile view */}
+                  { isMediumScreen && <div style={{ height: '40px' }} /> }
                 </NextUIProvider>
               </MainContext.Provider>
             </div>

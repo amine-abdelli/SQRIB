@@ -67,16 +67,15 @@ function Room() {
    * See 'join-room' socket in the socket server http://localhost:4001
    */
   useEffect(() => {
-    if (username) {
+    if (username && roomID && gameParameters) {
       socketRef.emit('join-room', {
         roomID, username, gameParameters,
       });
     }
     socketRef.on('join-room', ({ wordSet: wordSetPayload, game: currentGame, isLegit }) => {
       // The room ID is checked on the socket server to make sure it's a legit token
-      if (!isLegit) {
-        router.push('/multigaming');
-      }
+      // Défaillant
+      // if (!isLegit) router.push('/multigaming');
       setWordSet(wordSetPayload);
       setGame(currentGame);
     });
@@ -86,7 +85,7 @@ function Room() {
         : `${playerName} vient de rejoindre la partie`;
       alertService.success(customMessage, {});
     });
-  }, [socketRef, username]);
+  }, [socketRef, username, roomID, gameParameters]);
 
   // Keep this order so the roomList is updated with the latest names
   function startGame() {

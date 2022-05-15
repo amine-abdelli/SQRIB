@@ -13,8 +13,15 @@ export const Services = {
   disconnect: (games: Record<string, GameType>, socket: Socket, io: any) => {
     for (const aGame of Object.values(games)) {
       if (aGame.clients[socket.id]) {
+        // if user is the host, attribute this status to someone else
+        if (aGame.clients[socket.id]?.host && Object.values(aGame.clients)?.length > 1) {
+          const newHostID = Object.values(aGame.clients)?.[1]?.id;
+          if (aGame.clients[newHostID]) {
+            aGame.clients[newHostID].host = true;
+          }
+        }
         delete aGame.clients[socket.id];
-        if (Object.values(aGame.clients).length === 0) {
+        if (Object.values(aGame.clients)?.length === 0) {
           // eslint-disable-next-line no-param-reassign
           delete games[aGame.id];
         }
@@ -81,7 +88,6 @@ export const Services = {
     socket: Socket,
   ) => {
     const { language, wordAmount, name } = gameParameters;
-    console.log('name services', name);
     const { updatedGameObject, updatedSetObject } = initNewGameRoom({
       games, roomID, sets, clientID: socket.id, username, language, wordAmount, name,
     });
@@ -142,9 +148,6 @@ export const Services = {
       wordAmount,
       clients: Object.values(clients).map(({ username }) => username),
     }));
-    console.log('roomList', roomList);
-    console.log('GAMES');
-    console.dir(games, { depth: null });
     return roomList;
   },
   updateGameStatus: (

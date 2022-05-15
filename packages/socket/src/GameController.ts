@@ -33,7 +33,6 @@ function initNewGameRoom({
   const updatedSetObject = sets;
   const setID = v4();
   updatedSetObject[setID] = generateWordSet(language, wordAmount);
-  console.log('name', name);
   updatedGameObject = {
     ...games,
     [roomID]: {
@@ -41,7 +40,8 @@ function initNewGameRoom({
       language,
       wordAmount,
       setID,
-      name: name || '',
+      // Dodgy hot fix :'(
+      name: name.replace('undefined', username) || '',
       status: GameStatus.STAGING,
       clients: {
         ...games[roomID]?.clients,

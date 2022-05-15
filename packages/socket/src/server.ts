@@ -76,8 +76,9 @@ io.on('connection', (socket: Socket) => {
    *  Join or create a room depending on if the room exists or not
    */
   socket.on('join-room', ({ roomID, username, gameParameters }) => {
+    const isLegit = LEGIT_TOKENS.includes(roomID);
     // If room exists and user is not already in the room, join it !
-    if (Object.keys(GAMES).includes(roomID) && !GAMES[roomID]?.clients[socket.id]) {
+    if (Object.keys(GAMES).includes(roomID) && !GAMES[roomID]?.clients[socket.id] && isLegit) {
       GAMES = Services.joinRoom(GAMES, roomID, username, socket);
       socket.join(roomID);
       io.to(roomID).emit('greet', {
@@ -85,7 +86,7 @@ io.on('connection', (socket: Socket) => {
         playerName: username,
       });
     // If room doesn't exist, create it !
-    } else if (!GAMES[roomID]) {
+    } else if (!GAMES[roomID] && isLegit) {
       const { updatedGameObject, updatedSetObject } = Services
         .createRoom(GAMES, roomID, gameParameters, SETS, username, socket);
       GAMES = updatedGameObject;
@@ -93,7 +94,6 @@ io.on('connection', (socket: Socket) => {
       socket.join(roomID);
     }
     // Check if the room is in the LEGIT_TOKENS list
-    const isLegit = LEGIT_TOKENS.includes(roomID);
     io.to(roomID).emit('join-room', {
       roomID,
       wordSet: SETS[GAMES[roomID]?.setID],
@@ -118,11 +118,6 @@ io.on('connection', (socket: Socket) => {
     io.emit('generate-room-id', { roomID: base64token });
   });
 
-  socket.on('is-legit', (payload) => {
-    const isLegit = LEGIT_TOKENS.includes(payload.roomID);
-    io.emit('is-legit', { isLegit });
-  });
-
   socket.on('start-game', ({ roomID, gameParameters }) => {
     const { updatedGameObject, updatedSetObject } = Services.updateRoomWithNewParameters(
       GAMES,
@@ -130,7 +125,6 @@ io.on('connection', (socket: Socket) => {
       gameParameters,
       SETS,
     );
-    console.log('updatedGameObject', updatedGameObject);
     GAMES = Services.updateGameStatus(GameStatus.PLAYING, updatedGameObject, roomID);
     GAMES = Services.updatePlayersStatus(GameStatus.PLAYING, GAMES, roomID);
     SETS = updatedSetObject;

@@ -22,7 +22,7 @@ function Chart({ scores, topMpm }: { scores: any, topMpm: number }) {
         data={dataChart}
         curve="monotoneX"
         margin={{
-          top: 20, right: 50, bottom: 45, left: 50,
+          top: 20, right: 0, bottom: 45, left: 50,
         }}
         lineWidth={0.5}
         xScale={{ type: 'point' }}

@@ -21,10 +21,6 @@ function Profile({ theme }: { theme: ITheme }) {
     averageMpm, averagePoints, topMpm, topPoint, latestMpm, latestPoints, precision, totalGame,
   } = createTopScoringObject(sortedScores);
 
-  // * REFACTO A DONF
-  // * TYPER any
-  // * Générer type API-CLIENT à réutiliser partout dans l'appli
-
   return (
     <div className="flex flex-column">
       <h1 className='text-center'>STATISTIQUE</h1>

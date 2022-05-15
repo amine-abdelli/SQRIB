@@ -13,7 +13,7 @@ function JoiningRoom({
   const ROOT_URL = process.env.ROOT_URL || 'http://localhost:3000';
   const router = useRouter();
 
-  function createRoomGame() {
+  function createGameRoom() {
     socket.emit('generate-room-id');
     socket.on('generate-room-id', ({ roomID: payload }) => {
       router.push(`${ROOT_URL}/multigaming/${payload}`);
@@ -36,7 +36,7 @@ function JoiningRoom({
       <Button
         animated
         className='w100'
-        onClick={() => createRoomGame()}
+        onClick={() => createGameRoom()}
       >
         Créer une partie
       </Button>

@@ -8,6 +8,7 @@ import { CreateModalProps, defaultGameParameters } from './CreateModal.props';
 import { onFormChange } from '../../../utils/form';
 import styles from './CreateModal.module.scss';
 import GameLink from './GameLink/GameLink.component';
+import { useWindowSize } from '../../../hooks/useWindowSize';
 
 function CreateModal({
   isVisible, roomID, username, isHost, gameParameters, setGameParameters, game,
@@ -15,6 +16,7 @@ function CreateModal({
 }: CreateModalProps) {
   const roomName = `[${gameParameters.language.toLocaleUpperCase()}] ${gameParameters.wordAmount} ${gameParameters.private ? 'privé' : 'public'} hosted by ${username}`;
   const invitationUrl = `http://localhost:3000/multigaming/${roomID}`;
+  const { isMediumScreen } = useWindowSize();
 
   useEffect(() => {
     setGameParameters({
@@ -28,19 +30,28 @@ function CreateModal({
       fullScreen
       open={isVisible}
       aria-labelledby="Create room modal"
+      css={{
+        minHeight: '100vh',
+        display: 'flex',
+        justifyContent: 'center',
+      }}
       onClose={() => {
         setGameParameters(defaultGameParameters);
       }}
     >
-      <Text h1>{'En attente d\'autres joueurs'}</Text>
-      <Container>
-        <div className='flex justify-center'>
-          <div className='m20 flex flex-column' style={{ minWidth: '20rem' }}>
-            <Text h3 className='text-center'>Créer une partie</Text>
+      <Container css={{ padding: '1rem' }}>
+        <div className={styles.createModalWrapper} style={{ alignItems: isMediumScreen ? 'center' : '' }}>
+          <div
+            className='flex align-center flex-column'
+            style={{
+              minWidth: '20rem', maxWidth: '30rem', display: 'flex',
+            }}
+          >
+            <Text h3 className='text-center' css={{ marginBottom: '1rem' }}>Créer une partie</Text>
             <Input
               color='primary'
               bordered
-              className='w100'
+              css={{ width: '100%' }}
               value={roomName}
               disabled
               aria-labelledby="Room name input"
@@ -49,7 +60,9 @@ function CreateModal({
               disabled={!isHost}
               value={gameParameters.language}
               onChange={(e) => onFormChange(e, 'language', setGameParameters, gameParameters)}
-              style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}
+              style={{
+                display: 'flex', flexDirection: 'row', width: '100%', justifyContent: 'space-between',
+              }}
               aria-labelledby="Language picker"
             >
               {languages.map(({ flag, country }) => (
@@ -62,7 +75,9 @@ function CreateModal({
               disabled={!isHost}
               value={gameParameters.wordAmount}
               onChange={(e) => onFormChange(e, 'wordAmount', setGameParameters, gameParameters)}
-              style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}
+              style={{
+                display: 'flex', flexDirection: 'row', justifyContent: 'space-between', width: '100%',
+              }}
               aria-labelledby="Word amount picker"
             >
               {Object.values(wordAmount).map((words) => (
@@ -76,9 +91,7 @@ function CreateModal({
               disabled={!isHost}
               animated
               className='w100'
-              onClick={() => {
-                startGame();
-              }}
+              onClick={() => startGame()}
             >
               Commencer
             </Button>
@@ -94,25 +107,27 @@ function CreateModal({
               Annuler
             </Button>
           </div>
-          <div style={{ width: '20rem', maxWidth: '50%' }} className='m20'>
+          {!isMediumScreen && (
+          <div style={{ margin: '0 1rem' }}>
             <Text h3 className='text-center'>Joueurs</Text>
             <div className={styles.playersWrapper}>
               {game?.clients && Object.values(game?.clients).map((client: any) => (
                 username && (
-                  <div key={client.id}>
-                    <div
-                      className={styles.player}
-                      style={{ backgroundColor: client.color, fontWeight: 'bold' }}
-                    >
-                      {client.username}
-                    </div>
+                <div key={client.id}>
+                  <div
+                    className={styles.player}
+                    style={{ backgroundColor: client.color, fontWeight: 'bold' }}
+                  >
+                    {client.username}
                   </div>
+                </div>
                 )
               ))}
             </div>
           </div>
+          )}
         </div>
-        <div style={{ display: 'inline-block' }}>
+        <div style={{ display: 'inline-block', width: '20rem', marginTop: '1rem' }}>
           <Text h5 className='text-center'>Invite d&apos;autres joueurs</Text>
           <GameLink url={invitationUrl} />
         </div>

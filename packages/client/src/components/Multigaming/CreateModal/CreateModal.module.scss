@@ -1,18 +1,29 @@
-.playersWrapper {
+.createModalWrapper {
   display: flex;
-  justify-content: space-evenly;
-  flex-wrap: wrap;
-  
-  .player {
+  justify-content: center;
+
+  .playersWrapper {
     display: flex;
-    justify-content: center;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+    justify-self: flex-start;
     
-    align-items: center;
-    border: 1px black solid;
-    margin: 5px;
-    padding: 5px;
-    width: 5rem;
-    height: 5rem;
-    border-radius: 50px;
+    .player {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border: 1px black solid;
+      margin: 5px;
+      padding: 5px;
+      width: 5rem;
+      height: 5rem;
+      border-radius: 50px;
+    }
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .createModalWrapper {
+    flex-direction: column-reverse;
   }
 }

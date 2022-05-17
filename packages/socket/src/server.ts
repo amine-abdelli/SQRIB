@@ -36,7 +36,8 @@ io.on('connection', (socket: Socket) => {
    * Remove user from global object
    */
   socket.on('disconnect', () => {
-    GAMES = Services.disconnect(GAMES, socket, io);
+    // Remove roomID from legit token
+    GAMES = Services.disconnect(GAMES, LEGIT_TOKENS, socket, io);
   });
 
   /**
@@ -75,10 +76,12 @@ io.on('connection', (socket: Socket) => {
   /**
    *  Join or create a room depending on if the room exists or not
    */
-  socket.on('join-room', ({ roomID, username, gameParameters }) => {
+  socket.on('join-room', ({
+    roomID, username, gameParameters, isCreating,
+  }) => {
     const isLegit = LEGIT_TOKENS.includes(roomID);
     // If room exists and user is not already in the room, join it !
-    if (Object.keys(GAMES).includes(roomID) && !GAMES[roomID]?.clients[socket.id] && isLegit) {
+    if (!isCreating && isLegit) {
       GAMES = Services.joinRoom(GAMES, roomID, username, socket);
       socket.join(roomID);
       io.to(roomID).emit('greet', {
@@ -86,7 +89,7 @@ io.on('connection', (socket: Socket) => {
         playerName: username,
       });
     // If room doesn't exist, create it !
-    } else if (!GAMES[roomID] && isLegit) {
+    } else if (isCreating && isLegit) {
       const { updatedGameObject, updatedSetObject } = Services
         .createRoom(GAMES, roomID, gameParameters, SETS, username, socket);
       GAMES = updatedGameObject;

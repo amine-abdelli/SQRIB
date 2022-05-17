@@ -44,15 +44,14 @@ function initNewGameRoom({
       name: name.replace('undefined', username) || '',
       status: GameStatus.STAGING,
       clients: {
-        ...games[roomID]?.clients,
         [clientID]: {
-          ...games[clientID]?.clients[clientID],
           id: clientID,
           username,
           wordIndex: 0,
           color: colorGenerator(),
           status: GameStatus.PLAYING,
           host: true,
+          wordAmount,
         },
       },
     },

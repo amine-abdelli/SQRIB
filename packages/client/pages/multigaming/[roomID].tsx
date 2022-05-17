@@ -69,13 +69,12 @@ function Room() {
   useEffect(() => {
     if (username && roomID && gameParameters) {
       socketRef.emit('join-room', {
-        roomID, username, gameParameters,
+        roomID, username, gameParameters, isCreating: isHost,
       });
     }
     socketRef.on('join-room', ({ wordSet: wordSetPayload, game: currentGame, isLegit }) => {
       // The room ID is checked on the socket server to make sure it's a legit token
       // Défaillant
-      // if (!isLegit) router.push('/multigaming');
       setWordSet(wordSetPayload);
       setGame(currentGame);
     });
@@ -111,7 +110,6 @@ function Room() {
         {' '}
         {username}
       </h1>
-
       <Modal
         open={shouldDisplayUsernameInput}
       >
@@ -128,6 +126,7 @@ function Room() {
         setGameParameters={setGameParameters}
         game={game}
         startGame={startGame}
+        socket={socketRef}
       />
       {username && game && socketRef.connected && (
         <GameRoom

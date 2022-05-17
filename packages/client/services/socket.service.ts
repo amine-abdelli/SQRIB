@@ -12,10 +12,23 @@ const socket = io(ENDPOINT, {
   },
 });
 
+const autoConnectSocket = io(ENDPOINT, {
+  transports: ['websocket'],
+  autoConnect: false,
+  auth: {
+    username: '',
+  },
+  query: {
+    'my-key': 'my-value',
+  },
+});
+
 function socketConnect(socketRef: Socket) {
   socketRef.connect();
 }
 function socketDisconnect(socketRef: Socket) {
   socketRef.connect();
 }
-export { socketConnect, socket, socketDisconnect };
+export {
+  socketConnect, socket, autoConnectSocket, socketDisconnect,
+};

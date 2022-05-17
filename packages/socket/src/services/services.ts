@@ -10,7 +10,12 @@ export const Services = {
   /**
    *  Remove user from global object
    */
-  disconnect: (games: Record<string, GameType>, socket: Socket, io: any) => {
+  disconnect: (
+    games: Record<string, GameType>,
+    LEGIT_TOKENS: string[],
+    socket: Socket,
+    io: any,
+  ) => {
     for (const aGame of Object.values(games)) {
       if (aGame.clients[socket.id]) {
         // if user is the host, attribute this status to someone else
@@ -22,6 +27,8 @@ export const Services = {
         }
         delete aGame.clients[socket.id];
         if (Object.values(aGame.clients)?.length === 0) {
+          const indexOfGameInLegitTokensArray = LEGIT_TOKENS.indexOf(aGame.id);
+          LEGIT_TOKENS.splice(indexOfGameInLegitTokensArray, 1);
           // eslint-disable-next-line no-param-reassign
           delete games[aGame.id];
         }

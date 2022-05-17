@@ -9,10 +9,11 @@ import { onFormChange } from '../../../utils/form';
 import styles from './CreateModal.module.scss';
 import GameLink from './GameLink/GameLink.component';
 import { useWindowSize } from '../../../hooks/useWindowSize';
+import { socketDisconnect } from '../../../../services/socket.service';
 
 function CreateModal({
-  isVisible, roomID, username, isHost, gameParameters, setGameParameters, game,
-  startGame,
+  isVisible, roomID, username, isHost: isCreator, gameParameters, setGameParameters, game,
+  startGame, socket,
 }: CreateModalProps) {
   const roomName = `[${gameParameters.language.toLocaleUpperCase()}] ${gameParameters.wordAmount} ${gameParameters.private ? 'privé' : 'public'} hosted by ${username}`;
   const invitationUrl = `http://localhost:3000/multigaming/${roomID}`;
@@ -25,6 +26,10 @@ function CreateModal({
     });
   }, [roomName]);
 
+  const host = game && Object.values(game?.clients).find(
+    (client: any) => client.host,
+  );
+  const isHost = host?.id === socket.id || host?.username === username;
   return (
     <Modal
       fullScreen
@@ -47,7 +52,7 @@ function CreateModal({
               minWidth: '20rem', maxWidth: '30rem', display: 'flex',
             }}
           >
-            <Text h3 className='text-center' css={{ marginBottom: '1rem' }}>Créer une partie</Text>
+            <Text h3 className='text-center' css={{ marginBottom: '1rem' }}>{isHost || isCreator ? 'Créer une partie' : 'En attente que l\'hôte lance la partie'}</Text>
             <Input
               color='primary'
               bordered
@@ -57,7 +62,7 @@ function CreateModal({
               aria-labelledby="Room name input"
             />
             <Radio.Group
-              disabled={!isHost}
+              disabled={!isHost && !isCreator}
               value={gameParameters.language}
               onChange={(e) => onFormChange(e, 'language', setGameParameters, gameParameters)}
               style={{
@@ -72,7 +77,7 @@ function CreateModal({
               ))}
             </Radio.Group>
             <Radio.Group
-              disabled={!isHost}
+              disabled={!isHost && !isCreator}
               value={gameParameters.wordAmount}
               onChange={(e) => onFormChange(e, 'wordAmount', setGameParameters, gameParameters)}
               style={{
@@ -88,7 +93,7 @@ function CreateModal({
             </Radio.Group>
             <Spacer />
             <Button
-              disabled={!isHost}
+              disabled={!isHost && !isCreator}
               animated
               className='w100'
               onClick={() => startGame()}
@@ -101,13 +106,13 @@ function CreateModal({
               className='w100'
               onClick={() => {
                 setGameParameters(defaultGameParameters);
+                socketDisconnect(socket);
                 router.push('/multigaming');
               }}
             >
               Annuler
             </Button>
           </div>
-          {!isMediumScreen && (
           <div style={{ margin: '0 1rem' }}>
             <Text h3 className='text-center'>Joueurs</Text>
             <div className={styles.playersWrapper}>
@@ -125,7 +130,6 @@ function CreateModal({
               ))}
             </div>
           </div>
-          )}
         </div>
         <div style={{ display: 'inline-block', width: '20rem', marginTop: '1rem' }}>
           <Text h5 className='text-center'>Invite d&apos;autres joueurs</Text>

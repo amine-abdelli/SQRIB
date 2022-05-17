@@ -1,4 +1,5 @@
 import { Languages } from '@aqac/utils';
+import { Socket } from 'socket.io-client';
 
 export interface GameParametersProps {
   language: Languages,
@@ -18,6 +19,7 @@ export interface CreateModalProps {
   setGameParameters: (gameParameters: GameParametersProps) => void;
   game: any;
   startGame: () => void;
+  socket: Socket;
 }
 
 export const defaultGameParameters = {

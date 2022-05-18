@@ -1,7 +1,7 @@
 import { Modal } from '@nextui-org/react';
 import React, { useEffect, useRef, useState } from 'react';
 import { Socket } from 'socket.io-client';
-import { autoConnectSocket as socket, socketDisconnect } from '../../services/socket.service';
+import { socket, socketConnect, socketDisconnect } from '../../services/socket.service';
 import EnterInput from '../../src/components/Multigaming/EnterInput/EnterInput.component';
 import JoiningRoom from '../../src/components/Multigaming/JoiningRoom/JoiningRoom.component';
 import { useGetSelf } from '../../src/hooks/useGetSelf';
@@ -21,16 +21,17 @@ function Multigaming() {
   const { current: socketRef } = useRef<Socket>(socket);
 
   useEffect(() => {
-    setUsername(selfData?.self.nickname || usernameStoredInLocalStorage);
-    return () => socketDisconnect(socketRef);
-  }, [selfData]);
-
-  useEffect(() => {
+    socketConnect(socketRef);
     socketRef.emit('room-list');
     socketRef.on('room-list', (rooms) => {
       setRoomList(rooms);
     });
+    return () => socketDisconnect(socketRef);
   }, [socketRef]);
+
+  useEffect(() => {
+    setUsername(selfData?.self.nickname || usernameStoredInLocalStorage);
+  }, [selfData]);
 
   useEffect(() => {
     setShouldDisplayUsernameInput(!!(!username && roomList));

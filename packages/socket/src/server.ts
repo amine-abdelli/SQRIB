@@ -36,16 +36,18 @@ io.on('connection', (socket: Socket) => {
    * Remove user from global object
    */
   socket.on('disconnect', () => {
-    // Remove roomID from legit token
     GAMES = Services.disconnect(GAMES, LEGIT_TOKENS, socket, io);
+    Services.emitRoomList(io, GAMES);
   });
 
   /**
    * Update user's progression and handle users win
    */
   socket.on('progression', ({ roomID, wordIndex }) => {
-    GAMES = Services.progression(GAMES, roomID, wordIndex, socket);
-    io.to(roomID).emit('progression', { game: GAMES[roomID] });
+    if (GAMES[roomID]?.status !== 'staging') {
+      GAMES = Services.progression(GAMES, roomID, wordIndex, socket);
+      io.to(roomID).emit('progression', { game: GAMES[roomID] });
+    }
     /**
      * If a user win, the game status change to 'finished'
      * users wordIndexes are set to 0 et and a new set of words is generated.
@@ -57,11 +59,11 @@ io.on('connection', (socket: Socket) => {
       const { updatedSetObject, updatedGameObject } = Services
         .onWin(GAMES, SETS, roomID, io, socket);
       let counter = 6;
-      const t = setInterval(() => {
+      const timer = setInterval(() => {
         counter -= 1;
         io.to(roomID).emit('counter', { counter });
         if (counter === -2) {
-          clearInterval(t);
+          clearInterval(timer);
           SETS = updatedSetObject;
           const transitionalObject = Services
             .updatePlayersStatus(GameStatus.PLAYING, updatedGameObject, roomID);
@@ -75,21 +77,33 @@ io.on('connection', (socket: Socket) => {
 
   /**
    *  Join or create a room depending on if the room exists or not
+   *  When a use click on create room, an id is generated and stored in
+   *  a legit token array. This id is used to redirect the user to the room
+   *  with a param 'created' set to true via url. If the param 'created' is
+   *  true then we automatically create a room with the id.
+   *
+   *  Otherwise we join the room.
+   *
+   *  A check is always made to see if the room id provided is legit to be used to
+   *  create or join
    */
   socket.on('join-room', ({
     roomID, username, gameParameters, isCreating,
   }) => {
     const isLegit = LEGIT_TOKENS.includes(roomID);
-    // If room exists and user is not already in the room, join it !
-    if (!isCreating && isLegit) {
+    // If the room exists, the user is not already in the room and the roomID is legit, join it !
+    if (!isCreating && GAMES[roomID] && isLegit && !GAMES[roomID]?.clients[socket.id]) {
       GAMES = Services.joinRoom(GAMES, roomID, username, socket);
+      // Join room -> RoomID
       socket.join(roomID);
       io.to(roomID).emit('greet', {
         playerID: socket.id,
         playerName: username,
       });
-    // If room doesn't exist, create it !
-    } else if (isCreating && isLegit) {
+      // Everytime a user join or create a room, we emit the room list to update the room table
+      Services.emitRoomList(io, GAMES);
+    // If room doesn't exist and the roomID is legit, create it !
+    } else if (isCreating && !GAMES[roomID] && isLegit) {
       const { updatedGameObject, updatedSetObject } = Services
         .createRoom(GAMES, roomID, gameParameters, SETS, username, socket);
       GAMES = updatedGameObject;
@@ -103,6 +117,8 @@ io.on('connection', (socket: Socket) => {
       game: GAMES[roomID],
       isLegit,
     });
+    // Everytime a user join or create a room, we emit the room list to update the room table
+    Services.emitRoomList(io, GAMES);
   });
 
   /**
@@ -113,14 +129,24 @@ io.on('connection', (socket: Socket) => {
     io.emit('room-list', roomList);
   });
 
+  /**
+   * Generate a room id and store it in the LEGIT_TOKENS array
+   * This allow us to check if the user creating a room via its url is
+   * legit to perform this action or not. If the roomID is not in the LEGIT_TOKENS array
+   * the user won't be allow to join or create a room.
+   */
   socket.on('generate-room-id', () => {
     const decodedRoomID = v4();
     const buff = Buffer.from(`${decodedRoomID}?create=true`);
     const base64token = buff.toString('base64');
     LEGIT_TOKENS.push(decodedRoomID);
-    io.emit('generate-room-id', { roomID: base64token });
+    io.to(socket.id).emit('generate-room-id', { roomID: base64token });
   });
 
+  /**
+   * On click on the 'start' button, the game and players status change to 'playing'
+   * and the game start. We also update the new game parameters selected by the creator.
+   */
   socket.on('start-game', ({ roomID, gameParameters }) => {
     const { updatedGameObject, updatedSetObject } = Services.updateRoomWithNewParameters(
       GAMES,

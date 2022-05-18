@@ -27,6 +27,7 @@ function Room() {
   const [usernameStoredInLocalStorage] = useLocalStorage('nickname', '');
   const [shouldDisplayUsernameInput, setShouldDisplayUsernameInput] = useState(false);
   const [game, setGame] = useState<any>();
+  // Make sure the socket.id is well anchored and doesn't change every time we send a "query"
   const { current: socketRef } = useRef<Socket>(socket);
   const { data: selfData } = useGetSelf();
   const { roomID: urlParams } = router.query;
@@ -62,19 +63,20 @@ function Room() {
   useEffect(() => {
     setUsername(selfData?.self.nickname || usernameStoredInLocalStorage);
   }, [selfData?.self.nickname, username, usernameStoredInLocalStorage]);
-  /**
-   * As soon as the player land on the room page, he either join the room or create it
-   * See 'join-room' socket in the socket server http://localhost:4001
-   */
   useEffect(() => {
     if (username && roomID && gameParameters) {
       socketRef.emit('join-room', {
         roomID, username, gameParameters, isCreating: isHost,
       });
     }
+  }, [username, roomID, gameParameters, socketRef, isHost]);
+  /**
+   * As soon as the player land on the room page, he either join the room or create it
+   * See 'join-room' socket in the socket server http://localhost:4001
+   */
+  useEffect(() => {
     socketRef.on('join-room', ({ wordSet: wordSetPayload, game: currentGame, isLegit }) => {
       // The room ID is checked on the socket server to make sure it's a legit token
-      // Défaillant
       setWordSet(wordSetPayload);
       setGame(currentGame);
     });

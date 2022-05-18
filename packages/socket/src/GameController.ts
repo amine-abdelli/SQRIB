@@ -41,7 +41,7 @@ function initNewGameRoom({
       wordAmount,
       setID,
       // Dodgy hot fix :'(
-      name: name.replace('undefined', username) || '',
+      name: name?.replace('undefined', username) || '',
       status: GameStatus.STAGING,
       clients: {
         [clientID]: {

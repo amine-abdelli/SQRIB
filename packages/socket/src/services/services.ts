@@ -26,6 +26,7 @@ export const Services = {
           }
         }
         delete aGame.clients[socket.id];
+        // Remove roomID from legit token
         if (Object.values(aGame.clients)?.length === 0) {
           const indexOfGameInLegitTokensArray = LEGIT_TOKENS.indexOf(aGame.id);
           LEGIT_TOKENS.splice(indexOfGameInLegitTokensArray, 1);
@@ -189,5 +190,9 @@ export const Services = {
       }
     }
     return newGameObject;
+  },
+  emitRoomList: (io: any, games: Record<string, GameType>) => {
+    const roomList = Services.roomList(games);
+    io.emit('room-list', roomList);
   },
 };

@@ -1,3 +1,5 @@
+import { log } from '@aqac/utils';
+import { ApolloError } from 'apollo-server-errors';
 import { deleteUserService } from '../../services/auth/deleteUser.service';
 import { Context } from '../../utils/context.utils';
 
@@ -7,15 +9,18 @@ export interface deleteUserArgs {
 }
 async function deleteUser(parent: any, { email, password }: deleteUserArgs, context: Context) {
   try {
-    console.info('Trying to delete a user', { email });
-    if (!context.userId) throw new Error();
+    log.info('Trying to delete a user', { email });
+    if (!context.userId) {
+      log.error('User could not be deleted');
+      throw new ApolloError('User could not be deleted');
+    }
     await deleteUserService(email, password, context);
-    console.log('User deletion successful', { email });
+    log.info('User deletion successful', { email });
     return {
       message: `${email} deleted successfully`,
     };
   } catch (e) {
-    console.error('Error deleting user', { email, error: e });
+    log.error('Error deleting user', { email, error: e });
     throw e;
   }
 }

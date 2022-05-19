@@ -1,5 +1,6 @@
 import bcrypt from 'bcryptjs';
 import { AuthenticationError } from 'apollo-server-errors';
+import { log } from '@aqac/utils';
 import { createSettings } from '../../repositories/settings/createSettings';
 import { COOKIE_SETTINGS, formatEmail, createToken } from '../../utils/auth.utils';
 import { Context } from '../../utils/context.utils';
@@ -13,15 +14,18 @@ export async function signupService(args: ICreateUserArgs, context: Context) {
       password,
       nickname: args?.nickname,
     });
-    console.log('user', user);
     const settings = await createSettings(user?.id, context);
-    if (!settings) console.log('Settings could not be created', { settings });
+    if (!settings) {
+      log.error('Settings could not be created', { settings });
+      throw new AuthenticationError('Settings could not be created');
+    }
     const token = createToken(user);
     context.res.cookie('session_id', token, COOKIE_SETTINGS);
     return {
       user,
     };
   } catch (error) {
+    log.error('Error while signing up', { error });
     throw new AuthenticationError('Error while signing up', { error });
   }
 }

@@ -1,3 +1,4 @@
+import { log } from '@aqac/utils';
 import { ApolloError, AuthenticationError } from 'apollo-server-errors';
 import bcrypt from 'bcryptjs';
 import { updatePasswordByUserId, oneUserById } from '../../repositories';
@@ -9,15 +10,20 @@ export async function updatePasswordService(
   context: Context,
 ) {
   try {
-    console.log('Trying to update user password');
+    log.info('Trying to update user password');
     const { userId, prisma } = context;
-    if (!userId) throw new AuthenticationError('Could not update user password');
-
+    if (!userId) {
+      log.error('Could not update user password');
+      throw new AuthenticationError('Could not update user password');
+    }
     const user = await oneUserById({ id: userId }, prisma);
 
     // Check if the current password is the right one. If not throw an error.
     const isPasswordValid = await bcrypt.compare(password, user?.password || '');
-    if (!isPasswordValid) throw new ApolloError('The password input is not correct');
+    if (!isPasswordValid) {
+      log.error('The password input is not correct');
+      throw new ApolloError('The password input is not correct');
+    }
 
     // Check if the new password is the same as the one already set in the db
     const isNewPasswordIdentical = await bcrypt.compare(newPassword, user?.password || '');
@@ -28,7 +34,7 @@ export async function updatePasswordService(
 
     return { message: `Password updated successfully: ${user?.email}` };
   } catch (error: any) {
-    console.error(error);
+    log.error('Error while updating user password', { error });
     throw new ApolloError('Error while updating user password');
   }
 }

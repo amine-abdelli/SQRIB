@@ -1,4 +1,5 @@
 import { AuthenticationError } from 'apollo-server-errors';
+import { log } from '@aqac/utils';
 import { updateOneUserById } from '../../repositories/auth';
 import { Context } from '../../utils/context.utils';
 import {
@@ -23,6 +24,7 @@ export async function loginService(email: string, password: string, context: Con
       user,
     };
   } catch (error) {
+    log.error('Error while logging in', { error });
     throw new AuthenticationError('Error while logging in', { error });
   }
 }

@@ -30,7 +30,7 @@ function computeTransitions(database: any) {
   return transitions;
 } // computeTransitions
 
-function markov(state: any, transitions: any) {
+function markov(state: string, transitions: any) {
   const cumDist = []; // Fonction de répartition
   let sum = 0;
 
@@ -83,12 +83,13 @@ function combinator(s: any) {
   return list_of_strings;
 }
 
+// Given an index this function will generate random words in the corresponding range
 function generate(index: number) {
   const alphabet: string[] = ['E', 'I', 'R', 'A', 'N', 'S', 'O', 'L', 'U', 'T', 'Y', 'M', 'D', 'C', 'H', 'É', 'G', 'P', 'B', 'K', 'F', 'V', 'W', 'È', 'X', 'Q', 'Z', 'J', 'Ç'];
   const array: Array<string> = [];
 
   for (let k = 0; array.length < 50; k += 1) {
-    const combination = combinator(alphabet.slice(0, index - 1)).map((str: any) => str.join(''));
+    const combination = combinator(alphabet.slice(0, index)).map((str: any) => str.join(''));
     const randomlyGeneratedWord = randWordMarkov(
       computeTransitions(combination),
     );
@@ -98,7 +99,7 @@ function generate(index: number) {
   }
   return {
     array,
-    letter: alphabet[index - 2],
+    letter: alphabet[index - 1],
   };
 }
 

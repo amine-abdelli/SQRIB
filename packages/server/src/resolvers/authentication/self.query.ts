@@ -1,3 +1,4 @@
+import { log } from '@aqac/utils';
 import { AuthenticationError } from 'apollo-server-errors';
 import { selfService } from '../../services/auth/self.service';
 import { Context } from '../../utils/context.utils';
@@ -7,9 +8,12 @@ async function self(
   args: void,
   ctx: Context,
 ) {
-  console.log('Trying to fetch self data !');
+  log.info('Trying to fetch self data !');
   const user = await selfService(ctx);
-  if (!user) throw new AuthenticationError('User not found');
+  if (!user) {
+    log.error('User not found');
+    throw new AuthenticationError('User not found');
+  }
   return user;
 }
 

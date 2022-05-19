@@ -1,3 +1,4 @@
+import { log } from '@aqac/utils';
 import { ApolloError } from 'apollo-server-errors';
 import { addScoringService } from '../../services/scoring/addScoringService.service';
 import { Context } from '../../utils/context.utils';
@@ -15,11 +16,12 @@ interface IAddScoring {
 }
 
 export async function addScoring(parent: any, args: IAddScoring, context: Context) {
-  console.log('Trying to add a new score');
+  log.info('Trying to add a new score', { userId: context.userId });
   const score = await addScoringService(args, context);
   if (!score) {
+    log.error('Score could not be added');
     throw new ApolloError('Score could not be added !');
   }
-  console.log('Score added with success !');
+  log.info('Score added with success !', { userId: context.userId });
   return score;
 }

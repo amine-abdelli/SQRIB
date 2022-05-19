@@ -29,7 +29,7 @@ function generateRandoWordInRange(index: number) {
   return wordSet;
 }
 
-/* Filter words */
+/* Generate a set of word in function of the alphabet index given */
 function markovChainGenerator(i: number) {
   console.log('Starting Markov function...');
   const wordSet = generateRandoWordInRange(i);

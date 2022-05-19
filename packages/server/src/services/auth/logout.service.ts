@@ -1,3 +1,4 @@
+import { log } from '@aqac/utils';
 import { AuthenticationError } from 'apollo-server-errors';
 import { updateOneUserById } from '../../repositories/auth';
 import { COOKIE_SETTINGS } from '../../utils/auth.utils';
@@ -14,6 +15,7 @@ export async function logoutService(context: Context) {
       );
     }
   } catch (error) {
+    log.error('Error while logging out', { error });
     throw new AuthenticationError('Error while logging out', { error });
   }
 }

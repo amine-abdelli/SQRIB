@@ -36,6 +36,7 @@ function Multigaming() {
   useEffect(() => {
     setShouldDisplayUsernameInput(!!(!username && roomList));
   }, [username, roomList]);
+
   return (
     <div style={{ width: isMediumScreen ? 'auto' : '550px' }}>
       <Modal

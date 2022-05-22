@@ -10,7 +10,7 @@ function ProgressList({ data }: { data: ClientType[] }) {
       {data?.map(({
         wordIndex: index, username: nickname, color, wordAmount, id,
       }: ProgressListProps, i: number) => {
-        const progress = (index / wordAmount) * 100;
+        const progress = ((index || 0) / (wordAmount || 60)) * 100;
         return (nickname && (
           <div key={id} className='flex align-center'>
             <span style={{ width: '10%' }}>

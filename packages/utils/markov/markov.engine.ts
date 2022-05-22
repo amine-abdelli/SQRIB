@@ -1,4 +1,5 @@
 import { alphabet, randomIntFromInterval } from '..';
+import { log } from '../logger';
 
 const makeWord = require('make-word');
 const _ = require('lodash');
@@ -16,7 +17,7 @@ function getLetterRange(index: number) {
 function getLetterRange */
 function generateRandoWordInRange(index: number) {
   const start: number = Date.now();
-  const wordSet: any[] = [];
+  const wordSet: string[] = [];
   do {
     const aa = getLetterRange(index);
     const makeword = makeWord(randomIntFromInterval(3, 4), 8);
@@ -25,15 +26,15 @@ function generateRandoWordInRange(index: number) {
       wordSet.push(makeword);
     }
   } while (wordSet.length < 10000);
-  console.log('Markov function executed within:', (Date.now() - start) > 1000 ? `${(Date.now() - start) / 1000}sec` : `${(Date.now() - start)}ms`);
+  log.info('Markov function executed within:', (Date.now() - start) > 1000 ? `${(Date.now() - start) / 1000}sec` : `${(Date.now() - start)}ms`);
   return wordSet;
 }
 
 /* Generate a set of word in function of the alphabet index given */
 function markovChainGenerator(i: number) {
-  console.log('Starting Markov function...');
+  log.info('Starting Markov function...');
   const wordSet = generateRandoWordInRange(i);
-  console.log('Starting to filter word set according to letter provided...', alphabet[i]);
+  log.info('Starting to filter word set according to letter provided...', alphabet[i]);
   const STACK: string[] = [];
   wordSet.forEach((word) => {
     if (word.includes(alphabet[i - 1])) {

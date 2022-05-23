@@ -11,10 +11,10 @@ export interface Context {
   req: Request
 }
 
-export async function createContext(context: any) {
+export async function createContext(context: Context) {
   let userId;
   try {
-    userId = context.req.cookies && await getUserId(context.req, context.res, prisma);
+    userId = context.req.cookies && await getUserId(context.req, context.res);
   } catch (e) {
     userId = '';
   }

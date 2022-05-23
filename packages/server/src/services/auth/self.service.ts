@@ -6,7 +6,7 @@ import { Context } from '../../utils/context.utils';
 export async function selfService(context: Context) {
   try {
     if (!context.userId) throw new AuthenticationError('User not found');
-    const user = await oneUserById({ id: context?.userId }, context.prisma);
+    const user = await oneUserById({ id: context?.userId });
     if (!user) {
       log.error('User not found');
       throw new AuthenticationError('User not found');
@@ -14,7 +14,7 @@ export async function selfService(context: Context) {
     await updateOneUserById({ id: context.userId!, data: { is_active: true } }, context.prisma);
     return user;
   } catch (error) {
-    log.error('Error while fetching user');
+    log.error('Error while fetching user', { error });
     throw new AuthenticationError('Error while fetching user', { error });
   }
 }

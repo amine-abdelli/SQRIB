@@ -12,7 +12,6 @@ export async function loginService(email: string, password: string, context: Con
       email: formatEmail(email),
       password,
     }, context);
-
     const token = createToken(user);
     context.res.cookie('session_id', token, COOKIE_SETTINGS);
     await updateOneUserById({

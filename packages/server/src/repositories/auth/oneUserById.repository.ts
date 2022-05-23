@@ -1,10 +1,11 @@
-import { PrismaClient, User } from '@prisma/client';
+import { User } from '@prisma/client';
+import { prisma } from '../../client';
 
 export interface OneUserByIdArgs {
   id: string | undefined
 }
 
-export async function oneUserById({ id }: Pick<User, 'id'>, prisma: PrismaClient) {
+export async function oneUserById({ id }: Pick<User, 'id'>) {
   return prisma.user.findUnique({
     where: {
       id,

@@ -11,7 +11,7 @@ export async function updatePasswordService(
 ) {
   try {
     log.info('Trying to update user password');
-    const { userId } = context;
+    const { userId, prisma } = context;
     if (!userId) {
       log.error('Could not update user password');
       throw new AuthenticationError('Could not update user password');
@@ -29,7 +29,7 @@ export async function updatePasswordService(
     const isNewPasswordIdentical = await bcrypt.compare(newPassword, user?.password || '');
     if (!isNewPasswordIdentical) {
       const newHashedPassword = await bcrypt.hash(newPassword, 10);
-      await updateOneUserById({ id: userId, data: { password: newHashedPassword } });
+      await updateOneUserById({ id: userId, data: { password: newHashedPassword } }, prisma);
     }
 
     return { message: `Password updated successfully: ${user?.email}` };

@@ -1,9 +1,33 @@
-name: PR-checks
+name: PR-Checks
 
 on: 
   pull_request
 
 jobs:
+  lint-job-client:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Run linter on client
+        run: cd packages/client && yarn && yarn lint
+  lint-job-server:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Run linter on server
+        run: cd packages/server && yarn && yarn lint
+  lint-job-utils:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Run linter on server
+        run: cd packages/utils && yarn && yarn lint
+
   pr-checks:
     runs-on: ubuntu-latest
     steps:

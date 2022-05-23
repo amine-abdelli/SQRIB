@@ -4,10 +4,15 @@ export interface UpdateUserByIdArgs {
   id: string,
   data: {
     password?: string,
+    nickname?: string,
+    avatar?: string,
+    rank?: string,
+    xp?: number,
     lastPasswordReset?: Date,
-    last_activity?: Date,
-    is_active: boolean,
-    name?: string
+    last_activity?: string, // iso string
+    is_active?: boolean,
+    brotherHoodId?: string,
+    didacticiel_level?: number,
   }
 }
 

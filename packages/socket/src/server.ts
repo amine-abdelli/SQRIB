@@ -4,7 +4,7 @@ import cors from 'cors';
 import { Socket } from 'socket.io';
 
 import {
-  GameType, SetType,
+  GameType, log, SetType,
 } from '@aqac/utils';
 import { v4 } from 'uuid';
 import { Services } from './services/services';
@@ -162,5 +162,5 @@ io.on('connection', (socket: Socket) => {
 });
 
 server.listen(4001, () => {
-  console.log('listening on *:4001');
+  log.info('listening on *:4001');
 });

@@ -2,6 +2,7 @@ import express from 'express';
 import { ApolloServer } from 'apollo-server-express';
 import dotenv from 'dotenv';
 import cookieParser from 'cookie-parser';
+import { log } from '@aqac/utils';
 import * as Query from './resolvers/Query';
 import * as Mutation from './resolvers/Mutation';
 import { typeDefs } from './graphql/models';
@@ -36,7 +37,7 @@ async function startServer() {
     res.send('Hello from express apollo server');
   });
 
-  app.listen(PORT, () => console.log(`Server is running on port ${PORT}`));
+  app.listen(PORT, () => log.info(`Server is running on port ${PORT}`));
 }
 
 startServer();

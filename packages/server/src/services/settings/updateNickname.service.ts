@@ -1,4 +1,4 @@
-import { updateNicknameByUserId } from '../../repositories/settings/updateNicknameByUserId';
+import { updateNicknameByUserId } from '../../repositories/settings/updateNicknameByUserId.repository';
 import { IUpdateNickname } from '../../resolvers/settings/updateNickname.mutation';
 import { Context } from '../../utils/context.utils';
 

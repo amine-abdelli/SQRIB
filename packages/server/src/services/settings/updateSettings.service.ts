@@ -2,7 +2,7 @@ import { ApolloError } from 'apollo-server-errors';
 import { log } from '@aqac/utils';
 import { Context } from '../../utils/context.utils';
 import { IUpdateSettings } from '../../resolvers/settings/updateSettings.mutation';
-import { updateSettingsByUserId } from '../../repositories/settings/updateSettingsByUserId';
+import { updateSettingsByUserId } from '../../repositories/settings/updateSettingsByUserId.repository';
 
 export async function updateSettingsService(
   args: IUpdateSettings,

@@ -1,4 +1,4 @@
-import { PrismaClient } from '.prisma/client';
+import { PrismaClient } from '@prisma/client';
 
 export interface OneUserByEmailArgs {
   email: string | undefined

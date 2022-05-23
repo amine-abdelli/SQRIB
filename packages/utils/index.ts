@@ -7,3 +7,4 @@ export * from './date';
 export * from './constants';
 export * from './enums';
 export * from './logger';
+export * from './type';

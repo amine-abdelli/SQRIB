@@ -3,6 +3,7 @@ export enum Routes {
   DIDACTICIEL = '/didacticiel',
   MAIN = '/main',
   MULTIGAMING = '/multigaming',
+  ROOM = '/[roomID]',
   CHAT = '/chat',
   SETTINGS = '/settings',
 }

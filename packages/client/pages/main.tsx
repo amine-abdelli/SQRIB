@@ -13,7 +13,7 @@ import Input from '../src/components/Input/Input.component';
 import { createScoringObject } from '../src/utils/scoring.utils';
 import { alertService } from '../services';
 
-function Main({ onSpacePress }: { onSpacePress: (e: any) => void }) {
+function Main() {
   const { cache } = useApolloClient();
   const {
     userInput,
@@ -122,8 +122,6 @@ function Main({ onSpacePress }: { onSpacePress: (e: any) => void }) {
         <Input
           userInput={userInput}
           setUserInput={setUserInput}
-          onSpacePress={onSpacePress}
-          gameMode={gameMode}
           isTimeOut={isTimeOut}
         />
       </div>

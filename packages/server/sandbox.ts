@@ -1,19 +1,25 @@
-import { generator } from '@aqac/utils';
+import { objectToQueryString } from './src/utils';
 import { prisma } from './src/client';
 
 (async () => {
   try {
-    const database = `agnès alain albert alexandre annabelle anne
-  baptiste béatrice benoit carl caroline cécile
-  christine christophe emmanuel emmanuelle emilie
-  éric eve frédéric gaspard henri henriette
-  isabelle jean jeanne jennifer joseph léa louis
-  marc marie marion maxime michel nathalie nicole
-  noémie olivia olivier patrick paul philippe
-  pierre rené robert sébastien sophie stéphane
-  stéphanie thierry`.split(' ');
-    const hey = generator(database);
-    console.log('hey', hey);
+    const foo = {
+      password: 'string',
+      nickname: 'string',
+      avatar: 'string',
+      rank: 'string',
+      xp: 'number',
+      lastPasswordReset: 'Date',
+      last_activity: 'Date',
+      is_active: 'boolean',
+      brotherHoodId: 'string',
+      didacticiel_level: 'number',
+    };
+
+    const updateUserQuery = `UPDATE public."User"
+    SET ${objectToQueryString(foo)}
+    WHERE id = 'foutre';`;
+    console.log(updateUserQuery);
   } catch (e) {
     console.log('an error occurred', e);
   }

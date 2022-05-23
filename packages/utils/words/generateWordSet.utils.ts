@@ -22,13 +22,12 @@ function shuffleWordSet(array: string[], setLength: number) {
 }
 
 /**
- * Categorize words by their difficulty levels and allocate a certain ratio of them to
- * a set of words.
+ * Allocate a ratio of easy, medium and hard words to the word set.
  * e.g. 67% of words are easy, 28% are medium and about 5% are hard.
- * @param array of words
- * @returns a set of words composed of easy, medium and hard wordsi
+ * @param array Array of words
+ * @returns a set of words composed of easy, medium and hard words
  */
-function setGenerator(array: string[]): string[] {
+function setGenerator(array: string[]): any {
   const easy: string[] = array.filter((
     word: string,
   ) => word.length <= 5 && !word.match(specialCharacterRegex));

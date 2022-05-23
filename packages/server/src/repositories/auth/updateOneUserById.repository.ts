@@ -1,6 +1,4 @@
-import { objectToQueryString } from '../../utils';
-import { pool } from '../../pg_client/client';
-import { oneUserById } from './oneUserById.repository';
+import { PrismaClient } from '@prisma/client';
 
 export interface UpdateUserByIdArgs {
   id: string,
@@ -18,11 +16,11 @@ export interface UpdateUserByIdArgs {
   }
 }
 
-export async function updateOneUserById({ id, data }: UpdateUserByIdArgs) {
-  const updateUserQuery = `UPDATE public."User"
-    SET ${objectToQueryString(data)}
-    WHERE id = '${id}';`;
-  await pool.query(updateUserQuery);
-  const user = await oneUserById({ id });
-  return user;
+export async function updateOneUserById({ id, data }: UpdateUserByIdArgs, prisma: PrismaClient) {
+  return prisma.user.update({
+    where: {
+      id,
+    },
+    data,
+  });
 }

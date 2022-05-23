@@ -14,7 +14,8 @@ export async function signupService(args: ICreateUserArgs, context: Context) {
       password,
       nickname: args?.nickname,
     });
-    const settings = await createSettings(user?.id, context);
+
+    const settings = await createSettings(user?.id);
     if (!settings) {
       log.error('Settings could not be created', { settings });
       throw new AuthenticationError('Settings could not be created');

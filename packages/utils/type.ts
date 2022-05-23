@@ -1,6 +1,6 @@
 export interface ScoreType {
   correct_letters: number;
-  createdAt: Date;
+  createdAt: Date | string;
   game_mode: string;
   mpm: number;
   points: number;

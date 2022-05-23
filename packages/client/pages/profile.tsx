@@ -1,5 +1,6 @@
 import React from 'react';
 import { Spinner } from '@nextui-org/react';
+import { ScoreType } from '@aqac/utils';
 import Calendar from '../src/components/Calendar/Calendar.component';
 import Chart from '../src/components/Chart/Chart.component';
 import ScoreCard from '../src/components/ScoreCard/ScoreCard.component';
@@ -14,7 +15,8 @@ function Profile({ theme }: { theme: ITheme }) {
   const { scores, loading } = useGetSelf();
   if (loading) return <Spinner />;
   const sortedScores = [...scores].sort(
-    (a: any, b: any) => Date.parse(a.createdAt) - Date.parse(b.createdAt),
+    (a: ScoreType, b: ScoreType) => Date.parse(a.createdAt as string)
+      - Date.parse(b.createdAt as string),
   );
 
   const {

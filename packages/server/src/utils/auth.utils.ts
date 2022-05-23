@@ -5,7 +5,8 @@ import {
   UserInputError,
 } from 'apollo-server-core';
 import bcrypt from 'bcryptjs';
-import { PrismaClient, User } from '@prisma/client';
+import { User } from '@prisma/client';
+import { log } from '@aqac/utils';
 import { oneUserById, oneUserByEmail } from '../repositories/auth';
 import { Context } from './context.utils';
 
@@ -55,27 +56,27 @@ export interface Token {
   userId: string
 }
 
-function isTokenExpired(expiresIn: number, emittedAt: number) {
+export function isTokenExpired(expiresIn: number, emittedAt: number) {
   return Date.now() > ((expiresIn * 1000) + emittedAt);
 }
 
-function getTokenPayload(token: string): Token {
+export function getTokenPayload(token: string): Token {
   return jwt.verify(token, APP_TOKENIZATION_SECRET) as Token;
 }
 
-export async function getUserId(req: express.Request, res: express.Response, prisma: PrismaClient) {
+export async function getUserId(req: express.Request, res: express.Response) {
   const token = req.cookies.session_id;
   if (token) {
     const { userId, expiresIn, emittedAt } = getTokenPayload(token);
     if (isTokenExpired(expiresIn, emittedAt)) {
       res.clearCookie('session');
-      console.warn('Session expired');
+      log.warn('Session expired');
       throw new AuthenticationError('Session expired');
     }
-    const user = await oneUserById({ id: userId }, prisma);
+    const user = await oneUserById({ id: userId });
     if (!user) {
       res.clearCookie('session');
-      console.warn('Session expired');
+      log.warn('Session expired');
       throw new AuthenticationError('Session expired');
     }
     return userId;
@@ -92,7 +93,7 @@ export async function authenticateUser({ email, password }: LoginVariables, cont
   const user = await oneUserByEmail({ email: formatEmail(email) }, context.prisma);
   const valid = await bcrypt.compare(password, user?.password || '');
   if (!user || !valid) {
-    console.warn('Incorrect email or password');
+    log.warn('Incorrect email or password');
     throw new UserInputError('Incorrect email or password');
   }
   return user;

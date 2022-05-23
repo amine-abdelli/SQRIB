@@ -1,6 +1,8 @@
-import { averageValue, roundNumber, topValue } from '@aqac/utils';
+import {
+  averageValue, roundNumber, ScoreType, topValue,
+} from '@aqac/utils';
 
-export function createTopScoringObject(scores: any) {
+export function createTopScoringObject(scores: ScoreType[]) {
   return {
     averageMpm: averageValue(scores, 'mpm') || 0,
     averagePoints: averageValue(scores, 'points') || 0,
@@ -13,7 +15,7 @@ export function createTopScoringObject(scores: any) {
   };
 }
 
-export function createScoringObject(correctWords: any, computedWords: any) {
+export function createScoringObject(correctWords: string[], computedWords: string[]) {
   const wrongWords: number = computedWords.length - correctWords.length;
   const correctLetters: number = correctWords.join('').length + correctWords.length;
   const totalLetters: number = computedWords.join('').length + correctWords.length;

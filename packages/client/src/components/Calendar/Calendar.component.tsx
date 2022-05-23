@@ -1,39 +1,44 @@
 /* eslint-disable max-len */
-import React from 'react';
+import React, { PropsWithChildren } from 'react';
 import { ResponsiveCalendar } from '@nivo/calendar';
 import _ from 'lodash';
 import {
-  calendarColors, formatDate, formatDateToCalendar, topValue,
+  calendarColors, formatDate, formatDateToCalendar, ScoreType, topValue,
 } from '@aqac/utils';
 import {
   Tab, Tabs,
 } from '@blueprintjs/core';
 import { ITheme } from '../../../styles/theme';
 
-function Calendar({ scores, theme }: { scores: any, theme: ITheme }) {
-  const formatedHistoryToCalendar = scores.map((day: any) => (
+function Calendar({ scores, theme }: { scores: ScoreType[], theme: ITheme }) {
+  const formatedHistoryToCalendar = scores.map((day: ScoreType) => (
     {
       day: day?.createdAt,
-      date: formatDate(day?.createdAt),
+      date: formatDate(day?.createdAt as Date),
       value: day.mpm,
     }
   ));
 
-  const groupedScore = _.groupBy(formatedHistoryToCalendar, 'date');
-  const wesh = Object.values(groupedScore).map((a: any) => ({
-    day: formatDateToCalendar(a[0].day),
-    number: a.length,
-    value: a.length,
-    bestRecord: topValue(a, 'value'),
-    date: a[0].day,
+  const groupedScores = _.groupBy(formatedHistoryToCalendar, 'date');
+  const calendarData = Object.values(groupedScores).map((gs) => ({
+    day: formatDateToCalendar(gs[0].day as Date),
+    number: gs.length,
+    value: gs.length,
+    bestRecord: topValue(gs, 'value'),
+    date: gs[0].day,
   }));
-  const hahaha = _.unionBy(Object.keys(groupedScore).map((a: any) => a.split(' ').at(-1)));
+
+  const dateGroupedByYear = _.unionBy(
+    Object.keys(groupedScores).map(
+      (a: string) => a.split(' ').at(-1),
+    ),
+  );
   return (
     <div>
       <h1 style={{ textAlign: 'center', margin: 0 }}>CALENDRIER</h1>
       <hr style={{ border: '1px solid' }} />
-      <Tabs id="calendarid" key="calendar" animate defaultSelectedTabId={hahaha.at(-1)}>
-        {hahaha.map((a: string) => (
+      <Tabs id="calendarid" key="calendar" animate defaultSelectedTabId={dateGroupedByYear.at(-1)}>
+        {dateGroupedByYear.map((a: string | undefined) => (
           <Tab
             id={a}
             title={a}
@@ -41,7 +46,7 @@ function Calendar({ scores, theme }: { scores: any, theme: ITheme }) {
             panel={(
               <div style={{ height: '175px', margin: 0 }}>
                 <ResponsiveCalendar
-                  data={wesh}
+                  data={calendarData}
                   from={`${a}-01-01`}
                   to={`${a}-12-31`}
                   emptyColor={theme.primary}
@@ -64,8 +69,8 @@ function Calendar({ scores, theme }: { scores: any, theme: ITheme }) {
                       itemDirection: 'right-to-left',
                     },
                   ]}
-                // eslint-disable-next-line react/no-unstable-nested-components
-                  tooltip={(data: any) => (
+                      // eslint-disable-next-line react/no-unstable-nested-components
+                  tooltip={(data: PropsWithChildren<any>) => (
                     <div style={{
                       backgroundColor: 'white', borderRadius: '10px', padding: '10px', border: `${data.color} solid 1px`,
                     }}
@@ -85,7 +90,7 @@ function Calendar({ scores, theme }: { scores: any, theme: ITheme }) {
                   )}
                 />
               </div>
-            )}
+                )}
           />
         ))}
       </Tabs>

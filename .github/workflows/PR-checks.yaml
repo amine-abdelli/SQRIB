@@ -19,13 +19,13 @@ jobs:
           node-version: '14'
 
       - name: 'Turbo run yarn'
-        run: turbo run yarn
+        run: yarn install
 
       - name: 'Turbo run lint'
-        run: turbo run lint
+        run: yarn lint
 
       - name: 'Turbo run test'
-        run: turbo run test
+        run: yarn test
 
       - name: 'Turbo run build'
-        run: turbo run build
+        run: yarn build

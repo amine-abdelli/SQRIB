@@ -11,3 +11,14 @@ jobs:
         uses: actions/checkout@v2
       - name: Go to client and run tests
         run: cd packages/client && yarn && yarn test
+      - name: Run linter on client
+        run: yarn lint
+      - name: Go to server and run tests
+        run: cd ../server && yarn && yarn test
+      - name: Run linter on server
+        run: yarn lint
+      - name: Go to utils and run tests
+        run: cd ../utils && yarn && yarn test
+      - name: Run linter on utils
+        run: yarn lint
+        

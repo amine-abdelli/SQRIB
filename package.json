@@ -2,6 +2,9 @@
   "name": "aqayc",
   "private": true,
   "scripts": {
+    "install": "./node_modules/.bin/turbo run yarn",
+    "test": "./node_modules/.bin/turbo run test",
+    "lint": "./node_modules/.bin/turbo run lint",
     "clean": "yarn run delete-eslint-cache && yarn run delete-node-modules && yarn",
     "delete-eslint-cache": "find . -name '*.eslintcache' -type f -delete ",
     "delete-node-modules": "find . -name 'node_modules' -type d -prune -exec rm -rf '{}' +"

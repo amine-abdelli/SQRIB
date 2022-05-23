@@ -1,7 +1,7 @@
 import bcrypt from 'bcryptjs';
 import { AuthenticationError } from 'apollo-server-errors';
 import { log } from '@aqac/utils';
-import { createSettings } from '../../repositories/settings/createSettings';
+import { createSettings } from '../../repositories/settings/createSettings.repository';
 import { COOKIE_SETTINGS, formatEmail, createToken } from '../../utils/auth.utils';
 import { Context } from '../../utils/context.utils';
 import { createOneUser, ICreateUserArgs } from '../../repositories';
@@ -15,7 +15,7 @@ export async function signupService(args: ICreateUserArgs, context: Context) {
       nickname: args?.nickname,
     });
 
-    const settings = await createSettings(user?.id);
+    const settings = await createSettings(user?.id, context);
     if (!settings) {
       log.error('Settings could not be created', { settings });
       throw new AuthenticationError('Settings could not be created');

@@ -21,8 +21,6 @@
     "typescript": "^4.1.3"
   },
   "dependencies": {
-    "@aqac/api": "^1.0.0",
-    "@aqac/client": "^1.0.0",
     "babel-preset-es2015": "^6.24.1",
     "jest": "^28.1.0",
     "lodash": "^4.17.21",

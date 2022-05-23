@@ -1,7 +1,7 @@
 {
   "name": "socket",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "src/server.js",
   "license": "MIT",
   "dependencies": {
     "@aqac/utils": "^1.0.0",
@@ -12,7 +12,9 @@
     "uuid": "^8.3.2"
   },
   "scripts": {
-    "start": "ts-node-dev -r dotenv/config --no-notify --respawn --exit-child -r tsconfig-paths/register --transpile-only src/server"
+    "start": "ts-node-dev -r dotenv/config --no-notify --respawn --exit-child -r tsconfig-paths/register --transpile-only src/server",
+    "start:prod": "node -r ts-node/register -r dotenv/config -r tsconfig-paths/register --max_old_space_size=500 ./dist/server.js",
+    "build": "rm -rf ./dist/ && tsc -p tsconfig.json"
   },
   "devDependencies": {}
 }

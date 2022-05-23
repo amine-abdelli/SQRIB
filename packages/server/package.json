@@ -6,6 +6,8 @@
   "license": "MIT",
   "scripts": {
     "start": "ts-node-dev -r dotenv/config --no-notify --respawn --exit-child -r tsconfig-paths/register --transpile-only src/server",
+    "start:prod": "node -r ts-node/register -r dotenv/config -r tsconfig-paths/register --max_old_space_size=500 ./dist/server.js",
+    "build": "rm -rf ./dist/ && tsc -p tsconfig.json",
     "prisma:sandbox": "ts-node-dev -r dotenv/config -r tsconfig-paths/register --transpile-only sandbox.ts",
     "lint": "eslint **/**.ts",
     "test": "jest"

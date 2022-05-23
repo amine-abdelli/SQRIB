@@ -1,0 +1,13 @@
+name: PR-checks
+
+on: 
+  pull_request
+
+jobs:
+  pr-checks:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v2
+      - name: Go to client and run tests
+        run: cd packages/client && yarn && yarn test

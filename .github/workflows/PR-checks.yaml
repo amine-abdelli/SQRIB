@@ -12,17 +12,17 @@ jobs:
       - name: Go to client and run lint
         run: cd packages/client && yarn && yarn lint
       - name: 'Run build on client'
-        run: CI=false yarn run build # in order to ignore warns when building
+        run: CI=false yarn build # in order to ignore warns when building
       - name: Go to server and run tests
         run: cd packages/server && yarn && yarn test
       - name: Run linter on server
         run: yarn lint
       - name: 'Run build on server'
-        run: CI=false yarn run build # in order to ignore warns when building
+        run: CI=false yarn build # in order to ignore warns when building
       - name: Go to utils and run tests
         run: cd packages/utils && yarn && yarn test
       - name: Run linter on utils
         run: yarn lint
       - name: 'Run build'
-        run: CI=false yarn run build # in order to ignore warns when building
+        run: CI=false yarn build # in order to ignore warns when building
         

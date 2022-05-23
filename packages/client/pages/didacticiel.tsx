@@ -109,6 +109,7 @@ function Didacticiel() {
         didacticielStack={markovChain}
         setUserInput={setUserInput}
         userInput={userInput}
+        isTimeOut={false}
       />
       <Spacer />
       <KeyBoard theme={theme} enable />

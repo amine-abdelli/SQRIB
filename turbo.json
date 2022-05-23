@@ -16,6 +16,9 @@
     "start": {
       "outputs": []
     },
+    "yarn": {
+      "outputs": []
+    },
     "dev": {
       "cache": false
     }

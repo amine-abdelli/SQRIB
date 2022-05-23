@@ -5,6 +5,7 @@
   "author": "Amine Abdelli",
   "license": "MIT",
   "scripts": {
+    "yarn": "yarn",
     "lint": "eslint **/**.ts",
     "build": "rm -rf ./dist/ && tsc",
     "generate:types": "rm -rf ./types && apollo codegen:generate --endpoint=http://localhost:4000/graphql  --target=typescript --outputFlat=types --includes=./requests/**.ts"

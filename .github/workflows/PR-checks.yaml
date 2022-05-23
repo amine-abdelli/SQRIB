@@ -1,52 +1,31 @@
 name: PR-Checks
 
 on: 
-  pull_request
+  pull_request:
+    branches: [main]
 
 jobs:
-  lint-job-client:
+  build:
     runs-on: ubuntu-latest
+    timeout-minutes: 30
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Run linter on client
-        run: cd packages/client && yarn && yarn lint
-  lint-job-server:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14'
 
-      - name: Run linter on server
-        run: cd packages/server && yarn && yarn lint
-  lint-job-utils:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-      - name: Run linter on server
-        run: cd packages/utils && yarn && yarn lint
+      - name: 'Turbo run yarn'
+        run: turbo run yarn
 
-  pr-checks:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Check out code
-        uses: actions/checkout@v2
-      - name: Go to client and run lint
-        run: cd packages/client && yarn && yarn lint
-      - name: 'Run build on client'
-        run: CI=false yarn build # in order to ignore warns when building
-      - name: Go to server and run tests
-        run: cd packages/server && yarn && yarn test
-      - name: Run linter on server
-        run: yarn lint
-      - name: 'Run build on server'
-        run: CI=false yarn build # in order to ignore warns when building
-      - name: Go to utils and run tests
-        run: cd packages/utils && yarn && yarn test
-      - name: Run linter on utils
-        run: yarn lint
-      - name: 'Run build'
-        run: CI=false yarn build # in order to ignore warns when building
-        
+      - name: 'Turbo run lint'
+        run: turbo run lint
+
+      - name: 'Turbo run test'
+        run: turbo run test
+
+      - name: 'Turbo run build'
+        run: turbo run build

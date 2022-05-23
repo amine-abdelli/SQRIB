@@ -198,8 +198,8 @@ function Settings() {
         >
           <Text color='inherit' h3>Sons</Text>
           <Checkbox
-            checked={selfSettings?.sound}
-            onChange={(e) => onSettingParameterSelection(e.target.checked, setIsSoundActive)}
+            isSelected={selfSettings?.sound}
+            onChange={(isChecked) => onSettingParameterSelection(isChecked, setIsSoundActive)}
           >
             Activez les sons
           </Checkbox>

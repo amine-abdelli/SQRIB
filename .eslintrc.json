@@ -54,7 +54,7 @@
       "error",
       {
         "devDependencies": [
-          "**/*.test.ts",
+          "**/*.spec.ts",
           "**/mock.ts"
         ]
       }

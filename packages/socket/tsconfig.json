@@ -9,13 +9,12 @@
   },
   "lib": ["es2020"],
   "include": [
-    "node_modules/@karbon-editor/utils",
-    "node_modules/@karbon-editor/api",
-    "./src",
-    "./prisma"],
+    "src"
+  ],
   "exclude": [
     "node_modules",
+    "**/**.config.js",
     "../../node_modules",
-    "tests/**/*"
+    "**/*.spec.ts"
   ]
 }

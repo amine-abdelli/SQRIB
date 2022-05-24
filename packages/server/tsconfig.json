@@ -8,14 +8,6 @@
     "baseUrl": ".",
   },
   "lib": ["es2020"],
-  "include": [
-    "node_modules/@karbon-editor/utils",
-    "node_modules/@karbon-editor/api",
-    "./src",
-    "./prisma"],
-  "exclude": [
-    "node_modules",
-    "../../node_modules",
-    "tests/**/*"
-  ]
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", "../../node_modules","**/*.spec.ts"]
 }

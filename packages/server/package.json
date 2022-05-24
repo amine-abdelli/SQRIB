@@ -1,5 +1,5 @@
 {
-  "name": "@aqac/client",
+  "name": "@aqac/server",
   "version": "1.0.0",
   "main": "src/server.js",
   "author": "Amine Abdelli <amine.abdelli@outlook.fr>",

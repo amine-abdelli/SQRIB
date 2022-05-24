@@ -2,7 +2,7 @@
   "name": "aqayc",
   "private": true,
   "scripts": {
-    "install": "./node_modules/.bin/turbo run yarn",
+    "start": "./node_modules/.bin/turbo run start",
     "test": "./node_modules/.bin/turbo run test",
     "lint": "./node_modules/.bin/turbo run lint",
     "build": "./node_modules/.bin/turbo run build",

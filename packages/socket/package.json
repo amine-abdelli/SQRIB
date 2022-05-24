@@ -1,5 +1,5 @@
 {
-  "name": "socket",
+  "name": "@aqac/socket",
   "version": "1.0.0",
   "main": "src/server.js",
   "license": "MIT",

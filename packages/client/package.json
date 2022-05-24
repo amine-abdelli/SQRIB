@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "start": "next dev",
-    "build": "next build --output public",
+    "build": "next build",
     "start:prod": "next start",
     "yarn": "yarn",
     "sandbox": "ts-node-dev src/sandbox/sandbox.ts",

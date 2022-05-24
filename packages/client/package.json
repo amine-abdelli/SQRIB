@@ -10,6 +10,9 @@
     "sandbox": "ts-node-dev src/sandbox/sandbox.ts",
     "lint": "next lint",
     "test": "jest"
+  }, 
+  "resolution": {
+    "react": "17.0.30"
   },
   "dependencies": {
     "@apollo/client": "^3.5.5",

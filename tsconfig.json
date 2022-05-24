@@ -2,7 +2,7 @@
   "compilerOptions": {
     "sourceMap": true,
     "strict": true,
-    "lib": ["es2020"],
+    "lib": ["es2020", "esnext"],
     "esModuleInterop": true,
     "noImplicitAny": true,
     "skipLibCheck": true,
@@ -11,5 +11,5 @@
     "baseUrl": ".",
     "paths": {
     }
-  }
+  },
 }

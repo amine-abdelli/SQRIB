@@ -1,37 +1,20 @@
 {
+  "extends": "./../../tsconfig.json",
   "compilerOptions": {
-    "target": "es5",
-    "lib": [
-      "dom",
-      "dom.iterable",
-    ],
-    "allowJs": true,
-    "skipLibCheck": true,
-    "strict": true,
-    "forceConsistentCasingInFileNames": true,
-    "noEmit": true,
-    "esModuleInterop": true,
-    "resolveJsonModule": true,
-    "isolatedModules": true,
-    "jsx": "preserve",
-    "module": "commonjs",
-    "noImplicitAny": true,
-    "moduleResolution": "node",
-    "sourceMap": true,
     "outDir": "dist",
-    "baseUrl": ".",      /* Ensure that casing is correct in imports. */                                    /* Enable all strict type-checking options. */
-    "paths": {
-        "*": [
-            "node_modules/*"
-        ]
-    },
+    "target": "ESNext",
+    "module": "CommonJS",
+    "esModuleInterop": true,
+    "baseUrl": ".",
   },
+  "lib": ["es2020"],
   "include": [
-    "src/**/*",
-    "**/*.ts",
-    "**/*.tsx",
+    "src"
   ],
   "exclude": [
-    "node_modules"
+    "node_modules",
+    "**/**.config.js",
+    "../../node_modules",
+    "**/*.spec.ts"
   ]
 }

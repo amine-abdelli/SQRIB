@@ -7,13 +7,11 @@
     "esModuleInterop": true,
     "outDir": "dist",
   },
-  "lib": [
-    "es2020"
-  ],
+  "lib": ["es2020"],
   "exclude": [
-    "node_modules",
-    "**/**.config.js",
-    "../../node_modules",
-    "**/*.spec.ts"
+      "node_modules",
+      "../../node_modules",
+      "**/**.spec.ts",
+      "**/**.config.js",
   ]
 }

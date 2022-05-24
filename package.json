@@ -2,7 +2,11 @@
   "name": "aqayc",
   "private": true,
   "scripts": {
-    "clean": "yarn run delete-eslint-cache && yarn run delete-node-modules && yarn run delete-build && yarn",
+    "start": "./node_modules/.bin/turbo run start",
+    "test": "./node_modules/.bin/turbo run test",
+    "lint": "./node_modules/.bin/turbo run lint",
+    "build": "./node_modules/.bin/turbo run build",
+    "clean": "yarn run delete-eslint-cache && yarn run delete-node-modules && yarn",
     "delete-eslint-cache": "find . -name '*.eslintcache' -type f -delete ",
     "delete-node-modules": "find . -name 'node_modules' -type d -prune -exec rm -rf '{}' +"
   },
@@ -19,5 +23,8 @@
   "main": "index.js",
   "repository": "https://github.com/amine-abdelli/aqac.git",
   "author": "Amine Abdelli <amine.abdelli@outlook.fr>",
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "turbo": "^1.2.11"
+  }
 }

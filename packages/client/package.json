@@ -4,15 +4,12 @@
   "private": true,
   "scripts": {
     "start": "next dev",
-    "build": "next build --output public",
+    "build": "next build",
     "start:prod": "next start",
     "yarn": "yarn",
     "sandbox": "ts-node-dev src/sandbox/sandbox.ts",
     "lint": "next lint",
     "test": "jest"
-  }, 
-  "resolution": {
-    "react": "17.0.30"
   },
   "dependencies": {
     "@apollo/client": "^3.5.5",
@@ -46,7 +43,7 @@
     "less": "^4.1.2",
     "less-loader": "^10.2.0",
     "lodash": "^4.17.21",
-    "next": "^12.1.6",
+    "next": "11",
     "next-compose-plugins": "^2.2.1",
     "next-transpile-modules": "^9.0.0",
     "next-with-less": "^2.0.2",

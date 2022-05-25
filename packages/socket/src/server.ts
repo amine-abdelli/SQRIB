@@ -36,6 +36,7 @@ io.on('connection', (socket: Socket) => {
    * Remove user from global object
    */
   socket.on('disconnect', () => {
+    log.info(`${socket.id} disconnected`);
     GAMES = Services.disconnect(GAMES, LEGIT_TOKENS, socket, io);
     Services.emitRoomList(io, GAMES);
   });
@@ -93,6 +94,7 @@ io.on('connection', (socket: Socket) => {
     const isLegit = LEGIT_TOKENS.includes(roomID);
     // If the room exists, the user is not already in the room and the roomID is legit, join it !
     if (!isCreating && GAMES[roomID] && isLegit && !GAMES[roomID]?.clients[socket.id]) {
+      log.info('Trying to join a room', { roomID, username });
       GAMES = Services.joinRoom(GAMES, roomID, username, socket);
       // Join room -> RoomID
       socket.join(roomID);
@@ -104,6 +106,7 @@ io.on('connection', (socket: Socket) => {
       Services.emitRoomList(io, GAMES);
     // If room doesn't exist and the roomID is legit, create it !
     } else if (isCreating && !GAMES[roomID] && isLegit) {
+      log.info('Trying to create a room', { roomID, username });
       const { updatedGameObject, updatedSetObject } = Services
         .createRoom(GAMES, roomID, gameParameters, SETS, username, socket);
       GAMES = updatedGameObject;
@@ -125,6 +128,7 @@ io.on('connection', (socket: Socket) => {
    * Send the list of rooms with their details
    */
   socket.on('room-list', () => {
+    log.info('Requesting room list');
     const roomList = Services.roomList(GAMES);
     io.emit('room-list', roomList);
   });
@@ -136,6 +140,7 @@ io.on('connection', (socket: Socket) => {
    * the user won't be allow to join or create a room.
    */
   socket.on('generate-room-id', () => {
+    log.info('Generating room id');
     const decodedRoomID = v4();
     const buff = Buffer.from(`${decodedRoomID}?create=true`);
     const base64token = buff.toString('base64');
@@ -148,6 +153,7 @@ io.on('connection', (socket: Socket) => {
    * and the game start. We also update the new game parameters selected by the creator.
    */
   socket.on('start-game', ({ roomID, gameParameters }) => {
+    log.info(`${socket.id} is starting the game`, { roomID });
     const { updatedGameObject, updatedSetObject } = Services.updateRoomWithNewParameters(
       GAMES,
       roomID,

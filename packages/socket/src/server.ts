@@ -2,6 +2,7 @@ import express from 'express';
 import http from 'http';
 import cors from 'cors';
 import { Socket } from 'socket.io';
+import dotenv from 'dotenv';
 
 import {
   GameType, log, SetType,
@@ -11,13 +12,14 @@ import { Services } from './services/services';
 import { GameStatus } from './utils/constants';
 import { emitGameStatus } from './utils/status';
 
-const app = express();
+dotenv.config();
 
+const app = express();
 app.use(cors());
 const server = http.createServer(app);
 const io = require('socket.io')(server, {
   cors: {
-    origin: 'http://localhost:3000',
+    origin: process.env.FRONTEND_URL || 'http://localhost:3000',
     methods: ['GET', 'POST'],
     credentials: true,
   },

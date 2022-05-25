@@ -53,6 +53,7 @@ function Input({
     <MainInput
       aria-label='formulaire de saisie principal'
       className='w100'
+      autoFocus
       onChange={(e) => setUserInput(e.target.value)}
       value={userInput}
       fullWidth

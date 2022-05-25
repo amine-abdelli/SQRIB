@@ -21,11 +21,6 @@ function SideBar({
           className={styles.sideBarButtons}
         >
           <ul style={{ width: '100%', margin: '2px', color: 'inherit' }}>
-            {isLoggedIn && (
-              <Link href={Routes.PROFILE} passHref>
-                <SideBarButton icon={<Chart style={{ marginRight: '5px' }} size={20} />} text="Profil" />
-              </Link>
-            )}
             <Link href={Routes.MAIN} passHref>
               <SideBarButton icon={<GiNinjaHead style={{ marginRight: '5px' }} size={20} />} text="Entraînement" />
             </Link>
@@ -35,9 +30,16 @@ function SideBar({
             <Link href={Routes.MULTIGAMING} passHref>
               <SideBarButton icon={<Game style={{ marginRight: '5px' }} size={20} />} text="Multijoueur" />
             </Link>
-            <Link href={Routes.SETTINGS} passHref>
-              <SideBarButton icon={<Setting style={{ marginRight: '5px' }} size={20} />} text="Settings" />
-            </Link>
+            {isLoggedIn && (
+              <>
+                <Link href={Routes.PROFILE} passHref>
+                  <SideBarButton icon={<Chart style={{ marginRight: '5px' }} size={20} />} text="Stats" />
+                </Link>
+                <Link href={Routes.SETTINGS} passHref>
+                  <SideBarButton icon={<Setting style={{ marginRight: '5px' }} size={20} />} text="Settings" />
+                </Link>
+              </>
+            )}
           </ul>
         </div>
       )

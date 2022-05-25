@@ -1,11 +1,26 @@
-export * from './authentication/signup.mutation';
-export * from './authentication/login.mutation';
-export * from './authentication/logout.mutation';
-export * from './authentication/deleteUser.mutation';
-export * from './scoring/addScoring.mutation';
-export * from './didacticiel/createOneSet.mutation';
-export * from './didacticiel/updateLevel.mutation';
-export * from './didacticiel/createAllSets.mutation';
-export * from './settings/updateSettings.mutation';
-export * from './settings/updateNickname.mutation';
-export * from './authentication/updatePassword.mutation';
+import { authGuard } from '../utils';
+import { signup } from './authentication/signup.mutation';
+import { login } from './authentication/login.mutation';
+import { logout } from './authentication/logout.mutation';
+import { deleteUser } from './authentication/deleteUser.mutation';
+import { addScoring } from './scoring/addScoring.mutation';
+import { createOneSet } from './didacticiel/createOneSet.mutation';
+import { updateLevel } from './didacticiel/updateLevel.mutation';
+import { createAllSets } from './didacticiel/createAllSets.mutation';
+import { updateSettings } from './settings/updateSettings.mutation';
+import { updateNickname } from './settings/updateNickname.mutation';
+import { updatePassword } from './authentication/updatePassword.mutation';
+
+export default {
+  signup,
+  login,
+  logout: authGuard(logout),
+  deleteUser: authGuard(deleteUser),
+  addScoring: authGuard(addScoring),
+  createOneSet: authGuard(createOneSet),
+  updateLevel: authGuard(updateLevel),
+  createAllSets: authGuard(createAllSets),
+  updateSettings: authGuard(updateSettings),
+  updateNickname: authGuard(updateNickname),
+  updatePassword: authGuard(updatePassword),
+};

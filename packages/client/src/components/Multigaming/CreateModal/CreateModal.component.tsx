@@ -10,13 +10,15 @@ import styles from './CreateModal.module.scss';
 import GameLink from './GameLink/GameLink.component';
 import { useWindowSize } from '../../../hooks/useWindowSize';
 import { socketDisconnect } from '../../../../services/socket.service';
+import { Routes } from '../../../utils/enums';
 
 function CreateModal({
   isVisible, roomID, username, isHost: isCreator, gameParameters, setGameParameters, game,
   startGame, socket,
 }: CreateModalProps) {
   const roomName = `[${gameParameters.language.toLocaleUpperCase()}] ${gameParameters.wordAmount} ${gameParameters.private ? 'privé' : 'public'} hosted by ${username}`;
-  const invitationUrl = `http://localhost:3000/multigaming/${roomID}`;
+  const ROOT = process.env.FRONTEND_URL;
+  const invitationUrl = `${ROOT}${Routes.MULTIGAMING}/${roomID}`;
   const { isMediumScreen } = useWindowSize();
 
   useEffect(() => {

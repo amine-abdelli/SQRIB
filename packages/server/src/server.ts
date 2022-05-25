@@ -3,22 +3,18 @@ import { ApolloServer } from 'apollo-server-express';
 import dotenv from 'dotenv';
 import cookieParser from 'cookie-parser';
 import { log } from '@aqac/utils';
-import * as Query from './resolvers/Query';
-import * as Mutation from './resolvers/Mutation';
+import resolvers from './resolvers';
 import { typeDefs } from './graphql/models';
 import { createContext } from './utils/context.utils';
 
 dotenv.config();
-const PORT: string | 4000 = 4000;
+const PORT: string | 4000 = process.env.PORT || 4000;
 
 async function startServer() {
   const app = express();
   const apolloServer: ApolloServer<any> = new ApolloServer({
     typeDefs,
-    resolvers: {
-      Query,
-      Mutation,
-    },
+    resolvers,
     context: createContext,
   });
   await apolloServer.start();
@@ -27,7 +23,7 @@ async function startServer() {
     app,
     cors: {
       credentials: true,
-      origin: ['http://localhost:3000',
+      origin: [process.env.FRONTEND_URL || 'http://localhost:3000',
         'https://studio.apollographql.com',
       ],
     },

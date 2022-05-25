@@ -1,26 +1,14 @@
 import io, { Socket } from 'socket.io-client';
 
-const ENDPOINT = 'http://127.0.0.1:4001';
+const ENDPOINT = process.env.SOCKET_URL || '';
 const socket = io(ENDPOINT, {
   transports: ['websocket'],
   autoConnect: false,
-  auth: {
-    username: '',
-  },
-  query: {
-    'my-key': 'my-value',
-  },
 });
 
 const autoConnectSocket = io(ENDPOINT, {
   transports: ['websocket'],
   autoConnect: false,
-  auth: {
-    username: '',
-  },
-  query: {
-    'my-key': 'my-value',
-  },
 });
 
 function socketConnect(socketRef: Socket) {

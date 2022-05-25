@@ -6,11 +6,8 @@ import {
 } from '@apollo/client';
 
 const httpLink = createHttpLink({
-  uri: 'http://localhost:4000/graphql',
+  uri: process.env.BACKEND_URL,
   credentials: 'include',
-  cors: {
-    origin: '*',
-  },
 });
 
 const client = new ApolloClient({

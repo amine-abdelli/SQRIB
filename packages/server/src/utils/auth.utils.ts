@@ -98,3 +98,13 @@ export async function authenticateUser({ email, password }: LoginVariables, cont
   }
   return user;
 }
+
+export const authGuard = <T extends (...args: any[]) => any>(guardedResolver: T) => (
+  ...args: Parameters<T>
+): ReturnType<T> => {
+  if (!args[2].userId) {
+    log.warn('Unauthenticated');
+    throw new AuthenticationError('User unauthenticated');
+  }
+  return guardedResolver(...args);
+};

@@ -10,7 +10,7 @@ function JoiningRoom({
   roomID, setRoomID, roomList, socket, setShouldDisplayUsernameInput,
 }: JoiningRoomProps) {
   const { isLoggedIn } = useGetSelf();
-  const ROOT_URL = process.env.ROOT_URL || 'http://localhost:3000';
+  const ROOT_URL = process.env.FRONTEND_URL || 'http://localhost:3000';
   const router = useRouter();
 
   /**

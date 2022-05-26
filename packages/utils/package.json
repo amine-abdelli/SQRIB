@@ -7,7 +7,7 @@
   "license": "MIT",
   "scripts": {
     "lint": "eslint **/**.ts",
-    "build": "tsc",
+    "build": "rm -rf ./dist/ && tsc -p tsconfig.json",
     "test": "jest",
     "yarn": "yarn"
   },

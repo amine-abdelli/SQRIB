@@ -16,6 +16,9 @@
     "start": {
       "outputs": []
     },
+    "start:prod": {
+      "outputs": []
+    },
     "yarn": {
       "outputs": []
     },

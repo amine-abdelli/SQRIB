@@ -3,6 +3,7 @@
   "private": true,
   "scripts": {
     "start": "./node_modules/.bin/turbo run start",
+    "start:prod": "./node_modules/.bin/turbo run start:prod",
     "test": "./node_modules/.bin/turbo run test",
     "lint": "./node_modules/.bin/turbo run lint",
     "build": "./node_modules/.bin/turbo run build",

@@ -7,6 +7,7 @@
     "start": "ts-node-dev -r dotenv/config --no-notify --respawn --exit-child -r tsconfig-paths/register --transpile-only src/server",
     "start:prod": "node -r ts-node/register -r dotenv/config -r tsconfig-paths/register --max_old_space_size=500 ./dist/server.js",
     "build": "rm -rf ./dist/ && tsc -p tsconfig.json",
+    "test": "jest",
     "yarn": "yarn"
   },
   "dependencies": {
@@ -15,7 +16,14 @@
     "dotenv": "^16.0.0",
     "express": "^4.17.3",
     "socket.io": "^4.4.1",
+    "socket.io-client": "^4.5.1",
     "uuid": "^8.3.2"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "@babel/core": "7.17.12",
+    "@babel/types": "7.17.12",
+    "@babel/preset-env": "^7.18.2",
+    "@babel/preset-typescript": "^7.17.12",
+    "babel-jest": "^28.1.0"
+  }
 }

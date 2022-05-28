@@ -1,4 +1,5 @@
 import { GameType } from '@aqac/utils';
+import { Socket } from 'socket.io';
 
 /**
  * Emit to the room the current game status
@@ -6,6 +7,10 @@ import { GameType } from '@aqac/utils';
  * @param roomID string
  * @param io io
  */
-export function emitGameStatus(games: Record<string, GameType>, roomID: string, io: any) {
+export function emitGameStatus(
+  games: Record<string, GameType>,
+  roomID: string,
+  io: Socket,
+) {
   return io.to(roomID).emit('game-status', { status: games[roomID].status });
 }

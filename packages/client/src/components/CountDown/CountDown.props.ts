@@ -6,13 +6,13 @@ export interface ICountUpValues {
 }
 
 export interface IUserInputProps {
-  theme?: any,
+  theme?: string,
   setStartTimer: Dispatch<SetStateAction<boolean>>,
   startTimer: boolean,
-  setIsTimeOut: any
+  setIsTimeOut: Dispatch<SetStateAction<boolean>>,
 }
 
-export type IScoringProps = IUserInputProps & IScore & any
+export type IScoringProps = IUserInputProps & IScore;
 interface IScore {
   score: number
 }

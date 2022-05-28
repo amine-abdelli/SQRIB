@@ -1,6 +1,7 @@
 import {
   GameType, generateWordSet, Languages, SetType,
 } from '@aqac/utils';
+import { Socket } from 'socket.io';
 import { v4 } from 'uuid';
 
 import { colorGenerator } from './services/colorGen';
@@ -79,10 +80,15 @@ function updateRoom({
   };
   return { updatedGameObject, updatedSetObject };
 }
-
+interface assignUserToARoomArgs {
+  roomID: string;
+  username: string;
+  games: Record<string, GameType>;
+  socket: Socket;
+}
 function assignUserToARoom({
   roomID, username, games, socket,
-}: any) {
+}: assignUserToARoomArgs) {
   const updatedGames = {
     ...games,
     [roomID]: {

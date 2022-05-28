@@ -1,7 +1,7 @@
 import {
   GameType, generateWordSet, Languages, SetType,
 } from '@aqac/utils';
-import { Socket } from 'socket.io';
+import { Server, Socket } from 'socket.io';
 import { v4 } from 'uuid';
 import { GameStatus } from '../utils/constants';
 import { initNewGameRoom, assignUserToARoom, updateRoom } from '../GameController';
@@ -14,7 +14,7 @@ export const Services = {
     games: Record<string, GameType>,
     LEGIT_TOKENS: string[],
     socket: Socket,
-    io: any,
+    io: Server,
   ) => {
     for (const aGame of Object.values(games)) {
       if (aGame.clients[socket.id]) {
@@ -120,7 +120,7 @@ export const Services = {
     games: Record<string, GameType>,
     sets: Record<string, SetType>,
     roomID: string,
-    io: any,
+    io: Socket,
     socket: Socket,
   ) => {
     const updatedGameObject = games;
@@ -191,7 +191,7 @@ export const Services = {
     }
     return newGameObject;
   },
-  emitRoomList: (io: any, games: Record<string, GameType>) => {
+  emitRoomList: (io: Socket, games: Record<string, GameType>) => {
     const roomList = Services.roomList(games);
     io.emit('room-list', roomList);
   },

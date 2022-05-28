@@ -10,7 +10,7 @@ function Home() {
 
   return (
     <div>
-      Welcome home big brother !
+      Welcome home double big big big brother (that&apos;s actually a triple brother) !
     </div>
   );
 }

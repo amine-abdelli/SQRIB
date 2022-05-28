@@ -4,3 +4,5 @@
 build/**
 dist/**
 .next/**
+# for production only
+fetch-and-deploy.sh

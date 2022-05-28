@@ -10,7 +10,7 @@ function Home() {
 
   return (
     <div>
-      Welcome
+      Welcome home big brother !
     </div>
   );
 }

@@ -21,3 +21,8 @@ export type GameType = {
 };
 
 export type SetType = string[];
+
+export enum Game {
+  SOLO = 'solo',
+  MULTI = 'multi',
+}

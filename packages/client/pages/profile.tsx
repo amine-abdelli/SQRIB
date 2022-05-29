@@ -18,7 +18,6 @@ function Profile({ theme }: { theme: ITheme }) {
     (a: ScoreType, b: ScoreType) => Date.parse(a.createdAt as string)
       - Date.parse(b.createdAt as string),
   );
-
   const {
     averageMpm, averagePoints, topMpm, topPoint, latestMpm, latestPoints, precision, totalGame,
   } = createTopScoringObject(sortedScores);

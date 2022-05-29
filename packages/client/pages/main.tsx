@@ -3,6 +3,7 @@ import React, {
 } from 'react';
 import { useApolloClient, useMutation } from '@apollo/client';
 import { ADD_NEW_SCORE_MUTATION, SELF_QUERY } from '@aqac/api';
+import { Game } from '@aqac/utils';
 import { Scoring } from '../src/components/Scoring/Scoring.component';
 import { Displayer } from '../src/components/Displayer/Displayer.component';
 import KeyBoard from '../src/components/KeyBoard/KeyBoard.component';
@@ -72,6 +73,7 @@ function Main() {
   ) {
     addNewScore({
       variables: {
+        type: Game.SOLO,
         mpm,
         wrongWords,
         gameMode,
@@ -80,7 +82,6 @@ function Main() {
         wrongLetters,
         totalLetters,
         correctLetters,
-        timing: '01:00',
       },
     });
   }

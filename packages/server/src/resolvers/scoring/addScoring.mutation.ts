@@ -4,7 +4,7 @@ import { addScoringService } from '../../services/scoring/addScoringService.serv
 import { Context } from '../../utils/context.utils';
 
 interface IAddScoring {
-  timing: string
+  type: string
   mpm: number
   wrong_words: number
   correct_letters: number
@@ -12,7 +12,6 @@ interface IAddScoring {
   wrong_letters: number
   precision: number
   points: number
-  game_mode: string
 }
 
 export async function addScoring(parent: any, args: IAddScoring, context: Context) {

@@ -26,19 +26,20 @@ mutation signupMutation($email: String, $password: String, $nickname: String) {
 `;
 
 const ADD_NEW_SCORE_MUTATION: DocumentNode = gql`
-mutation addNewScoreMutation($timing: String, $mpm: Int, $wrongWords: Int, $correctLetters: Int, $totalLetters: Int, $wrongLetters: Int, $precision: Float, $points: Int, $gameMode: String) {
-  addScoring(timing: $timing, mpm: $mpm, wrong_words: $wrongWords, correct_letters: $correctLetters, total_letters: $totalLetters, wrong_letters: $wrongLetters, precision: $precision, points: $points, game_mode: $gameMode) {
+mutation addNewScoreMutation($mpm: Int, $wrongWords: Int, $correctLetters: Int, $totalLetters: Int, $wrongLetters: Int, $precision: Float, $points: Int, $type: String, $userId: String, $gameId: String) {
+  addScoring(mpm: $mpm, wrong_words: $wrongWords, correct_letters: $correctLetters, total_letters: $totalLetters, wrong_letters: $wrongLetters, precision: $precision, points: $points, type: $type, userId: $userId, gameId: $gameId) {
+    id
+    type
     mpm
     wrong_words
-    timing
-    id
     correct_letters
     total_letters
-    precision
     wrong_letters
+    precision
     points
-    game_mode
     createdAt
+    userId
+    gameId
   }
 }
 `;

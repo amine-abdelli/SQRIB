@@ -1,7 +1,7 @@
 export const Score = `
  type Score {
   id: ID!
-  timing: String
+  type: String
   mpm: Int
   wrong_words: Int
   correct_letters: Int
@@ -9,8 +9,9 @@ export const Score = `
   wrong_letters: Int
   precision: Float
   points: Int
-  game_mode: String
   createdAt: Date
+  userId: String
+  gameId: String
  }`;
 
 export const ScoreTypes = [Score];

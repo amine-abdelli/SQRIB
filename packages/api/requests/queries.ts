@@ -12,7 +12,7 @@ query selfQuery {
     nickname
     didacticiel_level
     scores {
-      timing
+      type
       mpm
       wrong_words
       correct_letters
@@ -20,7 +20,6 @@ query selfQuery {
       wrong_letters
       precision
       points
-      game_mode
       createdAt
     }
     settings {

@@ -16,9 +16,10 @@ import { MainContext } from '../src/context/MainContext';
 import { useGetSelf } from '../src/hooks/useGetSelf';
 import KeyBoard from '../src/components/KeyBoard/KeyBoard.component';
 import useSpeedCalculator from '../src/hooks/useSpeedCalculator';
+import { useLocalStorage } from '../src/hooks/useLocalStorage';
 
 function Didacticiel() {
-  const { data } = useGetSelf();
+  const { data, isLoggedIn } = useGetSelf();
   const { cache } = useApolloClient();
   const [updateLevel] = useMutation(UPDATE_LEVEL_MUTATION, {
     onCompleted: ({ updatedLevel }) => {
@@ -36,8 +37,9 @@ function Didacticiel() {
     },
   });
   const [fetchOneSetByLetter,
-    { data: wordSet, loading }] = useLazyQuery(DIDACTICIEL_WORDSET_QUERY, {
+    { loading }] = useLazyQuery(DIDACTICIEL_WORDSET_QUERY, {
     onCompleted: ({ findOneSet }) => {
+      setMarkovChain(findOneSet);
       cache.writeQuery({
         query: DIDACTICIEL_WORDSET_QUERY,
         data: {
@@ -46,8 +48,12 @@ function Didacticiel() {
       });
     },
   });
+
   const [markovChain, setMarkovChain] = useState<string[]>();
-  const level = data?.self.didacticiel_level || DEFAULT_LEVEL;
+  const [levelStoredInLocalStorage, setLevelStoredInLocalStorage] = useLocalStorage('didacticiel_level', '');
+  if (!levelStoredInLocalStorage) setLevelStoredInLocalStorage(JSON.stringify(DEFAULT_LEVEL));
+  const level = data?.self.didacticiel_level
+  || +levelStoredInLocalStorage || DEFAULT_LEVEL;
   const {
     userInput, setUserInput, correctWords, setCorrectWords, setOffSet, setYFocusedPosition,
     setWordIndex, theme, startTimer, isTimeOut, setStartTimer, setComputedWords,
@@ -56,23 +62,24 @@ function Didacticiel() {
   useEffect(() => {
     if (!markovChain && level) {
       fetchOneSetByLetter({ variables: { letter: alphabet[level] } });
-      setMarkovChain(wordSet?.findOneSet);
     }
   }, [loading, level]);
 
   useEffect(() => {
-    if ((correctWords.length >= 2) && (level < alphabet.length - 1)) {
-      fetchOneSetByLetter({ variables: { letter: alphabet[level + 1] } });
-    }
-    // ! Définir règle pour passer à une nouvelle série de mots
+    // ! TODO: Définir une meilleur règle pour passer à une nouvelle série de mots
+    /**
+     * When the iteration limit is reached, switch to the next letter
+     * and reset counters
+     */
     if (correctWords.length === 5) {
+      fetchOneSetByLetter({ variables: { letter: alphabet[level + 1] } });
       setComputedWords([]);
       setCorrectWords([]);
       setOffSet(0);
       setWordIndex(0);
       setYFocusedPosition(0);
-      updateLevel({ variables: { level: level + 1 } });
-      setMarkovChain(wordSet?.findOneSet);
+      if (isLoggedIn) updateLevel({ variables: { level: level + 1 } });
+      setLevelStoredInLocalStorage(JSON.stringify(level + 1));
     }
   }, [correctWords, loading, level]);
 
@@ -97,9 +104,17 @@ function Didacticiel() {
           auto
           icon={<ArrowLeftSquare />}
           onClick={() => {
-            if (data.self.didacticiel_level !== DEFAULT_LEVEL) {
+            fetchOneSetByLetter({ variables: { letter: alphabet[DEFAULT_LEVEL] } });
+            if (isLoggedIn && data.self.didacticiel_level !== DEFAULT_LEVEL) {
               updateLevel({ variables: { level: DEFAULT_LEVEL } });
+            } else {
+              setLevelStoredInLocalStorage(JSON.stringify(DEFAULT_LEVEL));
             }
+            setComputedWords([]);
+            setCorrectWords([]);
+            setOffSet(0);
+            setWordIndex(0);
+            setYFocusedPosition(0);
           }}
         />
       </div>

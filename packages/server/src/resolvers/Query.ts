@@ -6,5 +6,5 @@ import { findOneSet } from './didacticiel/findOneSet.query';
 export default {
   self: authGuard(self),
   findScores: authGuard(findScores),
-  findOneSet: authGuard(findOneSet),
+  findOneSet,
 };

@@ -36,7 +36,7 @@ function SideBar({
                   <SideBarButton icon={<Chart style={{ marginRight: '5px' }} size={20} />} text="Stats" />
                 </Link>
                 <Link href={Routes.SETTINGS} passHref>
-                  <SideBarButton icon={<Setting style={{ marginRight: '5px' }} size={20} />} text="Settings" />
+                  <SideBarButton icon={<Setting style={{ marginRight: '5px' }} size={20} />} text="Paramètres" />
                 </Link>
               </>
             )}

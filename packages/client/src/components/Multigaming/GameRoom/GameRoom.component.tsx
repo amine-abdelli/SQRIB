@@ -5,6 +5,7 @@ import { MainContext } from '../../../context/MainContext';
 import OnGame from '../OnGame/OnGame.component';
 import ProgressList from '../ProgressList/ProgressList.component';
 import { GameRoomProps } from './GameRoom.props';
+import { createScoringObject } from '../../../utils/scoring.utils';
 
 function updateGameWithSortedClients(currentGame: any) {
   const sortedClients = currentGame?.clients && Object.entries(currentGame?.clients)
@@ -18,18 +19,22 @@ function updateGameWithSortedClients(currentGame: any) {
 
 function GameRoom({
   roomID, username, game, wordSet, socketRef, isGameEnded, setGame,
-  setWordSet, setWinner, setCounter, isGameStarted,
+  setWordSet, setWinner, setCounter,
 }: GameRoomProps) {
   const clients = game?.clients && Object.values(game?.clients);
   const self = clients?.find(({ id }) => id === socketRef.id);
   const {
-    wordIndex, setOffSet, setWordIndex, setComputedWords, setCorrectWords,
+    wordIndex, setOffSet, setWordIndex,
+    setComputedWords, setCorrectWords, correctWords, computedWords,
   } = useContext(MainContext);
+  const scoringObject = createScoringObject(correctWords, computedWords);
   const router = useRouter();
 
   useEffect(() => {
     if (socketRef.connected) {
-      socketRef.emit('progression', { roomID, wordIndex, username });
+      socketRef.emit('progression', {
+        roomID, wordIndex, username, scoringObject,
+      });
       socketRef.on('progression', ({ game: currentGame }) => {
         // Here sort the clients by wordIndex
         if (!isGameEnded && clients?.length) {

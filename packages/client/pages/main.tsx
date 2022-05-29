@@ -21,7 +21,6 @@ function Main() {
     isTimeOut,
     startTimer,
     setStartTimer,
-    gameMode,
     setUserInput,
     theme,
     wordsStack,
@@ -63,8 +62,6 @@ function Main() {
   function onSetFinish(
     mpm: number,
     wrongWords: number,
-    // eslint-disable-next-line @typescript-eslint/no-shadow
-    gameMode: 'mode 1' | 'mode 2',
     points: number,
     precision: number,
     wrongLetters: number,
@@ -76,7 +73,6 @@ function Main() {
         type: Game.SOLO,
         mpm,
         wrongWords,
-        gameMode,
         points,
         precision,
         wrongLetters,
@@ -105,7 +101,6 @@ function Main() {
           correctWords={correctWords}
           mpm={mpm}
           wrongWords={wrongWords}
-          gameMode={gameMode}
           points={points}
           precision={precision}
           wrongLetters={wrongLetters}

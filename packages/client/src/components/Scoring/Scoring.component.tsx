@@ -12,7 +12,7 @@ import { useWindowSize } from '../../hooks/useWindowSize';
 function Scoring({
   isTimeOut, computedWords,
   correctWords, mpm, wrongWords,
-  gameMode, points, precision, wrongLetters, totalLetters, correctLetters, timing, scores,
+  points, precision, wrongLetters, totalLetters, correctLetters, scores,
   onSetFinish, startTimer,
 }: any) {
   const [typingSpeed] = useSpeedCalculator(correctWords, startTimer, isTimeOut);
@@ -34,8 +34,6 @@ function Scoring({
     points,
     mpm,
     computedWords,
-    gameMode,
-    timing,
     scores,
     onSetFinish,
     setShowStatsModal,

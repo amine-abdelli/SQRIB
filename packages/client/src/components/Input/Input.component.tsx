@@ -21,7 +21,6 @@ function Input({
   function onSpacePress(e: KeyboardEvent) {
     if (e.code === 'Space' && userInput) {
       setComputedWords([...computedWords, userInput]);
-
       /* Check if the word typed in training or didacticiel mode is correct */
       if (userInput === (isDidacticiel ? didacticielStack[wordIndex] : wordsStack[wordIndex])) {
         setCorrectWords([...correctWords, isDidacticiel

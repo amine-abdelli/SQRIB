@@ -1,4 +1,4 @@
-import { GameMode } from '../../utils/enums';
+import { Dispatch, SetStateAction } from 'react';
 
 export interface IStats {
   wrongWords: number,
@@ -10,8 +10,7 @@ export interface IStats {
   points: number,
   mpm: number,
   correctWords: string[],
-  onSetFinish: any,
-  gameMode: GameMode,
-  setShowStatsModal: any,
+  onSetFinish: () => void,
+  setShowStatsModal: Dispatch<SetStateAction<boolean>>,
   typingSpeed: number,
 }

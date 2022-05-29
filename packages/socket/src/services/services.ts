@@ -1,5 +1,5 @@
 import {
-  GameType, generateWordSet, Languages, SetType,
+  GameType, generateWordSet, Languages, scoringObjectType, SetType,
 } from '@aqac/utils';
 import { Server, Socket } from 'socket.io';
 import { v4 } from 'uuid';
@@ -49,6 +49,7 @@ export const Services = {
     roomID: string,
     wordIndex: number,
     socket: Socket,
+    scoringObject: scoringObjectType,
   ) => {
     const updatedGames = {
       ...games,
@@ -57,7 +58,8 @@ export const Services = {
         clients: {
           ...games[roomID]?.clients,
           [socket.id]: {
-            ...games[roomID]?.clients?.[socket.id], // ! This break everything :'()
+            ...games[roomID]?.clients?.[socket.id],
+            ...scoringObject,
             wordIndex,
             // Needed to calculate the progression out of 100
             wordAmount: games[roomID]?.wordAmount,
@@ -127,7 +129,18 @@ export const Services = {
     const updatedSetObject = sets;
     // Reset players scores to zero
     for (const aClient of Object.values(games[roomID].clients)) {
-      updatedGameObject[roomID].clients[aClient.id].wordIndex = 0;
+      updatedGameObject[roomID].clients[aClient.id] = {
+        ...updatedGameObject[roomID].clients[aClient.id],
+        wordIndex: 0,
+        wrongWords: 0,
+        correctLetters: 0,
+        totalLetters: 0,
+        wrongLetters: 0,
+        precision: 0,
+        points: 0,
+        mpm: 0,
+      };
+      // updatedGameObject[roomID].clients[aClient.id].wordIndex = 0;
     }
     const setID = v4();
     // Create a new set of word

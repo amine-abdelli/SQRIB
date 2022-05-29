@@ -46,9 +46,9 @@ io.on('connection', (socket: Socket) => {
   /**
    * Update user's progression and handle users win
    */
-  socket.on('progression', ({ roomID, wordIndex }) => {
+  socket.on('progression', ({ roomID, wordIndex, scoringObject }) => {
     if (GAMES[roomID]?.status !== 'staging') {
-      GAMES = Services.progression(GAMES, roomID, wordIndex, socket);
+      GAMES = Services.progression(GAMES, roomID, wordIndex, socket, scoringObject);
       io.to(roomID).emit('progression', { game: GAMES[roomID] });
     }
     /**

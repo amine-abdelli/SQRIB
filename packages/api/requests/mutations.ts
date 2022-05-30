@@ -26,8 +26,8 @@ mutation signupMutation($email: String, $password: String, $nickname: String) {
 `;
 
 const ADD_NEW_SCORE_MUTATION: DocumentNode = gql`
-mutation addNewScoreMutation($mpm: Int, $wrongWords: Int, $correctLetters: Int, $totalLetters: Int, $wrongLetters: Int, $precision: Float, $points: Int, $type: String, $userId: String, $gameId: String) {
-  addScoring(mpm: $mpm, wrong_words: $wrongWords, correct_letters: $correctLetters, total_letters: $totalLetters, wrong_letters: $wrongLetters, precision: $precision, points: $points, type: $type, userId: $userId, gameId: $gameId) {
+mutation addNewScoreMutation($mpm: Int, $wrongWords: Int, $correctLetters: Int, $totalLetters: Int, $wrongLetters: Int, $precision: Float, $points: Int, $type: String, $userId: String, $gameId: String, $username: String, $language: String, $timer: Int) {
+  addScoring(mpm: $mpm, wrong_words: $wrongWords, correct_letters: $correctLetters, total_letters: $totalLetters, wrong_letters: $wrongLetters, precision: $precision, points: $points, type: $type, userId: $userId, gameId: $gameId, username: $username, language: $language, timer: $timer) {
     id
     type
     mpm
@@ -40,6 +40,9 @@ mutation addNewScoreMutation($mpm: Int, $wrongWords: Int, $correctLetters: Int, 
     createdAt
     userId
     gameId
+    timer
+    username
+    language
   }
 }
 `;
@@ -79,8 +82,16 @@ mutation DeleteUser($email: String, $password: String) {
   }
 }`;
 
+const CREATE_GAME_MUTATION: DocumentNode = gql`
+mutation AddGameDetailsMutation($clients: [Client], $game: GameInput) {
+  addGameDetails(clients: $clients, game: $game) {
+    message
+  }
+}
+`;
+
 export {
   LOGIN_MUTATION, LOGOUT_MUTATION, SIGNUP_MUTATION, ADD_NEW_SCORE_MUTATION, UPDATE_LEVEL_MUTATION,
-  UPDATE_SETTINGS_MUTATION, UPDATE_NICKNAME_MUTATION,
+  UPDATE_SETTINGS_MUTATION, UPDATE_NICKNAME_MUTATION, CREATE_GAME_MUTATION,
   UPDATE_PASSWORD_MUTATION, DELETE_USER_MUTATION,
 };

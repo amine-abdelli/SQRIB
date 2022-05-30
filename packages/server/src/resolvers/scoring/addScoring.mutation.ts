@@ -3,7 +3,7 @@ import { ApolloError } from 'apollo-server-errors';
 import { addScoringService } from '../../services/scoring/addScoringService.service';
 import { Context } from '../../utils/context.utils';
 
-interface IAddScoring {
+export interface IAddScoring {
   type: string
   mpm: number
   wrong_words: number
@@ -12,6 +12,9 @@ interface IAddScoring {
   wrong_letters: number
   precision: number
   points: number
+  username: string
+  language: string
+  timer: number
 }
 
 export async function addScoring(parent: any, args: IAddScoring, context: Context) {

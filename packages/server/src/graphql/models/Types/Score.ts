@@ -12,6 +12,25 @@ export const Score = `
   createdAt: Date
   userId: String
   gameId: String
+  username: String
+  timer: Int
+  language: String
  }`;
 
-export const ScoreTypes = [Score];
+export const GroupedScores = `
+  type GroupedScores {
+    fr: [Score]
+    en: [Score]
+    de: [Score]
+    es: [Score]
+  }
+`;
+
+export const GroupedGameData = `
+  type GroupedGameData {
+    scores: GroupedScores
+    games: [GameOutPut]
+  }
+`;
+
+export const ScoreTypes = [Score, GroupedScores, GroupedGameData];

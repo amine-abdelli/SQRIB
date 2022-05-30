@@ -58,6 +58,7 @@ io.on('connection', (socket: Socket) => {
      * users are allow to play again
      */
     if (GAMES[roomID]?.wordAmount === wordIndex) {
+      io.to(socket.id).emit('save-game-mutation', { game: GAMES[roomID] });
       GAMES = Services.updateGameStatus(GameStatus.FINISHED, GAMES, roomID);
       const { updatedSetObject, updatedGameObject } = Services
         .onWin(GAMES, SETS, roomID, io, socket);

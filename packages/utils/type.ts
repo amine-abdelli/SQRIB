@@ -1,12 +1,17 @@
 export interface ScoreType {
-  correct_letters: number;
-  createdAt: Date | string;
-  game_mode: string;
-  mpm: number;
-  points: number;
-  precision: number;
-  timing: string;
-  total_letters: number;
-  wrong_letters: number;
-  wrong_words: number;
+    id: string
+    type: string
+    mpm: number
+    wrong_words: number
+    correct_letters: number
+    total_letters: number
+    wrong_letters: number
+    precision: number
+    points: number
+    createdAt: Date | null
+    userId: string | null
+    gameId: string | null
+    username: string | null
+    language: string | null
+    timer: number | null
 }

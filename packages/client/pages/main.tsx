@@ -13,6 +13,7 @@ import RefreshButton from '../src/components/Buttons/RefreshButton/RefreshButton
 import Input from '../src/components/Input/Input.component';
 import { createScoringObject } from '../src/utils/scoring.utils';
 import { alertService } from '../services';
+import { useGetSelf } from '../src/hooks/useGetSelf';
 
 function Main() {
   const { cache } = useApolloClient();
@@ -49,12 +50,12 @@ function Main() {
         },
       });
     },
-    onError: () => {
+    onError: (error) => {
       alertService.error('Une erreur est survenue lors de la sauvegarde de votre score', {});
-      console.error('Score failed');
+      console.error(error);
     },
   });
-
+  const { data: selfData } = useGetSelf();
   const {
     computedWords, correctWords,
   } = useContext(MainContext);
@@ -78,6 +79,9 @@ function Main() {
         wrongLetters,
         totalLetters,
         correctLetters,
+        language: selfData?.self.settings.language, //!
+        username: selfData?.self.nickname || null, //!
+        timer: 60, //!
       },
     });
   }

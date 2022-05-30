@@ -5,10 +5,10 @@ import { ICursorProps } from './Cursor.props';
 function Cursor({ horizontalPosition, letterWidth, theme }: ICursorProps) {
   return (
     <p style={{
-      transition: 'all 0.2s ease', position: 'absolute', left: horizontalPosition + (letterWidth / 2) - 8.5, display: horizontalPosition ? 'block' : 'none', transform: 'translateY(-25px)',
+      transition: 'all 0.2s ease', position: 'absolute', left: horizontalPosition + (letterWidth / 2) - 10, display: horizontalPosition ? 'block' : 'none', transform: 'translateY(-40px)',
     }}
     >
-      <Icon color={theme?.tertiary} icon="symbol-triangle-up" />
+      <Icon size={24} color={theme?.tertiary} icon="symbol-triangle-up" />
     </p>
   );
 }

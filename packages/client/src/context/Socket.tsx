@@ -4,7 +4,7 @@ import io, { Socket } from 'socket.io-client';
 const ENDPOINT = process.env.SOCKET_URL || 'http://localhost:4001';
 
 const socket = io(ENDPOINT, {
-  transports: ['polling'],
+  transports: ['websocket'],
   path: '/socket',
   autoConnect: false,
   withCredentials: true,

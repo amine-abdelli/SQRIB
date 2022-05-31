@@ -2,13 +2,13 @@ import io, { Socket } from 'socket.io-client';
 
 const ENDPOINT = process.env.SOCKET_URL || '';
 const socket = io(ENDPOINT, {
-  transports: ['websocket'],
+  transports: ['polling'],
   autoConnect: false,
   path: '/socket',
 });
 
 const autoConnectSocket = io(ENDPOINT, {
-  transports: ['websocket'],
+  transports: ['polling'],
   autoConnect: false,
   path: '/socket',
 });

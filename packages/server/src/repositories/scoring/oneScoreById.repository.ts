@@ -1,14 +1,14 @@
 import { Context } from '../../utils/context.utils';
 
-export function oneScoreById(args: any, { prisma, userId }: Context) {
+export function createOneScore(args: any, { prisma, userId }: Context) {
   return prisma.score.create({
     data: {
       ...args,
-      userId,
+      userId: userId || null,
     },
     select: {
       id: true,
-      timing: true,
+      type: true,
       mpm: true,
       wrong_words: true,
       correct_letters: true,
@@ -16,7 +16,6 @@ export function oneScoreById(args: any, { prisma, userId }: Context) {
       wrong_letters: true,
       precision: true,
       points: true,
-      game_mode: true,
       createdAt: true,
     },
   });

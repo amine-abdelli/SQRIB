@@ -12,17 +12,31 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-enum Rank {
-  EMPEROR
-  SHOGUN
-  DAIMYO
-  SAMURAI
-  RONIN
+model Player {
+  id       String  @id @default(uuid())
+  user_id  String?
+  name     String
+  score_id String
+  game_id  String
+  score    Score   @relation(fields: [score_id], references: [id])
+  Game     Game    @relation(fields: [game_id], references: [id])
+}
+
+model Game {
+  id              String   @id @default(uuid())
+  host            String
+  name            String
+  winner          String
+  language        String
+  word_amount     Int
+  player_length   Int
+  players         Player[]
+  createdAt       DateTime? @default(now())
 }
 
 model Score {
   id              String    @id @default(uuid())
-  timing          String
+  type            String // "solo" | "multi"
   mpm             Int
   wrong_words     Int
   correct_letters Int
@@ -30,10 +44,14 @@ model Score {
   wrong_letters   Int
   precision       Float
   points          Int
-  game_mode       String
   createdAt       DateTime? @default(now())
   User            User?     @relation(fields: [userId], references: [id])
   userId          String?
+  gameId          String?
+  username        String?
+  language        String?
+  timer           Int?
+  Player          Player[]
 }
 
 model Settings {
@@ -50,7 +68,6 @@ model Achievment {
   id     String  @id @default(uuid())
   User   User?   @relation(fields: [userId], references: [id])
   userId String? @unique
-  rank   Rank    @default(RONIN)
   level  Int     @default(1)
   xp     Int     @default(0)
 }

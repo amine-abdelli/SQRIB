@@ -1,6 +1,8 @@
+import { GameType } from '@aqac/utils';
 import { Modal } from '@nextui-org/react';
 import { useRouter } from 'next/router';
 import React, {
+  useContext,
   useEffect, useRef, useState,
 } from 'react';
 import { Socket } from 'socket.io-client';
@@ -13,6 +15,7 @@ import { defaultGameParameters, GameParametersProps } from '../../src/components
 import EnterInput from '../../src/components/Multigaming/EnterInput/EnterInput.component';
 import GameRoom from '../../src/components/Multigaming/GameRoom/GameRoom.component';
 import VictoryModal from '../../src/components/Multigaming/VictoryModal/VictoryModal.component';
+import { MainContext } from '../../src/context/MainContext';
 import { useGetSelf } from '../../src/hooks/useGetSelf';
 import { useLocalStorage } from '../../src/hooks/useLocalStorage';
 
@@ -20,13 +23,12 @@ function Room() {
   const router = useRouter();
   const [username, setUsername] = useState<string | undefined>();
   const [wordSet, setWordSet] = useState<string[] | undefined>();
-  const [isGameStarted, setIsGameStarted] = useState<boolean>(false);
   const [counter, setCounter] = useState(5);
   const [gameParameters, setGameParameters] = useState<GameParametersProps>(defaultGameParameters);
   const [winner, setWinner] = useState('');
   const [usernameStoredInLocalStorage] = useLocalStorage('nickname', '');
   const [shouldDisplayUsernameInput, setShouldDisplayUsernameInput] = useState(false);
-  const [game, setGame] = useState<any>();
+  const [game, setGame] = useState<GameType>();
   // Make sure the socket.id is well anchored and doesn't change every time we send a "query"
   const { current: socketRef } = useRef<Socket>(socket);
   const { data: selfData } = useGetSelf();
@@ -39,6 +41,7 @@ function Room() {
   const isHost = Boolean(decryptedUrlParams[1]);
   // reencrypted roomID to be sent via URL for invitation
   const encryptedRoomID = Buffer.from(`${roomID}`).toString('base64');
+  const { setWordsStack } = useContext(MainContext);
 
   /**
    * Si la room existe déjà, faire rentrer le joueur dans la game
@@ -59,6 +62,10 @@ function Room() {
     socketConnect(socketRef);
     return () => socketDisconnect(socketRef);
   }, [socketRef]);
+  // Global wordStack is set to calculate score details every time a user press enter
+  useEffect(() => {
+    setWordsStack(wordSet);
+  }, [setWordsStack, wordSet]);
 
   useEffect(() => {
     setUsername(selfData?.self.nickname || usernameStoredInLocalStorage);
@@ -92,7 +99,6 @@ function Room() {
   function startGame() {
     socketRef.emit('start-game', { roomID, gameParameters });
     socketRef.emit('room-list');
-    setIsGameStarted(true);
   }
 
   useEffect(() => {
@@ -142,7 +148,6 @@ function Room() {
           setGame={setGame}
           setWinner={setWinner}
           setCounter={setCounter}
-          isGameStarted={isGameStarted}
         />
       )}
       {game?.status === 'finished' && (

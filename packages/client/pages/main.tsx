@@ -3,6 +3,7 @@ import React, {
 } from 'react';
 import { useApolloClient, useMutation } from '@apollo/client';
 import { ADD_NEW_SCORE_MUTATION, SELF_QUERY } from '@aqac/api';
+import { Game } from '@aqac/utils';
 import { Scoring } from '../src/components/Scoring/Scoring.component';
 import { Displayer } from '../src/components/Displayer/Displayer.component';
 import KeyBoard from '../src/components/KeyBoard/KeyBoard.component';
@@ -12,6 +13,7 @@ import RefreshButton from '../src/components/Buttons/RefreshButton/RefreshButton
 import Input from '../src/components/Input/Input.component';
 import { createScoringObject } from '../src/utils/scoring.utils';
 import { alertService } from '../services';
+import { useGetSelf } from '../src/hooks/useGetSelf';
 
 function Main() {
   const { cache } = useApolloClient();
@@ -20,7 +22,6 @@ function Main() {
     isTimeOut,
     startTimer,
     setStartTimer,
-    gameMode,
     setUserInput,
     theme,
     wordsStack,
@@ -49,12 +50,12 @@ function Main() {
         },
       });
     },
-    onError: () => {
+    onError: (error) => {
       alertService.error('Une erreur est survenue lors de la sauvegarde de votre score', {});
-      console.error('Score failed');
+      console.error(error);
     },
   });
-
+  const { data: selfData } = useGetSelf();
   const {
     computedWords, correctWords,
   } = useContext(MainContext);
@@ -62,8 +63,6 @@ function Main() {
   function onSetFinish(
     mpm: number,
     wrongWords: number,
-    // eslint-disable-next-line @typescript-eslint/no-shadow
-    gameMode: 'mode 1' | 'mode 2',
     points: number,
     precision: number,
     wrongLetters: number,
@@ -72,15 +71,17 @@ function Main() {
   ) {
     addNewScore({
       variables: {
+        type: Game.SOLO,
         mpm,
         wrongWords,
-        gameMode,
         points,
         precision,
         wrongLetters,
         totalLetters,
         correctLetters,
-        timing: '01:00',
+        language: selfData?.self.settings.language, //!
+        username: selfData?.self.nickname || null, //!
+        timer: 60, //!
       },
     });
   }
@@ -104,7 +105,6 @@ function Main() {
           correctWords={correctWords}
           mpm={mpm}
           wrongWords={wrongWords}
-          gameMode={gameMode}
           points={points}
           precision={precision}
           wrongLetters={wrongLetters}

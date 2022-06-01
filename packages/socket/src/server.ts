@@ -46,9 +46,9 @@ io.on('connection', (socket: Socket) => {
   /**
    * Update user's progression and handle users win
    */
-  socket.on('progression', ({ roomID, wordIndex }) => {
+  socket.on('progression', ({ roomID, wordIndex, scoringObject }) => {
     if (GAMES[roomID]?.status !== 'staging') {
-      GAMES = Services.progression(GAMES, roomID, wordIndex, socket);
+      GAMES = Services.progression(GAMES, roomID, wordIndex, socket, scoringObject);
       io.to(roomID).emit('progression', { game: GAMES[roomID] });
     }
     /**
@@ -58,6 +58,7 @@ io.on('connection', (socket: Socket) => {
      * users are allow to play again
      */
     if (GAMES[roomID]?.wordAmount === wordIndex) {
+      io.to(socket.id).emit('save-game-mutation', { game: GAMES[roomID] }); // ! Triggered many time but up frontend :'(
       GAMES = Services.updateGameStatus(GameStatus.FINISHED, GAMES, roomID);
       const { updatedSetObject, updatedGameObject } = Services
         .onWin(GAMES, SETS, roomID, io, socket);

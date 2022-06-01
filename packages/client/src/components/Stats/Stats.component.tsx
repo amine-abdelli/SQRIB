@@ -24,7 +24,6 @@ function Stats({
   points,
   mpm,
   onSetFinish,
-  gameMode,
   setShowStatsModal,
   typingSpeed,
 }: IStats) {
@@ -38,7 +37,6 @@ function Stats({
       onSetFinish(
         mpm,
         wrongWords,
-        gameMode,
         points,
         precision,
         wrongLetters,

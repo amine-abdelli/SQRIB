@@ -12,7 +12,7 @@ query selfQuery {
     nickname
     didacticiel_level
     scores {
-      timing
+      type
       mpm
       wrong_words
       correct_letters
@@ -20,7 +20,6 @@ query selfQuery {
       wrong_letters
       precision
       points
-      game_mode
       createdAt
     }
     settings {
@@ -38,4 +37,187 @@ query QueryOneSet($letter: String) {
   findOneSet(letter: $letter)
 }`;
 
-export { CREATE_WORD_SET_QUERY, SELF_QUERY, DIDACTICIEL_WORDSET_QUERY };
+const GLOBAL_GAME_DATA_QUERY = gql`
+query GlobalGamesDataQuery {
+  findGameData {
+    multi {
+      fr {
+        id
+        type
+        mpm
+        wrong_words
+        correct_letters
+        total_letters
+        wrong_letters
+        precision
+        points
+        createdAt
+        userId
+        gameId
+        username
+        timer
+        language
+      }
+      en {
+        id
+        type
+        mpm
+        wrong_words
+        correct_letters
+        total_letters
+        wrong_letters
+        precision
+        points
+        createdAt
+        userId
+        gameId
+        username
+        timer
+        language
+      }
+      de {
+        id
+        type
+        mpm
+        wrong_words
+        correct_letters
+        total_letters
+        wrong_letters
+        precision
+        points
+        createdAt
+        userId
+        gameId
+        username
+        timer
+        language
+      }
+      es {
+        id
+        type
+        mpm
+        wrong_words
+        correct_letters
+        total_letters
+        wrong_letters
+        precision
+        points
+        createdAt
+        userId
+        gameId
+        username
+        timer
+        language
+      }
+    }
+    solo {
+      fr {
+        id
+        type
+        mpm
+        wrong_words
+        correct_letters
+        total_letters
+        wrong_letters
+        precision
+        points
+        createdAt
+        userId
+        gameId
+        username
+        timer
+        language
+      }
+      en {
+        id
+        type
+        mpm
+        wrong_words
+        correct_letters
+        total_letters
+        wrong_letters
+        precision
+        points
+        createdAt
+        userId
+        gameId
+        username
+        timer
+        language
+      }
+      de {
+        id
+        type
+        mpm
+        wrong_words
+        correct_letters
+        total_letters
+        wrong_letters
+        precision
+        points
+        createdAt
+        userId
+        gameId
+        username
+        timer
+        language
+      }
+      es {
+        id
+        type
+        mpm
+        wrong_words
+        correct_letters
+        total_letters
+        wrong_letters
+        precision
+        points
+        createdAt
+        userId
+        gameId
+        username
+        timer
+        language
+      }
+    }
+    games {
+      id
+      host
+      name
+      winner
+      language
+      word_amount
+      player_length
+      createdAt
+      players {
+        id
+        user_id
+        name
+        score_id
+        game_id
+        score {
+          id
+          type
+          mpm
+          wrong_words
+          correct_letters
+          total_letters
+          wrong_letters
+          precision
+          points
+          createdAt
+          userId
+          gameId
+          username
+          timer
+          language
+        }
+      }
+    }
+  }
+}
+`;
+
+export {
+  CREATE_WORD_SET_QUERY, SELF_QUERY, DIDACTICIEL_WORDSET_QUERY, GLOBAL_GAME_DATA_QUERY,
+};

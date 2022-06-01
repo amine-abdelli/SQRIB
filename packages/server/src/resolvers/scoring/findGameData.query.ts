@@ -7,7 +7,7 @@ import { Context } from '../../utils';
  */
 export async function findGameData(parent: any, args: any, context: Context) {
   log.info('Trying to fetch all game & scores data');
-  const { scores, games } = await findGameDataService(context);
+  const { multi, solo, games } = await findGameDataService(context);
   log.info('Game & scores data fetched successfully');
-  return { scores, games };
+  return { multi, solo, games };
 }

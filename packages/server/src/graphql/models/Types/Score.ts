@@ -28,7 +28,8 @@ export const GroupedScores = `
 
 export const GroupedGameData = `
   type GroupedGameData {
-    scores: GroupedScores
+    solo: GroupedScores
+    multi: GroupedScores
     games: [GameOutPut]
   }
 `;

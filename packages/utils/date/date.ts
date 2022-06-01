@@ -31,7 +31,7 @@ function formatDateToLeaderboard(date: Date): string {
  */
 function formatDate(date: Date, lang: 'fr' | 'en' = 'fr') {
   const options: any = {
-    weekday: 'short', year: 'numeric', month: 'short', day: 'numeric',
+    weekday: 'short', year: 'numeric', month: 'long', day: 'numeric',
   };
   return new Intl.DateTimeFormat(lang === 'fr' ? 'fr-FR' : 'en-GB', options).format(new Date(date));
 }

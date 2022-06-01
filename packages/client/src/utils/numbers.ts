@@ -3,7 +3,7 @@
  * @param index player's position
  * @returns a well formated order string (e.g. 1st, 2nd, 3rd, 4th, 5th, ...)
  */
-function order(index: number) {
+function suffixPosition(index: number) {
   switch (index) {
     case 1:
       return `${index}st`;
@@ -16,4 +16,4 @@ function order(index: number) {
   }
 }
 
-export { order };
+export { suffixPosition };

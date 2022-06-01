@@ -44,7 +44,7 @@ function MyApp({ Component, pageProps }: AppProps) {
     generateWordSet(language, GameOptions[gameMode].stackLength),
   );
   const [countDown, setCountDown] = useState<number>(
-    GameOptions[gameMode].timer || 60,
+    60,
   );
 
   useEffect(() => {
@@ -66,7 +66,7 @@ function MyApp({ Component, pageProps }: AppProps) {
 
   useEffect(() => {
     setWordsStack(generateWordSet(language, GameOptions[gameMode].stackLength));
-    setCountDown(GameOptions[gameMode].timer);
+    setCountDown(60);
   }, [language, gameMode]);
 
   const MainContextProps = useMemo(() => ({

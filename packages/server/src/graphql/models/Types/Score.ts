@@ -1,7 +1,7 @@
 export const Score = `
  type Score {
   id: ID!
-  timing: String
+  type: String
   mpm: Int
   wrong_words: Int
   correct_letters: Int
@@ -9,8 +9,29 @@ export const Score = `
   wrong_letters: Int
   precision: Float
   points: Int
-  game_mode: String
   createdAt: Date
+  userId: String
+  gameId: String
+  username: String
+  timer: Int
+  language: String
  }`;
 
-export const ScoreTypes = [Score];
+export const GroupedScores = `
+  type GroupedScores {
+    fr: [Score]
+    en: [Score]
+    de: [Score]
+    es: [Score]
+  }
+`;
+
+export const GroupedGameData = `
+  type GroupedGameData {
+    solo: GroupedScores
+    multi: GroupedScores
+    games: [GameOutPut]
+  }
+`;
+
+export const ScoreTypes = [Score, GroupedScores, GroupedGameData];

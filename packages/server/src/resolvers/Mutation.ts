@@ -10,6 +10,7 @@ import { createAllSets } from './didacticiel/createAllSets.mutation';
 import { updateSettings } from './settings/updateSettings.mutation';
 import { updateNickname } from './settings/updateNickname.mutation';
 import { updatePassword } from './authentication/updatePassword.mutation';
+import { addGameDetails } from './game/addGameDetails.mutation';
 
 export default {
   signup,
@@ -23,4 +24,5 @@ export default {
   updateSettings: authGuard(updateSettings),
   updateNickname: authGuard(updateNickname),
   updatePassword: authGuard(updatePassword),
+  addGameDetails,
 };

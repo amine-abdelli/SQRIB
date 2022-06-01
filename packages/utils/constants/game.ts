@@ -8,6 +8,23 @@ export type ClientType = {
   wordAmount?: number;
   status: 'staging' | 'playing' | 'finished';
   host: boolean;
+  wrongWords: number;
+  correctLetters: number;
+  totalLetters: number;
+  wrongLetters: number;
+  precision: number;
+  points: number;
+  mpm: number;
+}
+
+export type scoringObjectType = {
+  wrongWords: number;
+  correctLetters: number;
+  totalLetters: number;
+  wrongLetters: number;
+  precision: number;
+  points: number;
+  mpm: number;
 }
 
 export type GameType = {
@@ -21,3 +38,8 @@ export type GameType = {
 };
 
 export type SetType = string[];
+
+export enum Game {
+  SOLO = 'solo',
+  MULTI = 'multi',
+}

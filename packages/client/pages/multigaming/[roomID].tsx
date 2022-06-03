@@ -1,5 +1,5 @@
 import { GameType } from '@aqac/utils';
-import { Modal } from '@nextui-org/react';
+import { Modal, Text } from '@nextui-org/react';
 import { useRouter } from 'next/router';
 import React, {
   useContext,
@@ -23,6 +23,7 @@ function Room() {
   const router = useRouter();
   const [username, setUsername] = useState<string | undefined>();
   const [wordSet, setWordSet] = useState<string[] | undefined>();
+  const [shouldDisplayFirstCounterModal, setShouldDisplayFirstCounterModal] = useState(false);
   const [counter, setCounter] = useState(5);
   const [gameParameters, setGameParameters] = useState<GameParametersProps>(defaultGameParameters);
   const [winner, setWinner] = useState('');
@@ -71,6 +72,7 @@ function Room() {
   useEffect(() => {
     setUsername(selfData?.self.nickname || usernameStoredInLocalStorage);
   }, [selfData?.self.nickname, username, usernameStoredInLocalStorage]);
+
   useEffect(() => {
     if (username && roomID && gameParameters) {
       socketRef.emit('join-room', {
@@ -78,6 +80,7 @@ function Room() {
       });
     }
   }, [username, roomID, gameParameters, socketRef, isHost, userId]);
+
   /**
    * As soon as the player land on the room page, he either join the room or create it
    * See 'join-room' socket in the socket server http://localhost:4001
@@ -109,6 +112,7 @@ function Room() {
   useEffect(() => {
     socketRef.on('start-game', ({ game: currentGame }) => {
       setGame(currentGame);
+      setCounter(5);
     });
   }, [socketRef]);
 
@@ -149,6 +153,7 @@ function Room() {
           setGame={setGame}
           setWinner={setWinner}
           setCounter={setCounter}
+          setShouldDisplayFirstCounterModal={setShouldDisplayFirstCounterModal}
         />
       )}
       {game?.status === 'finished' && (
@@ -158,6 +163,15 @@ function Room() {
           winnerNickname={winner}
         />
       )}
+      <Modal css={{ padding: '2rem' }} open={shouldDisplayFirstCounterModal}>
+        {counter > -1 ? (
+          <>
+            <Text h3>Prêt?</Text>
+            {counter}
+          </>
+        ) : (
+          <Text h3>GO</Text>)}
+      </Modal>
     </div>
   );
 }

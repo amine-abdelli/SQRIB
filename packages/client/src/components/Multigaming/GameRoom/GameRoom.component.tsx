@@ -18,7 +18,7 @@ function updateGameWithSortedClients(currentGame: any) {
 
 function GameRoom({
   roomID, username, game, wordSet, socketRef, isGameEnded, setGame,
-  setWordSet, setWinner, setCounter,
+  setWordSet, setWinner, setCounter, setShouldDisplayFirstCounterModal,
 }: GameRoomProps) {
   const clients = game?.clients && Object.values(game?.clients);
   const self = clients?.find(({ id }) => id === socketRef.id);
@@ -76,8 +76,12 @@ function GameRoom({
       setCounter(5);
     }
 
-    socketRef.on('counter', ({ counter: currentCounter }) => {
+    socketRef.on('counter', ({ counter: currentCounter, isFirstCounter }) => {
+      if (isFirstCounter) setShouldDisplayFirstCounterModal(true);
       setCounter(currentCounter);
+      if (currentCounter === -2) {
+        setShouldDisplayFirstCounterModal(false);
+      }
     });
   }, [setCounter, setGame, socketRef]);
 

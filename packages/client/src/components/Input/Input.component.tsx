@@ -1,4 +1,6 @@
-import React, { KeyboardEvent, useContext } from 'react';
+import React, {
+  KeyboardEvent, useContext,
+} from 'react';
 import { useRouter } from 'next/dist/client/router';
 import { Input as MainInput } from '@nextui-org/react';
 import { MainContext } from '../../context/MainContext';

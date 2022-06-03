@@ -1,10 +1,20 @@
 import {
-  GameType, generateWordSet, Languages, scoringObjectType, SetType,
+  Game,
+  GameType, generateWordSet,
+  groupScoresByLanguageAndHighestScores,
+  Languages, log, ScoreType, scoringObjectType, SetType,
 } from '@aqac/utils';
 import { Server, Socket } from 'socket.io';
 import { v4 } from 'uuid';
 import { GameStatus } from '../utils/constants';
 import { initNewGameRoom, assignUserToARoom, updateRoom } from '../GameController';
+
+function isMulti(score: ScoreType) {
+  return score.type === 'multi';
+}
+function isSolo(score: ScoreType) {
+  return score.type === 'solo';
+}
 
 export const Services = {
   /**
@@ -76,11 +86,12 @@ export const Services = {
     games: Record<string, GameType>,
     roomID: string,
     username: string,
+    userId: string | null,
     socket: Socket,
   ) => {
     if (!games[roomID].clients[socket.id]) {
       const updatedGames = assignUserToARoom({
-        roomID, username, games, socket,
+        games, roomID, username, userId, socket,
       });
       return updatedGames;
     }
@@ -95,11 +106,12 @@ export const Services = {
     gameParameters: Record<string, number | string | Languages | any>,
     sets: Record<string, SetType>,
     username: string,
+    userId: string | null,
     socket: Socket,
   ) => {
     const { language, wordAmount, name } = gameParameters;
     const { updatedGameObject, updatedSetObject } = initNewGameRoom({
-      games, roomID, sets, clientID: socket.id, username, language, wordAmount, name,
+      games, roomID, sets, clientID: socket.id, username, userId, language, wordAmount, name,
     });
     return { updatedGameObject, updatedSetObject };
   },
@@ -207,5 +219,69 @@ export const Services = {
   emitRoomList: (io: Socket, games: Record<string, GameType>) => {
     const roomList = Services.roomList(games);
     io.emit('room-list', roomList);
+  },
+  // Database related actions
+  getScoresData: async (db: any) => {
+    const scores = await db.findManyScores();
+    const games = await db.findManyGames();
+    const multiplayerScores = scores.filter(isMulti);
+    const scoresInSolo = scores.filter(isSolo);
+    const multiplayerGroupedScores = groupScoresByLanguageAndHighestScores(multiplayerScores);
+    const scoresInSoloGroupedScores = groupScoresByLanguageAndHighestScores(scoresInSolo);
+    return { solo: scoresInSoloGroupedScores, multi: multiplayerGroupedScores, games };
+  },
+  saveGame: async (db: any, game: GameType, socketId: string) => {
+    // Create Game
+    const gamePayload = await db.createOneGame({
+      host: Object.values(game.clients).find(({ host }) => host)?.username,
+      name: game.name,
+      winner: game.clients[socketId].username,
+      language: game.language,
+      word_amount: game.wordAmount,
+      player_length: Object.keys(game.clients).length,
+    });
+    if (!gamePayload) {
+      log.error('Game could not be created');
+      throw new Error('Game could not be created');
+    }
+
+    await Promise.all(Object.values(game.clients)
+      // Exclude players that are in staging room and that cannot play
+      .filter((aClient) => aClient.status !== 'staging')
+      .map(async (aClient) => {
+      // Create score
+        const score = await db.createOneScore({
+          type: Game.MULTI,
+          mpm: aClient?.mpm,
+          wrong_words: aClient?.wrongWords,
+          correct_letters: aClient?.correctLetters,
+          total_letters: aClient?.totalLetters,
+          wrong_letters: aClient?.wrongLetters,
+          precision: aClient?.precision,
+          points: aClient?.points,
+          userId: aClient?.userId,
+          gameId: gamePayload.id,
+          username: aClient?.username,
+          language: game?.language,
+        });
+
+        if (!score) {
+          log.error('Score could not be created');
+          throw new Error('Score could not be created');
+        }
+        // Create player
+        const player = await db.createOnePlayer({
+          user_id: aClient?.userId,
+          name: aClient?.username,
+          game_id: gamePayload.id,
+          score_id: score.id,
+        });
+
+        if (!player) {
+          log.error('Player could not be created');
+          throw new Error('Player could not be created');
+        }
+      }));
+    return { message: 'Game created successfully' };
   },
 };

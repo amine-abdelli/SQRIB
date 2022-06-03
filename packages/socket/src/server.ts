@@ -8,11 +8,13 @@ import {
   GameType, log, SetType,
 } from '@aqac/utils';
 import { v4 } from 'uuid';
+import { Database_manager } from '@aqayc/db';
 import { Services } from './services/services';
 import { GameStatus } from './utils/constants';
 import { emitGameStatus } from './utils/status';
 
 dotenv.config();
+const db = new Database_manager();
 
 const app = express();
 app.use(cors());
@@ -46,7 +48,7 @@ io.on('connection', (socket: Socket) => {
   /**
    * Update user's progression and handle users win
    */
-  socket.on('progression', ({ roomID, wordIndex, scoringObject }) => {
+  socket.on('progression', async ({ roomID, wordIndex, scoringObject }) => {
     if (GAMES[roomID]?.status !== 'staging') {
       GAMES = Services.progression(GAMES, roomID, wordIndex, socket, scoringObject);
       io.to(roomID).emit('progression', { game: GAMES[roomID] });
@@ -58,7 +60,11 @@ io.on('connection', (socket: Socket) => {
      * users are allow to play again
      */
     if (GAMES[roomID]?.wordAmount === wordIndex) {
-      io.to(socket.id).emit('save-game-mutation', { game: GAMES[roomID] }); // ! Triggered many time but up frontend :'(
+      const game = await Services.saveGame(db, GAMES[roomID], socket.id);
+      if (game.message) {
+        const scores = await Services.getScoresData(db);
+        io.emit('get-global-game-data', scores);
+      }
       GAMES = Services.updateGameStatus(GameStatus.FINISHED, GAMES, roomID);
       const { updatedSetObject, updatedGameObject } = Services
         .onWin(GAMES, SETS, roomID, io, socket);
@@ -92,13 +98,13 @@ io.on('connection', (socket: Socket) => {
    *  create or join
    */
   socket.on('join-room', ({
-    roomID, username, gameParameters, isCreating,
+    roomID, username, userId, gameParameters, isCreating,
   }) => {
     const isLegit = LEGIT_TOKENS.includes(roomID);
     // If the room exists, the user is not already in the room and the roomID is legit, join it !
     if (!isCreating && GAMES[roomID] && isLegit && !GAMES[roomID]?.clients[socket.id]) {
       log.info('Trying to join a room', { roomID, username });
-      GAMES = Services.joinRoom(GAMES, roomID, username, socket);
+      GAMES = Services.joinRoom(GAMES, roomID, username, userId, socket);
       // Join room -> RoomID
       socket.join(roomID);
       io.to(roomID).emit('greet', {
@@ -111,7 +117,7 @@ io.on('connection', (socket: Socket) => {
     } else if (isCreating && !GAMES[roomID] && isLegit) {
       log.info('Trying to create a room', { roomID, username });
       const { updatedGameObject, updatedSetObject } = Services
-        .createRoom(GAMES, roomID, gameParameters, SETS, username, socket);
+        .createRoom(GAMES, roomID, gameParameters, SETS, username, userId, socket);
       GAMES = updatedGameObject;
       SETS = updatedSetObject;
       socket.join(roomID);
@@ -130,7 +136,7 @@ io.on('connection', (socket: Socket) => {
   /**
    * Send the list of rooms with their details
    */
-  socket.on('room-list', () => {
+  socket.on('room-list', async () => {
     log.info('Requesting room list');
     const roomList = Services.roomList(GAMES);
     io.emit('room-list', roomList);
@@ -167,6 +173,11 @@ io.on('connection', (socket: Socket) => {
     GAMES = Services.updatePlayersStatus(GameStatus.PLAYING, GAMES, roomID);
     SETS = updatedSetObject;
     io.to(roomID).emit('start-game', { game: GAMES[roomID] });
+  });
+
+  socket.on('get-global-game-data', async () => {
+    const scores = await Services.getScoresData(db);
+    io.emit('get-global-game-data', scores);
   });
 });
 

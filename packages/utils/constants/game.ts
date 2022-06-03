@@ -2,6 +2,7 @@ import { Languages } from '..';
 
 export type ClientType = {
   id: string;
+  userId: string | null;
   username: string;
   wordIndex: number;
   color: string;

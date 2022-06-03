@@ -1,6 +1,8 @@
 /* eslint-disable no-nested-ternary */
 import React, { useState } from 'react';
-import { Radio, Table, Text } from '@nextui-org/react';
+import {
+  Loading, Radio, Table, Text,
+} from '@nextui-org/react';
 import Image from 'next/image';
 
 import {
@@ -39,7 +41,7 @@ function LeaderBoardTable({ scores, title, winnerBoard }: LeaderBoardProps) {
           value={langKey}
         >
           {languages.map(({ flag, country }) => (
-            <Radio value={country} style={{ display: 'inline-block' }} key={country}>
+            <Radio value={country} key={country}>
               <Text>{flag}</Text>
             </Radio>
           ))}
@@ -72,7 +74,7 @@ function LeaderBoardTable({ scores, title, winnerBoard }: LeaderBoardProps) {
             )}
           </Table.Header>
           <Table.Body
-            items={scoresToTableData}
+            items={scoresToTableData.slice(0, 50)}
           >
             {(item: any) => (
               <Table.Row css={{ textAlign: 'center' }} key={item.name}>
@@ -99,7 +101,7 @@ function LeaderBoardTable({ scores, title, winnerBoard }: LeaderBoardProps) {
           </Table.Body>
         </Table>
       </div>
-    ) : <>No data</>
+    ) : <Loading />
   );
 }
 

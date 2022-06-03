@@ -44,9 +44,9 @@ function Nav() {
     <div className={styles.navbarContainer}>
       <div
         className={styles.navbarContent}
-        style={{ borderBottom: '1px solid' }}
+        style={{ borderBottom: '1px solid', fontWeight: 'bold', letterSpacing: '0' }}
       >
-        にぎやか
+        scrib.co
       </div>
       <div style={{
         position: 'absolute', right: '50px', top: '50%', transform: 'translateY(-50%)', display: 'flex', alignItems: 'center',

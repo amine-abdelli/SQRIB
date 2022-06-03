@@ -1,9 +1,6 @@
 import { Button } from '@nextui-org/react';
 import React, { useContext, useEffect } from 'react';
 import { useRouter } from 'next/router';
-import { useMutation } from '@apollo/client';
-import { CREATE_GAME_MUTATION } from '@aqac/api';
-import { GameType } from '@aqac/utils';
 import { MainContext } from '../../../context/MainContext';
 import OnGame from '../OnGame/OnGame.component';
 import ProgressList from '../ProgressList/ProgressList.component';
@@ -31,7 +28,6 @@ function GameRoom({
   } = useContext(MainContext);
   const scoringObject = createScoringObject(correctWords, computedWords);
   const router = useRouter();
-  const [createGame] = useMutation(CREATE_GAME_MUTATION);
 
   useEffect(() => {
     if (socketRef.connected) {
@@ -50,35 +46,6 @@ function GameRoom({
     setWinner, setWordIndex, setWordSet, socketRef, username, wordIndex]);
 
   useEffect(() => {
-    socketRef.on('save-game-mutation', ({ game: endedGame }: {game: GameType}) => {
-      createGame({
-        variables: {
-          game: {
-            name: endedGame.name,
-            language: endedGame.language,
-            setID: endedGame.setID,
-            wordAmount: endedGame.wordAmount,
-          },
-          clients: Object.values(endedGame.clients)
-            .filter(({ status }) => status !== 'staging')
-            .map((aClient) => (
-              {
-                host: aClient.host,
-                correctLetters: aClient.correctLetters,
-                mpm: aClient.mpm,
-                points: aClient.points,
-                precision: aClient.precision,
-                totalLetters: aClient.totalLetters,
-                username: aClient.username,
-                wordAmount: aClient.wordAmount,
-                wordIndex: aClient.wordIndex,
-                wrongLetters: aClient.wrongLetters,
-                wrongWords: aClient.wrongWords,
-              }
-            )),
-        },
-      });
-    });
     socketRef.on('on-win', ({
       username: userNickname,
       game: currentGame,

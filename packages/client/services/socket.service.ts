@@ -4,13 +4,11 @@ const ENDPOINT = process.env.SOCKET_URL || '';
 const socket = io(ENDPOINT, {
   transports: ['websocket'],
   autoConnect: false,
-  path: '/socket',
 });
 
 const autoConnectSocket = io(ENDPOINT, {
   transports: ['websocket'],
   autoConnect: false,
-  path: '/socket',
 });
 
 function socketConnect(socketRef: Socket) {

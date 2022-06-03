@@ -13,6 +13,7 @@ interface CreateRoomArgs {
   sets: Record<string, SetType>;
   clientID: string;
   username: string;
+  userId: string | null;
   language: Languages;
   wordAmount: number;
   name: string;
@@ -28,7 +29,7 @@ interface updateRoomArgs {
 }
 
 function initNewGameRoom({
-  games, sets, roomID, clientID, username, language = Languages.FR, wordAmount = 60, name,
+  games, sets, roomID, clientID, username, userId, language = Languages.FR, wordAmount = 60, name,
 }: CreateRoomArgs) {
   let updatedGameObject = games;
   const updatedSetObject = sets;
@@ -41,12 +42,13 @@ function initNewGameRoom({
       language,
       wordAmount,
       setID,
-      // Dodgy hot fix :'(
+      // ! Dodgy hot fix :'(
       name: name?.replace('undefined', username) || '',
       status: GameStatus.STAGING,
       clients: {
         [clientID]: {
           id: clientID,
+          userId: userId || null,
           username,
           wordIndex: 0,
           color: colorGenerator(),
@@ -88,13 +90,14 @@ function updateRoom({
   return { updatedGameObject, updatedSetObject };
 }
 interface assignUserToARoomArgs {
+  games: Record<string, GameType>;
   roomID: string;
   username: string;
-  games: Record<string, GameType>;
+  userId: string | null;
   socket: Socket;
 }
 function assignUserToARoom({
-  roomID, username, games, socket,
+  games, roomID, username, userId, socket,
 }: assignUserToARoomArgs) {
   const updatedGames = {
     ...games,
@@ -104,6 +107,7 @@ function assignUserToARoom({
         ...games[roomID]?.clients,
         [socket.id]: {
           id: socket.id,
+          userId: userId || null,
           username,
           wordIndex: 0,
           color: colorGenerator(),

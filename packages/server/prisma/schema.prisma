@@ -30,6 +30,7 @@ model Game {
   language        String
   word_amount     Int
   player_length   Int
+  timer           Float?
   players         Player[]
   createdAt       DateTime? @default(now())
 }
@@ -50,7 +51,7 @@ model Score {
   gameId          String?
   username        String?
   language        String?
-  timer           Int?
+  timer           Float?
   Player          Player[]
 }
 

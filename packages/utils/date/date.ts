@@ -19,7 +19,7 @@ function formatDateToCalendar(date: Date): string {
 function formatDateToLeaderboard(date: Date): string {
   const dateString = new Date(date);
   dateString.setDate(dateString.getDate());
-  return `${(`0${dateString.getDate()}`).slice(-2)}-${(`0${dateString.getMonth() + 1}`).slice(-2)}-${dateString.getFullYear()}`;
+  return `${(`0${dateString.getDate()}`).slice(-2)}/${(`0${dateString.getMonth() + 1}`).slice(-2)}/${dateString.getFullYear()}`;
 }
 
 /**

@@ -8,6 +8,7 @@ query generateWordSet($language: String, $difficulty: String) {
 const SELF_QUERY = gql`
 query selfQuery {
   self {
+    id
     email
     nickname
     didacticiel_level

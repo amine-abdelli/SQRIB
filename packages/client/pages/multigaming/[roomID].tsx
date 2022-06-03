@@ -32,6 +32,7 @@ function Room() {
   // Make sure the socket.id is well anchored and doesn't change every time we send a "query"
   const { current: socketRef } = useRef<Socket>(socket);
   const { data: selfData } = useGetSelf();
+  const userId = selfData?.self.id;
   const { roomID: urlParams } = router.query;
   // Params collected from url ROOT_URL/roomID?create=true
   const decryptedUrlParams = Buffer.from(`${urlParams}`, 'base64').toString('ascii').split('?');
@@ -73,10 +74,10 @@ function Room() {
   useEffect(() => {
     if (username && roomID && gameParameters) {
       socketRef.emit('join-room', {
-        roomID, username, gameParameters, isCreating: isHost,
+        roomID, username, userId, gameParameters, isCreating: isHost,
       });
     }
-  }, [username, roomID, gameParameters, socketRef, isHost]);
+  }, [username, roomID, gameParameters, socketRef, isHost, userId]);
   /**
    * As soon as the player land on the room page, he either join the room or create it
    * See 'join-room' socket in the socket server http://localhost:4001

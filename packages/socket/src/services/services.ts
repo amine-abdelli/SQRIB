@@ -16,6 +16,11 @@ function isSolo(score: ScoreType) {
   return score.type === 'solo';
 }
 
+let TIMERS: Record<string, {
+  time: number
+  interval: ReturnType<typeof setInterval>
+}> = {};
+
 export const Services = {
   /**
    *  Remove user from global object
@@ -42,6 +47,8 @@ export const Services = {
           LEGIT_TOKENS.splice(indexOfGameInLegitTokensArray, 1);
           // eslint-disable-next-line no-param-reassign
           delete games[aGame.id];
+          // Clear and delete timer
+          delete TIMERS[aGame.id];
         }
         // Update room player list in live when someone leave the room
         if (games[aGame.id]?.clients) {
@@ -220,6 +227,34 @@ export const Services = {
     const roomList = Services.roomList(games);
     io.emit('room-list', roomList);
   },
+  /**
+   * Init and start the timer in the global TIMERS object
+   * @param roomID Room ID
+   */
+  startTimer: (roomID: string) => {
+    // Init room timer at 0 by default
+    TIMERS = {
+      ...TIMERS,
+      [roomID]: {
+        ...TIMERS[roomID],
+        time: 0,
+      },
+    };
+    TIMERS[roomID].interval = setInterval(() => {
+      // This check avoid failure if user leave the game
+      if (TIMERS[roomID]?.time >= 0) {
+        TIMERS[roomID].time += 1;
+      }
+    }, 1000);
+  },
+  /**
+   * Stop the timer and delete it from the global TIMERS object
+   * @param roomID Room ID
+   */
+  stopTimer: (roomID: string) => {
+    clearInterval(TIMERS[roomID].interval);
+    delete TIMERS[roomID];
+  },
   // Database related actions
   getScoresData: async (db: any) => {
     const scores = await db.findManyScores();
@@ -230,7 +265,8 @@ export const Services = {
     const scoresInSoloGroupedScores = groupScoresByLanguageAndHighestScores(scoresInSolo);
     return { solo: scoresInSoloGroupedScores, multi: multiplayerGroupedScores, games };
   },
-  saveGame: async (db: any, game: GameType, socketId: string) => {
+  saveGame: async (db: any, game: GameType, socketId: string, roomID: string) => {
+    const { time } = TIMERS[roomID];
     // Create Game
     const gamePayload = await db.createOneGame({
       host: Object.values(game.clients).find(({ host }) => host)?.username,
@@ -239,6 +275,7 @@ export const Services = {
       language: game.language,
       word_amount: game.wordAmount,
       player_length: Object.keys(game.clients).length,
+      timer: time || 0,
     });
     if (!gamePayload) {
       log.error('Game could not be created');
@@ -249,10 +286,11 @@ export const Services = {
       // Exclude players that are in staging room and that cannot play
       .filter((aClient) => aClient.status !== 'staging')
       .map(async (aClient) => {
-      // Create score
+        // Create score
         const score = await db.createOneScore({
           type: Game.MULTI,
-          mpm: aClient?.mpm,
+          // Normalize score to 1 minute as we're talking about word per minut (mpm/wpm)
+          mpm: Math.round(((aClient?.mpm || 0) / time) * 60),
           wrong_words: aClient?.wrongWords,
           correct_letters: aClient?.correctLetters,
           total_letters: aClient?.totalLetters,
@@ -263,6 +301,7 @@ export const Services = {
           gameId: gamePayload.id,
           username: aClient?.username,
           language: game?.language,
+          timer: time || 0,
         });
 
         if (!score) {

@@ -60,7 +60,8 @@ io.on('connection', (socket: Socket) => {
      * users are allow to play again
      */
     if (GAMES[roomID]?.wordAmount === wordIndex) {
-      const game = await Services.saveGame(db, GAMES[roomID], socket.id);
+      const game = await Services.saveGame(db, GAMES[roomID], socket.id, roomID);
+      Services.stopTimer(roomID);
       if (game.message) {
         const scores = await Services.getScoresData(db);
         io.emit('get-global-game-data', scores);
@@ -80,6 +81,8 @@ io.on('connection', (socket: Socket) => {
           GAMES = Services.updateGameStatus(GameStatus.PLAYING, transitionalObject, roomID);
           emitGameStatus(GAMES, roomID, io);
           io.to(roomID).emit('on-win', { game: GAMES[roomID] });
+          Services.startTimer(roomID);
+          counter = 6;
         }
       }, 1000);
     }
@@ -172,10 +175,18 @@ io.on('connection', (socket: Socket) => {
     GAMES = Services.updateGameStatus(GameStatus.PLAYING, updatedGameObject, roomID);
     GAMES = Services.updatePlayersStatus(GameStatus.PLAYING, GAMES, roomID);
     SETS = updatedSetObject;
+
+    // Send the updated game to the client
     io.to(roomID).emit('start-game', { game: GAMES[roomID] });
+    // start timer
+    Services.startTimer(roomID);
   });
 
+  /**
+   * Fetch and format scores related data
+   */
   socket.on('get-global-game-data', async () => {
+    log.info('Fetching scores data');
     const scores = await Services.getScoresData(db);
     io.emit('get-global-game-data', scores);
   });

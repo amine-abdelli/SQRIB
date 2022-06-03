@@ -1,6 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -8,4 +5,96 @@ generator client {
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
+}
+
+model Achievment {
+  id     String  @id
+  userId String? @unique
+  level  Int     @default(1)
+  xp     Int     @default(0)
+  User   User?   @relation(fields: [userId], references: [id])
+}
+
+model BrotherHood {
+  id   String @id
+  name String
+  User User[]
+}
+
+model Game {
+  id            String    @id
+  host          String
+  winner        String
+  createdAt     DateTime? @default(now())
+  language      String
+  name          String
+  player_length Int
+  word_amount   Int
+  timer         Int?
+  Player        Player[]
+}
+
+model Player {
+  id       String  @id
+  user_id  String?
+  name     String
+  score_id String
+  game_id  String
+  Game     Game    @relation(fields: [game_id], references: [id])
+  Score    Score   @relation(fields: [score_id], references: [id])
+}
+
+model Score {
+  id              String    @id
+  createdAt       DateTime? @default(now())
+  userId          String?
+  correct_letters Int
+  mpm             Int
+  points          Int
+  precision       Float
+  total_letters   Int
+  wrong_letters   Int
+  wrong_words     Int
+  gameId          String?
+  type            String
+  language        String?
+  timer           Int?
+  username        String?
+  User            User?     @relation(fields: [userId], references: [id])
+  Player          Player[]
+}
+
+model Settings {
+  id       String  @id
+  language String  @default("fr")
+  fontSize Int     @default(36)
+  sound    Boolean @default(false)
+  userId   String? @unique
+  theme    Boolean @default(true)
+  User     User?   @relation(fields: [userId], references: [id])
+}
+
+model User {
+  id                String       @id
+  email             String       @unique
+  password          String
+  nickname          String?      @unique
+  avatar            String?
+  lastPasswordReset DateTime?
+  last_activity     DateTime?
+  createdAt         DateTime     @default(now())
+  brotherHoodId     String?
+  is_active         Boolean      @default(false)
+  didacticiel_level Int?         @default(3)
+  BrotherHood       BrotherHood? @relation(fields: [brotherHoodId], references: [id])
+  Achievment        Achievment?
+  Score             Score[]
+  Settings          Settings?
+}
+
+model WordSet {
+  id      String   @id
+  letter  String
+  level   Int
+  wordSet String[]
 }

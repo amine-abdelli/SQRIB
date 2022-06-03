@@ -1,28 +1,40 @@
-import { useQuery } from '@apollo/client';
-import { GLOBAL_GAME_DATA_QUERY } from '@aqac/api';
 import { Text } from '@nextui-org/react';
 import _ from 'lodash';
-import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
+import { Socket } from 'socket.io-client';
+import { socketConnect, socket, socketDisconnect } from '../services/socket.service';
 import LeaderBoardTable from '../src/components/LeaderBoard/LeaderBoardTable.component';
 import { useWindowSize } from '../src/hooks/useWindowSize';
 
 function Home() {
-  const { data } = useQuery(GLOBAL_GAME_DATA_QUERY);
   const { isLargeScreen } = useWindowSize();
+  const [globalGamesData, setGlobalGamesData] = useState<any>();
+  const { current: socketRef } = useRef<Socket>(socket);
+  useEffect(() => {
+    socketConnect(socketRef);
+    socketRef.emit('get-global-game-data');
+    return () => socketDisconnect(socketRef);
+  }, []);
 
-  const gamesGroupedByWinners = _.groupBy(data?.findGameData.games, 'winner');
+  useEffect(() => {
+    socketRef.on('get-global-game-data', (scores) => {
+      setGlobalGamesData(scores);
+    });
+  }, []);
+
+  const gamesGroupedByWinners = _.groupBy(globalGamesData?.games, 'winner');
   return (
     <div style={{ display: 'flex', flexDirection: 'column', padding: '1rem' }}>
       <Text css={{ textAlign: 'center' }} h1>Leaderboard</Text>
       <div style={{ display: 'flex', flexDirection: isLargeScreen ? 'column' : 'row', padding: '1rem' }}>
         <LeaderBoardTable
-          scores={data?.findGameData.solo}
-          title="En mode solo"
+          scores={globalGamesData?.solo}
+          title="Top 50 - Solo"
         />
         <LeaderBoardTable
-          scores={data?.findGameData.multi}
+          scores={globalGamesData?.multi}
           winnerBoard={gamesGroupedByWinners}
-          title="En mode multijoueur"
+          title="Top 50 - Multijoueur"
         />
       </div>
     </div>

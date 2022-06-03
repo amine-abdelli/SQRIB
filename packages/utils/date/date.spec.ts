@@ -1,4 +1,4 @@
-import { formatDate, formatDateToCalendar } from './date';
+import { formatDate, formatDateToCalendar, formatDateToLeaderboard } from './date';
 
 const date = new Date('2022-03-30T17:40:38.577Z');
 describe('Should format date', () => {
@@ -7,7 +7,7 @@ describe('Should format date', () => {
   });
 
   it('Should format the date object to this format: DD/MM/YYY', () => {
-    expect(formatDateToCalendar(date)).toBe('30/03/2022');
+    expect(formatDateToLeaderboard(date)).toBe('30/03/2022');
   });
 
   it('Should format the date object to this format: lun. 01 janvier 2000', () => {

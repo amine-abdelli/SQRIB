@@ -59,6 +59,9 @@ function Input({
   // ! Must be a better solution to trigger focus on multiplayer
   useEffect(() => {
     triggerInputFocus(mainInputRef);
+    return function cleanup() {
+      triggerInputFocus(mainInputRef);
+    };
   });
 
   return (

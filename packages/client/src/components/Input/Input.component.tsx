@@ -1,11 +1,16 @@
 import React, {
-  KeyboardEvent, useContext,
+  createRef,
+  KeyboardEvent, useContext, useEffect,
 } from 'react';
 import { useRouter } from 'next/dist/client/router';
 import { Input as MainInput } from '@nextui-org/react';
 import { MainContext } from '../../context/MainContext';
 import { InputProps } from './Input.props';
 import { Routes } from '../../utils/enums';
+
+function triggerInputFocus(refToTrigger: React.RefObject<HTMLInputElement>) {
+  return refToTrigger.current?.focus();
+}
 
 function Input({
   setUserInput, userInput, isTimeOut, didacticielStack = [], disabled = false,
@@ -18,6 +23,7 @@ function Input({
   } = useContext(MainContext);
   const isDidacticiel = route.pathname === Routes.DIDACTICIEL;
   const isMultigaming = route.pathname === `${Routes.MULTIGAMING}${Routes.ROOM}`;
+  const mainInputRef = createRef<HTMLInputElement>();
   // If a player join an already started game, he can't write in the input
   const isMultigamerAndNotAllowToPlay = disabled && isMultigaming;
   function onSpacePress(e: KeyboardEvent) {
@@ -50,8 +56,14 @@ function Input({
       e.preventDefault();
     }
   }
+  // ! Must be a better solution to trigger focus on multiplayer
+  useEffect(() => {
+    triggerInputFocus(mainInputRef);
+  });
+
   return (
     <MainInput
+      ref={mainInputRef}
       aria-label='formulaire de saisie principal'
       className='w100'
       autoFocus

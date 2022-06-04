@@ -6,6 +6,7 @@ import OnGame from '../OnGame/OnGame.component';
 import ProgressList from '../ProgressList/ProgressList.component';
 import { GameRoomProps } from './GameRoom.props';
 import { createScoringObject } from '../../../utils/scoring.utils';
+import { Routes } from '../../../utils/enums';
 
 function updateGameWithSortedClients(currentGame: any) {
   const sortedClients = currentGame?.clients && Object.entries(currentGame?.clients)
@@ -83,7 +84,7 @@ function GameRoom({
         setShouldDisplayFirstCounterModal(false);
       }
     });
-  }, [setCounter, setGame, socketRef]);
+  }, [setCounter, setGame, socketRef, setShouldDisplayFirstCounterModal]);
 
   function handleLeave() {
     setWordIndex(0);
@@ -93,7 +94,7 @@ function GameRoom({
     setOffSet(0);
     setCounter(5);
     socketRef.disconnect();
-    router.push('/multigaming');
+    router.push(Routes.MULTIGAMING);
   }
 
   return (

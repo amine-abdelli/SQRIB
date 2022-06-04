@@ -13,4 +13,5 @@ export interface GameRoomProps {
   setWordSet: Dispatch<SetStateAction<string[] | undefined>>,
   setWinner: Dispatch<SetStateAction<string>>,
   setCounter: Dispatch<SetStateAction<number>>,
+  setShouldDisplayFirstCounterModal: Dispatch<SetStateAction<boolean>>,
 }

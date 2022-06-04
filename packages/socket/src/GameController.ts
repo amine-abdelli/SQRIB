@@ -52,7 +52,7 @@ function initNewGameRoom({
           username,
           wordIndex: 0,
           color: colorGenerator(),
-          status: GameStatus.PLAYING,
+          status: GameStatus.STAGING,
           host: true,
           wordAmount,
           wrongWords: 0,

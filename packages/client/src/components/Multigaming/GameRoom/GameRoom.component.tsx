@@ -6,6 +6,7 @@ import OnGame from '../OnGame/OnGame.component';
 import ProgressList from '../ProgressList/ProgressList.component';
 import { GameRoomProps } from './GameRoom.props';
 import { createScoringObject } from '../../../utils/scoring.utils';
+import { Routes } from '../../../utils/enums';
 
 function updateGameWithSortedClients(currentGame: any) {
   const sortedClients = currentGame?.clients && Object.entries(currentGame?.clients)
@@ -18,7 +19,7 @@ function updateGameWithSortedClients(currentGame: any) {
 
 function GameRoom({
   roomID, username, game, wordSet, socketRef, isGameEnded, setGame,
-  setWordSet, setWinner, setCounter,
+  setWordSet, setWinner, setCounter, setShouldDisplayFirstCounterModal,
 }: GameRoomProps) {
   const clients = game?.clients && Object.values(game?.clients);
   const self = clients?.find(({ id }) => id === socketRef.id);
@@ -76,10 +77,14 @@ function GameRoom({
       setCounter(5);
     }
 
-    socketRef.on('counter', ({ counter: currentCounter }) => {
+    socketRef.on('counter', ({ counter: currentCounter, isFirstCounter }) => {
+      if (isFirstCounter) setShouldDisplayFirstCounterModal(true);
       setCounter(currentCounter);
+      if (currentCounter === -2) {
+        setShouldDisplayFirstCounterModal(false);
+      }
     });
-  }, [setCounter, setGame, socketRef]);
+  }, [setCounter, setGame, socketRef, setShouldDisplayFirstCounterModal]);
 
   function handleLeave() {
     setWordIndex(0);
@@ -89,7 +94,7 @@ function GameRoom({
     setOffSet(0);
     setCounter(5);
     socketRef.disconnect();
-    router.push('/multigaming');
+    router.push(Routes.MULTIGAMING);
   }
 
   return (

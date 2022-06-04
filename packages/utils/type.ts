@@ -8,7 +8,7 @@ export interface ScoreType {
     wrong_letters: number
     precision: number
     points: number
-    createdAt: Date | null
+    createdAt: Date | null | string
     userId: string | null
     gameId: string | null
     username: string | null

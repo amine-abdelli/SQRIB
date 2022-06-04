@@ -173,13 +173,24 @@ io.on('connection', (socket: Socket) => {
       SETS,
     );
     GAMES = Services.updateGameStatus(GameStatus.PLAYING, updatedGameObject, roomID);
-    GAMES = Services.updatePlayersStatus(GameStatus.PLAYING, GAMES, roomID);
     SETS = updatedSetObject;
-
-    // Send the updated game to the client
+    // Update game status to the client to close creation room modal
     io.to(roomID).emit('start-game', { game: GAMES[roomID] });
-    // start timer
-    Services.startTimer(roomID);
+
+    // 3, 2, 1, GO ! at first start
+    let counter = 3;
+    const timer = setInterval(() => {
+      counter -= 1;
+      io.to(roomID).emit('counter', { counter, isFirstCounter: true });
+      if (counter === -2) {
+        clearInterval(timer);
+        GAMES = Services.updatePlayersStatus(GameStatus.PLAYING, GAMES, roomID);
+        // Send the updated game to the client with latest game data
+        io.to(roomID).emit('start-game', { game: GAMES[roomID] });
+        // start timer
+        Services.startTimer(roomID);
+      }
+    }, 1000);
   });
 
   /**

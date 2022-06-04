@@ -19,7 +19,7 @@ function updateGameWithSortedClients(currentGame: any) {
 
 function GameRoom({
   roomID, username, game, wordSet, socketRef, isGameEnded, setGame,
-  setWordSet, setWinner, setCounter, setShouldDisplayFirstCounterModal,
+  setWordSet, setCounter, setShouldDisplayFirstCounterModal,
 }: GameRoomProps) {
   const clients = game?.clients && Object.values(game?.clients);
   const self = clients?.find(({ id }) => id === socketRef.id);
@@ -44,16 +44,14 @@ function GameRoom({
       });
     }
   }, [clients.length, isGameEnded, roomID, setComputedWords, setCorrectWords, setGame, setOffSet,
-    setWinner, setWordIndex, setWordSet, socketRef, username, wordIndex]);
+    setWordIndex, setWordSet, socketRef, username, wordIndex]);
 
   useEffect(() => {
     socketRef.on('on-win', ({
-      username: userNickname,
       game: currentGame,
       wordSet: newWordSet,
     }) => {
       setGame(currentGame);
-      setWinner(userNickname);
       setWordIndex(0);
       setComputedWords([]);
       setCorrectWords([]);

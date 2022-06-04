@@ -1,4 +1,5 @@
 import {
+  createPodium,
   Game,
   GameType, generateWordSet,
   groupScoresByLanguageAndHighestScores,
@@ -142,7 +143,6 @@ export const Services = {
     sets: Record<string, SetType>,
     roomID: string,
     io: Socket,
-    socket: Socket,
   ) => {
     const updatedGameObject = games;
     const updatedSetObject = sets;
@@ -167,7 +167,6 @@ export const Services = {
     updatedGameObject[roomID].setID = setID;
     // Send new game details to users
     io.to(roomID).emit('on-win', {
-      username: games[roomID]?.clients[socket.id]?.username,
       game: games[roomID],
       wordSet: sets[games[roomID]?.setID],
       status: games[roomID]?.status,
@@ -265,17 +264,18 @@ export const Services = {
     const scoresInSoloGroupedScores = groupScoresByLanguageAndHighestScores(scoresInSolo);
     return { solo: scoresInSoloGroupedScores, multi: multiplayerGroupedScores, games };
   },
-  saveGame: async (db: any, game: GameType, socketId: string, roomID: string) => {
-    const { time } = TIMERS[roomID];
+  saveGame: async (db: any, game: GameType, roomID: string) => {
+    const timer = TIMERS[roomID]?.time;
+    const { username } = createPodium(game).podium[0];
     // Create Game
     const gamePayload = await db.createOneGame({
       host: Object.values(game.clients).find(({ host }) => host)?.username,
       name: game.name,
-      winner: game.clients[socketId].username,
+      winner: username,
       language: game.language,
       word_amount: game.wordAmount,
       player_length: Object.keys(game.clients).length,
-      timer: time || 0,
+      timer: timer || 0,
     });
     if (!gamePayload) {
       log.error('Game could not be created');
@@ -290,7 +290,7 @@ export const Services = {
         const score = await db.createOneScore({
           type: Game.MULTI,
           // Normalize score to 1 minute as we're talking about word per minut (mpm/wpm)
-          mpm: Math.round(((aClient?.mpm || 0) / time) * 60),
+          mpm: Math.round(((aClient?.mpm || 0) / timer) * 60),
           wrong_words: aClient?.wrongWords,
           correct_letters: aClient?.correctLetters,
           total_letters: aClient?.totalLetters,
@@ -301,7 +301,7 @@ export const Services = {
           gameId: gamePayload.id,
           username: aClient?.username,
           language: game?.language,
-          timer: time || 0,
+          timer: timer || 0,
         });
 
         if (!score) {

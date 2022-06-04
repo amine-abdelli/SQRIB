@@ -11,7 +11,6 @@ export interface GameRoomProps {
   isGameEnded: boolean,
   setGame: Dispatch<SetStateAction<GameType | undefined>>,
   setWordSet: Dispatch<SetStateAction<string[] | undefined>>,
-  setWinner: Dispatch<SetStateAction<string>>,
   setCounter: Dispatch<SetStateAction<number>>,
   setShouldDisplayFirstCounterModal: Dispatch<SetStateAction<boolean>>,
 }

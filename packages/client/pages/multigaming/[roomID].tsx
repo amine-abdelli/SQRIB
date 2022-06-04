@@ -26,7 +26,6 @@ function Room() {
   const [shouldDisplayFirstCounterModal, setShouldDisplayFirstCounterModal] = useState(false);
   const [counter, setCounter] = useState(5);
   const [gameParameters, setGameParameters] = useState<GameParametersProps>(defaultGameParameters);
-  const [winner, setWinner] = useState('');
   const [usernameStoredInLocalStorage] = useLocalStorage('nickname', '');
   const [shouldDisplayUsernameInput, setShouldDisplayUsernameInput] = useState(false);
   const [game, setGame] = useState<GameType>();
@@ -151,26 +150,24 @@ function Room() {
           wordSet={wordSet || []}
           setWordSet={setWordSet}
           setGame={setGame}
-          setWinner={setWinner}
           setCounter={setCounter}
           setShouldDisplayFirstCounterModal={setShouldDisplayFirstCounterModal}
         />
       )}
       {game?.status === 'finished' && (
-        <VictoryModal
-          counter={counter}
-          isGameEnded={game?.status === 'finished'}
-          winnerNickname={winner}
-        />
+      <VictoryModal
+        counter={counter}
+        isGameEnded={game?.status === 'finished'}
+        game={game}
+      />
       )}
       <Modal css={{ padding: '2rem' }} open={shouldDisplayFirstCounterModal}>
-        {counter > -1 ? (
-          <>
-            <Text h3>Prêt?</Text>
-            {counter}
-          </>
-        ) : (
-          <Text h3>GO</Text>)}
+        <Text h3>Prêt?</Text>
+        <Text h3>
+          {counter > 0 ? (
+            counter
+          ) : 'GO'}
+        </Text>
       </Modal>
     </div>
   );

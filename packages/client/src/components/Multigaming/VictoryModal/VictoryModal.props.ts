@@ -1,5 +1,7 @@
+import { GameType } from '@aqac/utils';
+
 export interface VictoryModalProps {
-  isGameEnded: boolean,
-  winnerNickname: string
+  isGameEnded: boolean
   counter: number
+  game: GameType;
 }

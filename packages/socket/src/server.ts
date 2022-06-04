@@ -54,21 +54,22 @@ io.on('connection', (socket: Socket) => {
       io.to(roomID).emit('progression', { game: GAMES[roomID] });
     }
     /**
-     * If a user win, the game status change to 'finished'
-     * users wordIndexes are set to 0 et and a new set of words is generated.
+     * If a user win, timer stops and the game status change to 'finished'.
+     * Users wordIndexes are set to 0 et and a new set of words is generated.
      * after 5 seconds, the game status change to 'playing' and
      * users are allow to play again
      */
-    if (GAMES[roomID]?.wordAmount === wordIndex) {
-      const game = await Services.saveGame(db, GAMES[roomID], socket.id, roomID);
+    if (GAMES[roomID]?.wordAmount === wordIndex && GAMES[roomID]?.status === 'playing') {
+      const game = await Services.saveGame(db, GAMES[roomID], roomID);
       Services.stopTimer(roomID);
       if (game.message) {
+        // Update leaderboard with the new score
         const scores = await Services.getScoresData(db);
         io.emit('get-global-game-data', scores);
       }
       GAMES = Services.updateGameStatus(GameStatus.FINISHED, GAMES, roomID);
       const { updatedSetObject, updatedGameObject } = Services
-        .onWin(GAMES, SETS, roomID, io, socket);
+        .onWin(GAMES, SETS, roomID, io);
       let counter = 6;
       const timer = setInterval(() => {
         counter -= 1;
@@ -125,7 +126,7 @@ io.on('connection', (socket: Socket) => {
       SETS = updatedSetObject;
       socket.join(roomID);
     }
-    // Check if the room is in the LEGIT_TOKENS list
+    // Send current game data to the room
     io.to(roomID).emit('join-room', {
       roomID,
       wordSet: SETS[GAMES[roomID]?.setID],
@@ -178,7 +179,7 @@ io.on('connection', (socket: Socket) => {
     io.to(roomID).emit('start-game', { game: GAMES[roomID] });
 
     // 3, 2, 1, GO ! at first start
-    let counter = 3;
+    let counter = 4;
     const timer = setInterval(() => {
       counter -= 1;
       io.to(roomID).emit('counter', { counter, isFirstCounter: true });

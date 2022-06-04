@@ -1,7 +1,9 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import Image from 'next/image';
 import { Divider } from '@blueprintjs/core';
-import { Button, Text, Tooltip } from '@nextui-org/react';
+import {
+  Button, Modal, Text, Tooltip,
+} from '@nextui-org/react';
 import { topValue } from '@aqac/utils';
 import { InfoCircle } from 'react-iconly';
 import { Colors } from '../../utils/enums';
@@ -12,6 +14,7 @@ import Success from '../../assets/Images/success.png';
 import star from '../../assets/Images/star.png';
 import { useGetSelf } from '../../hooks/useGetSelf';
 import { MainContext } from '../../context/MainContext';
+import Signup from '../Signup/Signup.component';
 
 function Stats({
   wrongWords,
@@ -29,6 +32,7 @@ function Stats({
 }: IStats) {
   const { scores, isLoggedIn } = useGetSelf();
   const { onRestart } = useContext(MainContext);
+  const [shouldOpenSignup, setShouldOpenSignup] = useState(false);
   const isBestScore = mpm > topValue(scores, 'mpm') && scores?.length > 0;
   const isFirstScore = scores?.length === 0;
   const isNotParticular = !isFirstScore && !isBestScore;
@@ -118,7 +122,39 @@ function Stats({
         >
           {isLoggedIn ? 'SAUVEGARDER' : 'CONTINUER'}
         </Button>
+        {isLoggedIn && (
+        <Button
+          onClick={() => {
+            setShowStatsModal(false);
+            onRestart();
+          }}
+          light
+          className='w100'
+          color="primary"
+        >
+          Continuer sans sauvegarder
+        </Button>
+        )}
+        {!isLoggedIn && (
+        <Button
+          onClick={() => setShouldOpenSignup(true)}
+          light
+          className='w100'
+          color="primary"
+        >
+          Se créer un compte
+        </Button>
+        )}
       </div>
+      <Modal
+        closeButton
+        className='p2r'
+        open={shouldOpenSignup}
+        onClose={() => setShouldOpenSignup(false)}
+        blur
+      >
+        <Signup />
+      </Modal>
     </div>
   );
 }

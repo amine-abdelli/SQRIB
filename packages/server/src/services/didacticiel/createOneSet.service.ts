@@ -15,7 +15,9 @@ export async function createOneSetService(args: ICreateOneSet, context: Context)
     const set = await createOneSet({
       letter: args.letter,
       level: args.level,
-      wordSet: wordSet.flat(),
+      wordSet: args.letter !== 'j'
+        ? wordSet.filter((word) => !word.includes('j')).flat()
+        : wordSet.flat(),
     }, context.prisma);
     if (!set) {
       log.error('Set could not be created');

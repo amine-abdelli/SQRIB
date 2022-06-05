@@ -1,5 +1,5 @@
 import React, {
-  useContext, useEffect,
+  useContext, useEffect, useRef,
 } from 'react';
 import { useApolloClient, useMutation } from '@apollo/client';
 import { ADD_NEW_SCORE_MUTATION, SELF_QUERY } from '@aqac/api';
@@ -14,6 +14,7 @@ import Input from '../src/components/Input/Input.component';
 import { createScoringObject } from '../src/utils/scoring.utils';
 import { alertService } from '../services';
 import { useGetSelf } from '../src/hooks/useGetSelf';
+import { socket, socketConnect } from '../services/socket.service';
 
 function Main() {
   const { cache } = useApolloClient();
@@ -32,10 +33,15 @@ function Main() {
       setStartTimer(true);
     }
   }, [userInput]);
-
+  const { current: socketRef } = useRef(socket);
+  useEffect(() => {
+    socketConnect(socketRef);
+  }, []);
   const [addNewScore] = useMutation(ADD_NEW_SCORE_MUTATION, {
     onCompleted: (data) => {
       const result = cache.readQuery<any, void>({ query: SELF_QUERY });
+      // Update leaderboard
+      socketRef.emit('score-saved');
       const self = result?.self;
       alertService.success('Score sauvegardé !', {});
       // const cachedValue = [...self.scores, data.addScoring];

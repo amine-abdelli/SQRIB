@@ -202,6 +202,13 @@ io.on('connection', (socket: Socket) => {
     const scores = await Services.getScoresData(db);
     io.emit('get-global-game-data', scores);
   });
+  /**
+   * Update leaderboard on save
+   */
+  socket.on('score-saved', async () => {
+    const scores = await Services.getScoresData(db);
+    io.emit('get-global-game-data', scores);
+  });
 });
 
 server.listen(4001, () => {

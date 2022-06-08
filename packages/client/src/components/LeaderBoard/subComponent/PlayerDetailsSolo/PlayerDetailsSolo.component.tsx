@@ -40,7 +40,7 @@ function PlayerDetailsSolo({ scores, details }: { scores: ScoreType[], details: 
         <Card style={{
           width: '12rem',
           display: 'inline-block',
-          margin: '1rem 1rem 0 0',
+          margin: '1rem 1rem 0 1rem',
           height: '4.5rem',
           flexBasis: isMediumScreen ? '45%' : '20%',
         }}

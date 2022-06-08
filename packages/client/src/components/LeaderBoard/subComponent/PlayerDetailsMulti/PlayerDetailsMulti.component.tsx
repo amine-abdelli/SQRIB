@@ -1,16 +1,14 @@
 import {
-  formatDate, Game, topValue,
+  formatDate, topValue,
 } from '@aqac/utils';
 import {
   Card, Table, Text,
 } from '@nextui-org/react';
 import React from 'react';
-import { useGetSelf } from '../../../../hooks/useGetSelf';
 import { useWindowSize } from '../../../../hooks/useWindowSize';
 import { PlayerDetailsMultiProps } from './PlayerDetailsMulti.props';
 
 function PlayerDetailsMulti({ games, details }: PlayerDetailsMultiProps) {
-  const { data: selfData } = useGetSelf();
   const { isMediumScreen } = useWindowSize();
   const tableColumn = isMediumScreen ? [
     { name: 'Victoire', uid: 'hasWon' },
@@ -27,7 +25,8 @@ function PlayerDetailsMulti({ games, details }: PlayerDetailsMultiProps) {
     { name: 'Date', uid: 'date' },
   ];
 
-  const topScore = topValue(selfData?.self.scores.filter(({ type }: any) => type === Game.MULTI), 'mpm');
+  const scores = games.map((game: any) => game?.players
+    .find((player) => player.name === details.nickname).score);
   const date = new Date(details.lastActivity);
   const gamesToTableData = games
     .map((game: any, index) => ({
@@ -48,34 +47,34 @@ function PlayerDetailsMulti({ games, details }: PlayerDetailsMultiProps) {
         className='flex'
       >
         <Card style={{
-          width: '12rem', display: 'inline-block', margin: '1rem 1rem 0 0', height: '4.5rem', flexBasis: isMediumScreen ? '45%' : '20%',
+          width: '12rem', display: 'inline-block', margin: '1rem 1rem 0 1rem', height: '4.5rem', flexBasis: isMediumScreen ? '45%' : '20%',
         }}
         >
-          Parties jouées
-          <Text>{games.length}</Text>
+          <Text style={{ textAlign: 'center' }}>Parties jouées</Text>
+          <Text style={{ textAlign: 'center' }}>{games.length}</Text>
         </Card>
         <Card style={{
           width: '12rem', display: 'inline-block', margin: '1rem 1rem 0 0', height: '4.5rem', flexBasis: isMediumScreen ? '45%' : '20%',
         }}
         >
-          Victoires
-          <Text>
-            {games.filter(({ winner }: any) => winner === selfData?.self.nickname).length}
+          <Text style={{ textAlign: 'center' }}>Victoires</Text>
+          <Text style={{ textAlign: 'center' }}>
+            {games.filter(({ winner }: any) => winner === details.nickname).length}
           </Text>
         </Card>
         <Card style={{
           width: '12rem', display: 'inline-block', margin: '1rem 1rem 0 0', height: '4.5rem', flexBasis: isMediumScreen ? '45%' : '20%',
         }}
         >
-          Meilleur mpm
-          <Text>{topScore}</Text>
+          <Text style={{ textAlign: 'center' }}>Meilleur mpm</Text>
+          <Text style={{ textAlign: 'center' }}>{topValue(scores, 'mpm')}</Text>
         </Card>
         <Card style={{
           width: '12rem', display: 'inline-block', margin: '1rem 1rem 0 0', height: '4.5rem', flexBasis: isMediumScreen ? '45%' : '20%',
         }}
         >
-          {isMediumScreen ? 'Dern. activité' : 'Dernière activité'}
-          <Text>{formatDate(date, 'short')}</Text>
+          <Text style={{ textAlign: 'center' }}>{isMediumScreen ? 'Dern. activité' : 'Dernière activité'}</Text>
+          <Text style={{ textAlign: 'center' }}>{formatDate(date, 'short')}</Text>
         </Card>
       </div>
       <div>

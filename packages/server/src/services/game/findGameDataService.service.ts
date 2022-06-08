@@ -1,15 +1,9 @@
-import { groupScoresByLanguageAndHighestScores, log } from '@aqac/utils';
-import { Score } from '@prisma/client';
+import {
+  groupScoresByLanguageAndHighestScores, isMulti, isSolo, log,
+} from '@aqac/utils';
 import { ApolloError } from 'apollo-server-errors';
 import { findManyGames, findManyScores } from '../../repositories';
 import { Context } from '../../utils';
-
-function isMulti(score: Score) {
-  return score.type === 'multi';
-}
-function isSolo(score: Score) {
-  return score.type === 'solo';
-}
 
 export async function findGameDataService(context: Context) {
   const scores = await findManyScores(context.prisma);

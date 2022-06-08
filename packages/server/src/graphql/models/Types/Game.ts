@@ -1,8 +1,10 @@
 export const Client = `
 input Client {
   id: String
+  userId: String
   host: Boolean
   correctLetters: Int
+  status: String
   mpm: Int
   points: Int
   precision: Int
@@ -12,24 +14,19 @@ input Client {
   wordIndex: Int
   wrongLetters: Int
   wrongWords: Int
+  color: String
 }`;
 
 export const GameInput = `
  input GameInput {
   id: ID
-  name: String
   language: String
-  setID: ID
-  wordAmount: Int
-}`;
-
-export const Game = `
- type GameInput {
-  id: ID
   name: String
-  language: String
   setID: ID
+  status: String
   wordAmount: Int
+  timer: Int
+  clients: [Client]
 }`;
 
 export const Player = `
@@ -39,8 +36,18 @@ type Player {
   name: String
   score_id: String
   game_id: String
-  score: [Score]
+  score: Score
 }`;
+
+// export const PlayerInput = `
+// input PlayerInput {
+//   id: String
+//   user_id: String
+//   name: String
+//   score_id: String
+//   game_id: String
+//   score: ScoreInput
+// }`;
 
 export const GameOutPut = `
 type GameOutPut {

@@ -40,6 +40,7 @@ function Multigaming() {
     <div style={{ width: isMediumScreen ? 'auto' : '550px' }}>
       <Modal
         open={shouldDisplayUsernameInput}
+        onClose={() => setShouldDisplayUsernameInput(false)}
       >
         <EnterInput
           setUsername={setUsername}

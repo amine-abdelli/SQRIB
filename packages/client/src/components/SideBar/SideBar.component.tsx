@@ -1,7 +1,9 @@
 import React from 'react';
 import Link from 'next/link';
 import { GiNinjaHead } from 'react-icons/gi';
-import { Game, Chart, Setting } from 'react-iconly';
+import {
+  Game, Chart, Setting, Home,
+} from 'react-iconly';
 import { BsKeyboard } from 'react-icons/bs';
 import styles from './SideBar.module.scss';
 import SideBarButton from './SideBarButton/SideBarButton.component';
@@ -21,6 +23,9 @@ function SideBar({
           className={styles.sideBarButtons}
         >
           <ul style={{ width: '100%', margin: '2px', color: 'inherit' }}>
+            <Link href={Routes.HOME} passHref>
+              <SideBarButton icon={<Home set="curved" style={{ marginRight: '5px' }} size={20} />} text="Leaderboard" />
+            </Link>
             <Link href={Routes.MAIN} passHref>
               <SideBarButton icon={<GiNinjaHead style={{ marginRight: '5px' }} size={20} />} text="Entraînement" />
             </Link>

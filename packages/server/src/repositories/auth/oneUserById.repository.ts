@@ -12,7 +12,6 @@ export async function oneUserById({ id }: Pick<User, 'id'>) {
     },
     include: {
       scores: true,
-      BrotherHood: true,
       settings: {
         select: {
           language: true,

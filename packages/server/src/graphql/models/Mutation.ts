@@ -11,6 +11,6 @@ export const Mutation = `
     updateSettings(language: String, fontSize: Int, theme: Boolean, sound: Boolean): Settings!
     updateNickname(nickname: String): String
     updatePassword(password: String!, newPassword: String!): Message!
-    addGameDetails(game: GameInput, clients: [Client]): Message!
+    addGameDetails(game: GameInput): Message!
   }
 `;

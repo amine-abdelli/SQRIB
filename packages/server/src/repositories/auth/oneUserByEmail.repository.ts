@@ -8,9 +8,5 @@ export async function oneUserByEmail({ email }: OneUserByEmailArgs, prisma: Pris
     where: {
       email,
     },
-    include: {
-      scores: true,
-      BrotherHood: true,
-    },
   });
 }

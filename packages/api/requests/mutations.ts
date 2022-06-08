@@ -83,8 +83,8 @@ mutation DeleteUser($email: String, $password: String) {
 }`;
 
 const CREATE_GAME_MUTATION: DocumentNode = gql`
-mutation AddGameDetailsMutation($clients: [Client], $game: GameInput) {
-  addGameDetails(clients: $clients, game: $game) {
+mutation AddGameDetailsMutation($game: GameInput) {
+  addGameDetails(game: $game) {
     message
   }
 }

@@ -11,7 +11,10 @@ export async function selfService(context: Context) {
       log.error('User not found');
       throw new AuthenticationError('User not found');
     }
-    await updateOneUserById({ id: context.userId!, data: { is_active: true } }, context.prisma);
+    await updateOneUserById({
+      id: context.userId!,
+      data: { last_activity: new Date().toISOString() },
+    }, context.prisma);
     return user;
   } catch (error) {
     log.error('Error while fetching user', { error });

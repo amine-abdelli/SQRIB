@@ -18,7 +18,6 @@ export function createOneUser(args: ICreateUserArgs) {
       lastPasswordReset: true,
       last_activity: true,
       createdAt: true,
-      brotherHoodId: true,
       settings: true,
     },
   });

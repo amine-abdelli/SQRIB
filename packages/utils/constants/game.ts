@@ -36,6 +36,18 @@ export type GameType = {
   clients: Record<string, ClientType>;
   status: 'staging' | 'playing' | 'finished';
   name: string;
+  timer?: number;
+};
+
+export type GameWithClientsFormatted = {
+  id: string;
+  setID: string;
+  language: Languages;
+  wordAmount: number;
+  clients: ClientType[];
+  status: 'staging' | 'playing' | 'finished';
+  name: string;
+  timer?: number;
 };
 
 export type SetType = string[];

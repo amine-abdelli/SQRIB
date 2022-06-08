@@ -17,7 +17,7 @@ export async function loginService(email: string, password: string, context: Con
     await updateOneUserById({
       id: user.id,
       data: {
-        last_activity: new Date().toISOString(), is_active: true,
+        last_activity: new Date().toISOString(),
       },
     }, context.prisma);
     return {

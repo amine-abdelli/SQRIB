@@ -60,13 +60,9 @@ io.on('connection', (socket: Socket) => {
      * users are allow to play again
      */
     if (GAMES[roomID]?.wordAmount === wordIndex && GAMES[roomID]?.status === 'playing') {
-      const game = await Services.saveGame(db, GAMES[roomID], roomID);
+      await Services.saveGame(db, GAMES[roomID], roomID);
+      // TODO: Update leaderboard with new game
       Services.stopTimer(roomID);
-      if (game.message) {
-        // Update leaderboard with the new score
-        const scores = await Services.getScoresData(db);
-        io.emit('get-global-game-data', scores);
-      }
       GAMES = Services.updateGameStatus(GameStatus.FINISHED, GAMES, roomID);
       const { updatedSetObject, updatedGameObject } = Services
         .onWin(GAMES, SETS, roomID, io);
@@ -203,9 +199,9 @@ io.on('connection', (socket: Socket) => {
     io.emit('get-global-game-data', scores);
   });
   /**
-   * Update leaderboard on save
+   * Update leader board on save
    */
-  socket.on('score-saved', async () => {
+  socket.on('update-leader-board', async () => {
     const scores = await Services.getScoresData(db);
     io.emit('get-global-game-data', scores);
   });

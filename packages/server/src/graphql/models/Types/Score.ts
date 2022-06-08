@@ -17,6 +17,25 @@ export const Score = `
   language: String
  }`;
 
+export const ScoreInput = `
+ input ScoreInput {
+  id: ID!
+  type: String
+  mpm: Int
+  wrong_words: Int
+  correct_letters: Int
+  total_letters: Int
+  wrong_letters: Int
+  precision: Float
+  points: Int
+  createdAt: Date
+  userId: String
+  gameId: String
+  username: String
+  timer: Int
+  language: String
+ }`;
+
 export const GroupedScores = `
   type GroupedScores {
     fr: [Score]
@@ -50,4 +69,10 @@ export const UserGameDetails = `
   }
 `;
 
-export const ScoreTypes = [Score, GroupedScores, GroupedGameData, UserGameDetails, UserGameInfos];
+export const ScoreTypes = [
+  Score,
+  ScoreInput,
+  GroupedScores,
+  GroupedGameData,
+  UserGameDetails,
+  UserGameInfos];

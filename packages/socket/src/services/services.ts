@@ -154,7 +154,6 @@ export const Services = {
         points: 0,
         mpm: 0,
       };
-      // updatedGameObject[roomID].clients[aClient.id].wordIndex = 0;
     }
     const setID = v4();
     // Create a new set of word
@@ -279,12 +278,12 @@ export const Services = {
         log.error('Game could not be created');
         throw new Error('Game could not be created');
       }
-
+      console.log('ABOUT TO JUMP INTO THE LOOP');
       await Promise.all(Object.values(game.clients)
-      // Exclude players that are in staging room and that cannot play
+        // Exclude players that are in staging room and that cannot play
         .filter((aClient) => aClient.status !== 'staging')
         .map(async (aClient) => {
-        // Create score
+          // Create score
           const score = await db.createOneScore({
             type: Game.MULTI,
             // Normalize score to 1 minute as we're talking about word per minut (mpm/wpm)
@@ -301,12 +300,12 @@ export const Services = {
             language: game?.language,
             timer: timer || 0,
           });
-          console.log('score', score);
 
           if (!score) {
             log.error('Score could not be created');
             throw new Error('Score could not be created');
           }
+
           // Create player
           const player = await db.createOnePlayer({
             user_id: aClient?.userId,

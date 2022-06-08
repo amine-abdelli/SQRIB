@@ -22,7 +22,7 @@ function Didacticiel() {
   const { data, isLoggedIn } = useGetSelf();
   const { cache } = useApolloClient();
   const [updateLevel] = useMutation(UPDATE_LEVEL_MUTATION, {
-    onCompleted: ({ updatedLevel }) => {
+    onCompleted: ({ updateLevel: updatedLevel }) => {
       const result = cache.readQuery<any, void>({ query: SELF_QUERY });
       const self = result?.self;
       cache.writeQuery({
@@ -30,7 +30,7 @@ function Didacticiel() {
         data: {
           self: {
             ...self,
-            didacticiel_level: updatedLevel?.didacticiel_level,
+            didacticiel_level: updatedLevel,
           },
         },
       });

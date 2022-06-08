@@ -2,7 +2,11 @@ import { ApolloError } from 'apollo-server-errors';
 import { log, markovChainGenerator } from '@aqac/utils';
 import { createOneSet } from '../../repositories/didacticiel/createOneSet.repository';
 import { Context } from '../../utils/context.utils';
-import { ICreateOneSet } from '../../resolvers/didacticiel/createOneSet.mutation';
+
+interface ICreateOneSet {
+  letter: string
+  level: number
+}
 
 export async function createOneSetService(args: ICreateOneSet, context: Context) {
   try {

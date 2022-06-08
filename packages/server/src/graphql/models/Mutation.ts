@@ -5,9 +5,8 @@ export const Mutation = `
     logout: Void
     deleteUser(email: String, password: String): Message!
     addScoring(mpm: Int, wrong_words: Int, correct_letters: Int, total_letters: Int, wrong_letters: Int, precision: Float, points: Int, type: String, userId: String, gameId: String, username: String, language: String, timer: Int): Score!
-    createOneSet(letter: String, level: Int): [String]!
-    updateLevel(level: Int): Int!
     createAllSets: Message!
+    updateLevel(level: Int): Int!
     updateSettings(language: String, fontSize: Int, theme: Boolean, sound: Boolean): Settings!
     updateNickname(nickname: String): String
     updatePassword(password: String!, newPassword: String!): Message!

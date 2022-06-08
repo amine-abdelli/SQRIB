@@ -1,6 +1,6 @@
 import React from 'react';
 import { Spinner } from '@nextui-org/react';
-import { ScoreType } from '@aqac/utils';
+import { isSolo, ScoreType } from '@aqac/utils';
 import Calendar from '../src/components/Calendar/Calendar.component';
 import Chart from '../src/components/Chart/Chart.component';
 import ScoreCard from '../src/components/ScoreCard/ScoreCard.component';
@@ -14,10 +14,12 @@ import styles from '../styles/sass/pages/_profile.module.scss';
 function Profile({ theme }: { theme: ITheme }) {
   const { scores, loading } = useGetSelf();
   if (loading) return <Spinner />;
-  const sortedScores = [...scores].sort(
-    (a: ScoreType, b: ScoreType) => Date.parse(a.createdAt as string)
+  const sortedScores = [...scores]
+    .filter(isSolo)
+    .sort(
+      (a: ScoreType, b: ScoreType) => Date.parse(a.createdAt as string)
       - Date.parse(b.createdAt as string),
-  );
+    );
   const {
     averageMpm, averagePoints, topMpm, topPoint, latestMpm, latestPoints, precision, totalGame,
   } = createTopScoringObject(sortedScores);

@@ -3,7 +3,6 @@
   position: relative;
   justify-content: center;
   width: 100%;
-  // margin-bottom: 10px;
   padding: 0;
 
   .navbarContent {
@@ -15,5 +14,26 @@
     width: 95%;
     padding: 0;
     height: 4rem;
+    border-bottom: 1px solid;
+    font-weight: bold;
+    letter-spacing: 0;
+  }
+  
+
+  .navbarButtonGroup {
+    position: absolute;
+    right: 50px;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    align-items: center;
+  }
+}
+
+@media screen and (max-width: 750px) {
+  .navbarContainer {
+    .navbarContent {
+      justify-content: flex-start;
+    }
   }
 }

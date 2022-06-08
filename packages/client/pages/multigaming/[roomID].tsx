@@ -124,6 +124,7 @@ function Room() {
       </h1>
       <Modal
         open={shouldDisplayUsernameInput}
+        onClose={() => setShouldDisplayUsernameInput(false)}
       >
         <EnterInput
           setUsername={setUsername}
@@ -161,7 +162,11 @@ function Room() {
         game={game}
       />
       )}
-      <Modal css={{ padding: '2rem' }} open={shouldDisplayFirstCounterModal}>
+      <Modal
+        css={{ padding: '2rem' }}
+        open={shouldDisplayFirstCounterModal}
+        onClose={() => setShouldDisplayFirstCounterModal(false)}
+      >
         <Text h3>Prêt?</Text>
         <Text h3>
           {counter > 0 ? (

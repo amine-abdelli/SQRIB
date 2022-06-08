@@ -8,7 +8,7 @@ import {
   GameType, log, SetType,
 } from '@aqac/utils';
 import { v4 } from 'uuid';
-import { Database_manager } from '@aqayc/db';
+import { Database_manager } from '@aqac/db';
 import { Services } from './services/services';
 import { GameStatus } from './utils/constants';
 import { emitGameStatus } from './utils/status';
@@ -60,16 +60,18 @@ io.on('connection', (socket: Socket) => {
      * users are allow to play again
      */
     if (GAMES[roomID]?.wordAmount === wordIndex && GAMES[roomID]?.status === 'playing') {
-      const game = await Services.saveGame(db, GAMES[roomID], roomID);
+      const savedGame = await Services.saveGame(db, GAMES[roomID], roomID);
       Services.stopTimer(roomID);
-      if (game.message) {
-        // Update leaderboard with the new score
+
+      if (savedGame.message) {
         const scores = await Services.getScoresData(db);
         io.emit('get-global-game-data', scores);
       }
       GAMES = Services.updateGameStatus(GameStatus.FINISHED, GAMES, roomID);
+
       const { updatedSetObject, updatedGameObject } = Services
         .onWin(GAMES, SETS, roomID, io);
+
       let counter = 6;
       const timer = setInterval(() => {
         counter -= 1;
@@ -126,6 +128,7 @@ io.on('connection', (socket: Socket) => {
       SETS = updatedSetObject;
       socket.join(roomID);
     }
+
     // Send current game data to the room
     io.to(roomID).emit('join-room', {
       roomID,
@@ -203,9 +206,9 @@ io.on('connection', (socket: Socket) => {
     io.emit('get-global-game-data', scores);
   });
   /**
-   * Update leaderboard on save
+   * Update leader board on save
    */
-  socket.on('score-saved', async () => {
+  socket.on('update-leader-board', async () => {
     const scores = await Services.getScoresData(db);
     io.emit('get-global-game-data', scores);
   });

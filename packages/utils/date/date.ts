@@ -29,10 +29,12 @@ function formatDateToLeaderboard(date: Date): string {
  * @param lang Chosen language 'fr' | 'en'
  * @returns a formatted date string
  */
-function formatDate(date: Date, lang: 'fr' | 'en' = 'fr') {
-  const options: any = {
-    weekday: 'short', year: 'numeric', month: 'long', day: 'numeric',
-  };
+function formatDate(date: Date, size?: string, lang: 'fr' | 'en' = 'fr') {
+  const options: any = size === 'short'
+    ? { year: 'numeric', month: 'long', day: 'numeric' }
+    : {
+      weekday: 'short', year: 'numeric', month: 'long', day: 'numeric',
+    };
   return new Intl.DateTimeFormat(lang === 'fr' ? 'fr-FR' : 'en-GB', options).format(new Date(date));
 }
 

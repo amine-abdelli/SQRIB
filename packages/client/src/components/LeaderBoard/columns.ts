@@ -4,6 +4,7 @@ export const multiColumns = [
   { name: 'Mpm', uid: 'mpm' },
   { name: 'Victoires', uid: 'victory' },
   { name: 'Date', uid: 'date' },
+  { name: '', uid: 'icon' },
 ];
 export const soloColumns = [
   { name: 'Position', uid: 'position' },
@@ -11,4 +12,5 @@ export const soloColumns = [
   { name: 'Mpm', uid: 'mpm' },
   { name: 'Precision', uid: 'precision' },
   { name: 'Date', uid: 'date' },
+  { name: '', uid: 'icon' },
 ];

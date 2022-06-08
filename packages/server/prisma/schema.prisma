@@ -1,10 +1,6 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider      = "prisma-client-js"
   binaryTargets = ["native", "darwin-arm64"]
-
 }
 
 datasource db {
@@ -18,77 +14,66 @@ model Player {
   name     String
   score_id String
   game_id  String
-  score    Score   @relation(fields: [score_id], references: [id])
   Game     Game    @relation(fields: [game_id], references: [id])
+  score    Score   @relation(fields: [score_id], references: [id])
 }
 
 model Game {
-  id              String   @id @default(uuid())
-  host            String
-  name            String
-  winner          String
-  language        String
-  word_amount     Int
-  player_length   Int
-  timer           Float?
-  players         Player[]
-  createdAt       DateTime? @default(now())
+  id            String    @id @default(uuid())
+  host          String
+  winner        String
+  createdAt     DateTime? @default(now())
+  language      String
+  name          String
+  player_length Int
+  word_amount   Int
+  timer         Int?
+  players       Player[]
 }
 
 model Score {
   id              String    @id @default(uuid())
-  type            String // "solo" | "multi"
-  mpm             Int
-  wrong_words     Int
+  createdAt       DateTime? @default(now())
+  userId          String?
   correct_letters Int
+  mpm             Int
+  points          Int
+  precision       Float
   total_letters   Int
   wrong_letters   Int
-  precision       Float
-  points          Int
-  createdAt       DateTime? @default(now())
-  User            User?     @relation(fields: [userId], references: [id])
-  userId          String?
+  wrong_words     Int
   gameId          String?
-  username        String?
+  type            String
   language        String?
-  timer           Float?
+  timer           Int?
+  username        String?
+  User            User?     @relation(fields: [userId], references: [id])
   Player          Player[]
 }
 
 model Settings {
   id       String  @id @default(uuid())
-  language String  @default("fr") // en, fr, es, de
-  fontSize Int     @default(36) // 24, 30, 36, 48, 60
-  theme    Boolean @default(true) // light/true | dark/false
+  language String  @default("fr")
+  fontSize Int     @default(36)
   sound    Boolean @default(false)
-  User     User?   @relation(fields: [userId], references: [id])
   userId   String? @unique
-}
-
-model Achievment {
-  id     String  @id @default(uuid())
-  User   User?   @relation(fields: [userId], references: [id])
-  userId String? @unique
-  level  Int     @default(1)
-  xp     Int     @default(0)
+  theme    Boolean @default(true)
+  User     User?   @relation(fields: [userId], references: [id])
 }
 
 model User {
-  id                String       @id @default(uuid())
-  email             String       @unique
+  id                String    @id @default(uuid())
+  email             String    @unique
   password          String
-  nickname          String?      @unique
+  nickname          String?   @unique
   avatar            String?
-  is_active         Boolean      @default(false)
   lastPasswordReset DateTime?
   last_activity     DateTime?
-  createdAt         DateTime     @default(now())
+  createdAt         DateTime  @default(now())
+  is_active         Boolean   @default(false)
+  didacticiel_level Int?      @default(3)
   scores            Score[]
-  BrotherHood       BrotherHood? @relation(fields: [brotherHoodId], references: [id])
-  brotherHoodId     String?
-  didacticiel_level Int?         @default(3)
   settings          Settings?
-  achievments       Achievment?
 }
 
 model WordSet {
@@ -96,10 +81,4 @@ model WordSet {
   letter  String
   level   Int
   wordSet String[]
-}
-
-model BrotherHood {
-  id    String @id @default(uuid())
-  name  String
-  users User[]
 }

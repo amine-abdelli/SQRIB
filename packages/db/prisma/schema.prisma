@@ -7,22 +7,18 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Achievment {
-  id     String  @id
-  userId String? @unique
-  level  Int     @default(1)
-  xp     Int     @default(0)
-  User   User?   @relation(fields: [userId], references: [id])
-}
-
-model BrotherHood {
-  id   String @id
-  name String
-  User User[]
+model Player {
+  id       String  @id @default(uuid())
+  user_id  String?
+  name     String
+  score_id String
+  game_id  String
+  Game     Game    @relation(fields: [game_id], references: [id])
+  score    Score   @relation(fields: [score_id], references: [id])
 }
 
 model Game {
-  id            String    @id
+  id            String    @id @default(uuid())
   host          String
   winner        String
   createdAt     DateTime? @default(now())
@@ -31,21 +27,11 @@ model Game {
   player_length Int
   word_amount   Int
   timer         Int?
-  Player        Player[]
-}
-
-model Player {
-  id       String  @id
-  user_id  String?
-  name     String
-  score_id String
-  game_id  String
-  Game     Game    @relation(fields: [game_id], references: [id])
-  Score    Score   @relation(fields: [score_id], references: [id])
+  players       Player[]
 }
 
 model Score {
-  id              String    @id
+  id              String    @id @default(uuid())
   createdAt       DateTime? @default(now())
   userId          String?
   correct_letters Int
@@ -58,14 +44,14 @@ model Score {
   gameId          String?
   type            String
   language        String?
-  timer           Int?
+  timer           Float?
   username        String?
   User            User?     @relation(fields: [userId], references: [id])
   Player          Player[]
 }
 
 model Settings {
-  id       String  @id
+  id       String  @id @default(uuid())
   language String  @default("fr")
   fontSize Int     @default(36)
   sound    Boolean @default(false)
@@ -75,25 +61,22 @@ model Settings {
 }
 
 model User {
-  id                String       @id
-  email             String       @unique
+  id                String    @id @default(uuid())
+  email             String    @unique
   password          String
-  nickname          String?      @unique
+  nickname          String?   @unique
   avatar            String?
   lastPasswordReset DateTime?
   last_activity     DateTime?
-  createdAt         DateTime     @default(now())
-  brotherHoodId     String?
-  is_active         Boolean      @default(false)
-  didacticiel_level Int?         @default(3)
-  BrotherHood       BrotherHood? @relation(fields: [brotherHoodId], references: [id])
-  Achievment        Achievment?
-  Score             Score[]
-  Settings          Settings?
+  createdAt         DateTime  @default(now())
+  is_active         Boolean   @default(false)
+  didacticiel_level Int?      @default(3)
+  scores            Score[]
+  settings          Settings?
 }
 
 model WordSet {
-  id      String   @id
+  id      String   @id @default(uuid())
   letter  String
   level   Int
   wordSet String[]

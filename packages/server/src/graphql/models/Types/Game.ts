@@ -39,7 +39,7 @@ type Player {
   name: String
   score_id: String
   game_id: String
-  score: [Score]
+  score: Score
 }`;
 
 export const GameOutPut = `

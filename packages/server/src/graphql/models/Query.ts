@@ -5,5 +5,6 @@ export const Query = `
     findScores: [Score]!
     findOneSet(letter: String): [String]!
     findGameData: GroupedGameData!
+    fetchUserGamingDetails(userId: String): UserGameDetails!
   }
 `;

@@ -8,7 +8,7 @@ import {
   GameType, log, SetType,
 } from '@aqac/utils';
 import { v4 } from 'uuid';
-import { Database_manager } from '@aqayc/db';
+import { Database_manager } from '@aqac/db';
 import { Services } from './services/services';
 import { GameStatus } from './utils/constants';
 import { emitGameStatus } from './utils/status';

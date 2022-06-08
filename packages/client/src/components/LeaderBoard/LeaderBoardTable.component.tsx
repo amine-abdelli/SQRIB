@@ -1,24 +1,33 @@
 /* eslint-disable no-nested-ternary */
 import React, { useState } from 'react';
 import {
-  Loading, Radio, Table, Text,
+  Button,
+  Loading, Modal, Radio, Table, Text,
 } from '@nextui-org/react';
 import Image from 'next/image';
 
 import {
   formatDateToLeaderboard, languages, Languages,
 } from '@aqac/utils';
+import { Hide, Show } from 'react-iconly';
+import { useLazyQuery } from '@apollo/client';
+import { USER_GAME_DETAILS_QUERY } from '@aqac/api';
 import { LeaderBoardProps } from './LeaderBoard.props';
 import { suffixPosition } from '../../utils/numbers';
 import crown_svg from '../../assets/Images/crown-solid.svg';
 import star_svg from '../../assets/Images/star-solid.svg';
 import { multiColumns, soloColumns } from './columns';
+import PlayerDetails from './subComponent/PlayerDetails/PlayerDetails.component';
 
 function LeaderBoardTable({ scores, title, winnerBoard }: LeaderBoardProps) {
+  const [fetchUserGameDetails, { data, loading }] = useLazyQuery(USER_GAME_DETAILS_QUERY);
+  const [shouldDisplayPlayerDetails, setShouldDisplayPlayerDetails] = useState(false);
   const [langKey, setLangKey] = useState(Languages.FR);
+  // Fetch user's data
   const scoresToTableData = scores && scores?.[langKey]
     ?.filter(({ username }) => username)
     .map((score, index) => ({
+      userId: score.userId,
       position: index + 1,
       mpm: score.mpm,
       username: score.username,
@@ -27,6 +36,15 @@ function LeaderBoardTable({ scores, title, winnerBoard }: LeaderBoardProps) {
       date: formatDateToLeaderboard(score.createdAt as any),
       key: index,
     }));
+
+  function fetchUserGamingData(userId: string) {
+    setShouldDisplayPlayerDetails(true);
+    fetchUserGameDetails({
+      variables: {
+        userId,
+      },
+    });
+  }
 
   return (
     scores && scoresToTableData ? (
@@ -46,12 +64,13 @@ function LeaderBoardTable({ scores, title, winnerBoard }: LeaderBoardProps) {
             </Radio>
           ))}
         </Radio.Group>
-        {/* SOLO */}
         <Table
           shadow={false}
           aria-label="Example table with dynamic content & infinity pagination"
           css={{ width: '100%' }}
           color="secondary"
+          fixed
+          hoverable
         >
           <Table.Header columns={winnerBoard ? multiColumns : soloColumns}>
             {(column) => (
@@ -91,7 +110,21 @@ function LeaderBoardTable({ scores, title, winnerBoard }: LeaderBoardProps) {
                         height='32px'
                       />
                     )}
-                    {key === 'position' && item[key] !== 1 && suffixPosition(item[key]) }
+                    {key === 'icon' && (
+                      <Button
+                        disabled={!item?.userId}
+                        light
+                        auto
+                        onClick={() => fetchUserGamingData(item?.userId)}
+                      >
+                        {item?.userId
+                          ? <Show set="curved" primaryColor="#015ECC" />
+                          : (
+                            <Hide set="curved" primaryColor="grey" />
+                          )}
+                      </Button>
+                    )}
+                    {key === 'position' && item[key] !== 1 && suffixPosition(item[key])}
                     {key !== 'position' && key !== 'victory' && item[key]}
                     {key === 'victory' && winnerBoard && (item[key])}
                   </Table.Cell>
@@ -99,7 +132,22 @@ function LeaderBoardTable({ scores, title, winnerBoard }: LeaderBoardProps) {
               </Table.Row>
             )}
           </Table.Body>
+          <Table.Pagination
+            shadow
+            color="primary"
+            align="center"
+            rowsPerPage={4}
+          />
         </Table>
+        <Modal
+          closeButton
+          open={shouldDisplayPlayerDetails}
+          onClose={() => setShouldDisplayPlayerDetails(false)}
+          width="60rem"
+          style={{ padding: 0 }}
+        >
+          <PlayerDetails loading={loading} data={data?.fetchUserGamingDetails} />
+        </Modal>
       </div>
     ) : <Loading />
   );

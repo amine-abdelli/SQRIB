@@ -9,6 +9,7 @@ export async function addScoringService(args: IAddScoring, context: Context) {
     if (!score) throw new ApolloError('The score created could not be found !');
     return score;
   } catch (error) {
+    console.log('error', error);
     throw new ApolloError(`Error while fetching score ${{ error }}`);
   }
 }

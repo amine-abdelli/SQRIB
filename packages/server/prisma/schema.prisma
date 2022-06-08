@@ -65,14 +65,6 @@ model Settings {
   userId   String? @unique
 }
 
-model Achievment {
-  id     String  @id @default(uuid())
-  User   User?   @relation(fields: [userId], references: [id])
-  userId String? @unique
-  level  Int     @default(1)
-  xp     Int     @default(0)
-}
-
 model User {
   id                String       @id @default(uuid())
   email             String       @unique
@@ -84,11 +76,8 @@ model User {
   last_activity     DateTime?
   createdAt         DateTime     @default(now())
   scores            Score[]
-  BrotherHood       BrotherHood? @relation(fields: [brotherHoodId], references: [id])
-  brotherHoodId     String?
   didacticiel_level Int?         @default(3)
   settings          Settings?
-  achievments       Achievment?
 }
 
 model WordSet {
@@ -98,8 +87,3 @@ model WordSet {
   wordSet String[]
 }
 
-model BrotherHood {
-  id    String @id @default(uuid())
-  name  String
-  users User[]
-}

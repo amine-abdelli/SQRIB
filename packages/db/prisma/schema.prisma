@@ -1,5 +1,9 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
 generator client {
-  provider = "prisma-client-js"
+  provider      = "prisma-client-js"
+  binaryTargets = ["native", "darwin-arm64"]
 }
 
 datasource db {
@@ -7,45 +11,31 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Achievment {
-  id     String  @id
-  userId String? @unique
-  level  Int     @default(1)
-  xp     Int     @default(0)
-  User   User?   @relation(fields: [userId], references: [id])
-}
-
-model BrotherHood {
-  id   String @id
-  name String
-  User User[]
-}
-
-model Game {
-  id            String    @id
-  host          String
-  winner        String
-  createdAt     DateTime? @default(now())
-  language      String
-  name          String
-  player_length Int
-  word_amount   Int
-  timer         Int?
-  Player        Player[]
-}
-
 model Player {
-  id       String  @id
+  id       String  @id @default(uuid())
   user_id  String?
   name     String
   score_id String
   game_id  String
+  score    Score   @relation(fields: [score_id], references: [id])
   Game     Game    @relation(fields: [game_id], references: [id])
-  Score    Score   @relation(fields: [score_id], references: [id])
+}
+
+model Game {
+  id              String   @id @default(uuid())
+  host            String
+  name            String
+  winner          String
+  language        String
+  word_amount     Int
+  player_length   Int
+  timer           Float?
+  players         Player[]
+  createdAt       DateTime? @default(now())
 }
 
 model Score {
-  id              String    @id
+  id              String    @id @default(uuid())
   createdAt       DateTime? @default(now())
   userId          String?
   correct_letters Int
@@ -56,7 +46,7 @@ model Score {
   wrong_letters   Int
   wrong_words     Int
   gameId          String?
-  type            String
+  type            String // "solo" | "multi"
   language        String?
   timer           Int?
   username        String?
@@ -65,36 +55,34 @@ model Score {
 }
 
 model Settings {
-  id       String  @id
-  language String  @default("fr")
-  fontSize Int     @default(36)
+  id       String  @id @default(uuid())
+  language String  @default("fr") // en, fr, es, de
+  fontSize Int     @default(36) // 24, 30, 36, 48, 60
+  theme    Boolean @default(true) // light/true | dark/false
   sound    Boolean @default(false)
-  userId   String? @unique
-  theme    Boolean @default(true)
   User     User?   @relation(fields: [userId], references: [id])
+  userId   String? @unique
 }
 
 model User {
-  id                String       @id
+  id                String       @id @default(uuid())
   email             String       @unique
   password          String
   nickname          String?      @unique
   avatar            String?
+  is_active         Boolean      @default(false)
   lastPasswordReset DateTime?
   last_activity     DateTime?
   createdAt         DateTime     @default(now())
-  brotherHoodId     String?
-  is_active         Boolean      @default(false)
+  scores            Score[]
   didacticiel_level Int?         @default(3)
-  BrotherHood       BrotherHood? @relation(fields: [brotherHoodId], references: [id])
-  Achievment        Achievment?
-  Score             Score[]
-  Settings          Settings?
+  settings          Settings?
 }
 
 model WordSet {
-  id      String   @id
+  id      String   @id @default(uuid())
   letter  String
   level   Int
   wordSet String[]
 }
+

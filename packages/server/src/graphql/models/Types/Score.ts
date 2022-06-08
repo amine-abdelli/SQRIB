@@ -34,4 +34,20 @@ export const GroupedGameData = `
   }
 `;
 
-export const ScoreTypes = [Score, GroupedScores, GroupedGameData];
+export const UserGameInfos = `
+  type UserGameInfos {
+    createdAt: String
+    nickname: String
+    lastActivity: Date
+  }
+`;
+
+export const UserGameDetails = `
+  type UserGameDetails {
+    solo: [Score]
+    multi: [GameOutPut]
+    details: UserGameInfos
+  }
+`;
+
+export const ScoreTypes = [Score, GroupedScores, GroupedGameData, UserGameDetails, UserGameInfos];

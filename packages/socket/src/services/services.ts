@@ -273,12 +273,10 @@ export const Services = {
         player_length: Object.keys(game.clients).length,
         timer: timer || 0,
       });
-      console.log('gamePayload', gamePayload);
       if (!gamePayload) {
         log.error('Game could not be created');
         throw new Error('Game could not be created');
       }
-      console.log('ABOUT TO JUMP INTO THE LOOP');
       await Promise.all(Object.values(game.clients)
         // Exclude players that are in staging room and that cannot play
         .filter((aClient) => aClient.status !== 'staging')
@@ -313,14 +311,13 @@ export const Services = {
             game_id: gamePayload.id,
             score_id: score.id,
           });
-          console.log('player', player);
           if (!player) {
             log.error('Player could not be created');
             throw new Error('Player could not be created');
           }
         }));
     } catch (error) {
-      console.log('ERROR', error);
+      log.error('An error occured while adding a new score');
     }
     return { message: 'Game created successfully' };
   },

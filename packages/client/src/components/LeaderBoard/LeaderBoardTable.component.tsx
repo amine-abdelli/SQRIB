@@ -47,7 +47,7 @@ function LeaderBoardTable({ scores, title, winnerBoard }: LeaderBoardProps) {
   }
 
   return (
-    scores && scoresToTableData ? (
+    scores ? (
       <div>
         <Text h2 css={{ textAlign: 'center' }}>{title}</Text>
         <Radio.Group
@@ -93,7 +93,7 @@ function LeaderBoardTable({ scores, title, winnerBoard }: LeaderBoardProps) {
             )}
           </Table.Header>
           <Table.Body
-            items={scoresToTableData.slice(0, 50)}
+            items={scoresToTableData?.slice(0, 50) || []}
           >
             {(item: any) => (
               <Table.Row css={{ textAlign: 'center' }} key={item.name}>

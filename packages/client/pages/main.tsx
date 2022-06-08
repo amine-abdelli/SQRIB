@@ -41,7 +41,7 @@ function Main() {
     onCompleted: (data) => {
       const result = cache.readQuery<any, void>({ query: SELF_QUERY });
       // Update leaderboard
-      socketRef.emit('score-saved');
+      socketRef.emit('update-leader-board');
       const self = result?.self;
       alertService.success('Score sauvegardé !', {});
       // const cachedValue = [...self.scores, data.addScoring];

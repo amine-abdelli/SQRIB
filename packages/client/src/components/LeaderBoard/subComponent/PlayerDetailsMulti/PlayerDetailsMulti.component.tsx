@@ -2,7 +2,7 @@ import {
   formatDate, Game, topValue,
 } from '@aqac/utils';
 import {
-  Card, Table, Loading, Text,
+  Card, Table, Text,
 } from '@nextui-org/react';
 import React from 'react';
 import { useGetSelf } from '../../../../hooks/useGetSelf';
@@ -12,7 +12,6 @@ import { PlayerDetailsMultiProps } from './PlayerDetailsMulti.props';
 function PlayerDetailsMulti({ games, details }: PlayerDetailsMultiProps) {
   const { data: selfData } = useGetSelf();
   const { isMediumScreen } = useWindowSize();
-  if (!games.length) return <Loading />;
   const tableColumn = isMediumScreen ? [
     { name: 'Victoire', uid: 'hasWon' },
     { name: 'Mpm', uid: 'mpm' },
@@ -113,6 +112,7 @@ function PlayerDetailsMulti({ games, details }: PlayerDetailsMultiProps) {
             noMargin
             align="center"
             rowsPerPage={7}
+            color='primary'
           />
         </Table>
       </div>

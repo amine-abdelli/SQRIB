@@ -2,14 +2,13 @@ import {
   formatDate, formatDateToLeaderboard, ScoreType, topValue,
 } from '@aqac/utils';
 import {
-  Card, Loading, Table, Text,
+  Card, Table, Text,
 } from '@nextui-org/react';
 import React from 'react';
 import { useWindowSize } from '../../../../hooks/useWindowSize';
 
 function PlayerDetailsSolo({ scores, details }: { scores: ScoreType[], details: any }) {
   const { isMediumScreen } = useWindowSize();
-  if (!scores.length) return <Loading />;
 
   const tableColumn = isMediumScreen
     ? [
@@ -98,7 +97,7 @@ function PlayerDetailsSolo({ scores, details }: { scores: ScoreType[], details: 
             noMargin
             align="center"
             rowsPerPage={7}
-            onPageChange={(page) => console.log({ page })}
+            color='primary'
           />
         </Table>
       </div>

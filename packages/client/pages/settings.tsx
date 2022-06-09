@@ -220,7 +220,7 @@ function Settings() {
       </Container>
       <Spacer y={2} />
       <Text color='inherit' h2>Mon compte</Text>
-      <Container gap={mediumScreenGap}>
+      {/* <Container gap={mediumScreenGap}>
         <Text color='inherit' h4>
           Modifier mon pseudo
         </Text>
@@ -237,7 +237,7 @@ function Settings() {
             Enregistrer
           </Button>
         </div>
-      </Container>
+      </Container> */}
       <Container gap={mediumScreenGap}>
         <Text color='inherit' h4>
           Modifier mon mot de passe

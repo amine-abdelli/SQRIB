@@ -12,11 +12,14 @@ function PlayerDetails({ data, loading }: PlayerDetailsProps) {
   const [stepPosition, setStepPosition] = React.useState(0);
   const { isMediumScreen } = useWindowSize();
   if (loading) return <Loading />;
+  const lastActivity = data?.details.lastActivity;
+  // A player is considered as active if he has done some actions in the last 10 minutes
+  const isActive = new Date(lastActivity).getTime() > (new Date().getTime() - 10 * 60 * 1000);
   return (
     <Card style={{ width: '100%' }}>
       <div className="flex justify-between" style={{ flexDirection: isMediumScreen ? 'column' : 'row' }}>
         <div style={{ paddingLeft: '0.85rem' }} className='flex align-center'>
-          <Avatar style={{ marginRight: '0.5rem' }} className='pointer ml5' size="lg" squared src="https://picsum.photos/200" color="success" bordered />
+          <Avatar style={{ marginRight: '0.5rem' }} className='pointer ml5' size="lg" squared src="https://picsum.photos/200" color={isActive ? "success" : "error"} bordered />
           <Text h1>{data?.details?.nickname}</Text>
         </div>
         <div className='flex '>

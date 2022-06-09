@@ -71,7 +71,7 @@ model User {
   last_activity     DateTime?
   createdAt         DateTime  @default(now())
   is_active         Boolean   @default(false)
-  didacticiel_level Int?      @default(3)
+  didacticielLevel Int?      @default(3)
   scores            Score[]
   settings          Settings?
 }

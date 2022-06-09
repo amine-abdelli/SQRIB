@@ -31,7 +31,7 @@ function PlayerDetailsMulti({ games, details }: PlayerDetailsMultiProps) {
   const gamesToTableData = games
     .map((game: any, index) => ({
       hasWon: game.winner === details.nickname ? 'true' : 'false',
-      mpm: game.players.find(({ name }: { name: string}) => name === details.nickname)?.score.mpm,
+      mpm: game.players.find(({ name }: { name: string }) => name === details.nickname)?.score.mpm,
       language: game.language,
       wordAmount: game.word_amount,
       players: game.player_length,
@@ -40,14 +40,11 @@ function PlayerDetailsMulti({ games, details }: PlayerDetailsMultiProps) {
     }));
   return (
     <>
-      <div
-        style={{
-          display: 'flex', flexDirection: 'row', width: '100%', flexWrap: 'wrap',
-        }}
-        className='flex'
-      >
+      <div style={{
+        display: 'flex', flexDirection: 'row', width: '100%', flexWrap: 'wrap',
+      }}>
         <Card style={{
-          width: '12rem', display: 'inline-block', margin: '1rem 1rem 0 1rem', height: '4.5rem', flexBasis: isMediumScreen ? '45%' : '20%',
+          width: '12rem', display: 'inline-block', margin: `1rem 1rem 0 ${isMediumScreen ? 0 : 1}rem`, height: '4.5rem', flexBasis: isMediumScreen ? '45%' : '20%',
         }}
         >
           <Text style={{ textAlign: 'center' }}>Parties jouées</Text>

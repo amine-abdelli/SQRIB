@@ -31,7 +31,7 @@ function PlayerDetailsSolo({ scores, details }: { scores: ScoreType[], details: 
       precision: score.precision,
       points: score.points,
       language: score.language,
-      date: formatDateToLeaderboard(score.createdAt as any),
+      date: formatDate(score.createdAt as any),
       key: index,
     }));
   return (

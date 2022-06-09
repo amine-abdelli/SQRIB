@@ -1,11 +1,17 @@
 @import "../../../styles/sass/abstracts/variables";
 .sideBarButtons {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
   align-items: center;
-  border-left: 1px dashed;
+  background-color: #343434;
+  height: calc(100vh - 5px - 2rem);
+  border-radius: 10px;
+  padding: 1rem;
 
   .sideBarButton {
     position: relative;
-    padding: 7.5px;
+    padding: 7.5px 0;
     width: 100%;
     cursor: pointer;
     border-radius: 10px;
@@ -47,15 +53,19 @@
 }
 }
 
-@media screen and (max-width: 500px) {
+@media screen and (max-width: 400px) {
   .sideBarButtons {
     position: fixed;
+    background-color: #343434 !important;
     bottom: 0px;
+    left: 0px;
+    z-index: 99999;
+    height: 3rem;
     border-top: 1px dashed;
     width: 100%;
-    border-right: 6.3px solid $tertiary-color;
-    border-left: inherit;
-    background-color: $primary-color ;
+    flex-direction: row;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
     
     ul {
       display: flex;

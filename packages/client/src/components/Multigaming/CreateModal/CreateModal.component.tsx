@@ -59,7 +59,7 @@ function CreateModal({
               color='primary'
               bordered
               css={{ width: '100%' }}
-              value={game?.name}
+              value={gameParameters?.name}
               disabled
               aria-labelledby="Room name input"
             />

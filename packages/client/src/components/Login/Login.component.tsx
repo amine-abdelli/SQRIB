@@ -6,11 +6,10 @@ import {
 } from '@nextui-org/react';
 import { emailPolicy } from '@aqac/utils';
 import { Message, Lock } from 'react-iconly';
-import { getLocalStorageLoginItems } from '../../utils/auth.utils';
+import { LoginProps } from './Login.props';
 
-function Login() {
-  const { localStorageEmail, localStoragePassword } = getLocalStorageLoginItems();
-  const [login, setLogin] = useState({ email: localStorageEmail || '', password: localStoragePassword || '' });
+function Login({ open, setOpen }: LoginProps) {
+  const [login, setLogin] = useState({ email: '', password: '' });
   const [isValid, setIsValid] = useState({ email: '', password: '' });
   const [isAuthWrong, setIsAuthWrong] = useState(false);
   const [triggerLoginChecking, setTriggerLoginChecking] = useState(false);
@@ -55,7 +54,13 @@ function Login() {
   }
 
   return (
-    <>
+    <Modal
+      closeButton
+      className='p2r'
+      open={open}
+      onClose={() => setOpen(false)}
+      blur
+    >
       <Modal.Header>
         <Text id="modal-title" size={18}>
           Welcome to
@@ -67,9 +72,9 @@ function Login() {
       </Modal.Header>
       <Modal.Body>
         {isAuthWrong && (
-        <Text style={{ textAlign: 'center', marginBottom: '5px' }} color='error'>
-          L&apos;e-mail ou le mot de passe saisie est incorrecte
-        </Text>
+          <Text style={{ textAlign: 'center', marginBottom: '5px' }} color='error'>
+            L&apos;e-mail ou le mot de passe saisie est incorrecte
+          </Text>
         )}
         <Input
           placeholder="e-mail"
@@ -109,7 +114,7 @@ function Login() {
           Se connecter
         </Button>
       </Modal.Footer>
-    </>
+    </Modal>
   );
 }
 

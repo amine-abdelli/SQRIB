@@ -25,7 +25,7 @@ query selfQuery {
     }
     settings {
       language
-      fontSize
+      font_size
       theme
       sound
     }

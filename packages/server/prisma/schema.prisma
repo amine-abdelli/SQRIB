@@ -52,13 +52,13 @@ model Score {
 }
 
 model Settings {
-  id       String  @id @default(uuid())
-  language String  @default("fr")
-  fontSize Int     @default(36)
-  sound    Boolean @default(false)
-  userId   String? @unique
-  theme    Boolean @default(true)
-  User     User?   @relation(fields: [userId], references: [id])
+  id        String  @id @default(uuid())
+  language  String  @default("fr")
+  font_size Int     @default(36)
+  sound     Boolean @default(false)
+  userId    String? @unique
+  theme     Boolean @default(true)
+  User      User?   @relation(fields: [userId], references: [id])
 }
 
 model User {

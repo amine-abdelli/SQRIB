@@ -17,7 +17,7 @@ export async function oneUserById({ id }: Pick<User, 'id'>) {
           language: true,
           theme: true,
           sound: true,
-          fontSize: true,
+          font_size: true,
         },
       },
     },

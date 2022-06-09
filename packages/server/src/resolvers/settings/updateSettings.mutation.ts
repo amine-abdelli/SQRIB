@@ -5,7 +5,7 @@ import { Context } from '../../utils/context.utils';
 
 export interface IUpdateSettings {
   language: Languages;
-  fontSize: FontSizes;
+  font_size: FontSizes;
   theme: boolean;
   sound: boolean;
 }

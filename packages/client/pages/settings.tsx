@@ -111,22 +111,22 @@ function Settings() {
     selfSettings?.language,
   );
   const [fontSizeSelected, setFontSizeSelected] = useState<number>(
-    selfSettings?.fontSize,
+    selfSettings?.font_size,
   );
   const [darkMode, setDarkMode] = useState<boolean>(selfSettings?.theme);
   const [isSoundActive, setIsSoundActive] = useState<boolean>(selfSettings?.sound);
   const { isMediumScreen } = useWindowSize();
   useEffect(() => {
+    setFontSize(fontSizeSelected);
+    setLanguage(languageSelected);
     const settings: ISettingsProps = {
       language: languageSelected,
       fontSize: fontSizeSelected,
       theme: darkMode,
       sound: isSoundActive,
     };
-    setFontSize(fontSizeSelected);
-    setLanguage(languageSelected);
     setTheme(darkMode ? themes.LIGHT : themes.DARK);
-    updateSettings({ variables: { ...settings } });
+    updateSettings({ variables: settings });
   }, [languageSelected, fontSizeSelected, darkMode, isSoundActive]);
 
   function onSettingParameterSelection(param: string | number | boolean, setState: any) {
@@ -180,7 +180,7 @@ function Settings() {
               <Button
                 key={fontSize}
                 onClick={() => onSettingParameterSelection(fontSize, setFontSizeSelected)}
-                flat={selfSettings?.fontSize === fontSize}
+                flat={fontSizeSelected === fontSize}
               >
                 <Tooltip
                   content={<Text size={fontSize}>Lorem ipsum ...</Text>}

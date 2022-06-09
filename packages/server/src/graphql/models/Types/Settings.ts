@@ -4,6 +4,6 @@ export const Settings = `
   language: String
   theme: Boolean
   sound: Boolean
-  fontSize: Int
+  font_size: Int
   userId: ID!
  }`;

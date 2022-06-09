@@ -54,11 +54,11 @@ mutation updateLevelMutation($level: Int) {
 
 const UPDATE_SETTINGS_MUTATION = gql`
 mutation updateSettingsMutation($language: String, $fontSize: Int, $theme: Boolean, $sound: Boolean) {
-  updateSettings(language: $language, fontSize: $fontSize, theme: $theme, sound: $sound) {
+  updateSettings(language: $language, font_size: $fontSize, theme: $theme, sound: $sound) {
     language
     theme
     sound
-    fontSize
+    font_size
   }
 }
 `;

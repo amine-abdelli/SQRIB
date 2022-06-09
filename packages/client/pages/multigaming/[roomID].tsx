@@ -1,5 +1,5 @@
 import { GameType } from '@aqac/utils';
-import { Modal, Text } from '@nextui-org/react';
+import { Container, Modal, Text } from '@nextui-org/react';
 import { useRouter } from 'next/router';
 import React, {
   useContext,
@@ -116,7 +116,7 @@ function Room() {
   }, [socketRef]);
 
   return (
-    <div>
+    <Container>
       <h1>
         Salut
         {' '}
@@ -174,7 +174,7 @@ function Room() {
           ) : 'GO'}
         </Text>
       </Modal>
-    </div>
+    </Container>
   );
 }
 

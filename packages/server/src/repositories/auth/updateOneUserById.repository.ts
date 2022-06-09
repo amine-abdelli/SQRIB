@@ -8,7 +8,7 @@ export interface UpdateUserByIdArgs {
     avatar?: string,
     rank?: string,
     xp?: number,
-    lastPasswordReset?: Date,
+    last_password_reset?: Date,
     last_activity?: string, // iso string
     is_active?: boolean,
     brotherHoodId?: string,

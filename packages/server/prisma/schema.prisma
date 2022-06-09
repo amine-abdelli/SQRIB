@@ -22,7 +22,7 @@ model Game {
   id            String    @id @default(uuid())
   host          String
   winner        String
-  createdAt     DateTime? @default(now())
+  created_at     DateTime? @default(now())
   language      String
   name          String
   player_length Int
@@ -33,7 +33,7 @@ model Game {
 
 model Score {
   id              String    @id @default(uuid())
-  createdAt       DateTime? @default(now())
+  created_at       DateTime? @default(now())
   userId          String?
   correct_letters Int
   mpm             Int
@@ -62,23 +62,23 @@ model Settings {
 }
 
 model User {
-  id                String    @id @default(uuid())
-  email             String    @unique
-  password          String
-  nickname          String?   @unique
-  avatar            String?
-  lastPasswordReset DateTime?
-  last_activity     DateTime?
-  createdAt         DateTime  @default(now())
-  is_active         Boolean   @default(false)
-  didacticielLevel Int?      @default(3)
-  scores            Score[]
-  settings          Settings?
+  id                  String    @id @default(uuid())
+  email               String    @unique
+  password            String
+  nickname            String?   @unique
+  avatar              String?
+  last_password_reset DateTime?
+  last_activity       DateTime?
+  created_at          DateTime  @default(now())
+  is_active           Boolean   @default(false)
+  didacticiel_level   Int?      @default(3)
+  scores              Score[]
+  settings            Settings?
 }
 
 model WordSet {
   id      String   @id @default(uuid())
   letter  String
   level   Int
-  wordSet String[]
+  word_set String[]
 }

@@ -5,9 +5,9 @@ export interface PlayerDetailsProps {
     multi: GameType[]
     solo: ScoreType[]
     details: {
-      createdAt: string
+      created_at: string
       nickname: string
-      lastActivity: string
+      last_activity: string
     }
   }
   loading: boolean

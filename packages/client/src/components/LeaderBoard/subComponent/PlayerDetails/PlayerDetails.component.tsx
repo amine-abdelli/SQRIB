@@ -12,7 +12,7 @@ function PlayerDetails({ data, loading }: PlayerDetailsProps) {
   const [stepPosition, setStepPosition] = React.useState(0);
   const { isMediumScreen } = useWindowSize();
   if (loading) return <Loading />;
-  const lastActivity = data?.details.lastActivity;
+  const lastActivity = data?.details.last_activity;
   // A player is considered as active if he has done some actions in the last 10 minutes
   const isActive = new Date(lastActivity).getTime() > (new Date().getTime() - 10 * 60 * 1000);
   return (

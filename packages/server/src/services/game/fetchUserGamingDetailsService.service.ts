@@ -12,8 +12,8 @@ export async function fetchUserGamingDetailsService(
   const multi = await findManyGamesWithDetails({ userId }, prisma);
   const user = await oneUserById({ id: userId });
   const details = {
-    lastActivity: user?.last_activity,
-    createdAt: user?.createdAt,
+    last_activity: user?.last_activity,
+    created_at: user?.created_at,
     nickname: user?.nickname,
   };
   return { multi, solo, details };

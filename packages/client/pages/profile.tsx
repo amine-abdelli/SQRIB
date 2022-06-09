@@ -17,8 +17,8 @@ function Profile({ theme }: { theme: ITheme }) {
   const sortedScores = [...scores]
     .filter(isSolo)
     .sort(
-      (a: ScoreType, b: ScoreType) => Date.parse(a.createdAt as string)
-      - Date.parse(b.createdAt as string),
+      (a: ScoreType, b: ScoreType) => Date.parse(a.created_at as string)
+      - Date.parse(b.created_at as string),
     );
   const {
     averageMpm, averagePoints, topMpm, topPoint, latestMpm, latestPoints, precision, totalGame,

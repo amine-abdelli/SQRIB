@@ -40,6 +40,7 @@ function Didacticiel() {
     { loading }] = useLazyQuery(DIDACTICIEL_WORDSET_QUERY, {
     onCompleted: ({ findOneSet }) => {
       setMarkovChain(findOneSet);
+      console.log('lol', findOneSet)
       cache.writeQuery({
         query: DIDACTICIEL_WORDSET_QUERY,
         data: {

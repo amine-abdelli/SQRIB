@@ -3,8 +3,8 @@ import { GameType } from '@aqac/utils';
 export interface PlayerDetailsMultiProps {
   games: GameType[]
   details: {
-    createdAt: string
+    created_at: string
     nickname: string
-    lastActivity: string
+    last_activity: string
   }
 }

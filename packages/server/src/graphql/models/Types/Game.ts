@@ -58,7 +58,7 @@ type GameOutPut {
   language: String
   word_amount: Int
   player_length: Int
-  createdAt: Date
+  created_at: Date
   players: [Player]
 }
 `;

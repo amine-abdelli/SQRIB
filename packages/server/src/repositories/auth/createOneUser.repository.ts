@@ -15,9 +15,9 @@ export function createOneUser(args: ICreateUserArgs) {
       nickname: true,
       avatar: true,
       is_active: true,
-      lastPasswordReset: true,
+      last_password_reset: true,
       last_activity: true,
-      createdAt: true,
+      created_at: true,
       settings: true,
     },
   });

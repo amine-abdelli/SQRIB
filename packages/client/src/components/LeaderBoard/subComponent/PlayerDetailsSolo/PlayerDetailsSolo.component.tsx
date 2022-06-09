@@ -25,13 +25,14 @@ function PlayerDetailsSolo({ scores, details }: { scores: ScoreType[], details: 
       { name: 'Date', uid: 'date' },
     ];
   const scoresToTableData = scores
+    ?.sort((a: ScoreType, b: ScoreType) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime())
     ?.filter(({ username }) => username)
     .map((score, index) => ({
       mpm: score.mpm,
       precision: score.precision,
       points: score.points,
       language: score.language,
-      date: formatDate(score.createdAt as any),
+      date: formatDate(score.created_at as any),
       key: index,
     }));
   return (
@@ -60,7 +61,7 @@ function PlayerDetailsSolo({ scores, details }: { scores: ScoreType[], details: 
         }}
         >
           <Text style={{ fontSize: isMediumScreen ? '10px' : '', textAlign: 'center' }}>Dernière activité</Text>
-          <Text style={{ fontSize: isMediumScreen ? '14px' : '', textAlign: 'center' }}>{formatDate(details?.lastActivity, 'short')}</Text>
+          <Text style={{ fontSize: isMediumScreen ? '14px' : '', textAlign: 'center' }}>{formatDate(details?.last_activity, 'short')}</Text>
         </Card>
       </div>
       <div>

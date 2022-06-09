@@ -13,8 +13,8 @@ import { ITheme } from '../../../styles/theme';
 function Calendar({ scores, theme }: { scores: ScoreType[], theme: ITheme }) {
   const formatedHistoryToCalendar = scores.map((day: ScoreType) => (
     {
-      day: day?.createdAt,
-      date: formatDate(day?.createdAt as Date),
+      day: day?.created_at,
+      date: formatDate(day?.created_at as Date),
       value: day.mpm,
     }
   ));

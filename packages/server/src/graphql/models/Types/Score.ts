@@ -9,7 +9,7 @@ export const Score = `
   wrong_letters: Int
   precision: Float
   points: Int
-  createdAt: Date
+  created_at: Date
   userId: String
   gameId: String
   username: String
@@ -28,7 +28,7 @@ export const ScoreInput = `
   wrong_letters: Int
   precision: Float
   points: Int
-  createdAt: Date
+  created_at: Date
   userId: String
   gameId: String
   username: String
@@ -55,9 +55,9 @@ export const GroupedGameData = `
 
 export const UserGameInfos = `
   type UserGameInfos {
-    createdAt: String
+    created_at: String
     nickname: String
-    lastActivity: Date
+    last_activity: Date
   }
 `;
 

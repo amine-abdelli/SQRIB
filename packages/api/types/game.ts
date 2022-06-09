@@ -1,6 +1,6 @@
 export interface GlobalScoreType {
   correct_letters: number
-  createdAt: number
+  created_at: number
   gameId: null
   id: number
   language: number
@@ -17,7 +17,7 @@ export interface GlobalScoreType {
 }
 
 export interface GlobalGameType {
-  createdAt: string
+  created_at: string
   host: string
   id: string
   language: string

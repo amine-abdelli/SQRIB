@@ -33,7 +33,7 @@ function LeaderBoardTable({ scores, title, winnerBoard }: LeaderBoardProps) {
       username: score.username,
       precision: score.precision,
       victory: winnerBoard?.[score.username]?.length || 0,
-      date: formatDateToLeaderboard(score.createdAt as any),
+      date: formatDateToLeaderboard(score.created_at as any),
       key: index,
     }));
 

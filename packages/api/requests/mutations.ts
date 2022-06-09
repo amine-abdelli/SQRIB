@@ -37,7 +37,7 @@ mutation addNewScoreMutation($mpm: Int, $wrongWords: Int, $correctLetters: Int, 
     wrong_letters
     precision
     points
-    createdAt
+    created_at
     userId
     gameId
     timer

@@ -9,8 +9,8 @@ export async function createAllSets(parent: any, args: any, context: Context) {
     const letter = alphabet[index];
     log.info(`Level ${index}: Creating set for letter ${letter}`);
     // eslint-disable-next-line no-await-in-loop
-    const { wordSet } = await createOneSetService({ letter, level: index }, context);
-    if (!wordSet) {
+    const { word_set } = await createOneSetService({ letter, level: index }, context);
+    if (!word_set) {
       log.error(`Could not create word set for letter "${letter}"`);
       throw new ApolloError(`Could not create word set for letter "${letter}"`);
     }

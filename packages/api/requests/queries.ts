@@ -21,7 +21,7 @@ query selfQuery {
       wrong_letters
       precision
       points
-      createdAt
+      created_at
     }
     settings {
       language
@@ -52,7 +52,7 @@ query GlobalGamesDataQuery {
         wrong_letters
         precision
         points
-        createdAt
+        created_at
         userId
         gameId
         username
@@ -69,7 +69,7 @@ query GlobalGamesDataQuery {
         wrong_letters
         precision
         points
-        createdAt
+        created_at
         userId
         gameId
         username
@@ -86,7 +86,7 @@ query GlobalGamesDataQuery {
         wrong_letters
         precision
         points
-        createdAt
+        created_at
         userId
         gameId
         username
@@ -103,7 +103,7 @@ query GlobalGamesDataQuery {
         wrong_letters
         precision
         points
-        createdAt
+        created_at
         userId
         gameId
         username
@@ -122,7 +122,7 @@ query GlobalGamesDataQuery {
         wrong_letters
         precision
         points
-        createdAt
+        created_at
         userId
         gameId
         username
@@ -139,7 +139,7 @@ query GlobalGamesDataQuery {
         wrong_letters
         precision
         points
-        createdAt
+        created_at
         userId
         gameId
         username
@@ -156,7 +156,7 @@ query GlobalGamesDataQuery {
         wrong_letters
         precision
         points
-        createdAt
+        created_at
         userId
         gameId
         username
@@ -173,7 +173,7 @@ query GlobalGamesDataQuery {
         wrong_letters
         precision
         points
-        createdAt
+        created_at
         userId
         gameId
         username
@@ -189,7 +189,7 @@ query GlobalGamesDataQuery {
       language
       word_amount
       player_length
-      createdAt
+      created_at
       players {
         id
         user_id
@@ -206,7 +206,7 @@ query GlobalGamesDataQuery {
           wrong_letters
           precision
           points
-          createdAt
+          created_at
           userId
           gameId
           username
@@ -232,7 +232,7 @@ query FetchUserGamingDetails($userId: String) {
       wrong_letters
       precision
       points
-      createdAt
+      created_at
       userId
       gameId
       username
@@ -247,7 +247,7 @@ query FetchUserGamingDetails($userId: String) {
       language
       word_amount
       player_length
-      createdAt
+      created_at
       players {
         id
         user_id
@@ -264,7 +264,7 @@ query FetchUserGamingDetails($userId: String) {
           wrong_letters
           precision
           points
-          createdAt
+          created_at
           userId
           gameId
           username
@@ -274,9 +274,9 @@ query FetchUserGamingDetails($userId: String) {
       }
     }
     details {
-      createdAt
+      created_at
       nickname
-      lastActivity
+      last_activity
     }
   }
 }

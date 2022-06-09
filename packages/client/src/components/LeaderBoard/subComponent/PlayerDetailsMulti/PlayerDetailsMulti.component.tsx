@@ -1,5 +1,5 @@
 import {
-  formatDate, topValue,
+  formatDate, GameType, topValue,
 } from '@aqac/utils';
 import {
   Card, Table, Text,
@@ -27,17 +27,20 @@ function PlayerDetailsMulti({ games, details }: PlayerDetailsMultiProps) {
 
   const scores = games.map((game: any) => game?.players
     .find((player) => player.name === details.nickname).score);
-  const date = new Date(details.lastActivity);
+  const date = new Date(details.last_activity);
   const gamesToTableData = games
-    .map((game: any, index) => ({
-      hasWon: game.winner === details.nickname ? 'true' : 'false',
-      mpm: game.players.find(({ name }: { name: string }) => name === details.nickname)?.score.mpm,
-      language: game.language,
-      wordAmount: game.word_amount,
-      players: game.player_length,
-      date: formatDate(game.createdAt),
-      key: index,
-    }));
+  .map((game: any, index) => ({
+    hasWon: game.winner === details.nickname ? 'true' : 'false',
+    mpm: game.players.find(({ name }: { name: string }) => name === details.nickname)?.score.mpm,
+    language: game.language,
+    wordAmount: game.word_amount,
+    players: game.player_length,
+    date: formatDate(game.created_at),
+    key: index,
+    created_at: game.created_at
+  }))
+  .sort((a: any, b: any) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime());
+
   return (
     <>
       <div style={{

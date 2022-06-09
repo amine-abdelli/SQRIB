@@ -3,7 +3,7 @@ import { log, markovChainGenerator } from '@aqac/utils';
 import { createOneSet } from '../../repositories/didacticiel/createOneSet.repository';
 import { Context } from '../../utils/context.utils';
 
-interface ICreateOneSet {
+export interface ICreateOneSet {
   letter: string
   level: number
 }
@@ -19,7 +19,7 @@ export async function createOneSetService(args: ICreateOneSet, context: Context)
     const set = await createOneSet({
       letter: args.letter,
       level: args.level,
-      wordSet: args.letter !== 'j'
+      word_set: args.letter !== 'j'
         ? wordSet.filter((word) => !word.includes('j')).flat()
         : wordSet.flat(),
     }, context.prisma);

@@ -9,7 +9,6 @@ import { generateWordSet, FontSizes, Languages } from '@aqac/utils';
 import { FocusStyleManager } from '@blueprintjs/core';
 import { useRouter } from 'next/dist/client/router';
 import Layout from '../src/components/Layout/Layout.component';
-import Nav from '../src/components/Nav/Nav.component';
 import SideBar from '../src/components/SideBar/SideBar.component';
 import { ITheme, themes } from '../styles/theme';
 import '../styles/sass/globals.scss';
@@ -21,6 +20,7 @@ import { MainContext } from '../src/context/MainContext';
 import { client } from '../client';
 import { Alert } from '../src/components/Alert/Alert.component';
 import { useWindowSize } from '../src/hooks/useWindowSize';
+import Nav from '../src/components/Nav/Nav.component';
 
 function MyApp({ Component, pageProps }: AppProps) {
   const [theme, setTheme] = useState<ITheme>(themes.LIGHT);
@@ -76,30 +76,27 @@ function MyApp({ Component, pageProps }: AppProps) {
   // Disable ugly focus on blueprint's elements
   FocusStyleManager.onlyShowFocusOnTabs();
 
-  const { isMediumScreen } = useWindowSize();
+  const { isMediumScreen, isSmallScreen } = useWindowSize();
   return (
     <ApolloProvider client={client}>
       <Layout theme={theme}>
         <Alert />
-        <Nav />
-        <div className='flex'>
-          <SideBar position={Position.LEFT} />
-          <div className={styles.componentWrapper}>
-            <div className='flex justify-center h100'>
-              <MainContext.Provider value={MainContextProps}>
-                <NextUIProvider>
-                  <Component theme={theme} {...pageProps} />
-                  {/* Compensate the height of the side bar appearing on the bottom of the screen on mobile view */}
-                  { isMediumScreen && <div style={{ height: '40px' }} /> }
-                </NextUIProvider>
-              </MainContext.Provider>
+        <div className='flex' style={{ padding: isSmallScreen ? '0.5rem' : '1rem' }}>
+          <SideBar />
+          <div className='flex w100 flex-column'>
+            <Nav />
+            <div className={styles.componentWrapper}>
+              <div className='flex justify-center h100'>
+                <MainContext.Provider value={MainContextProps}>
+                  <NextUIProvider>
+                    <Component theme={theme} {...pageProps} />
+                    {/* Compensate the height of the side bar appearing on the bottom of the screen on mobile view */}
+                    {isMediumScreen && <div style={{ height: '40px' }} />}
+                  </NextUIProvider>
+                </MainContext.Provider>
+              </div>
             </div>
           </div>
-          <SideBar
-            setLanguage={setLanguage}
-            position={Position.RIGHT}
-            setFontSize={setFontSize}
-          />
         </div>
       </Layout>
     </ApolloProvider>

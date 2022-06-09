@@ -1,94 +1,19 @@
-import { useMutation } from '@apollo/client';
-import { LOGOUT_MUTATION } from '@aqac/api';
-import {
-  Modal, Button, Spinner, Avatar, Tooltip,
-} from '@nextui-org/react';
-import { useRouter } from 'next/dist/client/router';
-import React, { useCallback, useState } from 'react';
-import { Logout } from 'react-iconly';
-import { useGetSelf } from '../../hooks/useGetSelf';
-import { Routes } from '../../utils/enums';
-import Login from '../Login/Login.component';
-import Signup from '../Signup/Signup.component';
-import styles from './Nav.module.scss';
+import { Avatar } from '@nextui-org/react'
+import React from 'react'
+import { useGetSelf } from '../../hooks/useGetSelf'
 
-enum ModalType {
-  LOGIN = 'login',
-  SIGNUP = 'signup',
-}
-
-function Nav() {
-  const router = useRouter();
-  const [submitLogout] = useMutation(LOGOUT_MUTATION, {
-    onCompleted: () => {
-      router.push(Routes.MAIN);
-      window.location.reload();
-    },
-  });
-  const [shouldOpenModal, setShouldOpenModal] = useState(false);
-  const [modalType, setModalType] = useState<ModalType | null>();
-  const { isLoggedIn, data, loading } = useGetSelf();
-
-  const onButtonClick = useCallback(
-    (type?: ModalType) => {
-      if (type) {
-        setModalType(type);
-      } else {
-        setModalType(null);
-      }
-      setShouldOpenModal(true);
-    },
-    [],
-  );
+const Nav = () => {
+  const { data: selfData, isLoggedIn } = useGetSelf()
   return (
-    <div style={{}} className={styles.navbarContainer}>
-      <div
-        className={styles.navbarContent}
-      >
-        scrib.co
-      </div>
-      <div className={styles.navbarButtonGroup}>
-        {!isLoggedIn && (
-        <div>
-          {loading ? <Spinner />
-            : (
-              <>
-                <Button.Group>
-                  <Button flat onClick={() => onButtonClick(ModalType.LOGIN)}>Se connecter</Button>
-                  <Button
-                    ghost
-                    onClick={() => onButtonClick(ModalType.SIGNUP)}
-                  >
-                    S&apos;inscrire
-
-                  </Button>
-                </Button.Group>
-                <Modal
-                  closeButton
-                  className='p2r'
-                  open={shouldOpenModal}
-                  onClose={() => setShouldOpenModal(false)}
-                  blur
-                >
-                  {modalType === ModalType.LOGIN && (<Login />)}
-                  {modalType === ModalType.SIGNUP && (<Signup />)}
-                </Modal>
-              </>
-            )}
-
+    <div className="w100" style={{ height: '3rem' }}>
+      {isLoggedIn && (
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end'}}>
+          <h2 style={{ marginBottom: 0 }}>{selfData?.self?.nickname}</h2>
+          <Avatar className='pointer ml5' size="md" squared src="https://picsum.photos/200" color="success" bordered />
         </div>
-        )}
-        <div
-          className='flex align-center justify-center'
-        >
-          <h2 style={{ marginBottom: 0 }}>{data?.self?.nickname}</h2>
-          <Tooltip hidden={!isLoggedIn} trigger='click' hideArrow placement='bottom' content={<Button bordered auto color='error' icon={<Logout />} onClick={() => submitLogout()} />}>
-            <Avatar className='pointer ml5' size="md" squared src="https://picsum.photos/200" color="success" bordered />
-          </Tooltip>
-        </div>
-      </div>
+      )}
     </div>
-  );
+  )
 }
 
-export default Nav;
+export default Nav

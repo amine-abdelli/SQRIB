@@ -1,6 +1,6 @@
 import { useApolloClient, useMutation } from '@apollo/client';
 import {
-  SELF_QUERY, UPDATE_SETTINGS_MUTATION, UPDATE_NICKNAME_MUTATION, UPDATE_PASSWORD_MUTATION,
+  SELF_QUERY, UPDATE_SETTINGS_MUTATION, UPDATE_PASSWORD_MUTATION,
   DELETE_USER_MUTATION,
 } from '@aqac/api';
 import { fontSizes, languages } from '@aqac/utils';
@@ -38,25 +38,25 @@ function Settings() {
   const router = useRouter();
   const selfSettings = data?.self.settings;
   const { setFontSize, setLanguage, setTheme } = useContext(MainContext);
-  const [updateNickname] = useMutation(UPDATE_NICKNAME_MUTATION, {
-    onCompleted: (payload) => {
-      setNewNickname('');
-      alertService.success('Votre pseudo a bien été modifié', {});
-      const result = cache.readQuery<any, void>({ query: SELF_QUERY });
-      const self = result?.self;
-      cache.writeQuery({
-        query: SELF_QUERY,
-        data: {
-          self: {
-            ...self,
-            nickname: payload.updateNickname.nickname,
-          },
-        },
-      });
-    },
-    onError: () => alertService.error('Une erreur est survenue lors de la modification de votre pseudo', {}),
-
-  });
+  // const [updateNickname] = useMutation(UPDATE_NICKNAME_MUTATION, {
+  //   onCompleted: (payload) => {
+  //     // setNewNickname('');
+  //     alertService.success('Votre pseudo a bien été modifié', {});
+  //     const result = cache.readQuery<any, void>({ query: SELF_QUERY });
+  //     const self = result?.self;
+  //     cache.writeQuery({
+  //       query: SELF_QUERY,
+  //       data: {
+  //         self: {
+  //           ...self,
+  //           nickname: payload.updateNickname.nickname,
+  //         },
+  //       },
+  //     });
+  //   },
+  //   onError: () => alertService.error('Une erreur est survenue lors
+  // de la modification de votre pseudo', {}),
+  // });
   const [passwordUpdateHandler] = useMutation(UPDATE_PASSWORD_MUTATION, {
     onCompleted: () => {
       alertService.success('Votre mot de passe a bien été modifié', {});
@@ -97,7 +97,7 @@ function Settings() {
       },
     },
   );
-  const [newNickname, setNewNickname] = useState<string>();
+  // const [newNickname, setNewNickname] = useState<string>();
   const [isUserDeletionTooltipVisible, setIsUserDeletionTooltipVisible] = useState<boolean>(false);
   const [updatePasswordParams, setUpdatePasswordParams] = useState<{
     actualPassword: string,
@@ -224,8 +224,11 @@ function Settings() {
         <Text color='inherit' h4>
           Modifier mon pseudo
         </Text>
-        <div className={styles.inputGroup} style={{ flexDirection: isMediumScreen ? 'column' : 'row', justifyContent: 'space-between' }}>
-          <Input value={newNickname} onChange={(e) => setNewNickname(e.target.value)} placeholder="Nouveau pseudonyme" />
+        <div className={styles.inputGroup} style={{ flexDirection: isMediumScreen
+           ? 'column' : 'row',
+         justifyContent: 'space-between' }}>
+          <Input value={newNickname} onChange={(e) => setNewNickname(e.target.value)}
+          placeholder="Nouveau pseudonyme" />
           <Button
             onClick={() => {
               if (newNickname && newNickname.length >= 4) {

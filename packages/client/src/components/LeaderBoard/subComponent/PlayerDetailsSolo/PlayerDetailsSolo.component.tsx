@@ -1,5 +1,6 @@
+/* eslint-disable max-len */
 import {
-  formatDate, formatDateToLeaderboard, ScoreType, topValue,
+  formatDate, ScoreType, topValue,
 } from '@aqac/utils';
 import {
   Card, Table, Text,

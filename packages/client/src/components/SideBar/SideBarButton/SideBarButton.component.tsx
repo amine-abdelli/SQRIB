@@ -12,7 +12,7 @@ function SideBarButton({
     <div className={styles.sideBarButton} onClick={onClick}>
       <li>
         <Icon style={{ paddingRight: '5px' }} icon={icon} />
-        <Text size={18} color='inherit' style={{ color: '#dfdad2'}}>{text}</Text>
+        <Text size={18} color='inherit' style={{ color: '#dfdad2' }}>{text}</Text>
       </li>
     </div>
   );

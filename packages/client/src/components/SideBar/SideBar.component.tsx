@@ -5,14 +5,14 @@ import {
   Game, Chart, Setting, Home, Logout, Login as LoginIcon, Document,
 } from 'react-iconly';
 import { BsKeyboard } from 'react-icons/bs';
+import { Text } from '@nextui-org/react';
+import { LOGOUT_MUTATION } from '@aqac/api';
+import { useRouter } from 'next/router';
+import { useMutation } from '@apollo/client';
 import styles from './SideBar.module.scss';
 import SideBarButton from './SideBarButton/SideBarButton.component';
 import { Routes } from '../../utils/enums/Routes.enum';
 import { useGetSelf } from '../../hooks/useGetSelf';
-import { Button, Modal, Text } from '@nextui-org/react';
-import { LOGOUT_MUTATION } from '@aqac/api';
-import { useMutation } from '@apollo/client';
-import { useRouter } from 'next/router';
 import Login from '../Login/Login.component';
 import Signup from '../Signup/Signup.component';
 import { ModalType } from '../Login/Login.props';
@@ -20,14 +20,14 @@ import { useWindowSize } from '../../hooks/useWindowSize';
 
 function SideBar() {
   const { isLoggedIn } = useGetSelf();
-  const [shouldOpenModal, setShouldOpenModal] = useState(false)
+  const [shouldOpenModal, setShouldOpenModal] = useState(false);
   const [modalType, setModalType] = useState<ModalType | null>();
-  const router = useRouter()
+  const router = useRouter();
   const [submitLogout] = useMutation(LOGOUT_MUTATION, {
     onCompleted: () => {
       router.push(Routes.HOME);
       window.location.reload();
-    }
+    },
   });
   const buttonStyle = { marginRight: '5px', color: '#dfdad2' };
   function onButtonClick(type: ModalType) {
@@ -66,14 +66,24 @@ function SideBar() {
       </ul>
       <ul style={{ width: '100%', margin: '0', color: 'inherit' }}>
         {isLoggedIn
-          ? (<SideBarButton icon={<Logout style={buttonStyle} size={20} />} onClick={() => submitLogout()} text="Logout" />)
-          : (<>
-            <SideBarButton icon={<LoginIcon style={buttonStyle} size={20} />} onClick={() => onButtonClick(ModalType.LOGIN)} text="Login" />
-            <SideBarButton icon={<Document style={buttonStyle} size={20} />} onClick={() => onButtonClick(ModalType.SIGNUP)} text="Signup" />
-          </>)}
+          ? (
+            <SideBarButton icon={<Logout style={buttonStyle} size={20} />} onClick={() => submitLogout()} text="Logout" />
+          )
+          : (
+            <>
+              <SideBarButton icon={<LoginIcon style={buttonStyle} size={20} />} onClick={() => onButtonClick(ModalType.LOGIN)} text="Login" />
+              <SideBarButton icon={<Document style={buttonStyle} size={20} />} onClick={() => onButtonClick(ModalType.SIGNUP)} text="Signup" />
+            </>
+          )}
       </ul>
-      <Login open={shouldOpenModal && modalType === ModalType.LOGIN} setOpen={setShouldOpenModal} />
-      <Signup open={shouldOpenModal && modalType === ModalType.SIGNUP} setOpen={setShouldOpenModal} />
+      <Login
+        open={shouldOpenModal && modalType === ModalType.LOGIN}
+        setOpen={setShouldOpenModal}
+      />
+      <Signup
+        open={shouldOpenModal && modalType === ModalType.SIGNUP}
+        setOpen={setShouldOpenModal}
+      />
     </div>
   );
 }

@@ -4,6 +4,7 @@ import React, {
 import { useApolloClient, useMutation } from '@apollo/client';
 import { ADD_NEW_SCORE_MUTATION, SELF_QUERY } from '@aqac/api';
 import { Game } from '@aqac/utils';
+import { Container } from '@nextui-org/react';
 import { Scoring } from '../src/components/Scoring/Scoring.component';
 import { Displayer } from '../src/components/Displayer/Displayer.component';
 import KeyBoard from '../src/components/KeyBoard/KeyBoard.component';
@@ -97,42 +98,44 @@ function Main() {
   } = createScoringObject(correctWords, computedWords);
 
   return (
-    <div
-      className='w100 flex flex-column justify-between'
-    >
-      <DisplayerHeader />
+    <Container>
       <div
-        className='flex align-center'
-        style={{ margin: '10px 0' }}
+        className='w100 flex flex-column justify-between'
       >
-        <Scoring
-          isTimeOut={isTimeOut}
-          computedWords={computedWords}
-          correctWords={correctWords}
-          mpm={mpm}
-          wrongWords={wrongWords}
-          points={points}
-          precision={precision}
-          wrongLetters={wrongLetters}
-          totalLetters={totalLetters}
-          correctLetters={correctLetters}
-          onSetFinish={onSetFinish}
-          startTimer={startTimer}
-        />
-        <RefreshButton disable={Boolean(computedWords.length && !startTimer)} />
+        <DisplayerHeader />
+        <div
+          className='flex align-center'
+          style={{ margin: '10px 0' }}
+        >
+          <Scoring
+            isTimeOut={isTimeOut}
+            computedWords={computedWords}
+            correctWords={correctWords}
+            mpm={mpm}
+            wrongWords={wrongWords}
+            points={points}
+            precision={precision}
+            wrongLetters={wrongLetters}
+            totalLetters={totalLetters}
+            correctLetters={correctLetters}
+            onSetFinish={onSetFinish}
+            startTimer={startTimer}
+          />
+          <RefreshButton disable={Boolean(computedWords.length && !startTimer)} />
+        </div>
+        <div className="flex justify-center">
+          <Displayer wordsStack={wordsStack} />
+        </div>
+        <div style={{ margin: '1rem 0' }}>
+          <Input
+            userInput={userInput}
+            setUserInput={setUserInput}
+            isTimeOut={isTimeOut}
+          />
+        </div>
+        <KeyBoard theme={theme} enable={startTimer && !isTimeOut} />
       </div>
-      <div className="flex justify-center">
-        <Displayer wordsStack={wordsStack} />
-      </div>
-      <div style={{ margin: '1rem 0' }}>
-        <Input
-          userInput={userInput}
-          setUserInput={setUserInput}
-          isTimeOut={isTimeOut}
-        />
-      </div>
-      <KeyBoard theme={theme} enable={startTimer && !isTimeOut} />
-    </div>
+    </Container>
   );
 }
 export default Main;

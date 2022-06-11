@@ -7,7 +7,7 @@ import {
 } from '@apollo/client';
 import { alphabet, DEFAULT_LEVEL } from '@aqac/utils';
 import { DIDACTICIEL_WORDSET_QUERY, SELF_QUERY, UPDATE_LEVEL_MUTATION } from '@aqac/api';
-import { Button, Spacer } from '@nextui-org/react';
+import { Button, Container, Spacer } from '@nextui-org/react';
 import { ArrowLeftSquare } from 'react-iconly';
 import { Displayer } from '../src/components/Displayer/Displayer.component';
 import Input from '../src/components/Input/Input.component';
@@ -40,7 +40,6 @@ function Didacticiel() {
     { loading }] = useLazyQuery(DIDACTICIEL_WORDSET_QUERY, {
     onCompleted: ({ findOneSet }) => {
       setMarkovChain(findOneSet);
-      console.log('lol', findOneSet)
       cache.writeQuery({
         query: DIDACTICIEL_WORDSET_QUERY,
         data: {
@@ -93,7 +92,7 @@ function Didacticiel() {
   }, [userInput]);
 
   return (
-    <div>
+    <Container>
       <h1>Didacticiel</h1>
       <p className='m0'>
         Vitesse moyenne de frappe :
@@ -129,7 +128,7 @@ function Didacticiel() {
       />
       <Spacer />
       <KeyBoard theme={theme} enable />
-    </div>
+    </Container>
   );
 }
 

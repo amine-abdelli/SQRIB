@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import { useMutation } from '@apollo/client';
 import { SIGNUP_MUTATION } from '@aqac/api';
-import { Input, Button, Spacer, Modal } from '@nextui-org/react';
+import {
+  Input, Button, Spacer, Modal,
+} from '@nextui-org/react';
 import { alertService } from '../../../services';
 import { onFormChange } from '../../utils/form';
 import { LoginProps } from '../Login/Login.props';
@@ -14,7 +16,7 @@ function Signup({ open, setOpen }: LoginProps) {
         window.location.reload();
       }, 2000);
     },
-    onError: (error) => {
+    onError: () => {
       alertService.success('Une erreur est survenue lors de la création de votre compte', {});
     },
   });

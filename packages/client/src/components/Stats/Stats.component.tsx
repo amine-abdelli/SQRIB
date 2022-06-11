@@ -2,7 +2,7 @@ import React, { useContext, useState } from 'react';
 import Image from 'next/image';
 import { Divider } from '@blueprintjs/core';
 import {
-  Button, Modal, Text, Tooltip,
+  Button, Text, Tooltip,
 } from '@nextui-org/react';
 import { topValue } from '@aqac/utils';
 import { InfoCircle } from 'react-iconly';
@@ -123,38 +123,33 @@ function Stats({
           {isLoggedIn ? 'SAUVEGARDER' : 'CONTINUER'}
         </Button>
         {isLoggedIn && (
-        <Button
-          onClick={() => {
-            setShowStatsModal(false);
-            onRestart();
-          }}
-          light
-          className='w100'
-          color="primary"
-        >
-          Continuer sans sauvegarder
-        </Button>
+          <Button
+            onClick={() => {
+              setShowStatsModal(false);
+              onRestart();
+            }}
+            light
+            className='w100'
+            color="primary"
+          >
+            Continuer sans sauvegarder
+          </Button>
         )}
         {!isLoggedIn && (
-        <Button
-          onClick={() => setShouldOpenSignup(true)}
-          light
-          className='w100'
-          color="primary"
-        >
-          Se créer un compte
-        </Button>
+          <Button
+            onClick={() => setShouldOpenSignup(true)}
+            light
+            className='w100'
+            color="primary"
+          >
+            Se créer un compte
+          </Button>
         )}
       </div>
-      <Modal
-        closeButton
-        className='p2r'
+      <Signup
         open={shouldOpenSignup}
-        onClose={() => setShouldOpenSignup(false)}
-        blur
-      >
-        <Signup />
-      </Modal>
+        setOpen={setShouldOpenSignup}
+      />
     </div>
   );
 }

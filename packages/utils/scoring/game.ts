@@ -17,11 +17,11 @@ export function createPodium(game: GameType) {
 }
 
 // Check if a score is from a multiplayer game
-export function isMulti(score: ScoreType) {
+export function isMulti(score: ScoreType | any) {
   return score.type === Game.MULTI;
 }
 
 // Check if a score is from a solo game
-export function isSolo(score: ScoreType) {
+export function isSolo(score: ScoreType | any) {
   return score.type === Game.SOLO;
 }

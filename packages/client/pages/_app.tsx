@@ -13,7 +13,6 @@ import SideBar from '../src/components/SideBar/SideBar.component';
 import { ITheme, themes } from '../styles/theme';
 import '../styles/sass/globals.scss';
 import styles from '../styles/sass/pages/_app.module.scss';
-import { Position } from '../src/utils/enums/Direction.enum';
 import { GameOptions } from '../src/utils/mode';
 import { GameMode } from '../src/utils/enums/Mode.enum';
 import { MainContext } from '../src/context/MainContext';

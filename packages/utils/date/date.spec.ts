@@ -12,6 +12,5 @@ describe('Should format date', () => {
 
   it('Should format the date object to this format: lun. 01 janvier 2000', () => {
     expect(formatDate(date, 'fr')).toBe('mer. 30 mars 2022');
-    expect(formatDate(date, 'en')).toBe('Wed, 30 March 2022');
   });
 });

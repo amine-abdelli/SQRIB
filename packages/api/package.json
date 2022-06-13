@@ -8,16 +8,20 @@
     "yarn": "yarn",
     "lint": "eslint **/**.ts",
     "build": "rm -rf ./dist/ && tsc",
-    "generate:types": "rm -rf ./types && apollo codegen:generate --endpoint=http://localhost:4000/graphql  --target=typescript --outputFlat=types --includes=./requests/**.ts"
+    "generate:types": "rm -rf ./types && apollo codegen:generate --endpoint=http://localhost:4000/graphql  --target=typescript --outputFlat=types --includes=./requests/**.ts",
+    "codegen": "graphql-codegen --config codegen.yml"
   },
   "dependencies": {
-    "@apollo/client": "^3.5.6",
     "@aqac/utils": "^1.0.0",
-    "graphql-codegen": "^0.4.0",
+    "@graphql-codegen/cli": "^2.6.2",
+    "graphql": "^16.5.0",
     "next-transpile-modules": "^9.0.0",
     "typescript": "^4.5.4"
   },
   "devDependencies": {
-    "typescript": "^4.5.4"
+    "typescript": "^4.5.4",
+    "@graphql-codegen/typescript": "2.5.1",
+    "@graphql-codegen/typescript-resolvers": "2.6.6",
+    "@graphql-codegen/cli": "2.6.2"
   }
 }

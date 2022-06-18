@@ -1,5 +1,7 @@
 import { GameType } from '@aqac/utils';
-import { Container, Modal, Text } from '@nextui-org/react';
+import {
+  Container, Modal, Spacer, Text,
+} from '@nextui-org/react';
 import { useRouter } from 'next/router';
 import React, {
   useContext,
@@ -85,7 +87,7 @@ function Room() {
    * See 'join-room' socket in the socket server http://localhost:4001
    */
   useEffect(() => {
-    socketRef.on('join-room', ({ wordSet: wordSetPayload, game: currentGame, isLegit }) => {
+    socketRef.on('join-room', ({ wordSet: wordSetPayload, game: currentGame }) => {
       // The room ID is checked on the socket server to make sure it's a legit token
       setWordSet(wordSetPayload);
       setGame(currentGame);
@@ -117,11 +119,6 @@ function Room() {
 
   return (
     <Container>
-      <h1>
-        Salut
-        {' '}
-        {username}
-      </h1>
       <Modal
         open={shouldDisplayUsernameInput}
         onClose={() => setShouldDisplayUsernameInput(false)}
@@ -141,6 +138,7 @@ function Room() {
         startGame={startGame}
         socket={socketRef}
       />
+      <Spacer />
       {username && game && socketRef.connected && (
         <GameRoom
           roomID={roomID}

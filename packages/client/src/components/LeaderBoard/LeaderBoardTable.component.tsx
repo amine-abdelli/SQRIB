@@ -13,7 +13,7 @@ import { Hide, Show } from 'react-iconly';
 import { useLazyQuery } from '@apollo/client';
 import { USER_GAME_DETAILS_QUERY } from '@aqac/api';
 import { LeaderBoardProps } from './LeaderBoard.props';
-import { suffixPosition } from '../../utils/numbers';
+import { suffixPosition } from '../../utils/numbers.utils';
 import crown_svg from '../../assets/Images/crown-solid.svg';
 import star_svg from '../../assets/Images/star-solid.svg';
 import { multiColumns, soloColumns } from './columns';

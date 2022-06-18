@@ -9,7 +9,7 @@ export interface IGameOptions {
   two: IGameOption
 }
 
-export const GameOptions: any = {
+export const GameOptions: Record<string, IGameOption> = {
   countdown: {
     timer: 60,
     stackLength: 400,

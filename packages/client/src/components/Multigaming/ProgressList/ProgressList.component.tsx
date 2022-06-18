@@ -1,6 +1,6 @@
 import { ClientType } from '@aqac/utils';
 import React from 'react';
-import { suffixPosition } from '../../../utils/numbers';
+import { suffixPosition } from '../../../utils/numbers.utils';
 import ProgressBar from '../../ProgressBar/ProgressBar.component';
 import { ProgressListProps } from './ProgressList.props';
 

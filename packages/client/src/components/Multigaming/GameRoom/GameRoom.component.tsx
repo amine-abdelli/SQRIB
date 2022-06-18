@@ -1,4 +1,4 @@
-import { Button } from '@nextui-org/react';
+import { Button, Spacer } from '@nextui-org/react';
 import React, { useContext, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { MainContext } from '../../../context/MainContext';
@@ -27,6 +27,7 @@ function GameRoom({
     wordIndex, setOffSet, setWordIndex,
     setComputedWords, setCorrectWords, correctWords, computedWords,
   } = useContext(MainContext);
+  // const [onGameSubmit] = useMutation(CREATE_GAME_MUTATION);
   const scoringObject = createScoringObject(correctWords, computedWords);
   const router = useRouter();
 
@@ -51,6 +52,11 @@ function GameRoom({
       game: currentGame,
       wordSet: newWordSet,
     }) => {
+      // onGameSubmit({
+      //   variables: {
+      //     game,
+      //   },
+      // });
       setGame(currentGame);
       setWordIndex(0);
       setComputedWords([]);
@@ -96,13 +102,14 @@ function GameRoom({
   }
 
   return (
-    <div>
+    <>
       <div className='flex justify-between'>
         <h3>{game.name}</h3>
         <Button auto onClick={handleLeave}>Quitter</Button>
       </div>
-      {`Bienvenue ${username}`}
+      <Spacer />
       <ProgressList data={clients} />
+      <Spacer />
       {socketRef.connected && wordSet && (
         <OnGame
           wordSet={wordSet}
@@ -111,7 +118,7 @@ function GameRoom({
           disabled={self?.status !== 'playing' || game?.status !== 'playing'}
         />
       )}
-    </div>
+    </>
   );
 }
 

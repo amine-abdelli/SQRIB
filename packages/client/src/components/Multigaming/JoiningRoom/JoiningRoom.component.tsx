@@ -2,6 +2,7 @@ import { Button, StyledSpacer } from '@nextui-org/react';
 import { useRouter } from 'next/router';
 import React from 'react';
 import { useGetSelf } from '../../../hooks/useGetSelf';
+import { Routes } from '../../../utils/enums';
 
 import RoomTable from '../RoomTable/RoomTable.component';
 import { JoiningRoomProps } from './JoiningRoom.props';
@@ -23,7 +24,7 @@ function JoiningRoom({
   function createGameRoom() {
     socket.emit('generate-room-id');
     socket.on('generate-room-id', ({ roomID: payload }) => {
-      router.push(`${ROOT_URL}/multigaming/${payload}`);
+      router.push(`${ROOT_URL}${Routes.MULTIGAMING}/${payload}`);
     });
   }
 

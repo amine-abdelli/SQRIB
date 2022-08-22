@@ -66,7 +66,7 @@ function Login({ open, setOpen }: LoginProps) {
           Welcome to
           {' '}
           <Text b size={18}>
-            AQAYC
+            SQRIB
           </Text>
         </Text>
       </Modal.Header>

@@ -6,7 +6,6 @@ const ENDPOINT = process.env.SOCKET_URL || 'ws://localhost:4001';
 const socket = io(ENDPOINT, {
   transports: ['websocket'],
   autoConnect: false,
-  withCredentials: true,
 });
 
 export const SocketContext = createContext<{socket: Socket}>({} as any);

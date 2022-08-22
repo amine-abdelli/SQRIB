@@ -8,13 +8,11 @@ import {
   GameType, log, SetType,
 } from '@aqac/utils';
 import { v4 } from 'uuid';
-import { Database_manager } from '@aqac/db';
 import { Services } from './services/services';
 import { GameStatus } from './utils/constants';
-import { emitGameStatus } from './utils/status';
+import { emitGameStatus } from './services/status';
 
 dotenv.config();
-const db = new Database_manager();
 
 const app = express();
 app.use(cors());
@@ -60,11 +58,11 @@ io.on('connection', (socket: Socket) => {
      * users are allow to play again
      */
     if (GAMES[roomID]?.wordAmount === wordIndex && GAMES[roomID]?.status === 'playing') {
-      const savedGame = await Services.saveGame(db, GAMES[roomID], roomID);
+      const savedGame = await Services.saveGame(GAMES[roomID], roomID);
       Services.stopTimer(roomID);
 
       if (savedGame.message) {
-        const scores = await Services.getScoresData(db);
+        const scores = await Services.getScoresData();
         io.emit('get-global-game-data', scores);
       }
       GAMES = Services.updateGameStatus(GameStatus.FINISHED, GAMES, roomID);
@@ -202,14 +200,14 @@ io.on('connection', (socket: Socket) => {
    */
   socket.on('get-global-game-data', async () => {
     log.info('Fetching scores data');
-    const scores = await Services.getScoresData(db);
+    const scores = await Services.getScoresData();
     io.emit('get-global-game-data', scores);
   });
   /**
    * Update leader board on save
    */
   socket.on('update-leader-board', async () => {
-    const scores = await Services.getScoresData(db);
+    const scores = await Services.getScoresData();
     io.emit('get-global-game-data', scores);
   });
 });

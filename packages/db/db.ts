@@ -1,4 +1,6 @@
-import { PrismaClient } from '@prisma/client';
+import {
+  Game, Player, PrismaClient, Score,
+} from '@prisma/client';
 
 export class Database_manager {
   db: PrismaClient;
@@ -16,7 +18,7 @@ export class Database_manager {
     return this.db.game.findMany();
   }
 
-  async createOneScore(args: any) {
+  async createOneScore(args: Score) {
     return this.db.score.create({
       data: {
         ...args,
@@ -24,13 +26,13 @@ export class Database_manager {
     });
   }
 
-  async createOneGame(args: any) {
+  async createOneGame(args: Game) {
     return this.db.game.create({
       data: args,
     });
   }
 
-  async createOnePlayer(args: any) {
+  async createOnePlayer(args: Player) {
     return this.db.player.create({
       data: args,
     });

@@ -1,7 +1,7 @@
 /* eslint-disable no-prototype-builtins */
 /* eslint-disable no-param-reassign */
 
-export const databasebase = `agnès alain albert alexandre annabelle anne
+export const dictionnary = `agnès alain albert alexandre annabelle anne
   baptiste béatrice benoit carl caroline cécile
   christine christophe emmanuel emmanuelle emilie
   éric eve frédéric gaspard henri henriette

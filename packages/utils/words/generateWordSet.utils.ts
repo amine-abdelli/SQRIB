@@ -34,11 +34,13 @@ function setGenerator(array: string[]): any {
   const medium: string[] = array.filter((
     word: string,
   ) => word.length <= 10 && !word.match(specialCharacterRegex));
-  const hard: string[] = array.filter((word: string) => word.length > 5);
+  const hard: string[] = array.filter(
+    (word: string) => word.length > 5 && word.match(specialCharacterRegex),
+  );
 
   const easySet: string[] = shuffleWordSet(easy, 270); // No accent <= 5
-  const mediumSet: string[] = shuffleWordSet(medium, 104); // less 5 word with accent per set
-  const hardSet: string[] = shuffleWordSet(hard, 26); // More than 5 character with accent
+  const mediumSet: string[] = shuffleWordSet(medium, 104); // Less than 10 letters with accent/word
+  const hardSet: string[] = shuffleWordSet(hard, 26); // At least 5 character with accent
   return [...easySet, ...mediumSet, ...hardSet];
 }
 

@@ -9,10 +9,12 @@ import {
 } from '@aqac/utils';
 import { Server, Socket } from 'socket.io';
 import { v4 } from 'uuid';
+import { Repositories } from '../repositories/repositories';
+import { colorGenerator } from '../utils/colorGen';
+import { assignUserToARoomArgs, CreateRoomArgs, updateRoomArgs } from '../types';
 import { GameStatus } from '../utils/constants';
-import { initNewGameRoom, assignUserToARoom, updateRoom } from '../GameController';
 
-let TIMERS: Record<string, {
+const TIMERS: Record<string, {
   time: number
   interval: ReturnType<typeof setInterval>
 }> = {};
@@ -21,12 +23,12 @@ export const Services = {
   /**
    *  Remove user from global object
    */
-  disconnect: (
+  disconnect(
     games: Record<string, GameType>,
     LEGIT_TOKENS: string[],
     socket: Socket,
     io: Server,
-  ) => {
+  ) {
     for (const aGame of Object.values(games)) {
       if (aGame.clients[socket.id]) {
         // if user is the host, attribute this status to someone else
@@ -57,13 +59,13 @@ export const Services = {
   /**
    * Handle users progression
    */
-  progression: (
+  progression(
     games: Record<string, GameType>,
     roomID: string,
     wordIndex: number,
     socket: Socket,
     scoringObject: scoringObjectType,
-  ) => {
+  ) {
     const updatedGames = {
       ...games,
       [roomID]: {
@@ -85,15 +87,15 @@ export const Services = {
   /**
    * Put user into a game's clients key to join him in
    */
-  joinRoom: (
+  joinRoom(
     games: Record<string, GameType>,
     roomID: string,
     username: string,
     userId: string | null,
     socket: Socket,
-  ) => {
+  ) {
     if (!games[roomID].clients[socket.id]) {
-      const updatedGames = assignUserToARoom({
+      const updatedGames = this.assignUserToARoom({
         games, roomID, username, userId, socket,
       });
       return updatedGames;
@@ -103,7 +105,7 @@ export const Services = {
   /**
    * Add a new game to the global object
    */
-  createRoom: (
+  createRoom(
     games: Record<string, GameType>,
     roomID: string,
     gameParameters: Record<string, number | string | Languages | any>,
@@ -111,21 +113,21 @@ export const Services = {
     username: string,
     userId: string | null,
     socket: Socket,
-  ) => {
+  ) {
     const { language, wordAmount, name } = gameParameters;
-    const { updatedGameObject, updatedSetObject } = initNewGameRoom({
+    const { updatedGameObject, updatedSetObject } = this.initNewGameRoom({
       games, roomID, sets, clientID: socket.id, username, userId, language, wordAmount, name,
     });
     return { updatedGameObject, updatedSetObject };
   },
-  updateRoomWithNewParameters: (
+  updateRoomWithNewParameters(
     games: Record<string, GameType>,
     roomID: string,
     gameParameters: Record<string, number | string | Languages | any>,
     sets: Record<string, SetType>,
-  ) => {
+  ) {
     const { language, wordAmount, name } = gameParameters;
-    const { updatedGameObject, updatedSetObject } = updateRoom({
+    const { updatedGameObject, updatedSetObject } = this.updateRoom({
       games, roomID, sets, language, wordAmount, name,
     });
     return { updatedGameObject, updatedSetObject };
@@ -133,12 +135,12 @@ export const Services = {
   /**
    * Handle user's win
    */
-  onWin: (
+  onWin(
     games: Record<string, GameType>,
     sets: Record<string, SetType>,
     roomID: string,
     io: Socket,
-  ) => {
+  ) {
     const updatedGameObject = games;
     const updatedSetObject = sets;
     // Reset players scores to zero
@@ -170,7 +172,7 @@ export const Services = {
   /**
     * Send the list of rooms with their details
    */
-  roomList: (games: Record<string, GameType>) => {
+  roomList(games: Record<string, GameType>) {
     const roomList = Object.values(games).map(({
       id, language, wordAmount, clients, name,
     }: GameType) => ({
@@ -183,11 +185,11 @@ export const Services = {
     }));
     return roomList;
   },
-  updateGameStatus: (
+  updateGameStatus(
     status: GameStatus,
     games: Record<string, GameType>,
     roomID: string,
-  ) => {
+  ) {
     /**
      * Mettre le joueur en waiting par défault.
      * Si le joueur arrive dans la partie et que la partie est en cours, maintenir son status
@@ -207,7 +209,7 @@ export const Services = {
     };
     return updatedGames;
   },
-  updatePlayersStatus: (status: GameStatus, games: Record<string, GameType>, roomID: string) => {
+  updatePlayersStatus(status: GameStatus, games: Record<string, GameType>, roomID: string) {
     const newGameObject: Record<string, GameType> = games;
     for (const aClient of Object.values(games[roomID]?.clients)) {
       if (aClient.status) {
@@ -216,7 +218,7 @@ export const Services = {
     }
     return newGameObject;
   },
-  emitRoomList: (io: Socket, games: Record<string, GameType>) => {
+  emitRoomList(io: Socket, games: Record<string, GameType>) {
     const roomList = Services.roomList(games);
     io.emit('room-list', roomList);
   },
@@ -224,17 +226,15 @@ export const Services = {
    * Init and start the timer in the global TIMERS object
    * @param roomID Room ID
    */
-  startTimer: (roomID: string) => {
+  startTimer(roomID: string) {
     // Init room timer at 0 by default
-    TIMERS = {
-      ...TIMERS,
-      [roomID]: {
-        ...TIMERS[roomID],
-        time: 0,
-      },
+    TIMERS[roomID] = {
+      ...TIMERS[roomID],
+      time: 0,
     };
+
     TIMERS[roomID].interval = setInterval(() => {
-      // This check avoid failure if user leave the game
+      // This check avoid failure if all users leave the game
       if (TIMERS[roomID]?.time >= 0) {
         TIMERS[roomID].time += 1;
       }
@@ -244,26 +244,26 @@ export const Services = {
    * Stop the timer and delete it from the global TIMERS object
    * @param roomID Room ID
    */
-  stopTimer: (roomID: string) => {
+  stopTimer(roomID: string) {
     clearInterval(TIMERS[roomID].interval);
     delete TIMERS[roomID];
   },
   // Database related actions
-  getScoresData: async (db: any) => {
-    const scores = await db.findManyScores();
-    const games = await db.findManyGames();
+  async getScoresData() {
+    const scores = await Repositories.findManyScores();
+    const games = await Repositories.findManyGames();
     const multiplayerScores = scores.filter(isMulti);
     const scoresInSolo = scores.filter(isSolo);
     const multiplayerGroupedScores = groupScoresByLanguageAndHighestScores(multiplayerScores);
     const scoresInSoloGroupedScores = groupScoresByLanguageAndHighestScores(scoresInSolo);
     return { solo: scoresInSoloGroupedScores, multi: multiplayerGroupedScores, games };
   },
-  saveGame: async (db: any, game: GameType, roomID: string) => {
+  async saveGame(game: GameType, roomID: string) {
     try {
       const timer = TIMERS[roomID]?.time;
       const { username } = createPodium(game).podium[0];
       // Create Game
-      const gamePayload = await db.createOneGame({
+      const gamePayload = await Repositories.createOneGame({
         id: v4(),
         host: Object.values(game.clients).find(({ host }) => host)?.username,
         name: game.name,
@@ -282,7 +282,7 @@ export const Services = {
         .filter((aClient) => aClient.status !== 'staging')
         .map(async (aClient) => {
           // Create score
-          const score = await db.createOneScore({
+          const score = await Repositories.createOneScore({
             type: Game.MULTI,
             // Normalize score to 1 minute as we're talking about word per minut (mpm/wpm)
             mpm: Math.round(((aClient?.mpm || 0) / timer) * 60),
@@ -305,7 +305,7 @@ export const Services = {
           }
 
           // Create player
-          const player = await db.createOnePlayer({
+          const player = await Repositories.createOnePlayer({
             user_id: aClient?.userId,
             name: aClient?.username,
             game_id: gamePayload.id,
@@ -320,5 +320,95 @@ export const Services = {
       log.error('An error occured while adding a new score');
     }
     return { message: 'Game created successfully' };
+  },
+  assignUserToARoom({
+    games, roomID, username, userId, socket,
+  }: assignUserToARoomArgs) {
+    const updatedGames = {
+      ...games,
+      [roomID]: {
+        ...games[roomID],
+        clients: {
+          ...games[roomID]?.clients,
+          [socket.id]: {
+            id: socket.id,
+            userId: userId || null,
+            username,
+            wordIndex: 0,
+            color: colorGenerator(),
+            status: GameStatus.STAGING,
+            host: false,
+            wrongWords: 0,
+            correctLetters: 0,
+            totalLetters: 0,
+            wrongLetters: 0,
+            precision: 0,
+            points: 0,
+            mpm: 0,
+          },
+        },
+      },
+    };
+    return updatedGames;
+  },
+  updateRoom({
+    games, sets, roomID, language = Languages.FR, wordAmount = 60, name,
+  }: updateRoomArgs) {
+    let updatedGameObject = games;
+    const updatedSetObject = sets;
+    const setID = v4();
+    updatedSetObject[setID] = generateWordSet(language, wordAmount);
+    updatedGameObject = {
+      ...games,
+      [roomID]: {
+        ...games[roomID],
+        language,
+        wordAmount,
+        setID,
+        name,
+      },
+    };
+    return { updatedGameObject, updatedSetObject };
+  },
+  initNewGameRoom({
+    games, sets, roomID, clientID, username, userId, language = Languages.FR, wordAmount = 60, name,
+  }: CreateRoomArgs) {
+    let updatedGameObject = games;
+    const updatedSetObject = sets;
+    const setID = v4();
+    updatedSetObject[setID] = generateWordSet(language, wordAmount);
+    updatedGameObject = {
+      ...games,
+      [roomID]: {
+        id: roomID,
+        language,
+        wordAmount,
+        setID,
+        // ! Dodgy hot fix :'(
+        name: name?.replace('undefined', username) || '',
+        status: GameStatus.STAGING,
+        clients: {
+          [clientID]: {
+            id: clientID,
+            userId: userId || null,
+            username,
+            wordIndex: 0,
+            color: colorGenerator(),
+            status: GameStatus.STAGING,
+            host: true,
+            wordAmount,
+            wrongWords: 0,
+            correctLetters: 0,
+            totalLetters: 0,
+            wrongLetters: 0,
+            precision: 0,
+            points: 0,
+            mpm: 0,
+          },
+        },
+      },
+    };
+
+    return { updatedGameObject, updatedSetObject };
   },
 };

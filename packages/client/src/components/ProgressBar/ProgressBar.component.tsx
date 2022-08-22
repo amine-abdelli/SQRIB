@@ -1,12 +1,15 @@
-import React, { CSSProperties } from 'react';
+import React from 'react';
+import { ProgressBarProps } from './ProgressBar.props';
+import styles from './ProgressBar.style.scss';
 
 function ProgressBar({
   key, completed, color, style,
-}: { completed: number, color: string, key: string, style: CSSProperties }) {
+}: ProgressBarProps) {
   // Math.min is used to prevent the progress bar from going over 100%
   const progressWithMax = Math.min(completed, 100);
   return (
     <div
+      className={styles.progressBarWrapper}
       key={key}
       style={{
         ...style,

@@ -1,13 +1,19 @@
 import React, { useEffect, useState } from 'react';
+// import { alphabet } from '@aqac/utils';
+import { useRouter } from 'next/router';
 import { keyBoardLayout } from './keyBoardLayout';
 import { KeyBoardEnum } from './KeyBoard.enum';
 import styles from './KeyBoard.module.scss';
 import { translateKeyBoardCode } from './helpers/KeyBoard.helper';
+import { Routes } from '../../utils/enums';
+import { useLazyGetSelf } from '../../hooks/useLazyGetSelf';
+import { ITheme } from '../../../styles/theme';
 
-function KeyBoard({ enable, theme }: { enable: boolean, theme: any }) {
-  const [keyPressed, setKeyPressed] = useState<any>(0);
-
+function KeyBoard({ enable, theme }: { enable: boolean, theme: ITheme }) {
+  const [keyPressed, setKeyPressed] = useState<string>('');
+  const Router = useRouter();
   const keyBoardKeys: string[] = keyBoardLayout[KeyBoardEnum.DEFAULT_AZERTY];
+  const isDidacticiel = Router.pathname === Routes.DIDACTICIEL;
 
   useEffect(() => {
     function handleKeyDown(e: KeyboardEvent) {
@@ -24,12 +30,25 @@ function KeyBoard({ enable, theme }: { enable: boolean, theme: any }) {
     };
   }, []);
 
-  function expressKeyStyleProperty(e: any, pressedKey: any) {
+  const { querySelf } = useLazyGetSelf();
+  useEffect(() => {
+    if (isDidacticiel) {
+      querySelf();
+    }
+  }, []);
+  // Highlight keys to focus in didacticiel mode
+  // const highlightedKeys = alphabet.filter((_, i) => i <= 7);
+
+  function expressKeyStyleProperty(e: string, pressedKey: string) {
     if (e === 'Escape') {
       return theme?.tertiary;
-    } if (pressedKey === e) {
+    }
+    if (pressedKey === e) {
       return theme?.secondary;
     }
+    // if (!highlightedKeys.includes(e) && isDidacticiel) {
+    //   return '#A0A0A0';
+    // }
     return '';
   }
   return (

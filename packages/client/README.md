@@ -1,6 +1,6 @@
+## Getting Started
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
-## Getting Started
 # SQRIB
 This is a monorepo based on Yarn workspaces and turborepo. It contains several projects that work together to bring the sqrib project to life.
 

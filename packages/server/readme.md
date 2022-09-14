@@ -1,3 +1,5 @@
+You might need prisma installed globally and postgresql.
+
 ## Setting up your local env
 Create a `.env` file, with the following structure :
 ```bash

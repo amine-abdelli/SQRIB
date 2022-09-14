@@ -1,34 +1,59 @@
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Getting Started
+# SQRIB
+This is a monorepo based on Yarn workspaces and turborepo. It contains several projects that work together to bring the sqrib project to life.
 
-First, run the development server:
-
+## Setting up your local env
+Create a `.env.local` file, with the following structure :
 ```bash
-npm run dev
-# or
-yarn dev
+FRONTEND_URL=<your-localhost-frontend-url> # e.g: http://localhost:3000
+SOCKET_URL=<your-localhost-socket-url> # e.g: http://localhost:4001
+BACKEND_URL=<your-localhost-backend-url> # e.g: http://localhost:4000/graphql
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Available Scripts
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+In the project directory, you can run:
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+### `yarn start`
+Runs the app in the development mode.\
+Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+The page will reload if you make edits.\
+You will also see any lint errors in the console.
 
-## Learn More
+### `yarn test`
 
-To learn more about Next.js, take a look at the following resources:
+Launches the test runner in the interactive watch mode.\
+See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### `yarn build`
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+Builds the app for production to the `dist` folder or `.next` folder in the client package.\
+It correctly bundles React in production mode and optimizes the build for the best performance.
 
-## Deploy on Vercel
+The build is minified and the filenames include the hashes.\
+Your app is ready to be deployed!
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+## Best practices
+
+### General best practices
+- **Do not leave commented code in the codebase**, unless you have a specific reason for it. If you do, add a comment to explain why you left that commented code.
+- **Always translate** any text that is visible to the end user.
+
+### Commit naming
+We base our convetion on [conventionnal commits](https://www.conventionalcommits.org/en/v1.0.0-beta.2/).
+``` 
+type(Scope): add an imperative message
+```
+- Type is limited to :
+`feat, fix, chore, docs, style, refactor, perf, test`
+- Scope defines what is affected by your commit. It can be a component, a general feature, a technical aspect ... E.g: `chore(CI): improve pull request checks`, `docs(best practices): xxx`, `fix(authentication): properly redirect on logout`, `style(linter): apply linter recommendations` ...
+- The message must be imperative. Generally it starts with a verb. It should give a good description of what your commit does. Bad examples: `repairing stuff`, `foo`, `try something`, `qsdlkj`. Good examples : `remove unused functions`, `improve responsiveness`, ...
+
+This may seem a little strict, but it really helps understanding changes brought to the codebase, trust me 😉.
+
+If you struggle remembering how to format your commits, you can use [this extension](https://marketplace.visualstudio.com/items?itemName=vivaxy.vscode-conventional-commits).

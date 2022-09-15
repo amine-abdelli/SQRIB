@@ -37,4 +37,8 @@ export class Database_manager {
       data: args,
     });
   }
+
+  initPrismaClient() {
+    return this.db;
+  }
 }

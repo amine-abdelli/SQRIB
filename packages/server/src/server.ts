@@ -14,7 +14,7 @@ const app_socket = express();
 const socketServer = http.createServer(app_socket);
 const io = require('socket.io')(socketServer, {
   cors: {
-    origin: process.env.FRONTEND_URL,
+    origin: process.env.FRONTEND_URL || 'http://localhost:3000',
     methods: ['GET', 'POST'],
     credentials: true,
   },
@@ -34,6 +34,9 @@ async function startServer() {
   });
   await apolloServer.start();
   app.use(cookieParser());
+  if (process.env.NODE_ENV !== 'development') {
+    app.set('trust proxy', 1);
+  }
   apolloServer.applyMiddleware({
     app,
     cors: {

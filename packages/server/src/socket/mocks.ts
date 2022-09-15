@@ -2,7 +2,7 @@ import {
   GameType, generateWordSet, Languages, SetType,
 } from '@aqac/utils';
 import { v4 } from 'uuid';
-import { colorGenerator } from './services/colorGen';
+import { colorGenerator } from './utils/colorGen';
 import { GameStatus } from './utils/constants';
 
 function roomMocks(SETS: Record<string, SetType>, GAMES: Record<string, GameType>) {

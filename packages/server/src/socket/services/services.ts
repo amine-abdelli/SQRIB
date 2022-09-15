@@ -7,7 +7,7 @@ import {
   isSolo,
   Languages, log, scoringObjectType, SetType,
 } from '@aqac/utils';
-import { Server, Socket } from 'socket.io';
+import { Socket } from 'socket.io';
 import { v4 } from 'uuid';
 import { Repositories } from '../repositories/repositories';
 import { colorGenerator } from '../utils/colorGen';
@@ -27,7 +27,7 @@ export const Services = {
     games: Record<string, GameType>,
     LEGIT_TOKENS: string[],
     socket: Socket,
-    io: Server,
+    io: Socket,
   ) {
     for (const aGame of Object.values(games)) {
       if (aGame.clients[socket.id]) {

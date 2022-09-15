@@ -48,7 +48,7 @@ function PlayerDetailsSolo({ scores, details }: { scores: ScoreType[], details: 
         }}
         >
           <Text style={{ fontSize: isMediumScreen ? '10px' : '', textAlign: 'center' }}>Parties jouées</Text>
-          <Text style={{ textAlign: 'center' }}>{scores.length}</Text>
+          <Text style={{ textAlign: 'center' }}>{scores?.length}</Text>
         </Card>
         <Card style={{
           width: '12rem', display: 'inline-block', margin: '1rem 1rem 0 0', height: '4.5rem', flexBasis: isMediumScreen ? '45%' : '20%',

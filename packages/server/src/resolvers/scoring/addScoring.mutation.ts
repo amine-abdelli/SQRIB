@@ -19,7 +19,7 @@ export interface IAddScoring {
 
 export async function addScoring(parent: any, args: IAddScoring, context: Context) {
   log.info('Trying to add a new score', { userId: context.userId });
-  const score = await addScoringService(args, context);
+  const score = await addScoringService(args);
   if (!score) {
     log.error('Score could not be added');
     throw new ApolloError('Score could not be added !');

@@ -9,7 +9,9 @@ import {
 } from '@aqac/utils';
 import { Socket } from 'socket.io';
 import { v4 } from 'uuid';
-import { Repositories } from '../repositories/repositories';
+import {
+  createOneGame, createOnePlayer, createOneScore, findManyGames, findManyScores,
+} from '../../repositories';
 import { colorGenerator } from '../utils/colorGen';
 import { assignUserToARoomArgs, CreateRoomArgs, updateRoomArgs } from '../types';
 import { GameStatus } from '../utils/constants';
@@ -250,8 +252,8 @@ export const Services = {
   },
   // Database related actions
   async getScoresData() {
-    const scores = await Repositories.findManyScores();
-    const games = await Repositories.findManyGames();
+    const scores = await findManyScores();
+    const games = await findManyGames();
     const multiplayerScores = scores.filter(isMulti);
     const scoresInSolo = scores.filter(isSolo);
     const multiplayerGroupedScores = groupScoresByLanguageAndHighestScores(multiplayerScores);
@@ -263,7 +265,7 @@ export const Services = {
       const timer = TIMERS[roomID]?.time;
       const { username } = createPodium(game).podium[0];
       // Create Game
-      const gamePayload = await Repositories.createOneGame({
+      const gamePayload = await createOneGame({
         id: v4(),
         host: Object.values(game.clients).find(({ host }) => host)?.username,
         name: game.name,
@@ -282,7 +284,7 @@ export const Services = {
         .filter((aClient) => aClient.status !== 'staging')
         .map(async (aClient) => {
           // Create score
-          const score = await Repositories.createOneScore({
+          const score = await createOneScore({
             type: Game.MULTI,
             // Normalize score to 1 minute as we're talking about word per minut (mpm/wpm)
             mpm: Math.round(((aClient?.mpm || 0) / timer) * 60),
@@ -292,7 +294,7 @@ export const Services = {
             wrong_letters: aClient?.wrongLetters,
             precision: aClient?.precision,
             points: aClient?.points,
-            userId: aClient?.userId,
+            userId: aClient?.userId || null,
             gameId: gamePayload.id,
             username: aClient?.username,
             language: game?.language,
@@ -305,8 +307,8 @@ export const Services = {
           }
 
           // Create player
-          const player = await Repositories.createOnePlayer({
-            user_id: aClient?.userId,
+          const player = await createOnePlayer({
+            user_id: aClient?.userId || null,
             name: aClient?.username,
             game_id: gamePayload.id,
             score_id: score.id,

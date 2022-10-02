@@ -1,5 +1,5 @@
-import { PrismaClient } from '@prisma/client';
+import { prisma } from '../../client';
 
-export function findManyScores(prisma: PrismaClient) {
+export function findManyScores() {
   return prisma.score.findMany();
 }

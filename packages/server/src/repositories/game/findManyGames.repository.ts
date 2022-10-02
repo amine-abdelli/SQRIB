@@ -1,5 +1,5 @@
-import { PrismaClient } from '@prisma/client';
+import { prisma } from '../../client';
 
-export function findManyGames(prisma: PrismaClient) {
+export function findManyGames() {
   return prisma.game.findMany();
 }

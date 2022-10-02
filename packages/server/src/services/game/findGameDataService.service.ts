@@ -3,10 +3,9 @@ import {
 } from '@aqac/utils';
 import { ApolloError } from 'apollo-server-errors';
 import { findManyGames, findManyScores } from '../../repositories';
-import { Context } from '../../utils';
 
-export async function findGameDataService(context: Context) {
-  const scores = await findManyScores(context.prisma);
+export async function findGameDataService() {
+  const scores = await findManyScores();
   if (!scores) {
     log.error('Scores could not be found');
     throw new ApolloError('Scores could not be found');
@@ -15,7 +14,7 @@ export async function findGameDataService(context: Context) {
   const scoresInSolo = scores.filter(isSolo);
   const multiplayerGroupedScores = groupScoresByLanguageAndHighestScores(multiplayerScores);
   const scoresInSoloGroupedScores = groupScoresByLanguageAndHighestScores(scoresInSolo);
-  const games = await findManyGames(context.prisma);
+  const games = await findManyGames();
   if (!games) {
     log.error('Games could not be found');
     throw new ApolloError('Games could not be found');

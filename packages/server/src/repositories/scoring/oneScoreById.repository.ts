@@ -1,10 +1,7 @@
-import { Context } from '../../utils/context.utils';
+import { prisma } from '../../client';
 
-export function createOneScore(args: any, { prisma, userId }: Context) {
+export function createOneScore(args: any) {
   return prisma.score.create({
-    data: {
-      ...args,
-      userId: userId || null,
-    },
+    data: { ...args },
   });
 }

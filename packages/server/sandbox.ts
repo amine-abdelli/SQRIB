@@ -2,7 +2,8 @@ import { prisma } from './src/client';
 
 (async () => {
   try {
-    //
+    const users = await prisma.user.findMany();
+    console.log(users)
   } catch (e) {
     console.log('an error occurred', e);
   }

@@ -6,11 +6,9 @@ import { ApolloError } from 'apollo-server-errors';
 import { createOnePlayer } from '../../repositories/game/createOnePlayer.repository';
 import { createOneScore } from '../../repositories';
 import { createOneGame } from '../../repositories/game/createOneGame.repository';
-import { Context } from '../../utils';
 
 export async function addGameDetailsService(
   { game }: { game: GameType },
-  context: Context,
 ) {
   try {
     const { username } = createPodium(game).podium[0];
@@ -24,7 +22,7 @@ export async function addGameDetailsService(
       word_amount: game.wordAmount,
       player_length: Object.keys(game.clients).length,
       timer,
-    }, context.prisma);
+    });
 
     if (!gamePayload) {
       log.error('Game could not be created');
@@ -50,7 +48,7 @@ export async function addGameDetailsService(
           username: aClient?.username,
           language: game?.language,
           timer: timer || 0,
-        }, context);
+        });
 
         if (!score) {
           log.error('Score could not be created');
@@ -62,7 +60,7 @@ export async function addGameDetailsService(
           name: aClient?.username,
           game_id: gamePayload.id,
           score_id: score.id,
-        }, context.prisma);
+        });
         if (!player) {
           log.error('Player could not be created');
           throw new Error('Player could not be created');

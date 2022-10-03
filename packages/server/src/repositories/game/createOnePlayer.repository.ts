@@ -1,6 +1,6 @@
-import { PrismaClient } from '@prisma/client';
+import { prisma } from '../../client';
 
-export async function createOnePlayer(args: any, prisma: PrismaClient) {
+export async function createOnePlayer(args: any) {
   return prisma.player.create({
     data: args,
     select: {

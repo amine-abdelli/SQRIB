@@ -21,7 +21,8 @@ const io = require('socket.io')(socketServer, {
 });
 
 dotenv.config();
-const PORT: string | 4000 = process.env.PORT || 4000;
+const APOLLO_SERVER_PORT = process.env.APOLLO_SERVER_PORT || 4000;
+const SOCKET_SERVER_PORT = process.env.SOCKET_SERVER_PORT || 4001;
 
 async function startServer() {
   const app = express();
@@ -51,9 +52,9 @@ async function startServer() {
     res.send('Hello from express apollo server');
   });
 
-  app.listen(PORT, () => log.info(`Server is running on port ${PORT}`));
+  app.listen(APOLLO_SERVER_PORT, () => log.info(`Apollo server running on port ${APOLLO_SERVER_PORT}`));
   // Socket server
-  socketServer.listen(4001, () => log.info('listening on *:4001'));
+  socketServer.listen(SOCKET_SERVER_PORT, () => log.info(`Websocket server running on port ${process.env.SOCKET_SERVER_PORT}`));
 }
 
 startServer();

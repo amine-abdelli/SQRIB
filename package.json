@@ -4,8 +4,10 @@
   "scripts": {
     "start": "./node_modules/.bin/turbo run start",
     "start:prod": "./node_modules/.bin/turbo run start:prod",
-    "start:docker": "docker-compose --file docker-compose.dev.yml up --build",
-    "start:docker-prod": "docker-compose --file docker-compose.prod.yml up --build",
+    "start:docker": "docker compose --file docker-compose.dev.yml up",
+    "start:docker-prod": "docker compose --file docker-compose.prod.yml up",
+    "build:docker": "docker compose --file docker-compose.dev.yml build",
+    "build:docker-prod": "docker compose --file docker-compose.prod.yml build",
     "test": "./node_modules/.bin/turbo run test",
     "lint": "./node_modules/.bin/turbo run lint",
     "build": "./node_modules/.bin/turbo run build",

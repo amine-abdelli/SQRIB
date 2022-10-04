@@ -16,5 +16,6 @@ COPY . .
 
 # Install app dependencies
 RUN yarn
+RUN yarn build
 
-CMD ["yarn", "start"]
+CMD ["yarn", "start:prod"]

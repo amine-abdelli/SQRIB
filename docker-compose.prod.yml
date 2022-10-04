@@ -12,17 +12,16 @@ services:
     volumes:
       - ./sqrib_database/:/var/lib/postgresql/data
     restart: unless-stopped
-    
 
   #turborepo
   turbo:
     container_name: sqrib_monorepo
     build:
       context: .
-      dockerfile: dev.Dockerfile
+      dockerfile: prod.Dockerfile
     ports:
       - "3000:3000"
-      - "4002:4000"
+      - "4000:4000"
       - "4001:4001"
     env_file:
       - ./packages/server/.env

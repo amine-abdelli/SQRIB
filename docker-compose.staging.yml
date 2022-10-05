@@ -24,7 +24,6 @@ services:
       - "3000:3000"
       - "4000:4000"
       - "4001:4001"
-
     volumes:
       - ./:/app/
        # Just specify a path and let the Engine create a volume

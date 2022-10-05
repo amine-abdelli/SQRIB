@@ -36,7 +36,6 @@ jobs:
           script: |
             mkdir SQRIB -p
             cd SQRIB
-            git clone ${{ secrets.REPO_ADRESS }} . --branch main
             git fetch
             git pull origin main
             docker compose --file docker-compose.staging.yml stop

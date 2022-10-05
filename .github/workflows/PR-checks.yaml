@@ -54,9 +54,8 @@ jobs:
             mkdir ${{ steps.extract_branch.outputs.branch }} -p
             cd ${{ steps.extract_branch.outputs.branch }}
             git fetch
-            git clone ${{ secrets.REPO_ADRESS }} .
-            git pull origin main
-            git checkout ${{ steps.extract_branch.outputs.branch }}
+            git clone ${{ secrets.REPO_ADRESS }} . --branch ${{ steps.extract_branch.outputs.branch }}
+            git pull origin ${{ steps.extract_branch.outputs.branch }}
             docker compose --file docker-compose.staging.yml stop
             docker compose --file docker-compose.staging.yml rm -f
             docker compose --file docker-compose.staging.yml pull

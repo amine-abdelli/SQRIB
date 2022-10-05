@@ -2,7 +2,7 @@ name: PR-Checks
 
 on: 
   pull_request:
-    branches: [main]
+    branches: [staging]
 
 jobs:
   # pr-checks:
@@ -51,12 +51,24 @@ jobs:
           password: ${{ secrets.VPS_PASSWORD }}
           port: 22
           script: |
-            mkdir ${{ steps.extract_branch.outputs.branch }} -p
-            cd ${{ steps.extract_branch.outputs.branch }}
-            git clone ${{ secrets.REPO_ADRESS }} . --branch ${{ steps.extract_branch.outputs.branch }}
+            mkdir SQRIB-STAGING -p
+            cd SQRIB-STAGING
+            git clone ${{ secrets.REPO_ADRESS }} . --branch staging
             git fetch
-            git pull origin ${{ steps.extract_branch.outputs.branch }}
+            git pull origin staging
             docker compose --file docker-compose.staging.yml stop
             docker compose --file docker-compose.staging.yml rm -f
             docker compose --file docker-compose.staging.yml pull
             docker compose --file docker-compose.staging.yml up -d
+
+          # UNCOMMENT ONCE PR REVIEW IS READY TO BE SET UP
+          # script: |
+          #   mkdir ${{ steps.extract_branch.outputs.branch }} -p
+          #   cd ${{ steps.extract_branch.outputs.branch }}
+          #   git clone ${{ secrets.REPO_ADRESS }} . --branch ${{ steps.extract_branch.outputs.branch }}
+          #   git fetch
+          #   git pull origin ${{ steps.extract_branch.outputs.branch }}
+          #   docker compose --file docker-compose.staging.yml stop
+          #   docker compose --file docker-compose.staging.yml rm -f
+          #   docker compose --file docker-compose.staging.yml pull
+          #   docker compose --file docker-compose.staging.yml up -d

@@ -19,7 +19,7 @@ jobs:
           node-version: '14'
 
       - name: 'Build docker image and runs it'
-        run: yarn build:docker-prod
+        run: yarn docker:build-prod
 
   deploy:
     runs-on: ubuntu-latest

@@ -56,8 +56,8 @@ jobs:
             docker compose --file docker-compose.staging.yml stop
             docker compose --file docker-compose.staging.yml rm -f
             git fetch
-            git pull origin main
             git checkout ci/create-workflow-for-deployment
+            git pull origin ci/create-workflow-for-deployment
             docker compose --file docker-compose.staging.yml pull
             docker compose --file docker-compose.staging.yml up -d
 

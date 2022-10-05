@@ -58,7 +58,6 @@ jobs:
   #           git fetch
   #           git checkout ci/create-workflow-for-deployment
   #           git pull origin ci/create-workflow-for-deployment
-  #           docker compose --file docker-compose.staging.yml pull
   #           docker compose --file docker-compose.staging.yml up -d
 
           # UNCOMMENT ONCE PR REVIEW IS READY TO BE SET UP
@@ -70,5 +69,4 @@ jobs:
           #   git pull origin ${{ steps.extract_branch.outputs.branch }}
           #   docker compose --file docker-compose.staging.yml stop
           #   docker compose --file docker-compose.staging.yml rm -f
-          #   docker compose --file docker-compose.staging.yml pull
           #   docker compose --file docker-compose.staging.yml up -d

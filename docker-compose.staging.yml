@@ -1,0 +1,37 @@
+version: '3.9'
+services:
+  sqrib_database:
+    container_name: sqrib_database
+    image: postgres:14-alpine
+    ports:
+      - "5432:5432"
+    env_file:
+      - ./packages/server/.env #shared env file with strapi application 
+    environment:
+      POSTGRES_HOST_AUTH_METHOD: "trust"
+    volumes:
+      - ./sqrib_database/:/var/lib/postgresql/data
+    restart: unless-stopped
+
+  #turborepo
+  turbo:
+    container_name: sqrib_monorepo
+    build:
+      context: .
+      dockerfile: staging.Dockerfile
+    ports:
+      - "3000:3000"
+      - "4000:4000"
+      - "4001:4001"
+    env_file:
+      - ./packages/server/.env
+      - ./packages/client/.env.local
+    volumes:
+      - ./:/app/
+       # Just specify a path and let the Engine create a volume
+      - /app/node_modules/
+    restart: on-failure
+
+networks:
+  turbo-network:
+    driver: bridge

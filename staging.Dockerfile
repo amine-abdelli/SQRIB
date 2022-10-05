@@ -18,7 +18,5 @@ COPY . .
 RUN yarn
 # Build packages
 RUN yarn build
-# Allow docker to access modules
-RUN chown -R node /app/node_modules
 
 CMD ["yarn", "start:prod"]

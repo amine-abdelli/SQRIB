@@ -15,7 +15,8 @@ COPY  ["yarn.lock", "package.json", "./"]
 COPY . .
 
 # Install app dependencies
-RUN yarn
-RUN yarn build
+RUN npm install
+RUN chown -R node /app/node_modules
+RUN npm run build
 
-CMD ["yarn", "start:prod"]
+CMD ["npm", "run" , "start:prod"]

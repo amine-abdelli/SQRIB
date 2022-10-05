@@ -40,4 +40,4 @@ jobs:
             git pull origin main
             docker compose --file docker-compose.staging.yml stop
             docker compose --file docker-compose.staging.yml rm -f
-            docker compose --file docker-compose.staging.yml up -d
+            docker compose --file docker-compose.staging.yml up -d --build

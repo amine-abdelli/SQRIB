@@ -18,14 +18,8 @@ jobs:
         with:
           node-version: '14'
 
-      - name: 'Turbo run yarn'
-        run: yarn install
+      - name: 'Build docker image'
+        run: yarn docker:build-staging
 
-      - name: 'Turbo run lint'
-        run: yarn lint
-
-      - name: 'Turbo run test'
-        run: yarn test
-
-      - name: 'Turbo run build'
-        run: yarn build
+      - name: 'Run docker container'
+        run: yarn docker:start-staging

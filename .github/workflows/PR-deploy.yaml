@@ -17,9 +17,9 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: '14'
-
-      - name: 'Build docker image and runs it'
-        run: yarn docker:build-prod
+      # No .env for now
+      # - name: 'Build docker image and runs it'
+      #   run: yarn docker:build-prod
 
   deploy:
     runs-on: ubuntu-latest

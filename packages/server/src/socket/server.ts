@@ -1,4 +1,4 @@
-import { GameType, log, SetType } from '@aqac/utils';
+import { GameType, log, SetType } from '@sqrib/utils';
 import { Socket } from 'socket.io';
 import { v4 } from 'uuid';
 import { Services } from './services/services';

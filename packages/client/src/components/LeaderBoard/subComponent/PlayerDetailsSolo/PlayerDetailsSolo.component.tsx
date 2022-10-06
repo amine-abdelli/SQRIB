@@ -1,7 +1,7 @@
 /* eslint-disable max-len */
 import {
   formatDate, ScoreType, topValue,
-} from '@aqac/utils';
+} from '@sqrib/utils';
 import {
   Card, Table, Text,
 } from '@nextui-org/react';

@@ -1,5 +1,5 @@
 import { QueryHookOptions, useQuery } from '@apollo/client';
-import { SELF_QUERY } from '@aqac/api';
+import { SELF_QUERY } from '@sqrib/api';
 
 export function useGetSelf(options: QueryHookOptions = {}) {
   const { data, ...rest } = useQuery(SELF_QUERY, {

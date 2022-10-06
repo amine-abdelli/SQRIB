@@ -1,4 +1,4 @@
-import { createPodium } from '@aqac/utils';
+import { createPodium } from '@sqrib/utils';
 import { Modal, Spacer } from '@nextui-org/react';
 import React from 'react';
 import UserCard from './SubComponent/UserCard.component';

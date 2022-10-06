@@ -5,7 +5,7 @@ import React, {
 import type { AppProps } from 'next/app';
 import { ApolloProvider } from '@apollo/client';
 import { NextUIProvider } from '@nextui-org/react';
-import { generateWordSet, FontSizes, Languages } from '@aqac/utils';
+import { generateWordSet, FontSizes, Languages } from '@sqrib/utils';
 import { FocusStyleManager } from '@blueprintjs/core';
 import { useRouter } from 'next/dist/client/router';
 import Layout from '../src/components/Layout/Layout.component';

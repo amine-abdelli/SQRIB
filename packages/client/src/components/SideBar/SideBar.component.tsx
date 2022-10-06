@@ -6,7 +6,7 @@ import {
 } from 'react-iconly';
 import { BsKeyboard } from 'react-icons/bs';
 import { Text } from '@nextui-org/react';
-import { LOGOUT_MUTATION } from '@aqac/api';
+import { LOGOUT_MUTATION } from '@sqrib/api';
 import { useRouter } from 'next/router';
 import { useMutation } from '@apollo/client';
 import styles from './SideBar.module.scss';

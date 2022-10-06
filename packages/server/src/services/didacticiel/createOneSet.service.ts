@@ -1,5 +1,5 @@
 import { ApolloError } from 'apollo-server-errors';
-import { log, markovChainGenerator } from '@aqac/utils';
+import { log, markovChainGenerator } from '@sqrib/utils';
 import { createOneSet } from '../../repositories/didacticiel/createOneSet.repository';
 import { Context } from '../../utils/context.utils';
 

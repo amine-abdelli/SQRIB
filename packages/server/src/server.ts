@@ -2,7 +2,7 @@ import express from 'express';
 import { ApolloServer } from 'apollo-server-express';
 import dotenv from 'dotenv';
 import cookieParser from 'cookie-parser';
-import { log } from '@aqac/utils';
+import { log } from '@sqrib/utils';
 import cors from 'cors';
 import http from 'http';
 import resolvers from './resolvers';

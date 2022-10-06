@@ -1,5 +1,5 @@
 import { AuthenticationError } from 'apollo-server-errors';
-import { log } from '@aqac/utils';
+import { log } from '@sqrib/utils';
 import { Context } from '../../utils/context.utils';
 import { deleteOneUserById } from '../../repositories/auth';
 import { formatEmail, authenticateUser } from '../../utils/auth.utils';

@@ -1,4 +1,4 @@
-import { log } from '@aqac/utils';
+import { log } from '@sqrib/utils';
 import { ApolloError } from 'apollo-server-errors';
 import { addScoringService } from '../../services/scoring/addScoringService.service';
 import { Context } from '../../utils/context.utils';

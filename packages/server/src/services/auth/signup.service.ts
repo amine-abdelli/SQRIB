@@ -1,6 +1,6 @@
 import bcrypt from 'bcryptjs';
 import { AuthenticationError } from 'apollo-server-errors';
-import { log } from '@aqac/utils';
+import { log } from '@sqrib/utils';
 import { createSettings } from '../../repositories/settings/createSettings.repository';
 import { COOKIE_SETTINGS, formatEmail, createToken } from '../../utils/auth.utils';
 import { Context } from '../../utils/context.utils';

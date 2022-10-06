@@ -1,5 +1,5 @@
 {
-  "name": "@aqac/api",
+  "name": "@sqrib/api",
   "version": "1.0.0",
   "main": "index.ts",
   "author": "Amine Abdelli",
@@ -13,7 +13,7 @@
   },
   "dependencies": {
     "@apollo/client": "^3.6.8",
-    "@aqac/utils": "^1.0.0",
+    "@sqrib/utils": "^1.0.0",
     "@graphql-codegen/cli": "^2.6.2",
     "graphql": "^16.5.0",
     "next-transpile-modules": "^9.0.0",

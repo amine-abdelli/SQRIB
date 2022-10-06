@@ -1,4 +1,4 @@
-import { GameType } from '@aqac/utils';
+import { GameType } from '@sqrib/utils';
 import { Dispatch, SetStateAction } from 'react';
 import { Socket } from 'socket.io-client';
 

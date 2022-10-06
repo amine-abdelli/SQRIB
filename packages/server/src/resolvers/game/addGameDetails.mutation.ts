@@ -1,4 +1,4 @@
-import { log } from '@aqac/utils';
+import { log } from '@sqrib/utils';
 import { addGameDetailsService } from '../../services/game/addGameDetailsService.service';
 
 export async function addGameDetails(parent: any, args: any) {

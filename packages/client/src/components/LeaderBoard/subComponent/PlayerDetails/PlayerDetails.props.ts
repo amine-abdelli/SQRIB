@@ -1,4 +1,4 @@
-import { GameType, ScoreType } from '@aqac/utils';
+import { GameType, ScoreType } from '@sqrib/utils';
 
 export interface PlayerDetailsProps {
   data: {

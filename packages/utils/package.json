@@ -1,5 +1,5 @@
 {
-  "name": "@aqac/utils",
+  "name": "@sqrib/utils",
   "version": "1.0.0",
   "description": "Collection of generic tools",
   "main": "index.ts",

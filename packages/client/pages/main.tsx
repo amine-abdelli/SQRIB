@@ -2,8 +2,8 @@ import React, {
   useContext, useEffect, useRef,
 } from 'react';
 import { useApolloClient, useMutation } from '@apollo/client';
-import { ADD_NEW_SCORE_MUTATION, SELF_QUERY } from '@aqac/api';
-import { Game } from '@aqac/utils';
+import { ADD_NEW_SCORE_MUTATION, SELF_QUERY } from '@sqrib/api';
+import { Game } from '@sqrib/utils';
 import { Container } from '@nextui-org/react';
 import { Scoring } from '../src/components/Scoring/Scoring.component';
 import { Displayer } from '../src/components/Displayer/Displayer.component';

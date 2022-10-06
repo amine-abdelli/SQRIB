@@ -1,4 +1,4 @@
-import { FontSizes, Languages, log } from '@aqac/utils/';
+import { FontSizes, Languages, log } from '@sqrib/utils/';
 import { ApolloError } from 'apollo-server-errors';
 import { updateSettingsService } from '../../services/settings/updateSettings.service';
 import { Context } from '../../utils/context.utils';

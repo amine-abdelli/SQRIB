@@ -6,3 +6,4 @@ export * from './fontSizes';
 export * from './calendar';
 export * from './wordAmount';
 export * from './game';
+export * from './status';

@@ -6,6 +6,7 @@ import {
   isMulti,
   isSolo,
   Languages, log, scoringObjectType, SetType,
+  GameStatus,
 } from '@sqrib/utils';
 import { Socket } from 'socket.io';
 import { v4 } from 'uuid';
@@ -14,7 +15,6 @@ import {
 } from '../../repositories';
 import { colorGenerator } from '../utils/colorGen';
 import { assignUserToARoomArgs, CreateRoomArgs, updateRoomArgs } from '../types';
-import { GameStatus } from '../utils/constants';
 
 const TIMERS: Record<string, {
   time: number
@@ -183,7 +183,7 @@ export const Services = {
       players: games[id] && Object.values(games[id]?.clients).length,
       lang: language,
       wordAmount,
-      clients: Object.values(clients).map(({ username }) => username),
+      clients: Object?.values(clients).map(({ username }) => username),
     }));
     return roomList;
   },
@@ -228,7 +228,7 @@ export const Services = {
    * Init and start the timer in the global TIMERS object
    * @param roomID Room ID
    */
-  startTimer(roomID: string) {
+  startTimer(roomID: string, io: Socket) {
     // Init room timer at 0 by default
     TIMERS[roomID] = {
       ...TIMERS[roomID],
@@ -238,6 +238,8 @@ export const Services = {
     TIMERS[roomID].interval = setInterval(() => {
       // This check avoid failure if all users leave the game
       if (TIMERS[roomID]?.time >= 0) {
+        // emit timer to the frontend
+        io.to(roomID).emit('multiplayer-timer', TIMERS[roomID].time);
         TIMERS[roomID].time += 1;
       }
     }, 1000);

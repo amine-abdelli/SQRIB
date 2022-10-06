@@ -1,12 +1,14 @@
 import { Button, Spacer } from '@nextui-org/react';
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
+import { GameStatus } from '@sqrib/utils';
 import { MainContext } from '../../../context/MainContext';
 import OnGame from '../OnGame/OnGame.component';
 import ProgressList from '../ProgressList/ProgressList.component';
 import { GameRoomProps } from './GameRoom.props';
 import { createScoringObject } from '../../../utils/scoring.utils';
 import { Routes } from '../../../utils/enums';
+import { formatSecondsIntoTimer } from '../../../utils/timer.utils';
 
 function updateGameWithSortedClients(currentGame: any) {
   const sortedClients = currentGame?.clients && Object.entries(currentGame?.clients)
@@ -21,6 +23,7 @@ function GameRoom({
   roomID, username, game, wordSet, socketRef, isGameEnded, setGame,
   setWordSet, setCounter, setShouldDisplayFirstCounterModal,
 }: GameRoomProps) {
+  const [timer, setTimer] = useState(0);
   const clients = game?.clients && Object.values(game?.clients);
   const self = clients?.find(({ id }) => id === socketRef.id);
   const {
@@ -52,11 +55,6 @@ function GameRoom({
       game: currentGame,
       wordSet: newWordSet,
     }) => {
-      // onGameSubmit({
-      //   variables: {
-      //     game,
-      //   },
-      // });
       setGame(currentGame);
       setWordIndex(0);
       setComputedWords([]);
@@ -66,15 +64,15 @@ function GameRoom({
         setWordSet(newWordSet);
       }
     });
+    socketRef.on('multiplayer-timer', (serverTimer) => {
+      setTimer(serverTimer);
+    });
   }, [socketRef]);
 
   useEffect(() => {
     socketRef.on('hasBeenDisconnected', ({ game: currentGame }) => {
       const updatedGameWithSortedClients = updateGameWithSortedClients(currentGame);
       setGame(updatedGameWithSortedClients);
-    });
-    socketRef.on('gameFinished', () => {
-      console.log('gameFinished');
     });
 
     if (game?.status === 'playing') {
@@ -108,14 +106,15 @@ function GameRoom({
         <Button auto onClick={handleLeave}>Quitter</Button>
       </div>
       <Spacer />
+      <p>{formatSecondsIntoTimer(timer)}</p>
       <ProgressList data={clients} />
       <Spacer />
       {socketRef.connected && wordSet && (
         <OnGame
           wordSet={wordSet}
-          isGameEnded={game?.status === 'finished' || game?.status === 'staging'}
-          isAllow={self?.status === 'playing' && game?.status === 'playing'}
-          disabled={self?.status !== 'playing' || game?.status !== 'playing'}
+          isGameEnded={game?.status === GameStatus.FINISHED || game?.status === GameStatus.STAGING}
+          isAllow={self?.status === GameStatus.PLAYING && game?.status === GameStatus.PLAYING}
+          disabled={self?.status !== GameStatus.PLAYING || game?.status !== GameStatus.PLAYING}
         />
       )}
     </>

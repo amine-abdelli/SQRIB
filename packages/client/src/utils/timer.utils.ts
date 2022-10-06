@@ -6,4 +6,9 @@ function formatTimerParameters({ timerMinutes, timerSeconds }: ICountUpValues) {
   return `0${timerMinutes}:${timerSeconds < 10 ? `0${timerSeconds}` : timerSeconds}`;
 }
 
-export { formatTimerParameters };
+function formatSecondsIntoTimer(timer: number) {
+  const timerMinutes = Math.floor(timer / 60);
+  const timerSeconds = Math.floor(timer % 60);
+  return formatTimerParameters({ timerMinutes, timerSeconds });
+}
+export { formatTimerParameters, formatSecondsIntoTimer };

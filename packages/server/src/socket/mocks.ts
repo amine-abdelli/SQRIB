@@ -1,9 +1,8 @@
 import {
-  GameType, generateWordSet, Languages, SetType,
+  GameType, generateWordSet, Languages, SetType, GameStatus,
 } from '@sqrib/utils';
 import { v4 } from 'uuid';
 import { colorGenerator } from './utils/colorGen';
-import { GameStatus } from './utils/constants';
 
 function roomMocks(SETS: Record<string, SetType>, GAMES: Record<string, GameType>) {
   const updatedSetObject = SETS;

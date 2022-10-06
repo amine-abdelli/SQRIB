@@ -1,9 +1,11 @@
-import { GameType, log, SetType } from '@sqrib/utils';
+import {
+  GameType, hasEveryPlayerEnded, log, SetType,
+  GameStatus,
+} from '@sqrib/utils';
 import { Socket } from 'socket.io';
 import { v4 } from 'uuid';
 import { Services } from './services/services';
 import { emitGameStatus } from './services/status';
-import { GameStatus } from './utils/constants';
 
 export function initializeSocket(io: Socket) {
   /* Global Games & Sets objects */
@@ -24,17 +26,17 @@ export function initializeSocket(io: Socket) {
      * Update user's progression and handle users win
      */
     socket.on('progression', async ({ roomID, wordIndex, scoringObject }) => {
-      if (GAMES[roomID]?.status !== 'staging') {
+      if (GAMES[roomID]?.status !== GameStatus.STAGING) {
         GAMES = Services.progression(GAMES, roomID, wordIndex, socket, scoringObject);
         io.to(roomID).emit('progression', { game: GAMES[roomID] });
       }
       /**
-       * If a user win, timer stops and the game status change to 'finished'.
-       * Users wordIndexes are set to 0 et and a new set of words is generated.
+       * If every player has ended the game, timer stops and the game status change to 'finished'.
+       * Users wordIndexes are set back to 0 et and a new set of words is generated.
        * after 5 seconds, the game status change to 'playing' and
        * users are allow to play again
        */
-      if (GAMES[roomID]?.wordAmount === wordIndex && GAMES[roomID]?.status === 'playing') {
+      if (hasEveryPlayerEnded(GAMES[roomID]) && GAMES[roomID]?.status === GameStatus.PLAYING) {
         const savedGame = await Services.saveGame(GAMES[roomID], roomID);
         Services.stopTimer(roomID);
 
@@ -59,7 +61,7 @@ export function initializeSocket(io: Socket) {
             GAMES = Services.updateGameStatus(GameStatus.PLAYING, transitionalObject, roomID);
             emitGameStatus(GAMES, roomID, io);
             io.to(roomID).emit('on-win', { game: GAMES[roomID] });
-            Services.startTimer(roomID);
+            Services.startTimer(roomID, io);
             counter = 6;
           }
         }, 1000);
@@ -167,7 +169,7 @@ export function initializeSocket(io: Socket) {
           // Send the updated game to the client with latest game data
           io.to(roomID).emit('start-game', { game: GAMES[roomID] });
           // start timer
-          Services.startTimer(roomID);
+          Services.startTimer(roomID, io);
         }
       }, 1000);
     });

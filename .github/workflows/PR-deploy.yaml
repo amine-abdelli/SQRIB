@@ -41,4 +41,5 @@ jobs:
             docker system prune -f --volumes
             docker compose --file docker-compose.staging.yml stop
             docker compose --file docker-compose.staging.yml rm -f
-            docker compose --file docker-compose.staging.yml up -d --build
+            docker compose --file docker-compose.staging.yml build
+            docker compose --file docker-compose.staging.yml up

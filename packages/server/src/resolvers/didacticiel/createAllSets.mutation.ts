@@ -1,4 +1,4 @@
-import { alphabet, log } from '@aqac/utils';
+import { alphabet, log } from '@sqrib/utils';
 import { ApolloError } from 'apollo-server-errors';
 import { createOneSetService } from '../../services/didacticiel/createOneSet.service';
 import { Context } from '../../utils/context.utils';

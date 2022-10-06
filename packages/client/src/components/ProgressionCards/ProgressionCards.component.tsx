@@ -1,5 +1,5 @@
 import React from 'react';
-import { alphabet } from '@aqac/utils';
+import { alphabet } from '@sqrib/utils';
 import Letter from '../Letter/Letter.component';
 import { useWindowSize } from '../../hooks/useWindowSize';
 

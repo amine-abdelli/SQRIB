@@ -1,4 +1,4 @@
-import { log } from '@aqac/utils';
+import { log } from '@sqrib/utils';
 import { updateLevelService } from '../../services/didacticiel/updateLevelService.service';
 import { Context } from '../../utils/context.utils';
 

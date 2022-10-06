@@ -1,5 +1,5 @@
 /* eslint-disable max-len */
-import { FontSizes } from '@aqac/utils';
+import { FontSizes } from '@sqrib/utils';
 import { Card } from '@nextui-org/react';
 import { useRouter } from 'next/dist/client/router';
 import React, {

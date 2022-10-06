@@ -4,7 +4,7 @@ import { ResponsiveCalendar } from '@nivo/calendar';
 import _ from 'lodash';
 import {
   calendarColors, formatDate, formatDateToCalendar, ScoreType, topValue,
-} from '@aqac/utils';
+} from '@sqrib/utils';
 import {
   Tab, Tabs,
 } from '@blueprintjs/core';

@@ -1,4 +1,4 @@
-import { ClientType } from '@aqac/utils';
+import { ClientType } from '@sqrib/utils';
 import React from 'react';
 import { suffixPosition } from '../../../utils/numbers.utils';
 import ProgressBar from '../../ProgressBar/ProgressBar.component';

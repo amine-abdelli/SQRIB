@@ -6,17 +6,15 @@ yarn install
 yarn add typescript
 initialize tsconfig with:
 npx tsc -init
-Add "@aqac/utils": "^1.0.0" to client and server package.json
-Add "include": ["node_modules/@aqac/utils"], 
+Add "@sqrib/utils": "^1.0.0" to client and server package.json
+Add "include": ["node_modules/@sqrib/utils"], 
 refaire un yarn
 puis yarn build
-
-Inchallah ca marche à partir de la ;)
 
 
 package.json
 {
-  "name": "@aqac/utils",
+  "name": "@sqrib/utils",
   "version": "1.0.0",
   "description": "Collection of generic tools",
   "main": "index.ts",

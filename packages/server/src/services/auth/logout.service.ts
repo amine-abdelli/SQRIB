@@ -1,4 +1,4 @@
-import { log } from '@aqac/utils';
+import { log } from '@sqrib/utils';
 import { AuthenticationError } from 'apollo-server-errors';
 import { updateOneUserById } from '../../repositories/auth';
 import { COOKIE_SETTINGS } from '../../utils/auth.utils';

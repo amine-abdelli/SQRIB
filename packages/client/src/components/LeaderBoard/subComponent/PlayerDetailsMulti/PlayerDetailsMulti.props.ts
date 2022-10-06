@@ -1,4 +1,4 @@
-import { GameType } from '@aqac/utils';
+import { GameType } from '@sqrib/utils';
 
 export interface PlayerDetailsMultiProps {
   games: GameType[]

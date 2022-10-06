@@ -1,4 +1,4 @@
-import { GlobalGamesData, GlobalScoresData } from '@aqac/api';
+import { GlobalGamesData, GlobalScoresData } from '@sqrib/api';
 
 export interface LeaderBoardProps {
   scores: GlobalScoresData

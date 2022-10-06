@@ -1,6 +1,6 @@
 import {
   averageValue, roundNumber, ScoreType, topValue,
-} from '@aqac/utils';
+} from '@sqrib/utils';
 
 export function createTopScoringObject(scores: ScoreType[]) {
   return {

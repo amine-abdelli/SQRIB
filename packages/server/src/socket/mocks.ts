@@ -1,6 +1,6 @@
 import {
   GameType, generateWordSet, Languages, SetType,
-} from '@aqac/utils';
+} from '@sqrib/utils';
 import { v4 } from 'uuid';
 import { colorGenerator } from './utils/colorGen';
 import { GameStatus } from './utils/constants';

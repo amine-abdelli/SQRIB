@@ -1,10 +1,10 @@
 import { useMutation } from '@apollo/client';
 import React, { useEffect, useState } from 'react';
-import { LOGIN_MUTATION } from '@aqac/api';
+import { LOGIN_MUTATION } from '@sqrib/api';
 import {
   Modal, Row, Text, Input, Button, Spacer,
 } from '@nextui-org/react';
-import { emailPolicy } from '@aqac/utils';
+import { emailPolicy } from '@sqrib/utils';
 import { Message, Lock } from 'react-iconly';
 import { LoginProps } from './Login.props';
 

@@ -1,4 +1,4 @@
-import { ClientType } from '@aqac/utils';
+import { ClientType } from '@sqrib/utils';
 
 export interface UserCardProps {
   userData: ClientType

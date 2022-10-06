@@ -30,9 +30,6 @@ jobs:
       - name: 'Build packages'
         run: yarn build
 
-      - name: 'Build docker image'
-        run: yarn docker:build-staging
-
   # deploy:
   #   runs-on: ubuntu-latest
   #   # needs: pr-checks

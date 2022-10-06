@@ -1,7 +1,7 @@
 import {
   Button, Container, Input, Modal, Radio, Spacer, Text,
 } from '@nextui-org/react';
-import { languages, wordAmount } from '@aqac/utils';
+import { languages, wordAmount } from '@sqrib/utils';
 import React, { useEffect } from 'react';
 import router from 'next/router';
 import { CreateModalProps, defaultGameParameters } from './CreateModal.props';

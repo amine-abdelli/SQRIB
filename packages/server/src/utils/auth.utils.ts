@@ -6,7 +6,7 @@ import {
 } from 'apollo-server-core';
 import bcrypt from 'bcryptjs';
 import { User } from '@prisma/client';
-import { log } from '@aqac/utils';
+import { log } from '@sqrib/utils';
 import { oneUserById, oneUserByEmail } from '../repositories/auth';
 import { Context } from './context.utils';
 

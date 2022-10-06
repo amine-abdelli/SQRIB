@@ -1,4 +1,4 @@
-import { log } from '@aqac/utils';
+import { log } from '@sqrib/utils';
 import { Score } from '@prisma/client';
 import { ApolloError } from 'apollo-server-errors';
 import { findManyScoresByUserId } from '../../repositories';

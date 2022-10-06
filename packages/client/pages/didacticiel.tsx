@@ -5,8 +5,8 @@ import React, {
 import {
   useApolloClient, useLazyQuery, useMutation,
 } from '@apollo/client';
-import { alphabet, DEFAULT_LEVEL } from '@aqac/utils';
-import { DIDACTICIEL_WORDSET_QUERY, SELF_QUERY, UPDATE_LEVEL_MUTATION } from '@aqac/api';
+import { alphabet, DEFAULT_LEVEL } from '@sqrib/utils';
+import { DIDACTICIEL_WORDSET_QUERY, SELF_QUERY, UPDATE_LEVEL_MUTATION } from '@sqrib/api';
 import { Button, Container, Spacer } from '@nextui-org/react';
 import { ArrowLeftSquare } from 'react-iconly';
 import { Displayer } from '../src/components/Displayer/Displayer.component';

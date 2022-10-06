@@ -4,7 +4,7 @@ import { Divider } from '@blueprintjs/core';
 import {
   Button, Text, Tooltip,
 } from '@nextui-org/react';
-import { topValue } from '@aqac/utils';
+import { topValue } from '@sqrib/utils';
 import { InfoCircle } from 'react-iconly';
 import { Colors } from '../../utils/enums';
 import { IStats } from './Stats.props';

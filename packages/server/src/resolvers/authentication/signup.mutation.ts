@@ -1,4 +1,4 @@
-import { log } from '@aqac/utils';
+import { log } from '@sqrib/utils';
 import { signupService } from '../../services/auth/signup.service';
 import { ICreateUserArgs } from '../../repositories';
 import { Context } from '../../utils/context.utils';

@@ -1,4 +1,4 @@
-import { Game } from '@aqac/utils';
+import { Game } from '@sqrib/utils';
 import { findManyScoresByType } from '../../repositories/game/findManyScoresByType.repository';
 import { findManyGamesWithDetails, oneUserById } from '../../repositories';
 import { fetchScoringDataArgs } from '../../resolvers/game';

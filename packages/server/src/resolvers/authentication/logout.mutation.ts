@@ -1,4 +1,4 @@
-import { log } from '@aqac/utils';
+import { log } from '@sqrib/utils';
 import { logoutService } from '../../services/auth/logout.service';
 import { Context } from '../../utils/context.utils';
 

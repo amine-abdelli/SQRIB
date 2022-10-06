@@ -1,4 +1,4 @@
-import { log } from '@aqac/utils';
+import { log } from '@sqrib/utils';
 import { ApolloError } from 'apollo-server-errors';
 import { updateNicknameService } from '../../services/settings/updateNickname.service';
 import { Context } from '../../utils/context.utils';

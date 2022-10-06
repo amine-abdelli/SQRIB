@@ -1,6 +1,6 @@
 import { QueryHookOptions, useLazyQuery } from '@apollo/client';
-import { SELF_QUERY } from '@aqac/api';
-import { log } from '@aqac/utils';
+import { SELF_QUERY } from '@sqrib/api';
+import { log } from '@sqrib/utils';
 
 export function useLazyGetSelf(options: QueryHookOptions = {}) {
   const [querySelf, { data, ...rest }] = useLazyQuery(SELF_QUERY, {

@@ -8,10 +8,10 @@ import Image from 'next/image';
 
 import {
   formatDateToLeaderboard, languages, Languages,
-} from '@aqac/utils';
+} from '@sqrib/utils';
 import { Hide, Show } from 'react-iconly';
 import { useLazyQuery } from '@apollo/client';
-import { USER_GAME_DETAILS_QUERY } from '@aqac/api';
+import { USER_GAME_DETAILS_QUERY } from '@sqrib/api';
 import { LeaderBoardProps } from './LeaderBoard.props';
 import { suffixPosition } from '../../utils/numbers.utils';
 import crown_svg from '../../assets/Images/crown-solid.svg';

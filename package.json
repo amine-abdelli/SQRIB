@@ -1,5 +1,5 @@
 {
-  "name": "aqayc",
+  "name": "sqrib",
   "private": true,
   "scripts": {
     "start": "./node_modules/.bin/turbo run start",
@@ -28,7 +28,7 @@
   ],
   "version": "1.0.0",
   "main": "index.js",
-  "repository": "https://github.com/amine-abdelli/aqac.git",
+  "repository": "https://github.com/SQRIB/SQRIB.git",
   "author": "Amine Abdelli <amine.abdelli@outlook.fr>",
   "license": "MIT",
   "devDependencies": {

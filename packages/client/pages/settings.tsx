@@ -2,8 +2,8 @@ import { useApolloClient, useMutation } from '@apollo/client';
 import {
   SELF_QUERY, UPDATE_SETTINGS_MUTATION, UPDATE_PASSWORD_MUTATION,
   DELETE_USER_MUTATION,
-} from '@aqac/api';
-import { fontSizes, languages } from '@aqac/utils';
+} from '@sqrib/api';
+import { fontSizes, languages } from '@sqrib/utils';
 import {
   Button, Checkbox, Container, Input, Spacer, Switch, Text, Tooltip,
 } from '@nextui-org/react';

@@ -6,7 +6,7 @@ import {
   isMulti,
   isSolo,
   Languages, log, scoringObjectType, SetType,
-} from '@aqac/utils';
+} from '@sqrib/utils';
 import { Socket } from 'socket.io';
 import { v4 } from 'uuid';
 import {

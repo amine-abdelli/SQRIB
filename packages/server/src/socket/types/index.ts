@@ -1,4 +1,4 @@
-import { GameType, Languages, SetType } from '@aqac/utils';
+import { GameType, Languages, SetType } from '@sqrib/utils';
 import { Socket } from 'socket.io';
 
 export interface assignUserToARoomArgs {

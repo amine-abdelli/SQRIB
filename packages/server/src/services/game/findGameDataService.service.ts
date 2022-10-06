@@ -1,6 +1,6 @@
 import {
   groupScoresByLanguageAndHighestScores, isMulti, isSolo, log,
-} from '@aqac/utils';
+} from '@sqrib/utils';
 import { ApolloError } from 'apollo-server-errors';
 import { findManyGames, findManyScores } from '../../repositories';
 

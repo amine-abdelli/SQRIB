@@ -1,7 +1,7 @@
 import {
   createPodium,
   Game, GameType, log,
-} from '@aqac/utils';
+} from '@sqrib/utils';
 import { ApolloError } from 'apollo-server-errors';
 import { createOnePlayer } from '../../repositories/game/createOnePlayer.repository';
 import { createOneScore } from '../../repositories';

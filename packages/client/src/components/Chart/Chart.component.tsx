@@ -1,6 +1,6 @@
 import React from 'react';
 import { ResponsiveLine } from '@nivo/line';
-import { topValue } from '@aqac/utils';
+import { topValue } from '@sqrib/utils';
 import { BsStars } from 'react-icons/bs';
 import { Text } from '@nextui-org/react';
 import styles from './Chart.module.scss';

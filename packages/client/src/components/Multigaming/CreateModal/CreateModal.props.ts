@@ -1,4 +1,4 @@
-import { Languages } from '@aqac/utils';
+import { Languages } from '@sqrib/utils';
 import { Socket } from 'socket.io-client';
 
 export interface GameParametersProps {

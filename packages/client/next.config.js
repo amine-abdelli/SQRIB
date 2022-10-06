@@ -1,7 +1,7 @@
 /** @type {import('next').NextConfig} */
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
-const withTM = require('next-transpile-modules')(['@aqac/utils', '@aqac/api', '@aqac/client', '@aqac/server']);
+const withTM = require('next-transpile-modules')(['@sqrib/utils', '@sqrib/api', '@sqrib/client', '@sqrib/server']);
 
 module.exports = withTM({
   reactStrictMode: true,

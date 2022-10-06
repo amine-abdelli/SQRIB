@@ -1,4 +1,4 @@
-import { log } from '@aqac/utils';
+import { log } from '@sqrib/utils';
 import _ from 'lodash';
 import { findOneSetService } from '../../services/didacticiel/findOneSet.service';
 import { Context } from '../../utils/context.utils';

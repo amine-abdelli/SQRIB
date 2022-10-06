@@ -1,4 +1,4 @@
-import { log } from '@aqac/utils';
+import { log } from '@sqrib/utils';
 import { ApolloError, AuthenticationError } from 'apollo-server-errors';
 import { updateOneUserById } from '../../repositories';
 import { IUpdateLevel } from '../../resolvers/didacticiel/updateLevel.mutation';

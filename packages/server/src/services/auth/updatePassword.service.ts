@@ -1,4 +1,4 @@
-import { log } from '@aqac/utils';
+import { log } from '@sqrib/utils';
 import { ApolloError, AuthenticationError } from 'apollo-server-errors';
 import bcrypt from 'bcryptjs';
 import { oneUserById, updateOneUserById } from '../../repositories';

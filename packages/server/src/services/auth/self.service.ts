@@ -1,4 +1,4 @@
-import { log } from '@aqac/utils';
+import { log } from '@sqrib/utils';
 import { AuthenticationError } from 'apollo-server-errors';
 import { oneUserById, updateOneUserById } from '../../repositories/auth';
 import { Context } from '../../utils/context.utils';

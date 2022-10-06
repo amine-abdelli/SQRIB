@@ -1,4 +1,4 @@
-import { GameType } from '@aqac/utils';
+import { GameType } from '@sqrib/utils';
 import {
   Container, Modal, Spacer, Text,
 } from '@nextui-org/react';

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-// import { alphabet } from '@aqac/utils';
+// import { alphabet } from '@sqrib/utils';
 import { useRouter } from 'next/router';
 import { keyBoardLayout } from './keyBoardLayout';
 import { KeyBoardEnum } from './KeyBoard.enum';

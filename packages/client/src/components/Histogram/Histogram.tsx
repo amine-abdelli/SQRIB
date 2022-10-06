@@ -1,7 +1,7 @@
 import React from 'react';
 import { ResponsiveBar } from '@nivo/bar';
 import { Divider } from '@blueprintjs/core';
-import { randomIntFromInterval } from '@aqac/utils';
+import { randomIntFromInterval } from '@sqrib/utils';
 
 const data = Array.from({ length: 100 }).map((_, i: number) => ({
   mpm: i,

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useMutation } from '@apollo/client';
-import { SIGNUP_MUTATION } from '@aqac/api';
+import { SIGNUP_MUTATION } from '@sqrib/api';
 import {
   Input, Button, Spacer, Modal,
 } from '@nextui-org/react';

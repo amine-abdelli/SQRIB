@@ -1,6 +1,6 @@
 import React from 'react';
 import { Spinner } from '@nextui-org/react';
-import { isSolo, ScoreType } from '@aqac/utils';
+import { isSolo, ScoreType } from '@sqrib/utils';
 import Calendar from '../src/components/Calendar/Calendar.component';
 import Chart from '../src/components/Chart/Chart.component';
 import ScoreCard from '../src/components/ScoreCard/ScoreCard.component';

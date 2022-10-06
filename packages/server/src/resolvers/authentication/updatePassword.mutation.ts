@@ -1,4 +1,4 @@
-import { log } from '@aqac/utils';
+import { log } from '@sqrib/utils';
 import { updatePasswordService } from '../../services/auth/updatePassword.service';
 import { Context } from '../../utils/context.utils';
 

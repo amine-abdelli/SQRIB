@@ -3,9 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "start": "next dev",
+    "start:dev": "next dev",
     "build": "rm -rf .next && next build",
-    "start:prod": "next start -H 0.0.0.0",
+    "start": "next start -p $PORT",
     "yarn": "yarn",
     "sandbox": "ts-node-dev src/sandbox/sandbox.ts",
     "lint": "next lint",

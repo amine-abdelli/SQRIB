@@ -36,12 +36,12 @@ jobs:
           script: |
             mkdir SQRIB -p
             cd SQRIB
-            killall node
+            echo "${{ secrets.VPS_PASSWORD }}" | sudo -S killall node
             git fetch
-            git pull origin main
-            yarn
-            yarn build
-            yarn start:prod
+            git merge origin main
+            echo "${{ secrets.VPS_PASSWORD }}" | sudo -S yarn clean
+            echo "${{ secrets.VPS_PASSWORD }}" | sudo -S yarn build
+            echo "${{ secrets.VPS_PASSWORD }}" | sudo -S yarn start:prod
 
         # script: |
             # mkdir SQRIB -p

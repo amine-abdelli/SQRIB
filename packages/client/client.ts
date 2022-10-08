@@ -8,6 +8,9 @@ import {
 const httpLink = createHttpLink({
   uri: process.env.BACKEND_URL,
   credentials: 'include',
+  headers: {
+    origin: '*',
+  },
 });
 
 const client = new ApolloClient({

@@ -35,9 +35,6 @@ async function startServer() {
   });
   await apolloServer.start();
   app.use(cookieParser());
-  // if (process.env.NODE_ENV !== 'development') {
-  //   app.set('trust proxy', 1);
-  // }
   apolloServer.applyMiddleware({
     app,
     cors: {
@@ -50,6 +47,10 @@ async function startServer() {
 
   app.use((req, res) => {
     res.send('Hello from express apollo server');
+  });
+
+  app_socket.use((req, res) => {
+    res.send('Hello from express websocket server');
   });
 
   app.listen(APOLLO_SERVER_PORT, () => log.info(`Apollo server running on port ${APOLLO_SERVER_PORT}`));

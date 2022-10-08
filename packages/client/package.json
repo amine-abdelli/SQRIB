@@ -5,7 +5,7 @@
   "scripts": {
     "start": "next dev",
     "build": "rm -rf .next && next build",
-    "start:prod": "next start -H 0.0.0.0",
+    "start:prod": "next start",
     "yarn": "yarn",
     "sandbox": "ts-node-dev src/sandbox/sandbox.ts",
     "lint": "next lint",

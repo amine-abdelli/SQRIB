@@ -4,7 +4,7 @@ import styles from '../Displayer.module.scss';
 import { IWordDisplayer } from './WordDisplayer.props';
 
 function WordDisplayer({
-  setState = () => null, word, className, wordKey, style, fontSize,
+  setState = () => null, word, className, style, fontSize,
 }: IWordDisplayer) {
   return (
     <div
@@ -13,7 +13,6 @@ function WordDisplayer({
     >
       <div
         className={className}
-        key={wordKey}
         style={{
           display: 'inline', margin: 0, padding: 0,
         }}

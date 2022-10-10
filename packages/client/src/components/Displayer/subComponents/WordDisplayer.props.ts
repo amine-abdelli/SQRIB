@@ -6,7 +6,6 @@ export interface IWordDisplayer {
   setState?: Dispatch<SetStateAction<number | undefined>>,
   word: string | ReactElement,
   className?: string,
-  wordKey?: string | number,
   style?: CSSProperties,
   index?: number,
   computedWords?: string[],

@@ -3,7 +3,7 @@ import { FontSizes } from '@sqrib/utils';
 import { Card } from '@nextui-org/react';
 import { useRouter } from 'next/dist/client/router';
 import React, {
-  ReactElement, useContext,
+  ReactElement, useContext, useMemo,
 } from 'react';
 import { MainContext } from '../../context/MainContext';
 import { useGetSelf } from '../../hooks/useGetSelf';
@@ -28,9 +28,8 @@ function Displayer(
   const overlayProps = {
     gameMode, countDown, startTimer, computedWords,
   };
-  const displayedWords = wordsStack?.map((word: string, i: number): ReactElement => {
+  const displayedWords = useMemo(() => (wordsStack?.map((word: string, i: number): ReactElement => {
     const isWordPassed = wordIndex && computedWords && wordsStack && i && (i < wordIndex);
-
     if (i === wordIndex) {
       return (
         <>
@@ -42,6 +41,7 @@ function Displayer(
             setState={setYFocusedPosition}
             word={splitStringToSpans(word, userInput)}
             fontSize={fontSize}
+            userInput={userInput}
           />
         </>
       );
@@ -88,7 +88,7 @@ function Displayer(
         {/* &nbsp; */}
       </>
     );
-  });
+  })), [wordIndex, computedWords, wordsStack, fontSize, setYFocusedPosition, userInput, setYNextPosition]);
   const isOverlayTriggered = isMain ? !startTimer : false;
   return (
     <div style={{ margin: 0, padding: 0 }}>

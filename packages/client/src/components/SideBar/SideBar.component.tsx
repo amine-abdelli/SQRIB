@@ -65,6 +65,7 @@ function SideBar() {
         )}
       </ul>
       <ul style={{ width: '100%', margin: '0', color: 'inherit' }}>
+        {/* Conditionnally display submit/login or logout button if user is loggedin or not */}
         {isLoggedIn
           ? (
             <SideBarButton icon={<Logout style={buttonStyle} size={20} />} onClick={() => submitLogout()} text="Logout" />

@@ -13,6 +13,7 @@ import { initializeSocket } from './socket/server';
 const app_socket = express();
 const socketServer = http.createServer(app_socket);
 const io = require('socket.io')(socketServer, {
+  path: '/socket',
   cors: {
     origin: process.env.FRONTEND_URL || 'http://localhost:3000',
     methods: ['GET', 'POST'],

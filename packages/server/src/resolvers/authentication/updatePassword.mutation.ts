@@ -12,8 +12,8 @@ export async function updatePassword(
   { password, newPassword }: IUpdatePassword,
   context: Context,
 ) {
-  log.info('Trying to update password', { userId: context.userId });
+  log.info({ userId: context.userId }, 'Trying to update password');
   const updateMessage = await updatePasswordService(password, newPassword, context);
-  log.info('Password updated successfully', { userId: context.userId });
+  log.info({ userId: context.userId }, 'Password updated successfully');
   return updateMessage;
 }

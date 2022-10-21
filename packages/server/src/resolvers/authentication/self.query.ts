@@ -8,10 +8,10 @@ async function self(
   args: void,
   ctx: Context,
 ) {
-  log.info('Trying to fetch self data !');
+  log.info({ userId: ctx.userId }, 'Trying to fetch self data !');
   const user = await selfService(ctx);
   if (!user) {
-    log.error('User not found');
+    log.error({ userId: ctx.userId }, 'User not found');
     throw new AuthenticationError('User not found');
   }
   return user;

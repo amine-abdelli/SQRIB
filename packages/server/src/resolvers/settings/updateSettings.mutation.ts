@@ -11,12 +11,12 @@ export interface IUpdateSettings {
 }
 
 export async function updateSettings(parent: any, args: IUpdateSettings, context: Context) {
-  log.info('trying to update settings', { id: context.userId });
+  log.info({ id: context.userId }, 'trying to update settings');
   const updatedSettings = await updateSettingsService(args, context);
   if (!updatedSettings) {
     log.error('Settings could not be updated');
     throw new ApolloError('Settings could not be updated');
   }
-  log.info('Settings updated successfully', { id: context.userId });
+  log.info({ id: context.userId }, 'Settings updated successfully');
   return updatedSettings;
 }

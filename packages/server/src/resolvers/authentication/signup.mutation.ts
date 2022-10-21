@@ -4,8 +4,8 @@ import { ICreateUserArgs } from '../../repositories';
 import { Context } from '../../utils/context.utils';
 
 export async function signup(parent: any, args: ICreateUserArgs, context: Context) {
-  log.info('Trying to signup', { email: args?.email });
+  log.info({ email: args?.email }, 'Trying to signup');
   const user = await signupService(args, context);
-  log.info('Signup success', { email: args?.email });
+  log.info({ email: args?.email }, 'Signup success');
   return user;
 }

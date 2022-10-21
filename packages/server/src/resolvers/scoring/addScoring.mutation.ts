@@ -1,7 +1,6 @@
 import { log } from '@sqrib/utils';
 import { ApolloError } from 'apollo-server-errors';
 import { addScoringService } from '../../services/scoring/addScoringService.service';
-import { Context } from '../../utils/context.utils';
 
 export interface IAddScoring {
   type: string
@@ -17,13 +16,13 @@ export interface IAddScoring {
   timer: number
 }
 
-export async function addScoring(parent: any, args: IAddScoring, context: Context) {
-  log.info('Trying to add a new score', { userId: context.userId });
+export async function addScoring(parent: any, args: IAddScoring) {
+  log.info('Trying to add a new score');
   const score = await addScoringService(args);
   if (!score) {
     log.error('Score could not be added');
     throw new ApolloError('Score could not be added !');
   }
-  log.info('Score added with success !', { userId: context.userId });
+  log.info('Score added with success !');
   return score;
 }

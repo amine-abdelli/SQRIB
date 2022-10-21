@@ -1,7 +1,7 @@
 import { gql } from '@apollo/client';
 
 const CREATE_WORD_SET_QUERY = gql`
-query generateWordSet($language: String, $difficulty: String) {
+query generateWordSet($language: String) {
   generateWordSet(language: $language)
 }`;
 

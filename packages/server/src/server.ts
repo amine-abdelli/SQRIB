@@ -41,7 +41,7 @@ async function startServer() {
     cors: {
       credentials: true,
       origin: [process.env.FRONTEND_URL || 'http://localhost:3000', 'http://localhost:3000',
-        'https://studio.apollographql.com', 'https://sqrib-client.vercel.app',
+        'https://studio.apollographql.com',
       ],
     },
   });

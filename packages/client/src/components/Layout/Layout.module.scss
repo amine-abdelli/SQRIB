@@ -10,5 +10,7 @@
     min-height: calc(100vh - (3px * 2));
     width: 100%;
     overflow-y: hidden;
+    background: no-repeat url('../../../src/assets/Images/main-background.png');
+    background-size: cover;
   }
 }

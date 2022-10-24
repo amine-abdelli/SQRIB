@@ -15,7 +15,11 @@ function Layout({ children, theme }: any) {
   }, [theme.theme]);
   return (
     <div className={styles.gapLayoutWrapper} style={{ backgroundColor: theme.tertiary, width: '100%' }}>
-      <div ref={layout} className={styles.layoutWrapper} style={{ width: '100%', backgroundColor: theme.primary }}>
+      <div
+        ref={layout}
+        className={styles.layoutWrapper}
+        style={{ width: '100%', backgroundColor: theme.secondary }}
+      >
         {children}
       </div>
     </div>

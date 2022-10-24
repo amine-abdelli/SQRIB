@@ -9,7 +9,7 @@ import { generateWordSet, FontSizes, Languages } from '@sqrib/utils';
 import { FocusStyleManager } from '@blueprintjs/core';
 import { useRouter } from 'next/dist/client/router';
 import Layout from '../src/components/Layout/Layout.component';
-import SideBar from '../src/components/SideBar/SideBar.component';
+import SideBar from '../src/UI/SideBar/SideBar.component';
 import { ITheme, themes } from '../styles/theme';
 import '../styles/sass/globals.scss';
 import styles from '../styles/sass/pages/_app.module.scss';
@@ -19,12 +19,11 @@ import { MainContext } from '../src/context/MainContext';
 import { client } from '../client';
 import { Alert } from '../src/components/Alert/Alert.component';
 import { useWindowSize } from '../src/hooks/useWindowSize';
-import Nav from '../src/components/Nav/Nav.component';
+import Header from '../src/components/Header/Header.component';
 
 function MyApp({ Component, pageProps }: AppProps) {
   const [theme, setTheme] = useState<ITheme>(themes.LIGHT);
   const [fontSize, setFontSize] = useState<number>(FontSizes.LARGE);
-  const [, setShowModeSelection] = useState<boolean>(false);
   const [gameMode] = useState<string>(GameMode.COUNTDOWN);
   const [language, setLanguage] = useState<string>(Languages.FR);
   const [userInput, setUserInput] = useState('');
@@ -69,7 +68,7 @@ function MyApp({ Component, pageProps }: AppProps) {
   }, [language, gameMode]);
 
   const MainContextProps = useMemo(() => ({
-    userInput, wordIndex, isTimeOut, setIsTimeOut, startTimer, setStartTimer, gameMode, countDown, wordsStack, setWordsStack, computedWords, setComputedWords, correctWords, setCorrectWords, setCountDown, setWordIndex, setUserInput, score, setScore, offSet, setOffSet, yFocusedPosition, setYFocusedPosition, yNextPosition, setYNextPosition, horizontalPosition, setHorizontalPosition, letterWidth, setLetterWidth, fontSize, language, setFontSize, theme, setShowModeSelection, onRestart, setLanguage, setTheme,
+    userInput, wordIndex, isTimeOut, setIsTimeOut, startTimer, setStartTimer, gameMode, countDown, wordsStack, setWordsStack, computedWords, setComputedWords, correctWords, setCorrectWords, setCountDown, setWordIndex, setUserInput, score, setScore, offSet, setOffSet, yFocusedPosition, setYFocusedPosition, yNextPosition, setYNextPosition, horizontalPosition, setHorizontalPosition, letterWidth, setLetterWidth, fontSize, language, setFontSize, theme, onRestart, setLanguage, setTheme,
   }), [userInput, wordIndex, isTimeOut, setTheme, startTimer, gameMode, countDown, wordsStack, setWordsStack, computedWords, correctWords, score, setScore, offSet, yFocusedPosition, yNextPosition, horizontalPosition, letterWidth, fontSize, language, theme, onRestart, setLanguage]);
 
   // Disable ugly focus on blueprint's elements
@@ -83,7 +82,7 @@ function MyApp({ Component, pageProps }: AppProps) {
         <div className='flex' style={{ padding: isSmallScreen ? '0.5rem' : '1rem' }}>
           <SideBar />
           <div className='flex w100 flex-column'>
-            <Nav />
+            <Header />
             <div className={styles.componentWrapper}>
               <div className='flex justify-center h100'>
                 <MainContext.Provider value={MainContextProps}>

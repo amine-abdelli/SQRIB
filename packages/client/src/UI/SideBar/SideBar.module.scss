@@ -1,34 +1,32 @@
 @import "../../../styles/sass/abstracts/variables";
-.sideBarButtons {
+@import "../../../styles/sass/abstracts/mixins";
+@import "../../../styles/sass/colors";
+
+.sideBar {
   display: flex;
   flex-direction: column;
-  justify-content: space-around;
+  justify-content: space-between;
   align-items: center;
-  background-color: #343434;
+  border: 5px solid $outline;
+  background-color: $secondary;
   height: calc(100vh - 5px - 2rem);
-  border-radius: 10px;
   padding: 1rem;
+  width: 220px;
+  box-shadow: $shadow-button;
 
   .sideBarButton {
     position: relative;
-    padding: 7.5px 0;
+    padding: 5px 0;
     width: 100%;
     cursor: pointer;
-    border-radius: 10px;
-    
-    li { 
-      display: flex;
-      align-items: center;
-      margin: 0;
-      transition: transform 0.1s ease-in-out;
-    }
 
-    &:hover {
-      background-color: rgb(0, 0, 0, 0.05);
-      li { 
-        transform: translateX(3.5px);
-        transition: transform 0.2s ease-in-out;
-      }
+    p {
+      font-family: 'Poppins';
+      color: $tertiary;
+      font-weight: 700;
+      font-size: 20px;
+      margin: 0;
+      @include stroke($outline, 3px);
     }
   }
 }
@@ -36,7 +34,7 @@
 
 
 @media(max-width: 700px){
-.sideBarButtons {
+.sideBar {
   width: 3rem;
 
   .sideBarButton {

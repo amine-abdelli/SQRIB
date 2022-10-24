@@ -1,8 +1,7 @@
 /* eslint-disable no-nested-ternary */
 import React, { useState } from 'react';
 import {
-  Button,
-  Loading, Modal, Radio, Table, Text,
+  Button, Modal, Radio, Table, Text,
 } from '@nextui-org/react';
 import Image from 'next/image';
 
@@ -47,109 +46,107 @@ function LeaderBoardTable({ scores, title, winnerBoard }: LeaderBoardProps) {
   }
 
   return (
-    scores ? (
-      <div>
-        <Text h2 css={{ textAlign: 'center' }}>{title}</Text>
-        <Radio.Group
-          style={{
-            display: 'flex', flexDirection: 'row', justifyContent: 'center',
-          }}
-          row
-          onChange={(e) => setLangKey(e as Languages)}
-          value={langKey}
+    <div>
+      <Text h2 css={{ textAlign: 'center' }}>{title}</Text>
+      <Radio.Group
+        style={{
+          display: 'flex', flexDirection: 'row', justifyContent: 'center',
+        }}
+        row
+        onChange={(e) => setLangKey(e as Languages)}
+        value={langKey}
+      >
+        {languages.map(({ flag, country }) => (
+          <Radio value={country} key={country}>
+            <Text>{flag}</Text>
+          </Radio>
+        ))}
+      </Radio.Group>
+      <Table
+        shadow={false}
+        aria-label="Example table with dynamic content & infinity pagination"
+        css={{ width: '100%' }}
+        color="secondary"
+        fixed
+        hoverable
+      >
+        <Table.Header columns={winnerBoard ? multiColumns : soloColumns}>
+          {(column) => (
+            <Table.Column css={{ textAlign: 'center' }} key={column.uid}>
+              {column.name === 'Victoires' ? (
+                <>
+                  <Image
+                    src={star_svg}
+                    alt="Icon of a crown"
+                    color='blue'
+                    quality={100}
+                    layout='fixed'
+                    width='10px'
+                    height='10px'
+                  />
+                  {column.name}
+                </>
+              ) : column.name}
+            </Table.Column>
+          )}
+        </Table.Header>
+        <Table.Body
+          items={scoresToTableData?.slice(0, 50) || []}
         >
-          {languages.map(({ flag, country }) => (
-            <Radio value={country} key={country}>
-              <Text>{flag}</Text>
-            </Radio>
-          ))}
-        </Radio.Group>
-        <Table
-          shadow={false}
-          aria-label="Example table with dynamic content & infinity pagination"
-          css={{ width: '100%' }}
-          color="secondary"
-          fixed
-          hoverable
-        >
-          <Table.Header columns={winnerBoard ? multiColumns : soloColumns}>
-            {(column) => (
-              <Table.Column css={{ textAlign: 'center' }} key={column.uid}>
-                {column.name === 'Victoires' ? (
-                  <>
-                    <Image
-                      src={star_svg}
-                      alt="Icon of a crown"
-                      color='blue'
-                      quality={100}
-                      layout='fixed'
-                      width='10px'
-                      height='10px'
-                    />
-                    {column.name}
-                  </>
-                ) : column.name}
-              </Table.Column>
-            )}
-          </Table.Header>
-          <Table.Body
-            items={scoresToTableData?.slice(0, 50) || []}
-          >
-            {(item: any) => (
-              <Table.Row css={{ textAlign: 'center' }} key={item.name}>
-                {(key) => (
-                  <Table.Cell>
-                    {key === 'position' && item[key] === 1 && (
-                      <Image
-                        src={crown_svg}
-                        alt="Icon of a crown"
-                        color='blue'
-                        quality={100}
-                        layout='fixed'
-                        width='32px'
-                        height='32px'
-                      />
-                    )}
-                    {key === 'icon' && (
-                      <Button
-                        disabled={!item?.userId}
-                        light
-                        auto
-                        onClick={() => fetchUserGamingData(item?.userId)}
-                      >
-                        {item?.userId
-                          ? <Show set="curved" primaryColor="#015ECC" />
-                          : (
-                            <Hide set="curved" primaryColor="grey" />
-                          )}
-                      </Button>
-                    )}
-                    {key === 'position' && item[key] !== 1 && suffixPosition(item[key])}
-                    {key !== 'position' && key !== 'victory' && item[key]}
-                    {key === 'victory' && winnerBoard && (item[key])}
-                  </Table.Cell>
-                )}
-              </Table.Row>
-            )}
-          </Table.Body>
-          <Table.Pagination
-            shadow
-            color="primary"
-            align="center"
-            rowsPerPage={4}
-          />
-        </Table>
-        <Modal
-          closeButton
-          open={shouldDisplayPlayerDetails}
-          onClose={() => setShouldDisplayPlayerDetails(false)}
-          width="60rem"
-          style={{ padding: 0 }}
-        >
-          <PlayerDetails loading={loading} data={data?.fetchUserGamingDetails} />
-        </Modal>
-      </div>
-    ) : <Loading />
+          {(item: any) => (
+            <Table.Row css={{ textAlign: 'center' }} key={item.name}>
+              {(key) => (
+                <Table.Cell>
+                  {key === 'position' && item[key] === 1 && (
+                  <Image
+                    src={crown_svg}
+                    alt="Icon of a crown"
+                    color='blue'
+                    quality={100}
+                    layout='fixed'
+                    width='32px'
+                    height='32px'
+                  />
+                  )}
+                  {key === 'icon' && (
+                  <Button
+                    disabled={!item?.userId}
+                    light
+                    auto
+                    onClick={() => fetchUserGamingData(item?.userId)}
+                  >
+                    {item?.userId
+                      ? <Show set="curved" primaryColor="#015ECC" />
+                      : (
+                        <Hide set="curved" primaryColor="grey" />
+                      )}
+                  </Button>
+                  )}
+                  {key === 'position' && item[key] !== 1 && suffixPosition(item[key])}
+                  {key !== 'position' && key !== 'victory' && item[key]}
+                  {key === 'victory' && winnerBoard && (item[key])}
+                </Table.Cell>
+              )}
+            </Table.Row>
+          )}
+        </Table.Body>
+        <Table.Pagination
+          shadow
+          color="primary"
+          align="center"
+          rowsPerPage={4}
+        />
+      </Table>
+      <Modal
+        closeButton
+        open={shouldDisplayPlayerDetails}
+        onClose={() => setShouldDisplayPlayerDetails(false)}
+        width="60rem"
+        style={{ padding: 0 }}
+      >
+        <PlayerDetails loading={loading} data={data?.fetchUserGamingDetails} />
+      </Modal>
+    </div>
   );
 }
 

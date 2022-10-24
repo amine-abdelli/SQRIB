@@ -1,4 +1,4 @@
-import { Text } from '@nextui-org/react';
+import { Loading, Text } from '@nextui-org/react';
 import _ from 'lodash';
 import React, { useEffect, useRef, useState } from 'react';
 import { Socket } from 'socket.io-client';
@@ -21,22 +21,25 @@ function Home() {
       setGlobalGamesData(scores);
     });
   }, []);
-
   const gamesGroupedByWinners = _.groupBy(globalGamesData?.games, 'winner');
   return (
     <div style={{ display: 'flex', flexDirection: 'column', padding: '1rem' }}>
       <Text css={{ textAlign: 'center' }} h1>Leaderboard</Text>
-      <div style={{ display: 'flex', flexDirection: isLargeScreen ? 'column' : 'row', padding: '1rem' }}>
-        <LeaderBoardTable
-          scores={globalGamesData?.solo}
-          title="Top 50 - Solo"
-        />
-        <LeaderBoardTable
-          scores={globalGamesData?.multi}
-          winnerBoard={gamesGroupedByWinners}
-          title="Top 50 - Multijoueur"
-        />
-      </div>
+      {globalGamesData ? (
+        <div style={{ display: 'flex', flexDirection: isLargeScreen ? 'column' : 'row', padding: '1rem' }}>
+          <LeaderBoardTable
+            scores={globalGamesData?.solo}
+            title="Top 50 - Solo"
+          />
+          <LeaderBoardTable
+            scores={globalGamesData?.multi}
+            winnerBoard={gamesGroupedByWinners}
+            title="Top 50 - Multijoueur"
+          />
+        </div>
+      ) : (
+        <Loading />
+      )}
     </div>
   );
 }

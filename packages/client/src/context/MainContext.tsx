@@ -36,7 +36,6 @@ export const MainContext = React.createContext<{
   setFontSize: React.Dispatch<React.SetStateAction<number>>,
   setLanguage: React.Dispatch<React.SetStateAction<string>>,
   theme: ITheme,
-  setShowModeSelection: React.Dispatch<React.SetStateAction<boolean>>,
   onRestart: any,
   setTheme: React.Dispatch<React.SetStateAction<ITheme>>,
     }>({} as any);

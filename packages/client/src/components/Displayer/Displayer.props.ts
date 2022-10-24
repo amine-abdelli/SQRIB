@@ -7,5 +7,4 @@ export interface DisplayerProps {
   setYFocusedPosition: Dispatch<SetStateAction<number>>
   correctWords: Array<string>,
   fontSize: number,
-  setShowModeSelection: Dispatch<SetStateAction<boolean>>
 }

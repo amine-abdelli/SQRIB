@@ -1,10 +1,5 @@
-import React, { useState } from 'react';
+import React, { Dispatch, SetStateAction, useState } from 'react';
 import Link from 'next/link';
-import { GiNinjaHead } from 'react-icons/gi';
-import {
-  Game, Chart, Setting, Home,
-} from 'react-iconly';
-import { BsKeyboard } from 'react-icons/bs';
 import { LOGOUT_MUTATION } from '@sqrib/api';
 import { useRouter } from 'next/router';
 import { useMutation } from '@apollo/client';
@@ -19,9 +14,15 @@ import { ModalType } from '../../components/Login/Login.props';
 import PrimaryButton from '../Button/Button.component';
 import Logo from '../../components/Logo/Logo.component';
 import keyLogo from '../../assets/Images/key-logo.png';
-import { useWindowSize } from '../../hooks/useWindowSize';
+import ClosingCross from '../ClosingCross/ClosingCross.component';
 
-function SideBar() {
+interface SideBarProps {
+  fullScreen?: boolean,
+  isMenuOpen: boolean,
+  setIsMenuOpen: Dispatch<SetStateAction<boolean>>
+}
+
+function SideBar({ fullScreen, isMenuOpen, setIsMenuOpen }: SideBarProps) {
   const { isLoggedIn } = useGetSelf();
   const [shouldOpenModal, setShouldOpenModal] = useState(false);
   const [modalType, setModalType] = useState<ModalType | null>();
@@ -32,43 +33,48 @@ function SideBar() {
       window.location.reload();
     },
   });
-
-  const buttonStyle = { marginRight: '5px', color: '#dfdad2' };
   function onButtonClick(type: ModalType) {
     setShouldOpenModal(true);
     setModalType(type);
   }
-  const { isMediumScreen } = useWindowSize();
-  console.log(isMediumScreen);
   return (
     <div
       className={styles.sideBar}
+      style={{
+        display: !isMenuOpen && fullScreen ? 'none' : '',
+        backgroundImage: 'url(\'../../assets/Images/main-background.png\')',
+        backgroundSize: 'cover',
+      }}
     >
-      <div>
-        {!isMediumScreen && <Image src={keyLogo} alt="A key" />}
-        <Logo isMediumScreen={isMediumScreen} />
+      {/* Show closing cross on mobile only when menu is fullscreen */}
+      <ClosingCross display={!!(isMenuOpen && fullScreen)} onClose={setIsMenuOpen} />
+      <div
+        className={styles.sideBarButtonsWrapper}
+      >
+        {!fullScreen && <Image src={keyLogo} alt="A keyboard key representing sqrib logo" />}
+        <Logo />
         <ul style={{ width: '100%', margin: '0', color: 'inherit' }}>
           <Link href={Routes.HOME} passHref>
-            <SideBarButton icon={<Home set="curved" style={buttonStyle} size={20} />} text="LEADERBOARD" />
+            <SideBarButton text="LEADERBOARD" />
           </Link>
           <Link href={Routes.MAIN} passHref>
-            <SideBarButton icon={<GiNinjaHead style={buttonStyle} size={20} />} text="ENTRAÎNEMENT" />
+            <SideBarButton text="ENTRAÎNEMENT" />
           </Link>
           <Link href={Routes.DIDACTICIEL} passHref>
-            <SideBarButton icon={<BsKeyboard style={buttonStyle} size={20} />} text="DIDACTICIEL" />
+            <SideBarButton text="DIDACTICIEL" />
           </Link>
           <Link href={Routes.MULTIGAMING} passHref>
-            <SideBarButton icon={<Game style={buttonStyle} size={20} />} text="MULTIJOUEUR" />
+            <SideBarButton text="MULTIJOUEUR" />
           </Link>
           {isLoggedIn && (
-          <>
-            <Link href={Routes.PROFILE} passHref>
-              <SideBarButton icon={<Chart style={buttonStyle} size={20} />} text="STATS" />
-            </Link>
-            <Link href={Routes.SETTINGS} passHref>
-              <SideBarButton icon={<Setting style={buttonStyle} size={20} />} text="PARAMÊTRES" />
-            </Link>
-          </>
+            <>
+              <Link href={Routes.PROFILE} passHref>
+                <SideBarButton text="STATS" />
+              </Link>
+              <Link href={Routes.SETTINGS} passHref>
+                <SideBarButton text="PARAMÊTRES" />
+              </Link>
+            </>
           )}
         </ul>
       </div>
@@ -95,5 +101,9 @@ function SideBar() {
     </div>
   );
 }
+
+SideBar.defaultProps = {
+  fullScreen: false,
+};
 
 export default SideBar;

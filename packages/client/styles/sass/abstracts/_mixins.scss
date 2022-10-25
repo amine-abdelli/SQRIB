@@ -1,3 +1,7 @@
+@import "./colors";
+@import "./variables";
+
+// Add outter stroke to text
 @mixin stroke($color: #000, $size: 1px) {
   text-shadow:
     -#{$size} -#{$size} 0 $color,
@@ -8,4 +12,25 @@
      0         #{$size} 0 $color,
     -#{$size}  #{$size} 0 $color,
     -#{$size}  0        0 $color;
+}
+
+// For big component like modal and sidebars
+@mixin thickBorder {
+  border: 5px solid $outline;
+  padding: 1rem;
+  box-shadow: $shadow-button;
+}
+
+// For button
+@mixin thinBorder {
+  border: 3px solid $outline;
+  box-shadow: $shadow-button;
+  padding: 4px 0;
+}
+
+@mixin absoluteCenter {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%)
 }

@@ -4,43 +4,9 @@
 @import url("https://fonts.googleapis.com/css2?family=Indie+Flower&family=Montserrat&display=swap");
 @import "../sass/abstracts/variables";
 @import "../sass/abstracts/utils";
-@import "~@blueprintjs/popover2/lib/css/blueprint-popover2.css";
 @import "~antd/dist/antd.css";
 @import "./abstracts/alert";
-@import "./_colors.scss";
+@import "./abstracts/colors";
+@import "./abstracts/breakpoints";
 @import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
-
-html,
-body {
-  position: relative;
-  background-color: $secondary;
-  font-family: "Poppins", "Montserrat", "Indie Flower", cursive, sans-serif;
-}
-
-a {
-  color: inherit;
-  text-decoration: none;
-}
-
-* {
-  box-sizing: border-box;
-  padding: 0;
-  margin: 0;
-}
-
-hr {
-  border: 1px solid;
-}
-
-
-.darkTheme {
-  z-index: 9999;
-  background-color: #343434;
-  color: #dfdad2;
-}
-
-.lightTheme {
-  z-index: 9999;
-  background-color: #dfdad2;
-  color: #343434;
-}
+@import "./base/reset";

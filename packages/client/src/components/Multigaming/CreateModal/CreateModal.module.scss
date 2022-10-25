@@ -1,3 +1,5 @@
+@import '../../../../styles/sass/abstracts/breakpoints';
+
 .createModalWrapper {
   display: flex;
   justify-content: center;
@@ -22,7 +24,7 @@
   }
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: $md-screen) {
   .createModalWrapper {
     flex-direction: column-reverse;
   }

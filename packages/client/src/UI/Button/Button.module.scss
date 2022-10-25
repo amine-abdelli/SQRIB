@@ -1,16 +1,15 @@
-@import "../../../styles/sass/colors";
+@import "../../../styles/sass/abstracts/colors";
 @import "../../../styles/sass/abstracts/variables";
+@import "../../../styles/sass/abstracts/mixins";
 
 .primaryButton {
-    border: 3px solid $outline;
     background-color: $primary;
     color: $outline;
     font-weight: bold;
     margin-bottom: 10px;
-    box-shadow: $shadow-button;
-    padding: 4px 0;
     cursor: pointer;
     transition: scale 0.1s ease-in-out;
+    @include thinBorder();
 
     &:active {
         transition: scale 0.1s ease-in-out;

@@ -7,7 +7,9 @@ function Button({
   return (
     <button
       onClick={onClick}
-      style={{ backgroundColor: secondary ? '#FFFFFF' : '', width: stretch ? '' : '100%', padding: '5px 15px' }}
+      style={{
+        backgroundColor: secondary ? '#FFFFFF' : '', width: stretch ? '' : '100%', padding: '5px 15px',
+      }}
       className={styles.primaryButton}
       type='submit'
     >

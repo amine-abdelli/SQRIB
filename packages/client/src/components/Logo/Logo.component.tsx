@@ -1,10 +1,9 @@
 import React from 'react';
 import styles from './Logo.module.scss';
-import { LogoProps } from './Logo.props';
 
-function Logo({ isMediumScreen }: LogoProps) {
+function Logo() {
   return (
-    <p className={styles.logoText}>{!isMediumScreen ? 'SQRIB.IO' : 'S'}</p>
+    <p className={styles.logoText}>SQRIB.IO</p>
   );
 }
 

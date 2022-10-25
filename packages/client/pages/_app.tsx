@@ -38,6 +38,8 @@ function MyApp({ Component, pageProps }: AppProps) {
   const [letterWidth, setLetterWidth] = useState<number | undefined>();
   const [startTimer, setStartTimer] = useState<boolean>(false);
   const [isTimeOut, setIsTimeOut] = useState(false);
+  // On mobile and tablet size only the menu take the full screen
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [wordsStack, setWordsStack] = useState<string[]>(
     generateWordSet(language, GameOptions[gameMode].stackLength),
   );
@@ -45,8 +47,10 @@ function MyApp({ Component, pageProps }: AppProps) {
     60,
   );
 
+  // Is triggered everytime we change route
   useEffect(() => {
     onRestart();
+    setIsMenuOpen(false);
   }, [useRouter().pathname]);
 
   const onRestart = useCallback(() => {
@@ -80,9 +84,9 @@ function MyApp({ Component, pageProps }: AppProps) {
       <Layout theme={theme}>
         <Alert />
         <div className='flex' style={{ padding: isSmallScreen ? '0.5rem' : '1rem' }}>
-          <SideBar />
+          <SideBar fullScreen={isMediumScreen} isMenuOpen={isMenuOpen} setIsMenuOpen={setIsMenuOpen} />
           <div className='flex w100 flex-column'>
-            <Header />
+            <Header isMenuOpen={isMenuOpen} setIsMenuOpen={setIsMenuOpen} />
             <div className={styles.componentWrapper}>
               <div className='flex justify-center h100'>
                 <MainContext.Provider value={MainContextProps}>

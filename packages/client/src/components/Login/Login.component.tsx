@@ -1,15 +1,13 @@
 import { useMutation } from '@apollo/client';
 import React, { useEffect, useState } from 'react';
 import { LOGIN_MUTATION } from '@sqrib/api';
-import {
-  Text, Input, Spacer,
-} from '@nextui-org/react';
+import { Text } from '@nextui-org/react';
 import { emailPolicy } from '@sqrib/utils';
-import { Message, Lock } from 'react-iconly';
 import { LoginProps } from './Login.props';
 import Modal from '../../UI/Modal/Modal.component';
 import Button from '../../UI/Button/Button.component';
 import Logo from '../Logo/Logo.component';
+import Input from '../../UI/Input/Input.component';
 
 function Login({ open, setOpen }: LoginProps) {
   const [login, setLogin] = useState({ email: '', password: '' });
@@ -47,15 +45,6 @@ function Login({ open, setOpen }: LoginProps) {
     }
   };
 
-  function onInputChangeColor(key: 'email' | 'password') {
-    if (triggerLoginChecking && isValid[key]) {
-      return 'error';
-    } if (triggerLoginChecking && !isValid[key]) {
-      return 'success';
-    }
-    return 'primary';
-  }
-
   return (
     <Modal
       closeable
@@ -84,36 +73,22 @@ function Login({ open, setOpen }: LoginProps) {
         </Text>
         )}
         <Input
-          placeholder="e-mail"
-          bordered
-          value={login.email}
-          fullWidth
-          color={onInputChangeColor('email')}
-          size="lg"
-          type="email"
-          helperColor="error"
-          contentLeft={<Message />}
-          helperText={triggerLoginChecking && isValid.email ? 'Veuillez saisir une adresse e-mail valide' : ''}
+          type='email'
+          placeholder='john.doe@sqrib.io'
           onChange={(e) => setLogin({ ...login, email: e.target.value })}
+          value={login.email}
+          helperColor="error"
+          helperText={triggerLoginChecking && isValid.email ? 'Veuillez saisir une adresse e-mail valide' : ''}
         />
-        <div style={{ height: '20px' }} />
-        {triggerLoginChecking && isValid.email && <Spacer y={0.1} />}
         <Input
-          placeholder="mot de passe"
-          value={login.password}
-          bordered
-          fullWidth
-          helperColor='error'
-          helperText={triggerLoginChecking && isValid.password ? 'Votre mot de passe doit contenir au moins 8 caractères' : ''}
-          color={onInputChangeColor('password')}
-          size="lg"
-          type="password"
-          contentLeft={<Lock />}
+          type='password'
+          placeholder='Mot de passe'
           onChange={(e) => setLogin({ ...login, password: e.target.value })}
+          value={login.password}
         />
       </Modal.Body>
-      <Modal.Footer>
-        <Button text="Se connecter" onClick={onFinish} />
+      <Modal.Footer style={{ width: '20rem' }}>
+        <Button text="SE CONNECTER" onClick={onFinish} />
         <Button text="Mot de passe oublié ?" secondary onClick={onFinish} />
       </Modal.Footer>
     </Modal>

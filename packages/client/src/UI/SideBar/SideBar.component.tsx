@@ -42,8 +42,6 @@ function SideBar({ fullScreen, isMenuOpen, setIsMenuOpen }: SideBarProps) {
       className={styles.sideBar}
       style={{
         display: !isMenuOpen && fullScreen ? 'none' : '',
-        backgroundImage: 'url(\'../../assets/Images/main-background.png\')',
-        backgroundSize: 'cover',
       }}
     >
       {/* Show closing cross on mobile only when menu is fullscreen */}

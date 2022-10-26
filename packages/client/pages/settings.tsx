@@ -19,7 +19,6 @@ import DeleteUserTooltip from '../src/components/DeleteUserTooltip/DeleteUserToo
 import { useGetSelf } from '../src/hooks/useGetSelf';
 import { Routes } from '../src/utils/enums';
 import styles from '../styles/sass/pages/_settings.module.scss';
-import { themes } from '../styles/theme';
 import WithAuth from '../src/components/withAuth/withAuth.hoc';
 import { alertService } from '../services';
 import { useWindowSize } from '../src/hooks/useWindowSize';
@@ -37,26 +36,8 @@ function Settings() {
   const { cache } = useApolloClient();
   const router = useRouter();
   const selfSettings = data?.self.settings;
-  const { setFontSize, setLanguage, setTheme } = useContext(MainContext);
-  // const [updateNickname] = useMutation(UPDATE_NICKNAME_MUTATION, {
-  //   onCompleted: (payload) => {
-  //     // setNewNickname('');
-  //     alertService.success('Votre pseudo a bien été modifié', {});
-  //     const result = cache.readQuery<any, void>({ query: SELF_QUERY });
-  //     const self = result?.self;
-  //     cache.writeQuery({
-  //       query: SELF_QUERY,
-  //       data: {
-  //         self: {
-  //           ...self,
-  //           nickname: payload.updateNickname.nickname,
-  //         },
-  //       },
-  //     });
-  //   },
-  //   onError: () => alertService.error('Une erreur est survenue lors
-  // de la modification de votre pseudo', {}),
-  // });
+  const { setFontSize, setLanguage } = useContext(MainContext);
+
   const [passwordUpdateHandler] = useMutation(UPDATE_PASSWORD_MUTATION, {
     onCompleted: () => {
       alertService.success('Votre mot de passe a bien été modifié', {});
@@ -97,7 +78,6 @@ function Settings() {
       },
     },
   );
-  // const [newNickname, setNewNickname] = useState<string>();
   const [isUserDeletionTooltipVisible, setIsUserDeletionTooltipVisible] = useState<boolean>(false);
   const [updatePasswordParams, setUpdatePasswordParams] = useState<{
     actualPassword: string,
@@ -125,7 +105,6 @@ function Settings() {
       theme: darkMode,
       sound: isSoundActive,
     };
-    setTheme(darkMode ? themes.LIGHT : themes.DARK);
     updateSettings({ variables: settings });
   }, [languageSelected, fontSizeSelected, darkMode, isSoundActive]);
 
@@ -220,27 +199,6 @@ function Settings() {
       </Container>
       <Spacer y={2} />
       <Text color='inherit' h2>Mon compte</Text>
-      {/* <Container gap={mediumScreenGap}>
-        <Text color='inherit' h4>
-          Modifier mon pseudo
-        </Text>
-        <div className={styles.inputGroup} style={{ flexDirection: isMediumScreen
-           ? 'column' : 'row',
-         justifyContent: 'space-between' }}>
-          <Input value={newNickname} onChange={(e) => setNewNickname(e.target.value)}
-          placeholder="Nouveau pseudonyme" />
-          <Button
-            onClick={() => {
-              if (newNickname && newNickname.length >= 4) {
-                updateNickname({ variables: { nickname: newNickname } });
-              }
-            }}
-            auto
-          >
-            Enregistrer
-          </Button>
-        </div>
-      </Container> */}
       <Container gap={mediumScreenGap}>
         <Text color='inherit' h4>
           Modifier mon mot de passe

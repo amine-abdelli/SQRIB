@@ -10,7 +10,6 @@ import { FocusStyleManager } from '@blueprintjs/core';
 import { useRouter } from 'next/dist/client/router';
 import Layout from '../src/components/Layout/Layout.component';
 import SideBar from '../src/UI/SideBar/SideBar.component';
-import { ITheme, themes } from '../styles/theme';
 import '../styles/sass/globals.scss';
 import styles from '../styles/sass/pages/_app.module.scss';
 import { GameOptions } from '../src/utils/mode';
@@ -22,7 +21,6 @@ import { useWindowSize } from '../src/hooks/useWindowSize';
 import Header from '../src/components/Header/Header.component';
 
 function MyApp({ Component, pageProps }: AppProps) {
-  const [theme, setTheme] = useState<ITheme>(themes.LIGHT);
   const [fontSize, setFontSize] = useState<number>(FontSizes.LARGE);
   const [gameMode] = useState<string>(GameMode.COUNTDOWN);
   const [language, setLanguage] = useState<string>(Languages.FR);
@@ -72,8 +70,8 @@ function MyApp({ Component, pageProps }: AppProps) {
   }, [language, gameMode]);
 
   const MainContextProps = useMemo(() => ({
-    userInput, wordIndex, isTimeOut, setIsTimeOut, startTimer, setStartTimer, gameMode, countDown, wordsStack, setWordsStack, computedWords, setComputedWords, correctWords, setCorrectWords, setCountDown, setWordIndex, setUserInput, score, setScore, offSet, setOffSet, yFocusedPosition, setYFocusedPosition, yNextPosition, setYNextPosition, horizontalPosition, setHorizontalPosition, letterWidth, setLetterWidth, fontSize, language, setFontSize, theme, onRestart, setLanguage, setTheme,
-  }), [userInput, wordIndex, isTimeOut, setTheme, startTimer, gameMode, countDown, wordsStack, setWordsStack, computedWords, correctWords, score, setScore, offSet, yFocusedPosition, yNextPosition, horizontalPosition, letterWidth, fontSize, language, theme, onRestart, setLanguage]);
+    userInput, wordIndex, isTimeOut, setIsTimeOut, startTimer, setStartTimer, gameMode, countDown, wordsStack, setWordsStack, computedWords, setComputedWords, correctWords, setCorrectWords, setCountDown, setWordIndex, setUserInput, score, setScore, offSet, setOffSet, yFocusedPosition, setYFocusedPosition, yNextPosition, setYNextPosition, horizontalPosition, setHorizontalPosition, letterWidth, setLetterWidth, fontSize, language, setFontSize, onRestart, setLanguage,
+  }), [userInput, wordIndex, isTimeOut, startTimer, gameMode, countDown, wordsStack, setWordsStack, computedWords, correctWords, score, setScore, offSet, yFocusedPosition, yNextPosition, horizontalPosition, letterWidth, fontSize, language, onRestart, setLanguage]);
 
   // Disable ugly focus on blueprint's elements
   FocusStyleManager.onlyShowFocusOnTabs();
@@ -81,7 +79,7 @@ function MyApp({ Component, pageProps }: AppProps) {
   const { isMediumScreen, isSmallScreen } = useWindowSize();
   return (
     <ApolloProvider client={client}>
-      <Layout theme={theme}>
+      <Layout>
         <Alert />
         <div className='flex' style={{ padding: isSmallScreen ? '0.5rem' : '1rem' }}>
           <SideBar fullScreen={isMediumScreen} isMenuOpen={isMenuOpen} setIsMenuOpen={setIsMenuOpen} />
@@ -91,7 +89,7 @@ function MyApp({ Component, pageProps }: AppProps) {
               <div className='flex justify-center h100'>
                 <MainContext.Provider value={MainContextProps}>
                   <NextUIProvider>
-                    <Component theme={theme} {...pageProps} />
+                    <Component {...pageProps} />
                     {/* Compensate the height of the side bar appearing on the bottom of the screen on mobile view */}
                     {isMediumScreen && <div style={{ height: '40px' }} />}
                   </NextUIProvider>

@@ -1,5 +1,4 @@
-import React from 'react';
-import { ITheme } from '../../styles/theme';
+import React, { Dispatch, SetStateAction } from 'react';
 
 export const MainContext = React.createContext<{
   userInput: string,
@@ -8,10 +7,9 @@ export const MainContext = React.createContext<{
   setIsTimeOut: React.Dispatch<React.SetStateAction<boolean>>,
   startTimer: boolean,
   setStartTimer: React.Dispatch<React.SetStateAction<boolean>>,
-  gameMode: any,
   countDown: number,
   wordsStack: Array<string>,
-  setWordsStack: any,
+  setWordsStack: Dispatch<SetStateAction<string[]>>,
   computedWords: Array<string>,
   setComputedWords: React.Dispatch<React.SetStateAction<Array<string>>>,
   correctWords: Array<string>,
@@ -35,7 +33,5 @@ export const MainContext = React.createContext<{
   language: string,
   setFontSize: React.Dispatch<React.SetStateAction<number>>,
   setLanguage: React.Dispatch<React.SetStateAction<string>>,
-  theme: ITheme,
   onRestart: any,
-  setTheme: React.Dispatch<React.SetStateAction<ITheme>>,
     }>({} as any);

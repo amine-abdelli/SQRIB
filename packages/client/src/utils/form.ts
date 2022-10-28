@@ -8,6 +8,5 @@ export function onFormChange(
   setState: Dispatch<SetStateAction<SignupFormProps>>,
   form: SignupFormProps,
 ) {
-  console.log(event);
   setState({ ...form, [event.target.name]: event.target.value });
 }

@@ -36,6 +36,6 @@ export const theme = {
   tertiary: '#FFFFFF',
   quaternary: '#A7D1CE4D',
   outline: '#181818',
-  error: '#F31260',
+  error: '#E96062',
   success: '#13A452',
 };

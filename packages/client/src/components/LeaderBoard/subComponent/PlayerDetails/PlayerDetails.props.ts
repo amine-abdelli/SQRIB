@@ -9,6 +9,8 @@ export interface PlayerDetailsProps {
       nickname: string
       last_activity: string
     }
-  }
-  loading: boolean
+  },
+  loading: boolean,
+  isOpen: boolean,
+  setIsOpen: any,
 }

@@ -26,8 +26,7 @@ export async function signupService(args: ICreateUserArgs, context: Context) {
       user,
     };
   } catch (error) {
-    log.error('Error while signing up', { error });
-    console.log(error);
+    log.error({ error }, 'Error while signing up');
     throw new AuthenticationError('Error while signing up', { error });
   }
 }

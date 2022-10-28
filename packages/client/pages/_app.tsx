@@ -89,7 +89,7 @@ function MyApp({ Component, pageProps }: AppProps) {
               <div className='flex justify-center h100'>
                 <MainContext.Provider value={MainContextProps}>
                   <NextUIProvider>
-                    <Component {...pageProps} />
+                    <Component style={{ width: '100%' }} {...pageProps} />
                     {/* Compensate the height of the side bar appearing on the bottom of the screen on mobile view */}
                     {isMediumScreen && <div style={{ height: '40px' }} />}
                   </NextUIProvider>

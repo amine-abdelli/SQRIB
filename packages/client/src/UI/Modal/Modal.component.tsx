@@ -9,7 +9,7 @@ function Modal({
   const subComponentList = Object.keys(Modal);
   const subComponents = subComponentList
     .map((key) => React.Children
-      .map(children, (child) => (child.type.name === key ? child : null)));
+      .map(children, (child) => (child?.type.name === key ? child : null)));
   return (
     <>
       <div className={styles.modalWrapper} style={{ display: isOpen ? 'block' : 'none' }}>

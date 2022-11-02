@@ -1,9 +1,10 @@
 import { CSSProperties } from 'react';
 
 export interface ButtonProps {
-  text: string,
+  text: string | JSX.Element,
   onClick: () => void,
   secondary?: boolean,
   stretch?: boolean,
-  style?: CSSProperties
+  style?: CSSProperties,
+  disabled?: boolean
 }

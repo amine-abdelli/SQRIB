@@ -7,7 +7,7 @@ interface IScoreItemProps {
 }
 function ScoringItem({ content, color }: IScoreItemProps) {
   return (
-    <p style={{ color, margin: 0 }}>
+    <p style={{ color, margin: 0, fontWeight: 800 }}>
       {content}
     </p>
   );

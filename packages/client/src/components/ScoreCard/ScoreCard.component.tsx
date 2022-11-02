@@ -23,9 +23,14 @@ function ScoreCard({
         margin: stat ? '1px' : '20px 5px',
         padding: stat ? '3px' : '2rem 0',
         border: `${stat ? 0 : 2}px solid ${borderColor(highlight, best)}`,
+        fontSize: '12px',
+        fontWeight: 800,
       }}
     >
-      <span style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+      <span style={{
+        display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 800,
+      }}
+      >
         {best && <BsStars style={{ marginRight: '3px' }} color='gold' size={20} />}
         {title.toUpperCase()}
       </span>

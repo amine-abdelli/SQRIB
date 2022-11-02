@@ -1,3 +1,5 @@
+@import '../../../styles/sass/abstracts/index.scss';
+
 .displayer {
   width: 100%;
   position : relative;
@@ -8,6 +10,10 @@
   height: 8rem;
   overflow-y: hidden;
   position: relative;
+  @include thinBorder();
+  box-shadow: none;
+  padding: 1rem;
+  background-color: $tertiary;
 }
 
 .displayer:after {

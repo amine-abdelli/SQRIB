@@ -1,6 +1,5 @@
 /* eslint-disable max-len */
 import { FontSizes } from '@sqrib/utils';
-import { Card } from '@nextui-org/react';
 import { useRouter } from 'next/dist/client/router';
 import React, {
   ReactElement, useContext,
@@ -22,11 +21,11 @@ function Displayer(
   const {
     userInput, wordIndex,
     offSet, setYFocusedPosition,
-    setYNextPosition, startTimer, countDown, gameMode, computedWords,
+    setYNextPosition, startTimer, countDown, computedWords,
   } = useContext(MainContext);
 
   const overlayProps = {
-    gameMode, countDown, startTimer, computedWords,
+    countDown, startTimer, computedWords,
   };
   const displayedWords = wordsStack?.map((word: string, i: number): ReactElement => {
     const isWordPassed = wordIndex && computedWords && wordsStack && i && (i < wordIndex);
@@ -91,18 +90,14 @@ function Displayer(
   });
   const isOverlayTriggered = isMain ? !startTimer : false;
   return (
-    <div style={{ margin: 0, padding: 0 }}>
-      <Card>
-        <div className={styles.displayer}>
-          <div className={styles.borderTop} />
-          <div style={{ transform: `translate(0, ${offSet}px`, fontSize }}>
-            {displayedWords}
-          </div>
-          {isOverlayTriggered && (
-            <Overlay {...overlayProps} />
-          )}
-        </div>
-      </Card>
+    <div className={styles.displayer}>
+      <div className={styles.borderTop} />
+      <div style={{ transform: `translate(0, ${offSet}px`, fontSize }}>
+        {displayedWords}
+      </div>
+      {isOverlayTriggered && (
+        <Overlay {...overlayProps} />
+      )}
     </div>
   );
 }

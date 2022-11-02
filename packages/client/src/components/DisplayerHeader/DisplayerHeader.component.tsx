@@ -12,7 +12,6 @@ function DisplayerHeader({ children }: any) {
     wordIndex,
     setHorizontalPosition,
     wordsStack,
-    theme,
     setLetterWidth,
   } = useContext(MainContext);
   // ! a position absolute is fucking up the moving cursor
@@ -32,7 +31,6 @@ function DisplayerHeader({ children }: any) {
         <Cursor
           horizontalPosition={horizontalPosition}
           letterWidth={letterWidth}
-          theme={theme}
         />
       ) : ''}
       {children}

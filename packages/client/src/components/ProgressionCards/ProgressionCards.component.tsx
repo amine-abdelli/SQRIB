@@ -13,7 +13,16 @@ function ProgressionCards({ level = 5 }: { level: number }) {
       {alphabet.map(
         (letter, i) => (
           !isMediumScreen ? (
-            <span key={letter}>
+            <span
+              key={letter}
+              style={{ cursor: i <= level ? 'pointer' : '' }}
+              onClick={() => {
+                if (i <= level) {
+                  return console.log(i);
+                }
+                return null;
+              }}
+            >
               <Letter
                 isFocused={i === level}
                 isGreen={i <= level}

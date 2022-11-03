@@ -4,7 +4,7 @@ import { spreadLetters } from '../../utils/displayer.utils';
 import Cursor from './Cursor/Cursor.component';
 import styles from './DisplayerHeader.module.scss';
 
-function DisplayerHeader({ children }: any) {
+function DisplayerHeader({ children, customStack, size = 80 }: any) {
   const {
     letterWidth,
     horizontalPosition,
@@ -14,14 +14,15 @@ function DisplayerHeader({ children }: any) {
     wordsStack,
     setLetterWidth,
   } = useContext(MainContext);
-  // ! a position absolute is fucking up the moving cursor
+  const stack = customStack || wordsStack;
   return (
     <div className={styles.displayerHeaderWrapper}>
       <p
         className={styles.displayerHeader}
+        style={{ fontSize: `${size}px` }}
       >
         {spreadLetters(
-          wordsStack[wordIndex],
+          stack[wordIndex],
           userInput,
           setHorizontalPosition,
           setLetterWidth,

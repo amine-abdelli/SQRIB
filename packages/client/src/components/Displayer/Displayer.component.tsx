@@ -10,10 +10,11 @@ import { splitStringToSpans } from '../../utils/displayer.utils';
 import { Colors, Routes } from '../../utils/enums';
 import Overlay from '../Overlay/Overlay.component';
 import styles from './Displayer.module.scss';
+import { DisplayerProps } from './Displayer.props';
 import WordDisplayer from './subComponents/WordDisplayer.component';
 
 function Displayer(
-  { wordsStack }: { wordsStack: string[] },
+  { wordsStack, bordered }: DisplayerProps,
 ) {
   const isMain = useRouter().pathname === Routes.MAIN;
   const { data } = useGetSelf();
@@ -90,7 +91,7 @@ function Displayer(
   });
   const isOverlayTriggered = isMain ? !startTimer : false;
   return (
-    <div className={styles.displayer}>
+    <div className={styles.displayer} style={{ border: bordered ? '4px solid black' : 'none', boxShadow: bordered ? '' : 'none', overflow: 'hidden' }}>
       <div className={styles.borderTop} />
       <div style={{ transform: `translate(0, ${offSet}px`, fontSize }}>
         {displayedWords}

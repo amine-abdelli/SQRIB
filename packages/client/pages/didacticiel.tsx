@@ -7,8 +7,7 @@ import {
 } from '@apollo/client';
 import { alphabet, DEFAULT_LEVEL } from '@sqrib/utils';
 import { DIDACTICIEL_WORDSET_QUERY, SELF_QUERY, UPDATE_LEVEL_MUTATION } from '@sqrib/api';
-import { Button, Container, Spacer } from '@nextui-org/react';
-import { ArrowLeftSquare } from 'react-iconly';
+// import { ArrowLeftSquare } from 'react-iconly';
 import { Displayer } from '../src/components/Displayer/Displayer.component';
 import Input from '../src/components/Input/Input.component';
 import ProgressionCards from '../src/components/ProgressionCards/ProgressionCards.component';
@@ -17,6 +16,9 @@ import { useGetSelf } from '../src/hooks/useGetSelf';
 import KeyBoard from '../src/components/KeyBoard/KeyBoard.component';
 import useSpeedCalculator from '../src/hooks/useSpeedCalculator';
 import { useLocalStorage } from '../src/hooks/useLocalStorage';
+import DisplayerHeader from '../src/components/DisplayerHeader/DisplayerHeader.component';
+import { theme } from '../styles/theme';
+// import Button from '../src/UI/Button/Button.component';
 
 function Didacticiel() {
   const { data, isLoggedIn } = useGetSelf();
@@ -56,7 +58,7 @@ function Didacticiel() {
   || +levelStoredInLocalStorage || DEFAULT_LEVEL;
   const {
     userInput, setUserInput, correctWords, setCorrectWords, setOffSet, setYFocusedPosition,
-    setWordIndex, theme, startTimer, isTimeOut, setStartTimer, setComputedWords,
+    setWordIndex, startTimer, isTimeOut, setStartTimer, setComputedWords,
   } = useContext(MainContext);
 
   useEffect(() => {
@@ -92,43 +94,47 @@ function Didacticiel() {
   }, [userInput]);
 
   return (
-    <Container>
-      <h1>Didacticiel</h1>
-      <p className='m0'>
-        Vitesse moyenne de frappe :
-        {` ${typingSpeed} m/min`}
-      </p>
-      <div className='w100 flex justify-between mb10'>
-        <ProgressionCards level={level} />
-        <Button
-          auto
-          icon={<ArrowLeftSquare />}
-          onClick={() => {
-            fetchOneSetByLetter({ variables: { letter: alphabet[DEFAULT_LEVEL] } });
-            if (isLoggedIn && data.self.didacticiel_level !== DEFAULT_LEVEL) {
-              updateLevel({ variables: { level: DEFAULT_LEVEL } });
-            } else {
-              setLevelStoredInLocalStorage(JSON.stringify(DEFAULT_LEVEL));
-            }
-            setComputedWords([]);
-            setCorrectWords([]);
-            setOffSet(0);
-            setWordIndex(0);
-            setYFocusedPosition(0);
-          }}
+    <div style={{ padding: '0 25px' }}>
+      <div style={{
+        background: theme.tertiary, padding: ' 0 20px', border: '4px solid black', boxShadow: '4px 4px 0 black',
+      }}
+      >
+        {/* <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+          <h2>Didacticiel</h2>
+          <Button
+            stretch
+            text={<ArrowLeftSquare />}
+            onClick={() => {
+              fetchOneSetByLetter({ variables: { letter: alphabet[DEFAULT_LEVEL] } });
+              if (isLoggedIn && data.self.didacticiel_level !== DEFAULT_LEVEL) {
+                updateLevel({ variables: { level: DEFAULT_LEVEL } });
+              } else {
+                setLevelStoredInLocalStorage(JSON.stringify(DEFAULT_LEVEL));
+              }
+              setComputedWords([]);
+              setCorrectWords([]);
+              setOffSet(0);
+              setWordIndex(0);
+              setYFocusedPosition(0);
+            }}
+          />
+        </div> */}
+        <Displayer wordsStack={markovChain || []} />
+        <DisplayerHeader customStack={markovChain} size="60" />
+        <Input
+          didacticielStack={markovChain}
+          setUserInput={setUserInput}
+          userInput={userInput}
+          isTimeOut={false}
         />
+        <ProgressionCards level={level} />
+        <p className='m0 flex justify-center bold'>
+          Vitesse moyenne de frappe :
+          {` ${typingSpeed} m/min`}
+        </p>
       </div>
-      <Displayer wordsStack={markovChain || []} />
-      <Spacer />
-      <Input
-        didacticielStack={markovChain}
-        setUserInput={setUserInput}
-        userInput={userInput}
-        isTimeOut={false}
-      />
-      <Spacer />
-      <KeyBoard theme={theme} enable />
-    </Container>
+      <KeyBoard enable />
+    </div>
   );
 }
 

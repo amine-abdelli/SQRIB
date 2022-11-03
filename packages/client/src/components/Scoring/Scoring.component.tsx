@@ -46,12 +46,12 @@ function Scoring({
   return (
     <>
       <div className={styles.scoringWrapper} style={{ position: 'relative' }}>
-        <Avatar username={nickname} size='small' />
+        {nickname && <Avatar username={nickname} size='small' />}
         <Spacer w="20" />
         {!isLargeScreen && (
           <>
             <Tooltip hideArrow content='Vitesse moyenne de frappe'>
-              <ScoringItem content={`${!isTimeOut ? typingSpeed : 0} m/min`} />
+              <ScoringItem content={`${!isTimeOut ? (typingSpeed || 0) : 0} m/min`} />
             </Tooltip>
             <Spacer w="20" />
           </>

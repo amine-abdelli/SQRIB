@@ -6,10 +6,8 @@ function Letter(
 ) {
   return (
     <span
-      className={style.letter}
+      className={isGreen ? style.passedLetter : style.letter}
       style={{
-        backgroundColor: isGreen ? 'green' : 'inherit',
-        color: isGreen ? '#dfdad2' : '',
         transform: isFocused ? 'scale(1.4)' : '',
       }}
     >

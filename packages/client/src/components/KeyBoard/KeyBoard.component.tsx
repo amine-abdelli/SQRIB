@@ -7,9 +7,9 @@ import styles from './KeyBoard.module.scss';
 import { translateKeyBoardCode } from './helpers/KeyBoard.helper';
 import { Routes } from '../../utils/enums';
 import { useLazyGetSelf } from '../../hooks/useLazyGetSelf';
-import { ITheme } from '../../../styles/theme';
+import { theme } from '../../../styles/theme';
 
-function KeyBoard({ enable, theme }: { enable: boolean, theme: ITheme }) {
+function KeyBoard({ enable }: { enable: boolean }) {
   const [keyPressed, setKeyPressed] = useState<string>('');
   const Router = useRouter();
   const keyBoardKeys: string[] = keyBoardLayout[KeyBoardEnum.DEFAULT_AZERTY];
@@ -41,15 +41,15 @@ function KeyBoard({ enable, theme }: { enable: boolean, theme: ITheme }) {
 
   function expressKeyStyleProperty(e: string, pressedKey: string) {
     if (e === 'Escape') {
-      return theme?.tertiary;
+      return theme.tertiary;
     }
     if (pressedKey === e) {
-      return theme?.secondary;
+      return theme.primary;
     }
     // if (!highlightedKeys.includes(e) && isDidacticiel) {
     //   return '#A0A0A0';
     // }
-    return '';
+    return theme.tertiary;
   }
   return (
     <div style={{ borderColor: theme?.secondary }} className={styles.keyBoardWrapper}>
@@ -63,11 +63,15 @@ function KeyBoard({ enable, theme }: { enable: boolean, theme: ITheme }) {
                   key={e}
                   className={styles.key}
                   style={{
-                    borderColor: theme?.secondary,
-                    opacity: enable ? 1 : 0.5,
-                    transform: isKeyPressedAndEnable ? 'scale(0.95)' : 'scale(1)',
+                    borderColor: theme?.outline,
+                    transform: isKeyPressedAndEnable ? 'scale(0.95)' : 'scale(0.99)',
                     backgroundColor: enable ? expressKeyStyleProperty(e, keyPressed) : 'grey',
-                    color: isKeyPressedAndEnable ? theme?.primary : theme?.secondary,
+                    color: theme.outline,
+                    border: '3px solid black',
+                    fontWeight: 800,
+                    fontSize: '16px',
+                    boxSizing: 'border-box',
+                    fontFamily: 'Poppins',
                   }}
                 >
                   {translateKeyBoardCode(e)}

@@ -43,7 +43,6 @@ function Signup({ open, setOpen }: LoginProps) {
   const onFormSubmit = () => {
     setTriggerLoginChecking(true);
     if (Object.values(isValid).every(Boolean)) {
-      console.log('isValid', Object.values(isValid).every(Boolean));
       setSignupForm({
         nickname: '',
         email: '',
@@ -60,7 +59,6 @@ function Signup({ open, setOpen }: LoginProps) {
       });
     }
   };
-  console.log('signupForm', signupForm);
   return (
     <Modal
       closeable
@@ -80,32 +78,32 @@ function Signup({ open, setOpen }: LoginProps) {
           name="nickname"
           onChange={(event) => onFormChange(event, setSignupForm, signupForm)}
           placeholder="Choisissez un pseudo"
-          helperColor='error'
-          helperText={triggerLoginChecking && !isValid.nickname ? 'Lettres, chiffres, tirets et tirets du bas uniquement.' : ''}
+          helperColor={(triggerLoginChecking && (!isValid.nickname ? 'error' : 'success')) as string}
+          helperText={triggerLoginChecking && (!isValid.nickname ? 'Lettres, chiffres, tirets et tirets du bas uniquement.' : '')}
         />
         <Input
           type="email"
           name="email"
           onChange={(event) => onFormChange(event, setSignupForm, signupForm)}
           placeholder="Entrez une adresse e-mail valide"
-          helperColor='error'
-          helperText={triggerLoginChecking && !isValid.email ? 'Veuillez saisir une adresse e-mail valide.' : ''}
+          helperColor={(triggerLoginChecking && (!isValid.email ? 'error' : 'success'))as string}
+          helperText={triggerLoginChecking && (!isValid.email ? 'Veuillez saisir une adresse e-mail valide.' : '')}
         />
         <Input
           onChange={(event) => onFormChange(event, setSignupForm, signupForm)}
           type="password"
           name="password"
           placeholder="mot de passe"
-          helperColor='error'
-          helperText={triggerLoginChecking && !isValid.password ? 'Votre mot de passe doit contenir au moins 8 caractères, une majuscule, une minuscule, un caractère spécial et un chiffre.' : ''}
+          helperColor={(triggerLoginChecking && (!isValid.password ? 'error' : 'success')) as string}
+          helperText={triggerLoginChecking && (!isValid.password ? 'Votre mot de passe doit contenir au moins 8 caractères, une majuscule, une minuscule, un caractère spécial et un chiffre.' : '') as string}
         />
         <Input
           onChange={(event) => onFormChange(event, setSignupForm, signupForm)}
           type="password"
           name="retypedPassword"
           placeholder="confirmer mot de passe"
-          helperColor='error'
-          helperText={triggerLoginChecking && !isValid.retypedPassword ? 'Vos deux mots de passe doivent être identiques.' : ''}
+          helperColor={(triggerLoginChecking && (!isValid.retypedPassword ? 'error' : 'success')) as string}
+          helperText={triggerLoginChecking && (!isValid.retypedPassword ? 'Vos deux mots de passe doivent être identiques.' : '') as string}
         />
       </Modal.Body>
       <Modal.Footer style={{ width: '20rem' }}>

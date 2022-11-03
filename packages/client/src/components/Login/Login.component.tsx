@@ -77,7 +77,6 @@ function Login({ open, setOpen }: LoginProps) {
           placeholder='john.doe@sqrib.io'
           onChange={(e) => setLogin({ ...login, email: e.target.value })}
           value={login.email}
-          helperColor="error"
           helperText={triggerLoginChecking && isValid.email ? 'Veuillez saisir une adresse e-mail valide' : ''}
         />
         <Input

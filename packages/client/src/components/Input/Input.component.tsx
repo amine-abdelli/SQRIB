@@ -81,6 +81,7 @@ function Input({
         value={userInput}
         onKeyDown={(event: KeyboardEvent<HTMLInputElement>) => onSpacePress(event)}
         disabled={((isTimeOut) && !userInput) || isMultigamerAndNotAllowToPlay}
+        placeholder="Start typing here..."
       />
     </div>
   );

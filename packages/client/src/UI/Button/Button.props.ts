@@ -6,5 +6,6 @@ export interface ButtonProps {
   secondary?: boolean,
   stretch?: boolean,
   style?: CSSProperties,
-  disabled?: boolean
+  disabled?: boolean,
+  light?: boolean
 }

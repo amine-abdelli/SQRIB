@@ -15,4 +15,10 @@
         transition: scale 0.1s ease-in-out;
         scale: 0.99;
     }
+
+    &:disabled {
+        background-color: grey;
+        scale: 1;
+        cursor: auto;
+    }
 }

@@ -1,19 +1,14 @@
-import {
-  formatDate, topValue,
-} from '@sqrib/utils';
+import { formatDate, Game } from '@sqrib/utils';
 import React from 'react';
-import { useWindowSize } from '../../../../hooks/useWindowSize';
-import Spacer from '../../../../UI/Spacer/Spacer.component';
 import Table from '../../../../UI/Table/Table.component';
 import { useColumns } from '../../useColumns.hook';
+import DetailsHeader from '../DetailsHeader/DetailsHeader.component';
 import { PlayerDetailsMultiProps } from './PlayerDetailsMulti.props';
 
 function PlayerDetailsMulti({ games, details }: PlayerDetailsMultiProps) {
-  const { isMediumScreen } = useWindowSize();
-
   const scores = games.map((game: any) => game?.players
     .find((player: any) => player.name === details.nickname).score);
-  const lastActivity = new Date(details.last_activity);
+
   const gamesToTableData = games
     .map((game: any, index) => ({
       hasWon: game.winner === details.nickname ? 'true' : 'false',
@@ -30,28 +25,18 @@ function PlayerDetailsMulti({ games, details }: PlayerDetailsMultiProps) {
   const { multiplayerDetails } = useColumns();
   return (
     <>
-      <div style={{ display: 'flex' }}>
-        <p style={{ fontWeight: 600, margin: 0 }}>
-          Parties jouées:
-          {' '}
-          <span style={{ fontWeight: 800 }}>{scores.length || 0}</span>
-        </p>
-        <Spacer w="10" />
-        <p style={{ fontWeight: 600, margin: 0 }}>
-          Meilleur mpm :
-          {' '}
-          <span style={{ fontWeight: 800 }}>{topValue(scores, 'mpm')}</span>
-        </p>
-        <Spacer w="10" />
-        <p style={{ fontWeight: 600, margin: 0 }}>
-          Dernière activitée :
-          {' '}
-          <span style={{ fontWeight: 800 }}>{formatDate(lastActivity)}</span>
-        </p>
-      </div>
+      <DetailsHeader
+        scores={scores}
+        games={games}
+        lastActivity={details?.last_activity}
+        type={Game.MULTI}
+        details={details}
+      />
       <Table
         dataSource={gamesToTableData}
         columns={multiplayerDetails()}
+        emptyMessage="Pas de données multijoueurs pour ce joueur"
+        pagination={5}
       />
     </>
   );

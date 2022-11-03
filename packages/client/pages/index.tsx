@@ -24,7 +24,6 @@ function Home() {
     });
   }, []);
   const gamesGroupedByWinners = _.groupBy(globalGamesData?.games, 'winner');
-  console.log(globalGamesData);
   const { isSmallScreen } = useWindowSize();
   return (
     globalGamesData ? (
@@ -40,14 +39,14 @@ function Home() {
         <LeaderBoardTable
           columns={soloColumns}
           scores={globalGamesData?.solo}
-          title="Top 50 - Solo"
+          title="Top 20 - Solo"
           style={{ width: '100%', height: '100%', margin: isSmallScreen ? '10px 0' : '10px' }}
         />
         <LeaderBoardTable
           scores={globalGamesData?.multi}
           columns={multiplayerColumns}
           winnerBoard={gamesGroupedByWinners}
-          title="Top 50 - Multijoueur"
+          title="Top 20 - Multijoueur"
           style={{ width: '100%', height: '100%', margin: isSmallScreen ? '10px 0' : '10px' }}
         />
       </div>

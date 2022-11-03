@@ -33,6 +33,7 @@ function LeaderBoardTable({
   // Fetch user's data
   const scoresToTableData = scores && scores?.[langKey]
     ?.filter(({ username }) => username)
+    ?.slice(0, 19)
     ?.map((score, index) => ({
       userId: score.userId,
       position: index + 1,
@@ -51,11 +52,11 @@ function LeaderBoardTable({
       },
     });
   }
-  console.log('data', data);
+  console.log('scoresToTableData', [...scoresToTableData || [], scoreTemplate]);
   return (
     <div style={style}>
       <Table
-        dataSource={[...scoresToTableData, scoreTemplate]}
+        dataSource={[...scoresToTableData || [], scoreTemplate]}
         columns={columns(fetchUserGamingData)}
         scrollable
         header={(
@@ -64,7 +65,7 @@ function LeaderBoardTable({
           }}
           >
             <h2 style={{ margin: 0, padding: 0 }}>{title}</h2>
-            <Select value={langKey} onChange={(e) => setLangKey(e as Languages)} />
+            <Select value={langKey} onChange={(e) => setLangKey(e as Languages)} data={['FR', 'EN', 'ES', 'DE']} />
           </div>
         )}
       />

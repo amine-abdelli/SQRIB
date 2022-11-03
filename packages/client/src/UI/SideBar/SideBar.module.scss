@@ -33,7 +33,7 @@
       font-family: 'Poppins';
       color: $tertiary;
       font-weight: 700;
-      font-size: 17px; // 40px; on mobile
+      font-size: 20px; // 40px; on mobile
       margin: 0;
       @include stroke($outline, 3px);
     }

@@ -260,7 +260,11 @@ export const Services = {
     const scoresInSolo = scores.filter(isSolo);
     const multiplayerGroupedScores = groupScoresByLanguageAndHighestScores(multiplayerScores);
     const scoresInSoloGroupedScores = groupScoresByLanguageAndHighestScores(scoresInSolo);
-    return { solo: scoresInSoloGroupedScores, multi: multiplayerGroupedScores, games };
+    return {
+      solo: scoresInSoloGroupedScores,
+      multi: multiplayerGroupedScores,
+      games,
+    };
   },
   async saveGame(game: GameType, roomID: string) {
     try {

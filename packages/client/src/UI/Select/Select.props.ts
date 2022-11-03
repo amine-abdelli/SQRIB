@@ -1,3 +1,5 @@
-import { Languages } from '@sqrib/utils';
-
-export interface SelectProps {onChange: (lang: Languages) => void, value: Languages}
+export interface SelectProps {
+  onChange: (value: any) => void,
+  value: string | number,
+  data: any[]
+}

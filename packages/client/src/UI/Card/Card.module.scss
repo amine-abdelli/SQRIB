@@ -1,0 +1,8 @@
+@import '../../../styles/sass/abstracts/index.scss';
+
+.cardStyle {
+  @include thickBorder();
+  background: $tertiary;
+  width: auto;
+  height: 100%;
+}

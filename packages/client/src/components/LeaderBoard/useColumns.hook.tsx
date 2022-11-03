@@ -35,7 +35,14 @@ export function useColumns() {
         dataIndex: 'userId', // The key corresponding to our data
         key: 'userId',
         render: (item: any, currentData: any) => (currentData.username && (
-          item ? <span onClick={() => fn(item)}><Show style={{ margin: 0, cursor: 'pointer' }} /></span> : <Hide />
+          item ? (
+            <span
+              style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}
+              onClick={() => fn(item)}
+            >
+              <Show style={{ margin: 0, cursor: 'pointer' }} />
+            </span>
+          ) : <Hide />
         )),
       },
     ];
@@ -138,7 +145,33 @@ export function useColumns() {
       },
     ];
   }
+
+  function roomTableColumns(fn?: any) {
+    return [
+      {
+        title: 'Langue', // What is displayed by in the table header
+        dataIndex: 'lang', // The key corresponding to our data
+        key: 'lang',
+      },
+      {
+        title: 'Nom', // What is displayed by in the table header
+        dataIndex: 'name', // The key corresponding to our data
+        key: 'name',
+        align: 'start',
+      },
+      {
+        title: 'Joueurs', // What is displayed by in the table header
+        dataIndex: 'players', // The key corresponding to our data
+        key: 'players',
+      },
+      {
+        title: 'Mots', // What is displayed by in the table header
+        dataIndex: 'wordAmount', // The key corresponding to our data
+        key: 'wordAmount',
+      },
+    ];
+  }
   return {
-    multiplayerColumns, soloColumns, multiplayerDetails, soloDetails,
+    multiplayerColumns, soloColumns, multiplayerDetails, soloDetails, roomTableColumns,
   };
 }

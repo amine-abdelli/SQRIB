@@ -13,7 +13,7 @@ export interface InputProps {
   stretch?: boolean,
   state?: 'error' | 'success',
   helperColor?: string,
-  helperText?: string,
+  helperText?: string | boolean,
   name?: string
 }
 
@@ -23,7 +23,7 @@ function Input({
   const [isPopoverOpen, setIsPopoverOpen] = useState(false);
   return (
     <div style={{ position: 'relative' }}>
-      {helperColor === 'error' && helperText && (
+      {helperColor && helperText && (
         <Popover
           containerStyle={{ zIndex: '9999999999999999' }}
           isOpen={isPopoverOpen}
@@ -51,9 +51,18 @@ function Input({
               position: 'absolute', right: '5px', top: '55%', transform: 'translateY(-50%)',
             }}
           >
-            <InfoCircle set="bold" primaryColor={theme.error} />
+            <InfoCircle set="bold" primaryColor={theme[helperColor]} />
           </span>
         </Popover>
+      )}
+      {helperColor && !helperText && (
+      <span
+        style={{
+          position: 'absolute', right: '5px', top: '55%', transform: 'translateY(-50%)',
+        }}
+      >
+        <InfoCircle set="bold" primaryColor={theme[helperColor]} />
+      </span>
       )}
       <input
         placeholder={placeholder}

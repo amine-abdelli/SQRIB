@@ -1,4 +1,4 @@
-@import '../../../../styles/sass/abstracts/breakpoints';
+@import '../../../../styles/sass/abstracts/index.scss';
 
 .createModalWrapper {
   display: flex;
@@ -22,6 +22,15 @@
       border-radius: 50px;
     }
   }
+}
+
+.inviteTitle {
+  color: $primary;
+  text-align: center;
+  font-size: 15px;
+  padding: 0;
+  margin: 0;
+  @include stroke($outline, 2px);
 }
 
 @media screen and (max-width: $md-screen) {

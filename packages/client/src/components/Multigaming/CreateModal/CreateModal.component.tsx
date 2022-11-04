@@ -1,16 +1,18 @@
-import {
-  Button, Container, Input, Modal, Radio, Spacer, Text,
-} from '@nextui-org/react';
-import { languages, wordAmount } from '@sqrib/utils';
+import { Languages, languages, wordAmount } from '@sqrib/utils';
 import React, { useEffect } from 'react';
 import router from 'next/router';
 import { CreateModalProps, defaultGameParameters } from './CreateModal.props';
-import { onFormChange } from '../../../utils/form';
 import styles from './CreateModal.module.scss';
 import GameLink from './GameLink/GameLink.component';
 import { useWindowSize } from '../../../hooks/useWindowSize';
 import { socketDisconnect } from '../../../../services/socket.service';
 import { Routes } from '../../../utils/enums';
+import Modal from '../../../UI/Modal/Modal.component';
+import Button from '../../../UI/Button/Button.component';
+import Input from '../../../UI/Input/Input.component';
+import Card from '../../../UI/Card/Card.component';
+import Spacer from '../../../UI/Spacer/Spacer.component';
+import Select from '../../../UI/Select/Select.component';
 
 function CreateModal({
   isVisible, roomID, username, isHost: isCreator, gameParameters, setGameParameters, game,
@@ -28,102 +30,90 @@ function CreateModal({
     });
   }, [roomName]);
 
-  const host = game && Object.values(game?.clients).find(
-    (client: any) => client.host,
-  );
+  const host = game && Object.values(game?.clients).find((client: any) => client.host);
   const isHost = host?.id === socket.id || host?.username === username;
   return (
     <Modal
+      isOpen={isVisible}
+      sqribBackground
+      closeable
+      darkCross
       fullScreen
-      open={isVisible}
-      aria-labelledby="Create room modal"
-      css={{
-        minHeight: '100vh',
-        display: 'flex',
-        justifyContent: 'center',
-      }}
-      onClose={() => {
+      setIsOpen={() => {
         setGameParameters(defaultGameParameters);
+        socketDisconnect(socket);
+        router.push('/multigaming');
       }}
     >
-      <Container css={{ padding: '1rem' }}>
-        <div className={styles.createModalWrapper} style={{ alignItems: isMediumScreen ? 'center' : '' }}>
-          <div
-            className='flex align-center flex-column'
-            style={{
-              minWidth: '20rem', maxWidth: '30rem', display: 'flex',
-            }}
+      <Modal.Body style={{
+        display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%', flexDirection: 'column',
+      }}
+      >
+        <div className={styles.createModalWrapper} style={{ display: 'flex', alignItems: isMediumScreen ? 'center' : '' }}>
+          <Card
+            shadowed
+            width='350'
           >
-            <Text h3 className='text-center' css={{ marginBottom: '1rem' }}>{isHost || isCreator ? 'Créer une partie' : 'En attente que l\'hôte lance la partie'}</Text>
+            <h3 className='text-center' style={{ marginBottom: '1rem' }}>
+              {(isHost || isCreator)
+                ? 'Créer une partie'
+                : 'En attente que l\'hôte lance la partie'}
+            </h3>
             <Input
-              color='primary'
-              bordered
-              css={{ width: '100%' }}
               value={gameParameters?.name}
               disabled
-              aria-labelledby="Room name input"
+              fullWidth
             />
-            <Radio.Group
-              disabled={!isHost && !isCreator}
-              value={gameParameters.language}
-              onChange={(e) => onFormChange(e, 'language', setGameParameters, gameParameters)}
-              style={{
-                display: 'flex', flexDirection: 'row', width: '100%', justifyContent: 'space-between',
-              }}
-              aria-labelledby="Language picker"
-            >
-              {languages.map(({ flag, country }) => (
-                <Radio value={country} style={{ display: 'inline-block' }} key={country}>
-                  <Text>{flag}</Text>
-                </Radio>
-              ))}
-            </Radio.Group>
-            <Radio.Group
-              disabled={!isHost && !isCreator}
-              value={gameParameters.wordAmount}
-              onChange={(e) => onFormChange(e, 'wordAmount', setGameParameters, gameParameters)}
-              style={{
-                display: 'flex', flexDirection: 'row', justifyContent: 'space-between', width: '100%',
-              }}
-              aria-labelledby="Word amount picker"
-            >
-              {Object.values(wordAmount).map((words) => (
-                <Radio value={words} className='inline-block' key={words}>
-                  <Text>{words}</Text>
-                </Radio>
-              ))}
-            </Radio.Group>
-            <Spacer />
+            <Spacer h="10" />
+            <div style={{ display: 'flex' }}>
+              <div style={{ flexBasis: '50%' }} className='flex flex-column'>
+                <span className='bold'>Choix de la langue</span>
+                <Select
+                  data={languages.map(({ flag, country }) => ({ label: flag, value: country }))}
+                  value={gameParameters?.language}
+                  onChange={(event: Languages) => setGameParameters(
+                    { ...gameParameters, language: event },
+                  )}
+                />
+              </div>
+              <Spacer h="20" />
+              <div className='flex flex-column'>
+                <span className='bold'>Nombre de mots</span>
+                <Select
+                  data={Object.values(wordAmount)
+                    .map((amount) => ({ label: amount, value: amount }))}
+                  value={gameParameters?.wordAmount}
+                  onChange={(event: number) => setGameParameters(
+                    { ...gameParameters, wordAmount: event },
+                  )}
+                />
+              </div>
+            </div>
+            <Spacer h="20" />
             <Button
               disabled={!isHost && !isCreator}
-              animated
-              className='w100'
               onClick={() => startGame()}
-            >
-              Commencer
-            </Button>
+              text="Commencer"
+            />
             <Button
-              bordered
-              animated
-              className='w100'
+              secondary
               onClick={() => {
                 setGameParameters(defaultGameParameters);
                 socketDisconnect(socket);
                 router.push('/multigaming');
               }}
-            >
-              Annuler
-            </Button>
-          </div>
+              text="Annuler"
+            />
+          </Card>
           <div style={{ margin: '0 1rem' }}>
-            <Text h3 className='text-center'>Joueurs</Text>
+            <h3 className='text-center' style={{ color: 'white' }}>Joueurs</h3>
             <div className={styles.playersWrapper}>
               {game?.clients && Object.values(game?.clients).map((client: any) => (
                 username && (
                 <div key={client.id}>
                   <div
                     className={styles.player}
-                    style={{ backgroundColor: client.color, fontWeight: 'bold' }}
+                    style={{ backgroundColor: client.color, fontWeight: 'bold', boxShadow: '4px 4px 0 black' }}
                   >
                     {client.username}
                   </div>
@@ -134,10 +124,11 @@ function CreateModal({
           </div>
         </div>
         <div style={{ display: 'inline-block', width: '20rem', marginTop: '1rem' }}>
-          <Text h5 className='text-center'>Invite d&apos;autres joueurs</Text>
+          <h5 className={styles.inviteTitle}>Partage ce lien pour inviter d&apos;autres joueurs</h5>
           <GameLink url={invitationUrl} />
         </div>
-      </Container>
+      </Modal.Body>
+
     </Modal>
   );
 }

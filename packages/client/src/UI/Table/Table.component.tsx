@@ -96,7 +96,11 @@ function Body({
             ))}
         </tr>
       )))}
-      {!dataSource.length && <tr style={{ textAlign: 'center', opacity: 0.5 }}><td colSpan={columns.length}>{emptyMessage}</td></tr>}
+      {!dataSource.length && (
+        <tr style={{ textAlign: 'center', opacity: 0.5, height: '1rem' }}>
+          <td colSpan={columns.length}>{emptyMessage}</td>
+        </tr>
+      )}
     </tbody>
   );
 }
@@ -143,18 +147,19 @@ function Table({
           ref={ref}
         />
         {(footer || selectedPagination) && (
-        <Footer dataSource={dataSource} columns={columns}>
-          {selectedPagination && paginationSelectData && (dataSource.length > initialPagination ? (
-            <div style={{ padding: '5px 10px', display: 'flex', justifyContent: 'flex-end' }}>
-              <Select
-                value={selectedPagination}
-                onChange={(value: number) => setPagination(value)}
-                data={paginationSelectData}
-              />
-            </div>
-          ) : false)}
-          {footer}
-        </Footer>
+          <Footer dataSource={dataSource} columns={columns}>
+            {selectedPagination && paginationSelectData && (dataSource.length > initialPagination
+              ? (
+                <div style={{ padding: '5px 10px', display: 'flex', justifyContent: 'flex-end' }}>
+                  <Select
+                    value={selectedPagination}
+                    onChange={(value: number) => setPagination(value)}
+                    data={paginationSelectData.map((pages) => ({ label: pages, value: pages }))}
+                  />
+                </div>
+              ) : false)}
+            {footer}
+          </Footer>
         )}
       </table>
     </div>

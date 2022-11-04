@@ -4,17 +4,32 @@ import { ModalProps } from './Modal.props';
 import styles from './Modal.module.scss';
 
 function Modal({
-  isOpen, setIsOpen, children, closeable, blur, darkCross,
+  isOpen, setIsOpen, children, closeable, blur, darkCross, fullScreen, style,
+  sqribBackground,
 }: ModalProps) {
   const subComponentList = Object.keys(Modal);
   const subComponents = subComponentList
     .map((key) => React.Children
       .map(children, (child) => (child?.type.name === key ? child : null)));
+  const fullScreenStyle = (fullScreen && isOpen) ? {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    bottom: 0,
+    right: 0,
+    transform: 'translate(0%, 0%)',
+  } : {};
+  const modalStyle = sqribBackground ? 'sqribBackground' : 'modalWrapper';
   return (
     <>
-      <div className={styles.modalWrapper} style={{ display: isOpen ? 'block' : 'none' }}>
+      <div
+        className={styles[modalStyle]}
+        style={{
+          ...style, ...fullScreenStyle as any, display: isOpen ? 'block' : 'none',
+        }}
+      >
         <ClosingCross display={!!closeable} onClose={setIsOpen} dark={darkCross} />
-        <div>{subComponents}</div>
+        {subComponents}
       </div>
       {isOpen && <div onClick={() => setIsOpen(false)} style={{ backdropFilter: `blur(${blur ? '3' : '0'}px)` }} className={styles.overlay} />}
     </>

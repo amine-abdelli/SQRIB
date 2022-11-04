@@ -1,6 +1,6 @@
 import { GameType } from '@sqrib/utils';
 import {
-  Container, Modal, Spacer, Text,
+  Container, Text,
 } from '@nextui-org/react';
 import { useRouter } from 'next/router';
 import React, {
@@ -20,6 +20,8 @@ import VictoryModal from '../../src/components/Multigaming/VictoryModal/VictoryM
 import { MainContext } from '../../src/context/MainContext';
 import { useGetSelf } from '../../src/hooks/useGetSelf';
 import { useLocalStorage } from '../../src/hooks/useLocalStorage';
+import Modal from '../../src/UI/Modal/Modal.component';
+import Spacer from '../../src/UI/Spacer/Spacer.component';
 
 function Room() {
   const router = useRouter();
@@ -67,7 +69,7 @@ function Room() {
   }, [socketRef]);
   // Global wordStack is set to calculate score details every time a user press enter
   useEffect(() => {
-    setWordsStack(wordSet);
+    setWordsStack(wordSet!);
   }, [setWordsStack, wordSet]);
 
   useEffect(() => {
@@ -120,12 +122,14 @@ function Room() {
   return (
     <Container>
       <Modal
-        open={shouldDisplayUsernameInput}
-        onClose={() => setShouldDisplayUsernameInput(false)}
+        isOpen={shouldDisplayUsernameInput}
+        setIsOpen={() => setShouldDisplayUsernameInput(false)}
       >
-        <EnterInput
-          setUsername={setUsername}
-        />
+        <Modal.Body>
+          <EnterInput
+            setUsername={setUsername}
+          />
+        </Modal.Body>
       </Modal>
       <CreateModal
         isVisible={game?.status === 'staging'}
@@ -161,16 +165,19 @@ function Room() {
       />
       )}
       <Modal
-        css={{ padding: '2rem' }}
-        open={shouldDisplayFirstCounterModal}
-        onClose={() => setShouldDisplayFirstCounterModal(false)}
+        isOpen={shouldDisplayFirstCounterModal}
+        setIsOpen={() => setShouldDisplayFirstCounterModal(false)}
       >
-        <Text h3>Prêt?</Text>
-        <Text h3>
-          {counter > 0 ? (
-            counter
-          ) : 'GO'}
-        </Text>
+        <Modal.Body>
+          <div className='flex justify-center align-center'>
+            <Text h3>Prêt?</Text>
+            <Text h3>
+              {counter > 0 ? (
+                counter
+              ) : 'GO'}
+            </Text>
+          </div>
+        </Modal.Body>
       </Modal>
     </Container>
   );

@@ -1,3 +1,5 @@
+@import '../../../styles/sass/abstracts/index.scss';
+
 .progressBarWrapper {
   position: relative;
   height: 1rem;
@@ -6,4 +8,5 @@
   border-radius: 10px;
   color: white;
   font-weight: bold;
+  border: 3px solid black;
 }

@@ -1,7 +1,7 @@
 import React from 'react';
 import { SpacerProps } from './Spacer.props';
 
-function Spacer({ w, h }: SpacerProps) {
+function Spacer({ w = '10', h }: SpacerProps) {
   return (
     <div style={{ width: `${w}px`, height: `${h}px` }} />
   );

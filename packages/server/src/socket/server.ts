@@ -177,6 +177,14 @@ export function initializeSocket(io: Socket) {
         );
         GAMES = Services.updateGameStatus(GameStatus.PLAYING, updatedGameObject, roomID);
         SETS = updatedSetObject;
+
+        // Update words stack with new parameters
+        io.to(roomID).emit('join-room', {
+          roomID,
+          wordSet: SETS[GAMES[roomID]?.setID],
+          game: GAMES[roomID],
+        });
+
         // Update game status to the client to close creation room modal
         io.to(roomID).emit('start-game', { game: GAMES[roomID] });
 

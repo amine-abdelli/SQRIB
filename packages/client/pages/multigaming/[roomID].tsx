@@ -1,7 +1,5 @@
 import { GameType } from '@sqrib/utils';
-import {
-  Container, Text,
-} from '@nextui-org/react';
+import { Container } from '@nextui-org/react';
 import { useRouter } from 'next/router';
 import React, {
   useContext,
@@ -170,12 +168,12 @@ function Room() {
       >
         <Modal.Body>
           <div className='flex justify-center align-center'>
-            <Text h3>Prêt?</Text>
-            <Text h3>
+            <h3>Prêt?</h3>
+            <h3>
               {counter > 0 ? (
                 counter
               ) : 'GO'}
-            </Text>
+            </h3>
           </div>
         </Modal.Body>
       </Modal>

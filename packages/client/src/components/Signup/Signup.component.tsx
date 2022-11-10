@@ -59,6 +59,7 @@ function Signup({ open, setOpen }: LoginProps) {
       });
     }
   };
+
   return (
     <Modal
       closeable
@@ -74,37 +75,40 @@ function Signup({ open, setOpen }: LoginProps) {
         </p>
       </Modal.Header>
       <Modal.Body style={{ width: '20rem' }}>
-        <Input
-          name="nickname"
-          onChange={(event) => onFormChange(event, setSignupForm, signupForm)}
-          placeholder="Choisissez un pseudo"
-          helperColor={(triggerLoginChecking && (!isValid.nickname ? 'error' : 'success')) as string}
-          helperText={triggerLoginChecking && (!isValid.nickname ? 'Lettres, chiffres, tirets et tirets du bas uniquement.' : '')}
-        />
-        <Input
-          type="email"
-          name="email"
-          onChange={(event) => onFormChange(event, setSignupForm, signupForm)}
-          placeholder="Entrez une adresse e-mail valide"
-          helperColor={(triggerLoginChecking && (!isValid.email ? 'error' : 'success'))as string}
-          helperText={triggerLoginChecking && (!isValid.email ? 'Veuillez saisir une adresse e-mail valide.' : '')}
-        />
-        <Input
-          onChange={(event) => onFormChange(event, setSignupForm, signupForm)}
-          type="password"
-          name="password"
-          placeholder="mot de passe"
-          helperColor={(triggerLoginChecking && (!isValid.password ? 'error' : 'success')) as string}
-          helperText={triggerLoginChecking && (!isValid.password ? 'Votre mot de passe doit contenir au moins 8 caractères, une majuscule, une minuscule, un caractère spécial et un chiffre.' : '') as string}
-        />
-        <Input
-          onChange={(event) => onFormChange(event, setSignupForm, signupForm)}
-          type="password"
-          name="retypedPassword"
-          placeholder="confirmer mot de passe"
-          helperColor={(triggerLoginChecking && (!isValid.retypedPassword ? 'error' : 'success')) as string}
-          helperText={triggerLoginChecking && (!isValid.retypedPassword ? 'Vos deux mots de passe doivent être identiques.' : '') as string}
-        />
+        <form>
+          <Input
+            name="nickname"
+            onChange={(event) => onFormChange(event, setSignupForm, signupForm)}
+            placeholder="Choisissez un pseudo"
+            helperColor={(triggerLoginChecking && (!isValid.nickname ? 'error' : 'success')) as string}
+            helperText={triggerLoginChecking && (!isValid.nickname ? 'Lettres, chiffres, tirets et tirets du bas uniquement.' : '')}
+          />
+          <Input
+            type="email"
+            name="email"
+            onChange={(event) => onFormChange(event, setSignupForm, signupForm)}
+            placeholder="Entrez une adresse e-mail valide"
+            helperColor={(triggerLoginChecking && (!isValid.email ? 'error' : 'success')) as string}
+            helperText={triggerLoginChecking && (!isValid.email ? 'Veuillez saisir une adresse e-mail valide.' : '')}
+          />
+          <Input
+            onChange={(event) => onFormChange(event, setSignupForm, signupForm)}
+            type="password"
+            name="password"
+            placeholder="mot de passe"
+            helperColor={(triggerLoginChecking && (!isValid.password ? 'error' : 'success')) as string}
+            helperText={triggerLoginChecking && (!isValid.password ? 'Votre mot de passe doit contenir au moins 8 caractères, une majuscule, une minuscule, un caractère spécial et un chiffre.' : '') as string}
+          />
+          <Input
+            onChange={(event) => onFormChange(event, setSignupForm, signupForm)}
+            type="password"
+            name="retypedPassword"
+            placeholder="confirmer mot de passe"
+            helperColor={(triggerLoginChecking && (!isValid.retypedPassword ? 'error' : 'success')) as string}
+            helperText={triggerLoginChecking && (!isValid.retypedPassword ? 'Vos deux mots de passe doivent être identiques.' : '') as string}
+          />
+        </form>
+
       </Modal.Body>
       <Modal.Footer style={{ width: '20rem' }}>
         <Button text="S'INSCRIRE" onClick={onFormSubmit} />

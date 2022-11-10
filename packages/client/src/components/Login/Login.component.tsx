@@ -8,6 +8,7 @@ import Modal from '../../UI/Modal/Modal.component';
 import Button from '../../UI/Button/Button.component';
 import Logo from '../Logo/Logo.component';
 import Input from '../../UI/Input/Input.component';
+import Spacer from '../../UI/Spacer/Spacer.component';
 
 function Login({ open, setOpen }: LoginProps) {
   const [login, setLogin] = useState({ email: '', password: '' });
@@ -87,7 +88,8 @@ function Login({ open, setOpen }: LoginProps) {
         />
       </Modal.Body>
       <Modal.Footer style={{ width: '20rem' }}>
-        <Button text="SE CONNECTER" onClick={onFinish} />
+        <Button text="Se connecter" onClick={onFinish} />
+        <Spacer h='10' />
         <Button text="Mot de passe oublié ?" secondary onClick={onFinish} />
       </Modal.Footer>
     </Modal>

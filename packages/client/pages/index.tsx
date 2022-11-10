@@ -15,13 +15,19 @@ function Home() {
   useEffect(() => {
     socketConnect(socketRef);
     socketRef.emit('get-global-game-data');
-    return () => socketDisconnect(socketRef);
+    return () => {
+      socketDisconnect(socketRef);
+      socketRef.off('get-global-game-data');
+    };
   }, []);
 
   useEffect(() => {
     socketRef.on('get-global-game-data', (scores) => {
       setGlobalGamesData(scores);
     });
+    return () => {
+      socketRef.off('get-global-game-data');
+    };
   }, []);
   const gamesGroupedByWinners = _.groupBy(globalGamesData?.games, 'winner');
   const { isSmallScreen } = useWindowSize();

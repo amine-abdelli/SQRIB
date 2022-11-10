@@ -21,8 +21,12 @@ export function initializeSocket(io: Socket) {
         log.info(`${socket.id} disconnected`);
         GAMES = Services.disconnect(GAMES, LEGIT_TOKENS, socket, io);
         Services.emitRoomList(io, GAMES);
-      } catch (err) {
-        log.error({ error: err }, 'Socket: An error occured while disconnecting');
+      } catch (error) {
+        if (error instanceof Error) {
+          log.error({ error: error.message }, 'Socket: An error occured while disconnecting');
+        } else {
+          console.error(error);
+        }
       }
     });
 
@@ -36,12 +40,19 @@ export function initializeSocket(io: Socket) {
           io.to(roomID).emit('progression', { game: GAMES[roomID] });
         }
         /**
-       * If every player has ended the game, timer stops and the game status change to 'finished'.
-       * Users wordIndexes are set back to 0 et and a new set of words is generated.
-       * after 5 seconds, the game status change to 'playing' and
-       * users are allow to play again
-       */
+         * If a player finishes a word set switch his status to finished
+         */
+        if (wordIndex === +GAMES[roomID].wordAmount) {
+          GAMES[roomID].clients[socket.id].status = GameStatus.FINISHED;
+        }
+        /**
+        * If every player has ended the game, timer stops and the game status change to 'finished'.
+        * Users wordIndexes are set back to 0 et and a new set of words is generated.
+        * after 5 seconds, the game status change to 'playing' and
+        * users are allow to play again
+        */
         if (hasEveryPlayerEnded(GAMES[roomID]) && GAMES[roomID]?.status === GameStatus.PLAYING) {
+          io.to(roomID).emit('podium-data', { game: GAMES[roomID] });
           const savedGame = await Services.saveGame(GAMES[roomID], roomID);
           Services.stopTimer(roomID);
 
@@ -71,8 +82,12 @@ export function initializeSocket(io: Socket) {
             }
           }, 1000);
         }
-      } catch (err) {
-        log.error({ error: err }, 'An error occured in game progression');
+      } catch (error) {
+        if (error instanceof Error) {
+          log.error({ error: error.message }, 'An error occured in game progression');
+        } else {
+          console.error(error);
+        }
       }
     });
 
@@ -125,8 +140,12 @@ export function initializeSocket(io: Socket) {
         });
         // Everytime a user join or create a room, we emit the room list to update the room table
         Services.emitRoomList(io, GAMES);
-      } catch (err) {
-        log.error({ error: err }, 'An error occured while joining the room');
+      } catch (error) {
+        if (error instanceof Error) {
+          log.error({ error: error.message }, 'An error occured while joining the room');
+        } else {
+          console.error(error);
+        }
       }
     });
 
@@ -138,8 +157,12 @@ export function initializeSocket(io: Socket) {
         log.info('Requesting room list');
         const roomList = Services.roomList(GAMES);
         io.emit('room-list', roomList);
-      } catch (err) {
-        log.error({ error: err }, 'An error occured while querying the room list');
+      } catch (error) {
+        if (error instanceof Error) {
+          log.error({ error: error.message }, 'An error occured while querying the room list');
+        } else {
+          console.error(error);
+        }
       }
     });
 
@@ -157,8 +180,12 @@ export function initializeSocket(io: Socket) {
         const base64token = buff.toString('base64');
         LEGIT_TOKENS.push(decodedRoomID);
         io.to(socket.id).emit('generate-room-id', { roomID: base64token });
-      } catch (err) {
-        log.error({ error: err }, 'An error occured while generating a room id');
+      } catch (error) {
+        if (error instanceof Error) {
+          log.error({ error: error.message }, 'An error occured while generating a room id');
+        } else {
+          console.error(error);
+        }
       }
     });
 
@@ -202,8 +229,12 @@ export function initializeSocket(io: Socket) {
             Services.startTimer(roomID, io);
           }
         }, 1000);
-      } catch (err) {
-        log.error({ error: err }, 'An error occured trying to start a game');
+      } catch (error) {
+        if (error instanceof Error) {
+          log.error({ error: error.message }, 'An error occured trying to start a game');
+        } else {
+          console.error(error);
+        }
       }
     });
 
@@ -215,8 +246,12 @@ export function initializeSocket(io: Socket) {
         log.info('Fetching scores data');
         const scores = await Services.getScoresData();
         io.emit('get-global-game-data', scores);
-      } catch (err) {
-        log.error({ error: err }, 'An error occured while fetching global game data');
+      } catch (error) {
+        if (error instanceof Error) {
+          log.error({ error: error.message }, 'An error occured while fetching global game data');
+        } else {
+          console.error(error);
+        }
       }
     });
     /**
@@ -226,8 +261,12 @@ export function initializeSocket(io: Socket) {
       try {
         const scores = await Services.getScoresData();
         io.emit('get-global-game-data', scores);
-      } catch (err) {
-        log.error({ error: err }, 'An error occured while updating the leaderboard');
+      } catch (error) {
+        if (error instanceof Error) {
+          log.error({ error: error.message }, 'An error occured while updating the leaderboard');
+        } else {
+          console.error(error);
+        }
       }
     });
   });

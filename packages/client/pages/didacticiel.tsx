@@ -120,7 +120,7 @@ function Didacticiel() {
           />
         </div> */}
         <Displayer wordsStack={markovChain || []} />
-        <DisplayerHeader customStack={markovChain} size="60" />
+        <DisplayerHeader customStack={markovChain || []} size={60} />
         <Input
           didacticielStack={markovChain}
           setUserInput={setUserInput}

@@ -52,7 +52,6 @@ function LeaderBoardTable({
       },
     });
   }
-  console.log('scoresToTableData', [...scoresToTableData || [], scoreTemplate]);
   return (
     <div style={style}>
       <Table
@@ -65,7 +64,7 @@ function LeaderBoardTable({
           }}
           >
             <h2 style={{ margin: 0, padding: 0 }}>{title}</h2>
-            <Select value={langKey} onChange={(e) => setLangKey(e as Languages)} data={['FR', 'EN', 'ES', 'DE']} />
+            <Select value={langKey} onChange={(e) => setLangKey(e as Languages)} data={['FR', 'EN', 'ES', 'DE'].map((lang) => ({ label: lang, value: lang }))} />
           </div>
         )}
       />

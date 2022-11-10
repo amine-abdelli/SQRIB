@@ -73,12 +73,18 @@ function Room() {
   useEffect(() => {
     setUsername(selfData?.self.nickname || usernameStoredInLocalStorage);
   }, [selfData?.self.nickname, username, usernameStoredInLocalStorage]);
-
   useEffect(() => {
     if (username && roomID && gameParameters) {
       socketRef.emit('join-room', {
         roomID, username, userId, gameParameters, isCreating: isHost,
       });
+      // remove create=true from url
+      const pathname = `/multigaming/${encryptedRoomID}`;
+      if (router.asPath !== pathname && isHost) {
+        router.replace({
+          pathname,
+        });
+      }
     }
   }, [username, roomID, gameParameters, socketRef, isHost, userId]);
 
@@ -99,7 +105,6 @@ function Room() {
       alertService.success(customMessage, {});
     });
   }, [socketRef, username, roomID, gameParameters]);
-
   // Keep this order so the roomList is updated with the latest names
   function startGame() {
     socketRef.emit('start-game', { roomID, gameParameters });
@@ -145,7 +150,6 @@ function Room() {
         <GameRoom
           roomID={roomID}
           game={game}
-          isGameEnded={game?.status === 'finished'}
           socketRef={socketRef}
           username={username}
           wordSet={wordSet || []}
@@ -155,21 +159,21 @@ function Room() {
           setShouldDisplayFirstCounterModal={setShouldDisplayFirstCounterModal}
         />
       )}
-      {game?.status === 'finished' && (
-      <VictoryModal
-        counter={counter}
-        isGameEnded={game?.status === 'finished'}
-        game={game}
-      />
-      )}
+      {game ? (
+        <VictoryModal
+          counter={counter}
+          socketRef={socketRef}
+          game={game}
+        />
+      ) : null}
       <Modal
         isOpen={shouldDisplayFirstCounterModal}
         setIsOpen={() => setShouldDisplayFirstCounterModal(false)}
       >
         <Modal.Body>
-          <div className='flex justify-center align-center'>
-            <h3>Prêt?</h3>
-            <h3>
+          <div className='flex flex-column justify-center'>
+            <h2>Prêt?</h2>
+            <h3 className='text-align'>
               {counter > 0 ? (
                 counter
               ) : 'GO'}

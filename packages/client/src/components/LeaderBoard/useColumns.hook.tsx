@@ -1,5 +1,18 @@
-import { Hide, Show } from 'react-iconly';
+import { Hide, Show, Star } from 'react-iconly';
 // import { theme } from '../../../styles/theme';
+
+function definePodiumColor(index: number): string {
+  switch (index) {
+    case 0:
+      return 'gold'; // Gold
+    case 1:
+      return '#C0C0C0'; // Silver
+    case 2:
+      return '#B87333'; // Copper
+    default:
+      return 'black';
+  }
+}
 
 export function useColumns() {
   // For all the players
@@ -171,7 +184,49 @@ export function useColumns() {
       },
     ];
   }
+  // VictoryModal.component.tsx
+  function victoryModalColumns(fn?: any) {
+    return [
+      {
+        title: '',
+        dataIndex: '',
+        key: 'id',
+        render: (_: any, __: any, index: number) => (
+          <Star filled={index <= 2} primaryColor={definePodiumColor(index)} />
+        ),
+      },
+      {
+        title: 'Nom du joueur', // What is displayed by in the table header
+        dataIndex: 'username', // The key corresponding to our data
+        key: 'id',
+        render: (item: any) => (<span className='bold'>{item}</span>),
+      },
+      {
+        title: 'Mpm', // What is displayed by in the table header
+        dataIndex: 'mpm', // The key corresponding to our data
+        key: 'id',
+        render: (item: any) => (<span className='bold'>{item}</span>),
+      },
+      {
+        title: 'Precision', // What is displayed by in the table header
+        dataIndex: 'precision', // The key corresponding to our data
+        key: 'id',
+        render: (item: any) => (<span className='bold'>{item}</span>),
+      },
+      {
+        title: 'Points', // What is displayed by in the table header
+        dataIndex: 'points', // The key corresponding to our data
+        key: 'id',
+        render: (item: any) => (<span className='bold'>{item}</span>),
+      },
+    ];
+  }
   return {
-    multiplayerColumns, soloColumns, multiplayerDetails, soloDetails, roomTableColumns,
+    multiplayerColumns,
+    soloColumns,
+    multiplayerDetails,
+    soloDetails,
+    roomTableColumns,
+    victoryModalColumns,
   };
 }

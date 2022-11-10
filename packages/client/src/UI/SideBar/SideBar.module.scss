@@ -1,7 +1,4 @@
-@import "../../../styles/sass/abstracts/variables";
-@import "../../../styles/sass/abstracts/mixins";
-@import "../../../styles/sass/abstracts/colors";
-@import "../../../styles/sass/abstracts/breakpoints";
+@import "../../../styles/sass/abstracts/index";
 
 .sideBar {
   display: flex;
@@ -35,7 +32,13 @@
       font-weight: 700;
       font-size: 20px; // 40px; on mobile
       margin: 0;
+      transition: color 0.25s ease;
       @include stroke($outline, 3px);
+
+      &:hover {
+        color: $primary;
+        transition: color 0.2s ease;
+      }
     }
   }
 }

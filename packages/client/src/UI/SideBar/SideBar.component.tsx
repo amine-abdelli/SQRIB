@@ -15,6 +15,7 @@ import PrimaryButton from '../Button/Button.component';
 import Logo from '../../components/Logo/Logo.component';
 import keyLogo from '../../assets/Images/key-logo.png';
 import ClosingCross from '../ClosingCross/ClosingCross.component';
+import Spacer from '../Spacer/Spacer.component';
 
 interface SideBarProps {
   fullScreen?: boolean,
@@ -84,6 +85,7 @@ function SideBar({ fullScreen, isMenuOpen, setIsMenuOpen }: SideBarProps) {
           : (
             <>
               <PrimaryButton onClick={() => onButtonClick(ModalType.LOGIN)} text="Login" />
+              <Spacer h="10" />
               <PrimaryButton onClick={() => onButtonClick(ModalType.SIGNUP)} text="Signup" />
             </>
           )}

@@ -8,7 +8,6 @@ export interface GameRoomProps {
   game: GameType,
   wordSet: string[],
   socketRef: Socket,
-  isGameEnded: boolean,
   setGame: Dispatch<SetStateAction<GameType | undefined>>,
   setWordSet: Dispatch<SetStateAction<string[] | undefined>>,
   setCounter: Dispatch<SetStateAction<number>>,

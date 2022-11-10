@@ -14,7 +14,7 @@ function PlayerDetailsSolo({ scores, details }: { scores: ScoreType[], details: 
 } }) {
   const { soloDetails } = useColumns();
   const scoresToTableData = scores
-    ?.sort((a: ScoreType, b: ScoreType) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime())
+    // ?.sort((a: ScoreType, b: ScoreType) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime())
     ?.filter(({ username }) => username)
     .map((score, index) => ({
       mpm: score.mpm,

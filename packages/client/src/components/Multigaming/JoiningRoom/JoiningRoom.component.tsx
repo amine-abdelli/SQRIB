@@ -1,6 +1,6 @@
-import { StyledSpacer } from '@nextui-org/react';
 import { useRouter } from 'next/router';
 import React from 'react';
+import { theme } from '../../../../styles/theme';
 import { useGetSelf } from '../../../hooks/useGetSelf';
 import Button from '../../../UI/Button/Button.component';
 import Card from '../../../UI/Card/Card.component';
@@ -41,7 +41,7 @@ function JoiningRoom({
         disabled={!roomID}
         text="Rejoindre une partie"
       />
-      <StyledSpacer />
+      <Spacer h="10" />
       <Button
         disabled={!!roomID}
         secondary
@@ -52,6 +52,7 @@ function JoiningRoom({
       <Button
         onClick={() => setShouldDisplayUsernameInput(true)}
         light
+        color={theme.primary}
         text="Je change mon pseudo"
       />
       )}

@@ -2,12 +2,11 @@ import {
   useContext, useEffect, useRef, useState,
 } from 'react';
 import { formatTimerParameters } from '../utils/timer.utils';
-import { GameMode } from '../utils/enums/Mode.enum';
 import { MainContext } from '../context/MainContext';
+import { GameMode } from '../utils/enums';
 
 function useTimer() {
   const {
-    gameMode,
     startTimer,
     setStartTimer,
     countDown,
@@ -25,7 +24,7 @@ function useTimer() {
   useEffect(() => {
     setTimerMinutes(Math.floor(count / 60));
     setTimerSeconds(Math.floor(count % 60));
-  }, [countDown, gameMode, startTimer]);
+  }, [countDown, startTimer]);
 
   let interval: any = useRef();
 
@@ -42,7 +41,7 @@ function useTimer() {
       setTimerSeconds(seconds);
     }
   }
-
+  const gameMode = GameMode.COUNTDOWN;
   function triggerTimer() {
     interval = setInterval(() => {
       if (gameMode === GameMode.COUNTDOWN) {

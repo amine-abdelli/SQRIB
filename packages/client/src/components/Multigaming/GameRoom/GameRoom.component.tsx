@@ -1,14 +1,21 @@
-import { Button, Spacer } from '@nextui-org/react';
 import React, { useContext, useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import { GameStatus } from '@sqrib/utils';
 import { MainContext } from '../../../context/MainContext';
-import OnGame from '../OnGame/OnGame.component';
 import ProgressList from '../ProgressList/ProgressList.component';
 import { GameRoomProps } from './GameRoom.props';
 import { createScoringObject } from '../../../utils/scoring.utils';
 import { Routes } from '../../../utils/enums';
 import { formatSecondsIntoTimer } from '../../../utils/timer.utils';
+import Card from '../../../UI/Card/Card.component';
+import Button from '../../../UI/Button/Button.component';
+import Spacer from '../../../UI/Spacer/Spacer.component';
+import { Displayer } from '../../Displayer/Displayer.component';
+import Input from '../../Input/Input.component';
+import KeyBoard from '../../KeyBoard/KeyBoard.component';
+import { useWindowSize } from '../../../hooks/useWindowSize';
+import DisplayerHeader from '../../DisplayerHeader/DisplayerHeader.component';
+import { Scoring } from '../../Scoring/Scoring.component';
 
 function updateGameWithSortedClients(currentGame: any) {
   const sortedClients = currentGame?.clients && Object.entries(currentGame?.clients)
@@ -20,7 +27,7 @@ function updateGameWithSortedClients(currentGame: any) {
 }
 
 function GameRoom({
-  roomID, username, game, wordSet, socketRef, isGameEnded, setGame,
+  roomID, username, game, wordSet, socketRef, setGame,
   setWordSet, setCounter, setShouldDisplayFirstCounterModal,
 }: GameRoomProps) {
   const [timer, setTimer] = useState(0);
@@ -28,12 +35,19 @@ function GameRoom({
   const self = clients?.find(({ id }) => id === socketRef.id);
   const {
     wordIndex, setOffSet, setWordIndex,
-    setComputedWords, setCorrectWords, correctWords, computedWords,
+    setComputedWords, setCorrectWords, correctWords, computedWords, setUserInput, userInput,
   } = useContext(MainContext);
-  // const [onGameSubmit] = useMutation(CREATE_GAME_MUTATION);
-  const scoringObject = createScoringObject(correctWords, computedWords);
-  const router = useRouter();
 
+  const isGameEnded = game?.status === GameStatus.FINISHED || game?.status === GameStatus.STAGING;
+  const isAllow = self?.status === GameStatus.PLAYING && game?.status === GameStatus.PLAYING;
+  const disabled = self?.status !== GameStatus.PLAYING || game?.status !== GameStatus.PLAYING;
+  // const scoringObject = createScoringObject(correctWords, computedWords);
+  const router = useRouter();
+  const { isMediumScreen } = useWindowSize();
+  const scoringObject = createScoringObject(correctWords, computedWords);
+  const {
+    wrongWords, correctLetters, totalLetters, points, precision, wrongLetters, mpm,
+  } = scoringObject;
   useEffect(() => {
     if (socketRef.connected) {
       socketRef.emit('progression', {
@@ -41,13 +55,13 @@ function GameRoom({
       });
       socketRef.on('progression', ({ game: currentGame }) => {
         // Here sort the clients by wordIndex
-        if (!isGameEnded && clients?.length) {
+        if (!(game?.status === GameStatus.FINISHED) && clients?.length) {
           const gameWithSortedClients = updateGameWithSortedClients(currentGame);
           setGame(gameWithSortedClients);
         }
       });
     }
-  }, [clients.length, isGameEnded, roomID, setComputedWords, setCorrectWords, setGame, setOffSet,
+  }, [clients.length, game?.status, roomID, setComputedWords, setCorrectWords, setGame, setOffSet,
     setWordIndex, setWordSet, socketRef, username, wordIndex]);
 
   useEffect(() => {
@@ -98,26 +112,68 @@ function GameRoom({
     socketRef.disconnect();
     router.push(Routes.MULTIGAMING);
   }
-
+  const { isLargeScreen } = useWindowSize();
   return (
-    <>
-      <div className='flex justify-between'>
-        <h3>{game.name}</h3>
-        <Button auto onClick={handleLeave}>Quitter</Button>
-      </div>
-      <Spacer />
-      <p>{formatSecondsIntoTimer(timer)}</p>
-      <ProgressList data={clients} />
-      <Spacer />
-      {socketRef.connected && wordSet && (
-        <OnGame
-          wordSet={wordSet}
-          isGameEnded={game?.status === GameStatus.FINISHED || game?.status === GameStatus.STAGING}
-          isAllow={self?.status === GameStatus.PLAYING && game?.status === GameStatus.PLAYING}
-          disabled={self?.status !== GameStatus.PLAYING || game?.status !== GameStatus.PLAYING}
-        />
-      )}
-    </>
+    socketRef.connected && wordSet ? (
+      <>
+        <Card shadowed styles={{ display: 'flex' }}>
+          <div>
+            <div className='flex justify-between align-center'>
+              <h3 style={{ fontWeight: 800, margin: 0 }}>{game.name}</h3>
+              <p style={{ fontWeight: 800, fontSize: '32px', margin: 0 }}>
+                {formatSecondsIntoTimer(timer)}
+              </p>
+            </div>
+            {!isLargeScreen && (
+            <Scoring
+              isTimeOut={false}
+              computedWords={computedWords}
+              correctWords={correctWords}
+              mpm={mpm}
+              wrongWords={wrongWords}
+              points={points}
+              precision={precision}
+              wrongLetters={wrongLetters}
+              totalLetters={totalLetters}
+              correctLetters={correctLetters}
+              onSetFinish={() => null}
+            />
+            )}
+            {!isLargeScreen && (
+            <div style={{
+              display: 'flex',
+              flexDirection: isMediumScreen ? 'column-reverse' : 'row',
+              alignItems: 'center',
+              width: '100%',
+              justifyContent: 'center',
+            }}
+            >
+              <DisplayerHeader customStack={wordSet} />
+            </div>
+            )}
+            <Input
+              setUserInput={setUserInput}
+              userInput={userInput}
+              isTimeOut={isGameEnded}
+              disabled={disabled}
+            />
+            <Displayer bordered wordsStack={wordSet?.slice(0, 100) || []} />
+          </div>
+          <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+            <ProgressList data={clients} socketRef={socketRef} />
+            <div style={{
+              display: 'flex',
+              justifyContent: 'flex-end',
+            }}
+            >
+              <Button stretch text="Quitter" onClick={handleLeave} />
+            </div>
+          </div>
+        </Card>
+        <Spacer />
+        <KeyBoard enable={isAllow} />
+      </>
+    ) : <div />
   );
 }
 

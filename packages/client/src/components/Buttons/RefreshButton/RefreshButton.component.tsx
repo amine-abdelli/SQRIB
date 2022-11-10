@@ -3,6 +3,7 @@ import { Play } from 'react-iconly';
 import { MainContext } from '../../../context/MainContext';
 import { useWindowSize } from '../../../hooks/useWindowSize';
 import Button from '../../../UI/Button/Button.component';
+import Spacer from '../../../UI/Spacer/Spacer.component';
 
 function RefreshButton({ disable = false }: { disable?: boolean }) {
   const {
@@ -17,6 +18,7 @@ function RefreshButton({ disable = false }: { disable?: boolean }) {
         text={isMediumScreen ? <Play set="light" primaryColor="black" /> : 'Recommencer'}
         disabled={disable}
       />
+      <Spacer h="10" />
     </div>
   );
 }

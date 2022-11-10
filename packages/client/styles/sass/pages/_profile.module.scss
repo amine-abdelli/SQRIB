@@ -1,6 +1,13 @@
+@import '../abstracts/index.scss';
+
+.statTitle {
+  text-align: center;
+  color: $primary;
+  @include stroke($outline, 3px);
+}
+
 .scoreCardsWrapper {
   display: flex;
-  justify-content: space-between;
   flex-wrap: wrap;
-  margin-bottom: 20px;
+  margin: 0;
 }

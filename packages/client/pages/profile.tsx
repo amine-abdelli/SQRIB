@@ -1,33 +1,33 @@
 import React from 'react';
 import { Spinner } from '@nextui-org/react';
-import { isSolo, ScoreType } from '@sqrib/utils';
+import { ScoreType } from '@sqrib/utils';
 import Calendar from '../src/components/Calendar/Calendar.component';
 import Chart from '../src/components/Chart/Chart.component';
 import ScoreCard from '../src/components/ScoreCard/ScoreCard.component';
 import { useGetSelf } from '../src/hooks/useGetSelf';
-import { ITheme } from '../styles/theme';
 import { createTopScoringObject } from '../src/utils/scoring.utils';
 import Empty from '../src/components/Empty/Empty.component';
 import withAuth from '../src/components/withAuth/withAuth.hoc';
 import styles from '../styles/sass/pages/_profile.module.scss';
+import Card from '../src/UI/Card/Card.component';
+import Spacer from '../src/UI/Spacer/Spacer.component';
 
-function Profile({ theme }: { theme: ITheme }) {
+function Profile() {
   const { scores, loading } = useGetSelf();
   if (loading) return <Spinner />;
   const sortedScores = [...scores]
-    .filter(isSolo)
     .sort(
       (a: ScoreType, b: ScoreType) => Date.parse(a.created_at as string)
       - Date.parse(b.created_at as string),
     );
+
   const {
     averageMpm, averagePoints, topMpm, topPoint, latestMpm, latestPoints, precision, totalGame,
   } = createTopScoringObject(sortedScores);
 
   return (
-    <div className="flex flex-column">
-      <h1 className='text-center'>STATISTIQUE</h1>
-      <hr style={{ borderBottom: '1px solid' }} />
+    <Card styles={{ width: '95%', margin: '0 auto' }} shadowed>
+      <h1 className={styles.statTitle}>STATISTIQUE</h1>
       <div
         className={styles.scoreCardsWrapper}
       >
@@ -50,14 +50,14 @@ function Profile({ theme }: { theme: ITheme }) {
                 scores={sortedScores}
                 topMpm={topMpm}
               />
+              <Spacer h="50" />
               <Calendar
                 scores={sortedScores}
-                theme={theme}
               />
             </>
           )}
       </div>
-    </div>
+    </Card>
   );
 }
 

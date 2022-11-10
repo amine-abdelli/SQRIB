@@ -6,7 +6,6 @@ import type { AppProps } from 'next/app';
 import { ApolloProvider } from '@apollo/client';
 import { NextUIProvider } from '@nextui-org/react';
 import { generateWordSet, FontSizes, Languages } from '@sqrib/utils';
-import { FocusStyleManager } from '@blueprintjs/core';
 import { useRouter } from 'next/dist/client/router';
 import Layout from '../src/components/Layout/Layout.component';
 import SideBar from '../src/UI/SideBar/SideBar.component';
@@ -72,9 +71,6 @@ function MyApp({ Component, pageProps }: AppProps) {
   const MainContextProps = useMemo(() => ({
     userInput, wordIndex, isTimeOut, setIsTimeOut, startTimer, setStartTimer, gameMode, countDown, wordsStack, setWordsStack, computedWords, setComputedWords, correctWords, setCorrectWords, setCountDown, setWordIndex, setUserInput, score, setScore, offSet, setOffSet, yFocusedPosition, setYFocusedPosition, yNextPosition, setYNextPosition, horizontalPosition, setHorizontalPosition, letterWidth, setLetterWidth, fontSize, language, setFontSize, onRestart, setLanguage,
   }), [userInput, wordIndex, isTimeOut, startTimer, gameMode, countDown, wordsStack, setWordsStack, computedWords, correctWords, score, setScore, offSet, yFocusedPosition, yNextPosition, horizontalPosition, letterWidth, fontSize, language, onRestart, setLanguage]);
-
-  // Disable ugly focus on blueprint's elements
-  FocusStyleManager.onlyShowFocusOnTabs();
 
   const { isMediumScreen, isSmallScreen } = useWindowSize();
   return (

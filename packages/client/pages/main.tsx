@@ -16,15 +16,16 @@ import { alertService } from '../services';
 import { useGetSelf } from '../src/hooks/useGetSelf';
 import { socket, socketConnect } from '../services/socket.service';
 import { useWindowSize } from '../src/hooks/useWindowSize';
+import Options from '../src/components/Options/Options.component';
 
 function Main() {
   const { cache } = useApolloClient();
   const {
     userInput,
+    setUserInput,
     isTimeOut,
     startTimer,
     setStartTimer,
-    setUserInput,
     wordsStack,
   } = useContext(MainContext);
 
@@ -33,6 +34,7 @@ function Main() {
       setStartTimer(true);
     }
   }, [userInput]);
+
   const { current: socketRef } = useRef(socket);
   useEffect(() => {
     socketConnect(socketRef);
@@ -98,13 +100,21 @@ function Main() {
 
   const { isSmallScreen } = useWindowSize();
   return (
-    <div style={{ padding: `0 ${isSmallScreen ? 0 : '20px'}` }}>
+    <div style={{
+      padding: `0 ${isSmallScreen ? 0 : '20px'}`,
+      display: 'flex',
+      flexDirection: 'column',
+      justifyContent: 'space-evenly',
+      height: '100%',
+    }}
+    >
       <div
         className='w100 flex flex-column justify-between'
         style={{
           background: '#FFFFFF', border: '4px solid black', boxShadow: '4px 4px 0px black', padding: '0 25px 25px 25px', margin: 0,
         }}
       >
+        <Options />
         <div
           className='flex align-center'
           style={{ margin: '10px 0 0 0' }}
@@ -122,9 +132,10 @@ function Main() {
             correctLetters={correctLetters}
             onSetFinish={onSetFinish}
             startTimer={startTimer}
+            timer
           />
         </div>
-        <DisplayerHeader />
+        <DisplayerHeader customStack={wordsStack} />
         <div style={{ position: 'relative' }}>
           <RefreshButton disable={Boolean(computedWords.length && !startTimer)} />
           <Input
@@ -133,7 +144,7 @@ function Main() {
             isTimeOut={isTimeOut}
           />
         </div>
-        <div className="flex justify-center" style={{ }}>
+        <div className="flex justify-center">
           <Displayer bordered wordsStack={wordsStack} />
         </div>
       </div>

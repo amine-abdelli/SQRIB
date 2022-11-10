@@ -1,10 +1,11 @@
 export interface ITheme {
-  theme: string,
   primary: string,
   secondary: string,
   tertiary: string,
   quaternary: string,
-  outline: string
+  outline: string,
+  error: string,
+  success: string,
 }
 
 export const theme: Record<string, string> = {

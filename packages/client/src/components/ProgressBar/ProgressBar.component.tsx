@@ -1,9 +1,10 @@
 import React from 'react';
+import { theme } from '../../../styles/theme';
 import { ProgressBarProps } from './ProgressBar.props';
 import styles from './ProgressBar.style.scss';
 
 function ProgressBar({
-  key, completed, color, style,
+  key, completed, color, style, focus,
 }: ProgressBarProps) {
   // Math.min is used to prevent the progress bar from going over 100%
   const progressWithMax = Math.min(completed, 100);
@@ -14,10 +15,10 @@ function ProgressBar({
       style={{
         ...style,
         position: 'relative',
-        height: '1rem',
-        backgroundColor: 'lightgrey',
-        margin: '5px',
-        borderRadius: '10px',
+        height: '1.3rem',
+        backgroundColor: 'lightGrey',
+        boxShadow: `3px 3px 0px ${focus ? theme.primary : theme.outline}`,
+        border: `3px solid ${focus ? theme.primary : theme.outline}`,
         color: 'white',
         fontWeight: 'bold',
       }}
@@ -26,7 +27,9 @@ function ProgressBar({
         height: '100%',
         width: `${progressWithMax}%`,
         backgroundColor: color,
-        borderRadius: '10px',
+        top: 0,
+        left: 0,
+        bottom: 0,
       }}
       />
       <div>

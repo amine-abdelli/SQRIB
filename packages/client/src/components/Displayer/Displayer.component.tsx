@@ -1,9 +1,9 @@
+/* eslint-disable react/no-array-index-key */
 /* eslint-disable max-len */
+import { Card } from '@nextui-org/react';
 import { FontSizes } from '@sqrib/utils';
 import { useRouter } from 'next/dist/client/router';
-import React, {
-  ReactElement, useContext,
-} from 'react';
+import React, { ReactElement, useContext, useMemo } from 'react';
 import { MainContext } from '../../context/MainContext';
 import { useGetSelf } from '../../hooks/useGetSelf';
 import { splitStringToSpans } from '../../utils/displayer.utils';
@@ -28,7 +28,8 @@ function Displayer(
   const overlayProps = {
     countDown, startTimer, computedWords,
   };
-  const displayedWords = wordsStack?.map((word: string, i: number): ReactElement => {
+
+  const displayedWords = useMemo(() => wordsStack?.map((word: string, i: number): ReactElement => {
     const isWordPassed = wordIndex && computedWords && wordsStack && i && (i < wordIndex);
 
     if (i === wordIndex) {
@@ -38,7 +39,7 @@ function Displayer(
           <WordDisplayer
             className={styles.wordFocus}
             style={{ color: Colors.GREY }}
-            key={`${word}`}
+            key={i}
             setState={setYFocusedPosition}
             word={splitStringToSpans(word, userInput)}
             fontSize={fontSize}
@@ -52,7 +53,7 @@ function Displayer(
           {' '}
           <WordDisplayer
             style={{ color: Colors.GREY }}
-            key={`${word}`}
+            key={i}
             setState={setYNextPosition}
             word={` ${word} `}
             fontSize={fontSize}
@@ -69,36 +70,41 @@ function Displayer(
               textDecoration: isWordPassed && (wordsStack[i] !== computedWords[i]) ? 'underline red' : '',
             }}
             setState={() => null}
-            key={`${word}`}
+            key={i}
             word={splitStringToSpans(wordsStack[i], computedWords[i])}
             fontSize={fontSize}
           />
         </>
       );
     }
+
     return (
       <>
         {/* &nbsp; */}
         <WordDisplayer
           style={{ color: Colors.GREY }}
-          key={`${word}`}
+          wordKey={i}
           word={` ${word} `}
           fontSize={fontSize}
         />
         {/* &nbsp; */}
       </>
     );
-  });
+  }), [wordsStack, wordIndex, computedWords, fontSize, setYFocusedPosition, userInput, setYNextPosition]);
   const isOverlayTriggered = isMain ? !startTimer : false;
   return (
-    <div className={styles.displayer} style={{ border: bordered ? '4px solid black' : 'none', boxShadow: bordered ? '' : 'none', overflow: 'hidden' }}>
-      <div className={styles.borderTop} />
-      <div style={{ transform: `translate(0, ${offSet}px`, fontSize }}>
-        {displayedWords}
-      </div>
-      {isOverlayTriggered && (
-        <Overlay {...overlayProps} />
-      )}
+    <div style={{ margin: 0, padding: 0 }}>
+      <Card style={{ borderRadius: '0px', boxShadow: bordered ? '4px 4px 0 black' : 'none', border: bordered ? '3px solid black' : '' }}>
+        <div className={styles.displayer}>
+          <div className={styles.borderTop} />
+          <div style={{ transform: `translate(0, ${offSet}px`, fontSize }}>
+            {displayedWords}
+          </div>
+          {isOverlayTriggered && (
+            <Overlay {...overlayProps} />
+          )}
+        </div>
+      </Card>
     </div>
   );
 }

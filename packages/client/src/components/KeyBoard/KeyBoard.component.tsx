@@ -46,13 +46,10 @@ function KeyBoard({ enable }: { enable: boolean }) {
     if (pressedKey === e) {
       return theme.primary;
     }
-    // if (!highlightedKeys.includes(e) && isDidacticiel) {
-    //   return '#A0A0A0';
-    // }
     return theme.tertiary;
   }
   return (
-    <div style={{ borderColor: theme?.secondary }} className={styles.keyBoardWrapper}>
+    <div style={{ border: 'none' }} className={styles.keyBoardWrapper}>
       {keyBoardKeys.map((row: string, i: number) => (
         <div key={row[i]}>
           <div className={styles.keyBoardRow} style={{ cursor: enable ? 'pointer' : 'not-allowed' }}>

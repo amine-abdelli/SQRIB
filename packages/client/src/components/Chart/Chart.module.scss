@@ -1,3 +1,5 @@
+@import '../../../styles/sass/abstracts/index.scss';
+
 .chartTooltip {
   display: flex;
   justify-content: center;
@@ -7,4 +9,9 @@
   padding: 5px;
   border-radius: 5px;
   transition: all 0.2s ease-in-out;
+}
+.statTitle {
+  text-align: center;
+  color: $primary;
+  @include stroke($outline, 3px);
 }

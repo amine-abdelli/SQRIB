@@ -3,8 +3,9 @@ import { MainContext } from '../../context/MainContext';
 import { spreadLetters } from '../../utils/displayer.utils';
 import Cursor from './Cursor/Cursor.component';
 import styles from './DisplayerHeader.module.scss';
+import { DisplayerHeaderProps } from './DisplayerHeader.props';
 
-function DisplayerHeader({ children, customStack, size = 80 }: any) {
+function DisplayerHeader({ children, customStack, size = 80 }: DisplayerHeaderProps) {
   const {
     letterWidth,
     horizontalPosition,

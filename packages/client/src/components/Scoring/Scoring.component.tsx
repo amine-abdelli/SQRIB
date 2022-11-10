@@ -15,7 +15,7 @@ function Scoring({
   isTimeOut, computedWords,
   correctWords, mpm, wrongWords,
   points, precision, wrongLetters, totalLetters, correctLetters, scores,
-  onSetFinish, startTimer,
+  onSetFinish, startTimer, timer,
 }: any) {
   const [typingSpeed] = useSpeedCalculator(correctWords, startTimer, isTimeOut);
   const [showStatsModal, setShowStatsModal] = useState(isTimeOut);
@@ -46,16 +46,20 @@ function Scoring({
   return (
     <>
       <div className={styles.scoringWrapper} style={{ position: 'relative' }}>
-        {nickname && <Avatar username={nickname} size='small' />}
-        <Spacer w="20" />
-        {!isLargeScreen && (
+        {nickname && (
+          <>
+            <Avatar username={nickname} size='small' />
+            <Spacer w="10" />
+          </>
+        )}
+        {/* {!isLargeScreen && (
           <>
             <Tooltip hideArrow content='Vitesse moyenne de frappe'>
               <ScoringItem content={`${!isTimeOut ? (typingSpeed || 0) : 0} m/min`} />
             </Tooltip>
             <Spacer w="20" />
           </>
-        )}
+        )} */}
         {!isSmallScreen && (
         <ScoringItem content={`Mots saisies : ${computedWords.length}`} />
         )}
@@ -85,7 +89,7 @@ function Scoring({
         </Tooltip>
         )}
         <Spacer w="10" />
-        <CountDown />
+        {timer && <CountDown />}
       </div>
       <Modal
         closeable

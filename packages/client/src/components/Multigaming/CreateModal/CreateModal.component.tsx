@@ -13,6 +13,7 @@ import Input from '../../../UI/Input/Input.component';
 import Card from '../../../UI/Card/Card.component';
 import Spacer from '../../../UI/Spacer/Spacer.component';
 import Select from '../../../UI/Select/Select.component';
+import { theme } from '../../../../styles/theme';
 
 function CreateModal({
   isVisible, roomID, username, isHost: isCreator, gameParameters, setGameParameters, game,
@@ -29,7 +30,6 @@ function CreateModal({
       name: roomName,
     });
   }, [roomName]);
-
   const host = game && Object.values(game?.clients).find((client: any) => client.host);
   const isHost = host?.id === socket.id || host?.username === username;
   return (
@@ -52,7 +52,7 @@ function CreateModal({
         <div className={styles.createModalWrapper} style={{ display: 'flex', alignItems: isMediumScreen ? 'center' : '' }}>
           <Card
             shadowed
-            width='350'
+            styles={{ flexBasis: '50%', minWidth: '23rem' }}
           >
             <h3 className='text-center' style={{ marginBottom: '1rem' }}>
               {(isHost || isCreator)
@@ -69,6 +69,7 @@ function CreateModal({
               <div style={{ flexBasis: '50%' }} className='flex flex-column'>
                 <span className='bold'>Choix de la langue</span>
                 <Select
+                  disabled={!isHost}
                   data={languages.map(({ flag, country }) => ({ label: flag, value: country }))}
                   value={gameParameters?.language}
                   onChange={(event: Languages) => setGameParameters(
@@ -80,6 +81,7 @@ function CreateModal({
               <div className='flex flex-column'>
                 <span className='bold'>Nombre de mots</span>
                 <Select
+                  disabled={!isHost}
                   data={Object.values(wordAmount)
                     .map((amount) => ({ label: amount, value: amount }))}
                   value={gameParameters?.wordAmount}
@@ -95,6 +97,7 @@ function CreateModal({
               onClick={() => startGame()}
               text="Commencer"
             />
+            <Spacer h="10" />
             <Button
               secondary
               onClick={() => {
@@ -105,8 +108,8 @@ function CreateModal({
               text="Annuler"
             />
           </Card>
-          <div style={{ margin: '0 1rem' }}>
-            <h3 className='text-center' style={{ color: 'white' }}>Joueurs</h3>
+          <Card styles={{ flexBasis: '50%' }} shadowed>
+            <h3 className='text-center' style={{ color: theme.outline }}>Joueurs</h3>
             <div className={styles.playersWrapper}>
               {game?.clients && Object.values(game?.clients).map((client: any) => (
                 username && (
@@ -121,7 +124,7 @@ function CreateModal({
                 )
               ))}
             </div>
-          </div>
+          </Card>
         </div>
         <div style={{ display: 'inline-block', width: '20rem', marginTop: '1rem' }}>
           <h5 className={styles.inviteTitle}>Partage ce lien pour inviter d&apos;autres joueurs</h5>

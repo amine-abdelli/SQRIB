@@ -1,16 +1,19 @@
+import { CSSProperties } from 'react';
 import { ButtonProps } from './Button.props';
 import styles from './Button.module.scss';
-import { theme } from '../../../styles/theme';
 
 function Button({
-  text, onClick, secondary, stretch, style, disabled, light,
+  text, onClick, secondary, stretch, style, disabled, light, className,
+  color,
 }: ButtonProps) {
-  const lightButtonStyle = light ? {
+  const lightButtonStyle: CSSProperties = light ? {
     border: 'none',
     background: 'transparent',
     boxShadow: 'none',
     fontWeight: 400,
-    color: theme.primary,
+    padding: 0,
+    margin: '0 4px',
+    // color: theme.primary,
   } : {};
   return (
     <button
@@ -20,13 +23,11 @@ function Button({
         backgroundColor: secondary ? '#FFFFFF' : '',
         width: stretch ? '' : '100%',
         padding: '5px 15px',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
+        color,
         ...lightButtonStyle,
         ...style,
       }}
-      className={styles.primaryButton}
+      className={`${styles.primaryButton} ${className}`}
       type='submit'
     >
       {text}

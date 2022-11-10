@@ -1,15 +1,13 @@
-@import '../../../styles/sass/abstracts/breakpoints';
+@import '../../../styles/sass/abstracts/index.scss';
 
 .cardWrapper {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  border: 1px solid #343434;
-  border-radius: 7.5px;
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
   transition: all 0.2s ease-in-out;
-  margin: 0;
-  flex-basis: 22%;
+  // height: 5rem;
+  // margin: 0;
+  @include thinBorder();
 
   .cardContent {
     font-weight: bold;

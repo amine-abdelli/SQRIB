@@ -1,6 +1,5 @@
 import React from 'react';
 import { ResponsiveBar } from '@nivo/bar';
-import { Divider } from '@blueprintjs/core';
 import { randomIntFromInterval } from '@sqrib/utils';
 
 const data = Array.from({ length: 100 }).map((_, i: number) => ({
@@ -16,7 +15,6 @@ function Histogram() {
       <p style={{ textAlign: 'center' }}>
         <em>Cet histogramme permet de vous situer dans la moyenne de tous les joueurs</em>
       </p>
-      <Divider style={{ margin: 0 }} />
       <ResponsiveBar
         data={data}
         keys={['mpmAmount']}

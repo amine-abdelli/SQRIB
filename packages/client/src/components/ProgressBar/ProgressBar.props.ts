@@ -4,5 +4,6 @@ export interface ProgressBarProps {
   completed: number,
   color: string,
   key: string,
-  style: CSSProperties
+  style?: CSSProperties,
+  focus?: boolean
 }

@@ -22,7 +22,7 @@ function ScoreCard({
         boxShadow: stat ? 'none' : '',
         margin: stat ? '1px' : '20px 5px',
         padding: stat ? '3px' : '2rem 0',
-        border: `${stat ? 0 : 2}px solid ${borderColor(highlight, best)}`,
+        border: stat ? 0 : '',
         fontSize: '12px',
         fontWeight: 800,
       }}

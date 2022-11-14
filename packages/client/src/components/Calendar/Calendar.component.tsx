@@ -26,11 +26,6 @@ function Calendar({ scores }: { scores: ScoreType[] }) {
     date: gs[0].day,
   }));
 
-  // const dateGroupedByYear = _.unionBy(
-  //   Object.keys(groupedScores).map(
-  //     (a: string) => a.split(' ').at(-1),
-  //   ),
-  // );
   const currentYear = new Date().getFullYear();
   return (
     <div>
@@ -63,7 +58,7 @@ function Calendar({ scores }: { scores: ScoreType[] }) {
                       // eslint-disable-next-line react/no-unstable-nested-components
           tooltip={(data: PropsWithChildren<any>) => (
             <div style={{
-              backgroundColor: 'white', borderRadius: '10px', padding: '10px', border: `${data.color} solid 1px`,
+              backgroundColor: 'white', padding: '10px', border: `${data.color} solid 3px`,
             }}
             >
               <p style={{ margin: 0 }}>{formatDate(data.date, 'fr')}</p>

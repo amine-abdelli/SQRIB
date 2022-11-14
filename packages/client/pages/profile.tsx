@@ -11,9 +11,11 @@ import withAuth from '../src/components/withAuth/withAuth.hoc';
 import styles from '../styles/sass/pages/_profile.module.scss';
 import Card from '../src/UI/Card/Card.component';
 import Spacer from '../src/UI/Spacer/Spacer.component';
+import { useWindowSize } from '../src/hooks/useWindowSize';
 
 function Profile() {
   const { scores, loading } = useGetSelf();
+  const { isSmallScreen } = useWindowSize();
   if (loading) return <Spinner />;
   const sortedScores = [...scores]
     .sort(
@@ -48,12 +50,13 @@ function Profile() {
             <>
               <Chart
                 scores={sortedScores}
-                topMpm={topMpm}
               />
               <Spacer h="50" />
-              <Calendar
-                scores={sortedScores}
-              />
+              {!isSmallScreen && (
+                <Calendar
+                  scores={sortedScores}
+                />
+              )}
             </>
           )}
       </div>

@@ -15,3 +15,9 @@
   color: $primary;
   @include stroke($outline, 3px);
 }
+
+@media screen and (max-width: $sm-screen) {
+  .statTitle {
+    font-size: 36px;
+  }
+}

@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
 import { ResponsiveLine } from '@nivo/line';
-import {
-  isSolo, ScoreType, topValue,
-} from '@sqrib/utils';
+import { isSolo, ScoreType, topValue } from '@sqrib/utils';
 import { BsStars } from 'react-icons/bs';
 import { Text } from '@nextui-org/react';
 import styles from './Chart.module.scss';
@@ -14,7 +12,7 @@ enum ChartTypeEnum {
   SOLO = 'solo',
   MULTI = 'multi'
 }
-function Chart({ scores, topMpm }: { scores: ScoreType[], topMpm: number }) {
+function Chart({ scores }: { scores: ScoreType[] }) {
   const [chartType, setChartType] = useState(ChartTypeEnum.SOLO);
   const soloScores = scores.filter(isSolo);
   const multiScores = scores.filter((score: ScoreType) => !isSolo(score));
@@ -22,14 +20,14 @@ function Chart({ scores, topMpm }: { scores: ScoreType[], topMpm: number }) {
     solo: {
       id: 'solo',
       data: [...soloScores.map((day: any, i: number) => ({
-        x: day.created_at,
+        x: i + 1,
         y: day.mpm,
       }))],
     },
     multi: {
       id: 'multiplayer',
       data: [...multiScores.map((day: any, i: number) => ({
-        x: day.created_at,
+        x: i + 1,
         y: day.mpm,
       }))],
     },
@@ -51,7 +49,7 @@ function Chart({ scores, topMpm }: { scores: ScoreType[], topMpm: number }) {
         lineWidth={4}
         xScale={{ type: 'point' }}
         yScale={{
-          type: 'linear', min: 0, stacked: true, reverse: false,
+          type: 'linear', min: 0, max: topValue(chartType === ChartTypeEnum.MULTI ? multiScores : soloScores, 'mpm') + 5, stacked: true, reverse: false,
         }}
         yFormat=" >-.2f"
         colors={[(chartType === ChartTypeEnum.SOLO) ? theme.primary : theme.secondary]}
@@ -60,18 +58,10 @@ function Chart({ scores, topMpm }: { scores: ScoreType[], topMpm: number }) {
         axisBottom={{
           tickSize: 5,
           tickPadding: 5,
-          legend: 'historique',
+          legend: '',
           legendOffset: 36,
           legendPosition: 'middle',
-          tickRotation: -43,
-        }}
-        axisLeft={{
-          tickSize: 5,
-          tickPadding: 5,
-          tickRotation: 0,
-          legend: 'mpm',
-          legendOffset: -40,
-          legendPosition: 'middle',
+          tickRotation: -10,
         }}
         pointColor={{
           theme: 'background',

@@ -18,7 +18,7 @@ import useSpeedCalculator from '../src/hooks/useSpeedCalculator';
 import { useLocalStorage } from '../src/hooks/useLocalStorage';
 import DisplayerHeader from '../src/components/DisplayerHeader/DisplayerHeader.component';
 import { theme } from '../styles/theme';
-// import Button from '../src/UI/Button/Button.component';
+import Options from '../src/components/Options/Options.component';
 
 function Didacticiel() {
   const { data, isLoggedIn } = useGetSelf();
@@ -119,6 +119,10 @@ function Didacticiel() {
             }}
           />
         </div> */}
+        <Options
+          fontSize
+          sound
+        />
         <Displayer wordsStack={markovChain || []} />
         <DisplayerHeader customStack={markovChain || []} size={60} />
         <Input

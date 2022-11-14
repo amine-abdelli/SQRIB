@@ -114,7 +114,11 @@ function Main() {
           background: '#FFFFFF', border: '4px solid black', boxShadow: '4px 4px 0px black', padding: '0 25px 25px 25px', margin: 0,
         }}
       >
-        <Options />
+        <Options
+          fontSize
+          language
+          sound
+        />
         <div
           className='flex align-center'
           style={{ margin: '10px 0 0 0' }}

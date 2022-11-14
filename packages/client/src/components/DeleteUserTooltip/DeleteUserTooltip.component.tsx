@@ -1,26 +1,31 @@
-import {
-  Button, Container, Input, Spacer, Text,
-} from '@nextui-org/react';
 import React, { useState } from 'react';
+import Button from '../../UI/Button/Button.component';
+import Input from '../../UI/Input/Input.component';
+import Spacer from '../../UI/Spacer/Spacer.component';
+import { theme } from '../../../styles/theme';
 
 function DeleteUserTooltip({ userDeletionHandler, setIsVisible, email }: any) {
   const [password, setPassword] = useState<string>();
   return (
-    <Container style={{ padding: '1rem' }}>
-      <Text style={{ textAlign: 'center' }} h3>Confirmer</Text>
+    <div style={{ padding: '1rem' }}>
+      <h2 style={{ textAlign: 'center' }}>Confirmer</h2>
       <Spacer />
-      <Text>
+      <p>
         Êtes-vous sûr de vouloir supprimer votre compte ?
         Toutes vos données seront perdues.
-      </Text>
+      </p>
       <Spacer />
-      <Text h5>Veuillez saisir votre mot de passe.</Text>
+      <h5>
+        Veuillez saisir votre mot de passe puis cliquer sur Supprimer mon compte
+        pour valider la suppression de votre compte.
+      </h5>
       <Spacer />
       <div
-        className='justify-around flex'
+        style={{ display: 'flex', flexDirection: 'column' }}
       >
-        <Input.Password onChange={(e) => setPassword(e.target.value)} placeholder="Mot de passe" />
+        <Input type='password' onChange={(e) => setPassword(e.target.value)} placeholder="Mot de passe" />
         <Button
+          style={{ background: theme.error, color: 'white' }}
           color="error"
           onClick={() => {
             userDeletionHandler({
@@ -31,11 +36,10 @@ function DeleteUserTooltip({ userDeletionHandler, setIsVisible, email }: any) {
             });
             setIsVisible(false);
           }}
-        >
-          Supprimer
-        </Button>
+          text='Supprimer mon compte'
+        />
       </div>
-    </Container>
+    </div>
   );
 }
 

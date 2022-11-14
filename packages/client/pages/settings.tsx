@@ -1,20 +1,10 @@
-import { useApolloClient, useMutation } from '@apollo/client';
+import { useMutation } from '@apollo/client';
 import {
-  SELF_QUERY, UPDATE_SETTINGS_MUTATION, UPDATE_PASSWORD_MUTATION,
+  UPDATE_PASSWORD_MUTATION,
   DELETE_USER_MUTATION,
 } from '@sqrib/api';
-import { fontSizes, languages } from '@sqrib/utils';
-import {
-  Button, Checkbox, Container, Input, Spacer, Switch, Text, Tooltip,
-} from '@nextui-org/react';
 import { useRouter } from 'next/dist/client/router';
-import React, { useContext, useEffect, useState } from 'react';
-import {
-  Delete,
-  Password,
-} from 'react-iconly';
-import { BiMoon, BiSun } from 'react-icons/bi';
-import { MainContext } from '../src/context/MainContext';
+import React, { useState } from 'react';
 import DeleteUserTooltip from '../src/components/DeleteUserTooltip/DeleteUserTooltip.component';
 import { useGetSelf } from '../src/hooks/useGetSelf';
 import { Routes } from '../src/utils/enums';
@@ -22,21 +12,16 @@ import styles from '../styles/sass/pages/_settings.module.scss';
 import WithAuth from '../src/components/withAuth/withAuth.hoc';
 import { alertService } from '../services';
 import { useWindowSize } from '../src/hooks/useWindowSize';
+import Card from '../src/UI/Card/Card.component';
+import Input from '../src/UI/Input/Input.component';
+import Button from '../src/UI/Button/Button.component';
+import Spacer from '../src/UI/Spacer/Spacer.component';
+import Modal from '../src/UI/Modal/Modal.component';
+import { theme } from '../styles/theme';
 
-interface ISettingsProps {
-  language: string;
-  fontSize: number;
-  theme: boolean;
-  sound: boolean;
-}
-
-// ! TODO: Refactor cache update into one function
 function Settings() {
   const { data, loading } = useGetSelf();
-  const { cache } = useApolloClient();
   const router = useRouter();
-  const selfSettings = data?.self.settings;
-  const { setFontSize, setLanguage } = useContext(MainContext);
 
   const [passwordUpdateHandler] = useMutation(UPDATE_PASSWORD_MUTATION, {
     onCompleted: () => {
@@ -58,26 +43,6 @@ function Settings() {
     onError: () => alertService.error('Une erreur est survenue lors de la suppression de votre compte', {}),
   });
 
-  const [updateSettings] = useMutation(
-    UPDATE_SETTINGS_MUTATION,
-    {
-      onCompleted: (payload) => {
-        const result = cache.readQuery<any, void>({ query: SELF_QUERY });
-        const self = result?.self;
-        cache.writeQuery({
-          query: SELF_QUERY,
-          data: {
-            self: {
-              ...self,
-              settings: {
-                ...payload.updateSettings,
-              },
-            },
-          },
-        });
-      },
-    },
-  );
   const [isUserDeletionTooltipVisible, setIsUserDeletionTooltipVisible] = useState<boolean>(false);
   const [updatePasswordParams, setUpdatePasswordParams] = useState<{
     actualPassword: string,
@@ -87,30 +52,7 @@ function Settings() {
     actualPassword: '', newPassword: '', newPasswordConfirmation: '',
   });
 
-  const [languageSelected, setLanguageSelected] = useState<string>(
-    selfSettings?.language,
-  );
-  const [fontSizeSelected, setFontSizeSelected] = useState<number>(
-    selfSettings?.font_size,
-  );
-  const [darkMode, setDarkMode] = useState<boolean>(selfSettings?.theme);
-  const [isSoundActive, setIsSoundActive] = useState<boolean>(selfSettings?.sound);
   const { isMediumScreen } = useWindowSize();
-  useEffect(() => {
-    setFontSize(fontSizeSelected);
-    setLanguage(languageSelected);
-    const settings: ISettingsProps = {
-      language: languageSelected,
-      fontSize: fontSizeSelected,
-      theme: darkMode,
-      sound: isSoundActive,
-    };
-    updateSettings({ variables: settings });
-  }, [languageSelected, fontSizeSelected, darkMode, isSoundActive]);
-
-  function onSettingParameterSelection(param: string | number | boolean, setState: any) {
-    setState(param);
-  }
 
   function onPasswordUpdate() {
     const { actualPassword, newPassword, newPasswordConfirmation } = updatePasswordParams;
@@ -124,123 +66,61 @@ function Settings() {
     }
   }
   if (loading) <p>loading...</p>;
-  const mediumScreenLayout = {
-    flexDirection: isMediumScreen ? 'column' : 'row', padding: isMediumScreen ? '' : '0 24px', alignItems: isMediumScreen ? 'flex-start' : '',
-  };
-  const mediumScreenGap = isMediumScreen ? 0 : 2;
   return (
-    <div className='flex flex-column'>
-      <Text color='inherit' h2>Général</Text>
-      <Container css={{ padding: 0 }}>
-        <div
-          className='flex align-center justify-between'
-          style={mediumScreenLayout as object}
-        >
-          <Text color='inherit' h3>Langues</Text>
-          <Button.Group bordered>
-            {languages.map(({ flag, country }: any) => (
-              <Button
-                key={country}
-                onClick={() => onSettingParameterSelection(country, setLanguageSelected)}
-                flat={selfSettings?.language === country}
-              >
-                {flag}
-              </Button>
-            ))}
-          </Button.Group>
-        </div>
-        <div
-          className='flex align-center justify-between'
-          style={mediumScreenLayout as object}
-        >
-          <Text color='inherit' h3>Taille de police</Text>
-          <Button.Group bordered>
-            {fontSizes.map((fontSize: number) => (
-              <Button
-                key={fontSize}
-                onClick={() => onSettingParameterSelection(fontSize, setFontSizeSelected)}
-                flat={fontSizeSelected === fontSize}
-              >
-                <Tooltip
-                  content={<Text size={fontSize}>Lorem ipsum ...</Text>}
-                  hideArrow
-                >
-                  <Text color='inherit' size={fontSize}>A</Text>
-                </Tooltip>
-              </Button>
-            ))}
-          </Button.Group>
-        </div>
-        <div
-          className='flex align-center justify-between inherit-color'
-          style={mediumScreenLayout as object}
-        >
-          <Text color='inherit' h3>Sons</Text>
-          <Checkbox
-            isSelected={selfSettings?.sound}
-            onChange={(isChecked) => onSettingParameterSelection(isChecked, setIsSoundActive)}
-          >
-            Activez les sons
-          </Checkbox>
-        </div>
-        <div
-          className='flex align-center justify-between'
-          style={mediumScreenLayout as object}
-        >
-          <Text color='inherit' h3>Thème</Text>
-          <Switch
-            checked={Boolean(selfSettings?.theme)}
-            onChange={(e) => onSettingParameterSelection(e.target.checked, setDarkMode)}
-            size="xl"
-            iconOn={<BiSun />}
-            iconOff={<BiMoon />}
-          />
-        </div>
-      </Container>
-      <Spacer y={2} />
-      <Text color='inherit' h2>Mon compte</Text>
-      <Container gap={mediumScreenGap}>
-        <Text color='inherit' h4>
+    <div className='flex justify-center' style={{ padding: '20px', flexDirection: isMediumScreen ? 'column' : 'row' }}>
+      <Card width='300' shadowed>
+        <h4>
           Modifier mon mot de passe
-        </Text>
+        </h4>
         <div
           className={styles.inputGroup}
-          style={{ flexDirection: isMediumScreen ? 'column' : 'row' }}
+          style={{ flexDirection: 'column' }}
         >
           <Input type="password" value={updatePasswordParams.actualPassword} onChange={(e) => setUpdatePasswordParams({ ...updatePasswordParams, actualPassword: e.target.value })} placeholder="Ancien mot de passe" />
           <Input type="password" value={updatePasswordParams.newPassword} onChange={(e) => setUpdatePasswordParams({ ...updatePasswordParams, newPassword: e.target.value })} placeholder="Nouveau mot de passe" />
           <Input type="password" value={updatePasswordParams.newPasswordConfirmation} onChange={(e) => setUpdatePasswordParams({ ...updatePasswordParams, newPasswordConfirmation: e.target.value })} placeholder="Confirmer mot de passe" />
-          <Button auto onClick={onPasswordUpdate}><Password /></Button>
+          <Button
+            onClick={onPasswordUpdate}
+            text='Modifier mot de passe'
+          />
         </div>
-      </Container>
-      <Container gap={mediumScreenGap}>
-        <Text color='inherit' h4>Supprimer mon compte</Text>
+      </Card>
+      <Spacer w='20' h='20' />
+      <Card width='300' shadowed>
+        <h4>Supprimer mon compte</h4>
         <div
           className='flex justify-between align-center'
-          style={{ flexDirection: isMediumScreen ? 'column' : 'row' }}
+          style={{ flexDirection: 'column' }}
         >
-          <Text color='inherit'>
+          <p>
             Si vous supprimez votre compte, il n&apos;y a pas de retour en arrière possible.
-          </Text>
-          <Tooltip
-            visible={isUserDeletionTooltipVisible}
-            hideArrow
-            trigger="click"
-            content={(
+          </p>
+          <Button
+            style={{ background: theme.error, color: 'white' }}
+            text={(
+              <>
+                Supprimer mon compte
+              </>
+            )}
+            onClick={() => setIsUserDeletionTooltipVisible(true)}
+          />
+          <Modal
+            isOpen={isUserDeletionTooltipVisible}
+            setIsOpen={() => setIsUserDeletionTooltipVisible(false)}
+            blur
+            closeable
+            darkCross
+          >
+            <Modal.Body>
               <DeleteUserTooltip
                 email={data?.self.email}
                 userDeletionHandler={userDeletionHandler}
                 setIsVisible={setIsUserDeletionTooltipVisible}
               />
-            )}
-          >
-            <Button onClick={() => setIsUserDeletionTooltipVisible(true)} auto ghost color="error">
-              <Delete />
-            </Button>
-          </Tooltip>
+            </Modal.Body>
+          </Modal>
         </div>
-      </Container>
-      <Spacer />
+      </Card>
     </div>
   );
 }

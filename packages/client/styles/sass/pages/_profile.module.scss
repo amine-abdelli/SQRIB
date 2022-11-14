@@ -11,3 +11,9 @@
   flex-wrap: wrap;
   margin: 0;
 }
+
+@media screen and (max-width: $sm-screen) {
+  .statTitle {
+    font-size: 36px;
+  }
+}

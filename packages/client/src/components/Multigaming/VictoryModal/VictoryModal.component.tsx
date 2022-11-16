@@ -20,8 +20,9 @@ function VictoryModal({
       socketRef.off('podium-data');
     };
   }, [socketRef]);
+  const { victoryModalColumns } = useColumns();
   if (!finalScore) return <Loading />;
-  const { podium: initialPodium } = createPodium(finalScore!);
+  const { podium: initialPodium } = createPodium(finalScore);
   // exclude players in staging from podium
   const podium = initialPodium
     .filter((player) => player.status !== GameStatus.STAGING);
@@ -36,7 +37,7 @@ function VictoryModal({
         >
           <Table
             dataSource={podium}
-            columns={useColumns()?.victoryModalColumns()}
+            columns={victoryModalColumns() as any}
           />
         </div>
         <Spacer h="10" />

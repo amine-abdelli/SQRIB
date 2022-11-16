@@ -6,7 +6,6 @@ import { ADD_NEW_SCORE_MUTATION, SELF_QUERY } from '@sqrib/api';
 import { Game } from '@sqrib/utils';
 import { Scoring } from '../src/components/Scoring/Scoring.component';
 import { Displayer } from '../src/components/Displayer/Displayer.component';
-import KeyBoard from '../src/components/KeyBoard/KeyBoard.component';
 import { MainContext } from '../src/context/MainContext';
 import DisplayerHeader from '../src/components/DisplayerHeader/DisplayerHeader.component';
 import RefreshButton from '../src/components/Buttons/RefreshButton/RefreshButton.component';
@@ -17,6 +16,7 @@ import { useGetSelf } from '../src/hooks/useGetSelf';
 import { socket, socketConnect } from '../services/socket.service';
 import { useWindowSize } from '../src/hooks/useWindowSize';
 import Options from '../src/components/Options/Options.component';
+import KeyBoard from '../src/components/KeyBoard/KeyBoard.component';
 
 function Main() {
   const { cache } = useApolloClient();

@@ -3,14 +3,14 @@ import { BsStars } from 'react-icons/bs';
 import { IScoreCardProps } from './ScoreCard.props';
 import styles from './ScoreCard.module.scss';
 
-function borderColor(highlight: boolean | undefined, best: boolean | undefined) {
-  if (highlight) {
-    return '#FF8C00';
-  } if (best) {
-    return 'gold';
-  }
-  return '#34343490';
-}
+// function borderColor(highlight: boolean | undefined, best: boolean | undefined) {
+//   if (highlight) {
+//     return '#FF8C00';
+//   } if (best) {
+//     return 'gold';
+//   }
+//   return '#34343490';
+// }
 
 function ScoreCard({
   content, title, highlight, best, unit = '', stat,

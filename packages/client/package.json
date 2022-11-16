@@ -23,6 +23,8 @@
     "@nivo/calendar": "^0.76.0",
     "@nivo/core": "^0.76.0",
     "@nivo/line": "^0.76.0",
+    "@splinetool/react-spline": "^2.2.3",
+    "@splinetool/runtime": "^0.9.139",
     "@sqrib/api": "^1.0.0",
     "@sqrib/utils": "^1.0.0",
     "@typescript-eslint/eslint-plugin": "^5.4.0",

@@ -1,6 +1,4 @@
-$primary-color: #dfdad2;
-$secondary-color: #343434;
-$tertiary-color: #FF8C00;
-$border-radius: 10px;
-
-$box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.25);
+@import '../abstracts/colors';
+$shadow-button: 4px 4px 0px $outline;
+$shadow-button-hovered: 5.5px 5.5px 0px $outline;
+$border: 3px solid $outline;

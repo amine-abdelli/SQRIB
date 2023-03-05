@@ -1,7 +1,8 @@
 import { GameType } from '@sqrib/utils';
+import { Socket } from 'socket.io-client';
 
 export interface VictoryModalProps {
-  isGameEnded: boolean
+  socketRef: Socket
   counter: number
   game: GameType;
 }

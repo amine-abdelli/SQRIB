@@ -3,10 +3,11 @@ import React, {
   KeyboardEvent, useContext, useEffect,
 } from 'react';
 import { useRouter } from 'next/dist/client/router';
-import { Input as MainInput } from '@nextui-org/react';
 import { MainContext } from '../../context/MainContext';
 import { InputProps } from './Input.props';
 import { Routes } from '../../utils/enums';
+import styles from './Input.module.scss';
+import { useWindowSize } from '../../hooks/useWindowSize';
 
 function triggerInputFocus(refToTrigger: React.RefObject<HTMLInputElement>) {
   return refToTrigger.current?.focus();
@@ -63,20 +64,26 @@ function Input({
       triggerInputFocus(mainInputRef);
     };
   });
-
+  const { isMediumScreen } = useWindowSize();
   return (
-    <MainInput
-      ref={mainInputRef}
-      aria-label='formulaire de saisie principal'
-      className='w100'
-      autoFocus
-      onChange={(e) => setUserInput(e.target.value)}
-      value={userInput}
-      fullWidth
-      onKeyDown={(event: KeyboardEvent<HTMLInputElement>) => onSpacePress(event)}
-      disabled={((isTimeOut) && !userInput) || isMultigamerAndNotAllowToPlay}
-      placeholder="Start typing here..."
-    />
+    <div
+      className={styles.mainInputWrapper}
+      style={{ margin: '0 0 10px 0' }}
+    >
+      <input
+        style={{
+          fontFamily: 'Poppins', fontWeight: 800, fontSize: '20px', width: isMediumScreen ? '200px' : '',
+        }}
+        ref={mainInputRef}
+        aria-label='formulaire de saisie principal'
+        className={styles.mainInput}
+        onChange={(e) => setUserInput(e.target.value)}
+        value={userInput}
+        onKeyDown={(event: KeyboardEvent<HTMLInputElement>) => onSpacePress(event)}
+        disabled={((isTimeOut) && !userInput) || isMultigamerAndNotAllowToPlay}
+        placeholder="Start typing here..."
+      />
+    </div>
   );
 }
 

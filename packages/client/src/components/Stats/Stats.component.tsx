@@ -6,7 +6,6 @@ import {
 } from '@nextui-org/react';
 import { topValue } from '@sqrib/utils';
 import { InfoCircle } from 'react-iconly';
-import { Colors } from '../../utils/enums';
 import { IStats } from './Stats.props';
 import styles from './Stats.module.scss';
 import ScoreCard from '../ScoreCard/ScoreCard.component';
@@ -66,8 +65,8 @@ function Stats({
           alt="Picture of the author"
           quality={100}
           layout='fixed'
-          width='100px'
-          height='100px'
+          width='80px'
+          height='80px'
         />
       </div>
       <div className={styles.statsContent}>
@@ -78,7 +77,7 @@ function Stats({
           }}
         >
           <span className='flex align-center'>
-            <Text h2 className={styles.mpm}>
+            <Text h3 className={styles.mpm}>
               {`${mpm} mpm`}
             </Text>
             <Tooltip
@@ -89,9 +88,6 @@ function Stats({
               <InfoCircle set='light' primaryColor='grey' />
             </Tooltip>
           </span>
-          <Text h4 style={{ color: Colors.GREEN, textAlign: 'center' }}>
-            {`${points} points`}
-          </Text>
         </div>
         <Divider />
         <div className={styles.scoreCardWrapper}>
@@ -114,6 +110,8 @@ function Stats({
           <ScoreCard content={`${typingSpeed}`} title="Vitesse moyenne" stat />
           <Divider />
           <ScoreCard content={`${precision}%`} title="Précision" stat />
+          <Divider />
+          <ScoreCard content={points} title="Points" stat />
         </div>
         <Button
           color='success'

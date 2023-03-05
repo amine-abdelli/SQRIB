@@ -1,13 +1,13 @@
+@import '../../../styles/sass/abstracts/index.scss';
+
 .cardWrapper {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  border: 1px solid #343434;
-  border-radius: 7.5px;
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
   transition: all 0.2s ease-in-out;
-  margin: 0;
-  flex-basis: 22%;
+  // height: 5rem;
+  // margin: 0;
+  @include thinBorder();
 
   .cardContent {
     font-weight: bold;
@@ -18,19 +18,19 @@
   }
 }
 
-@media screen and (max-width: 550px) {
+@media screen and (max-width: $sm-screen) {
   .cardWrapper {
     flex-basis: 100%;
   }
 }
 
-@media screen and (min-width: 551px) and (max-width: 1124px) {
+@media screen and (min-width: $sm-screen) and (max-width: $xl-screen) {
   .cardWrapper {
     flex-basis: calc(50% - 1px - (10 * 2px));
   }
 }
 
-@media screen and (min-width: 1124px) {
+@media screen and (min-width: $xl-screen) {
   .cardWrapper {
     flex-basis: calc(25% - 1px - (10 * 2px));
   }

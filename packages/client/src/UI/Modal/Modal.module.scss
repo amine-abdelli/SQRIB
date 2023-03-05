@@ -1,0 +1,31 @@
+@import "../../../styles/sass/abstracts/mixins";
+@import "../../../styles/sass/abstracts/colors";
+
+$zIndex: 99999999;
+
+@mixin baseModalWrapper {
+  z-index: $zIndex;
+  background-color: $tertiary;
+  overflow: hidden;
+  @include thickBorder();
+  @include absoluteCenter();
+}
+
+.sqribBackground {
+  @include baseModalWrapper();
+  background: no-repeat url('../../../src/assets/Images/main-background.png');
+}
+
+.modalWrapper {
+  @include baseModalWrapper();
+}
+
+.overlay {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: fade-out($color: rgb(75, 73, 73), $amount: 0.5);
+  z-index: calc($zIndex - 1);
+}

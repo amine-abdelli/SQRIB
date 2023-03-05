@@ -1,3 +1,5 @@
+@import '../../../../styles/sass/abstracts/index.scss';
+
 .createModalWrapper {
   display: flex;
   justify-content: center;
@@ -12,17 +14,24 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      border: 1px black solid;
+      border: 3px solid $outline;
       margin: 5px;
       padding: 5px;
-      width: 5rem;
-      height: 5rem;
-      border-radius: 50px;
+      width: 100%;
     }
   }
 }
 
-@media screen and (max-width: 768px) {
+.inviteTitle {
+  color: $primary;
+  text-align: center;
+  font-size: 15px;
+  padding: 0;
+  margin: 0;
+  @include stroke($outline, 2px);
+}
+
+@media screen and (max-width: $md-screen) {
   .createModalWrapper {
     flex-direction: column-reverse;
   }

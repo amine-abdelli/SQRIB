@@ -8,9 +8,9 @@ interface LoginArgs {
 }
 
 async function login(parent: any, { email, password }: LoginArgs, context: Context) {
-  log.info('Trying to authenticate', { email });
+  log.info({ email }, 'Trying to authenticate');
   const user = await loginService(email, password, context);
-  log.info('Authentication success', { email });
+  log.info({ email }, 'Authentication success');
   return user;
 }
 

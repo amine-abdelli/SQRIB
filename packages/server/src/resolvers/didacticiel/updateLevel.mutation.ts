@@ -7,8 +7,8 @@ export interface IUpdateLevel {
 }
 
 export async function updateLevel(parent: any, args: IUpdateLevel, context: Context) {
-  log.info('Trying to update level', { args });
+  log.info({ args }, 'Trying to update level');
   const level = await updateLevelService(args, context);
-  log.info('Level updated successfully', { args });
+  log.info({ args }, 'Level updated successfully', { args });
   return level.didacticiel_level;
 }

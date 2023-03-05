@@ -1,0 +1,80 @@
+@import '../../../styles/sass/abstracts/index.scss';
+
+.tableWrapper {
+  background: $tertiary;
+  padding: 0; 
+  height: 100%;
+
+  .tableRow:hover {
+    td {
+      background-color: rgba(0, 0, 0, 0.075) !important;
+      color: black !important;
+    }
+  }
+  
+  table {
+    @include thickBorder();
+    font-family: 'Poppins';
+    .headerWrapper {
+        td {
+          border: 3px solid $outline;
+        }
+    }
+
+    thead {
+      height: 2rem;
+      tr {
+        margin: 0;
+        padding: 0;
+        th {
+          border: 3px solid $outline;
+          margin: 0;
+          padding: 0;
+        }
+      }
+    }
+
+    tbody {
+      tr {
+        td {
+          border-left: 3px solid $outline;
+          border-right: 3px solid $outline;
+          height: '5px';
+        }
+        
+        &:last-child {
+          height: 100%;
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: $xsm-screen) {
+  .tableWrapper {
+    table {
+      .headerWrapper {
+          td {
+            // Works for h1, h2, h3 passed via header props only
+            & h1,h2,h3 {
+              font-size: 28px;
+            }
+          }
+      }
+      thead {
+        tr {
+          th {
+            font-size: 14px;
+          }
+        }
+      }
+      tbody {
+        tr {
+          td {
+            font-size: 12px;
+          }
+        }
+      }
+    }
+  }
+}

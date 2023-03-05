@@ -1,13 +1,18 @@
+@import '../../../styles/sass/abstracts/index.scss';
+
 .displayer {
   width: 100%;
   position : relative;
   font-weight: normal;
   font-size: 1.6rem;
-  padding: 1rem;
+  padding: 1rem !important;
   text-align: justify;
   height: 8rem;
   overflow-y: hidden;
   position: relative;
+  box-shadow: none;
+  background-color: $tertiary;
+  // @include thinBorder();
 }
 
 .displayer:after {

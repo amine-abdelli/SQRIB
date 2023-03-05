@@ -1,10 +1,11 @@
-import {
-  Button, Input, Text,
-} from '@nextui-org/react';
+import { nicknamePolicy } from '@sqrib/utils';
 import React, {
   Dispatch, SetStateAction, useEffect, useState,
 } from 'react';
 import { useLocalStorage } from '../../../hooks/useLocalStorage';
+import Button from '../../../UI/Button/Button.component';
+import Input from '../../../UI/Input/Input.component';
+import { StaticAlertEnum } from '../../../UI/StaticAlert/StaticAlert.props';
 
 interface EnterInputProps {
   setUsername: Dispatch<SetStateAction<string | undefined>>;
@@ -17,9 +18,7 @@ function EnterInput({ setUsername }: EnterInputProps) {
   const [errorMessage, setErrorMessage] = useState<string>('');
 
   function onEnterInputValidation() {
-    if (nickname.length >= 5 && nickname.length <= 18
-    // && !userList.includes(nickname)
-    ) {
+    if (nickname.length >= 5 && nickname.length <= 18) {
       setUsername(nickname);
       setLocalStorageNickname(nickname);
     }
@@ -30,42 +29,31 @@ function EnterInput({ setUsername }: EnterInputProps) {
 
   useEffect(() => {
     if (nickname.length < 4) {
-      setErrorMessage('Votre pseudo doit contenir au moins 4 caractères');
+      setErrorMessage('Votre pseudo doit contenir au moins 4 caractères !');
     } else if (nickname.length > 18) {
-      setErrorMessage('Votre pseudo doit contenir au maximum 15 caractères');
-      // else if (userList.includes(nickname)) {
-    // setErrorMessage('Ce pseudo est déjà pris');
-    // }
+      setErrorMessage('Votre pseudo doit contenir au maximum 15 caractères !');
+    } else if (!new RegExp(nicknamePolicy).test(nickname)) {
+      setErrorMessage('Votre pseudo ne peut contenir que des lettres, chiffres, tirets et tirets du bas uniquement.');
     } else {
       setErrorMessage('');
     }
   }, [nickname]);
 
-  const feedbackType = errorMessage ? 'error' : 'success';
-
+  const feedbackType = errorMessage ? StaticAlertEnum.ERROR : StaticAlertEnum.SUCCESS;
   return (
-    <div className='flex flex-column' style={{ width: '100%', justifyContent: 'center', padding: '1rem' }}>
+    <div className='flex flex-column' style={{ width: '100%', justifyContent: 'center' }}>
       <h3 className='text-center'>Choisis ton pseudo</h3>
-      {nickname && (
-      <div>
-        <Text
-          color={feedbackType}
-          css={{
-            backgroundColor: `$${feedbackType}Light`, padding: '5px', margin: '5px 0', borderRadius: '5px', border: `1px solid $${feedbackType}`,
-          }}
-        >
-          {errorMessage || 'Pseudo valide'}
-        </Text>
-      </div>
-      )}
-      <Input aria-label='Pseudo' className='w100' value={nickname} onChange={({ target }) => { setNickname(target.value); }} />
+      <Input
+        helperColor={feedbackType}
+        helperText={errorMessage || ''}
+        aria-label='Pseudo'
+        value={nickname}
+        onChange={({ target }) => { setNickname(target.value); }}
+      />
       <Button
-        shadow
-        className='w100'
         onClick={onEnterInputValidation}
-      >
-        Enregistrer
-      </Button>
+        text="Enregistrer"
+      />
     </div>
   );
 }

@@ -8,8 +8,8 @@ export interface IFindOneSet {
 }
 
 export async function findOneSet(parent: any, args: IFindOneSet, context: Context) {
-  log.info('Trying to fetch a new set', { ...args });
+  log.info({ ...args }, 'Trying to fetch a new set');
   const wordSet = await findOneSetService(args, context);
-  log.info('Set fetched successfully !');
+  log.info({ ...args }, 'Set fetched successfully !');
   return _.shuffle(wordSet[0].word_set.slice(0, 500).filter((word) => (args.letter === 'a' ? !word.includes('j') : true)));
 }

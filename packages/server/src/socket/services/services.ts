@@ -213,7 +213,9 @@ export const Services = {
   },
   updatePlayersStatus(status: GameStatus, games: Record<string, GameType>, roomID: string) {
     const newGameObject: Record<string, GameType> = games;
-    for (const aClient of Object.values(games[roomID]?.clients)) {
+    const clients = games[roomID]?.clients && Object.values(games[roomID]?.clients);
+    if (!clients?.length) return games;
+    for (const aClient of clients) {
       if (aClient.status) {
         newGameObject[roomID].clients[aClient.id].status = status || GameStatus.PLAYING;
       }
@@ -260,7 +262,11 @@ export const Services = {
     const scoresInSolo = scores.filter(isSolo);
     const multiplayerGroupedScores = groupScoresByLanguageAndHighestScores(multiplayerScores);
     const scoresInSoloGroupedScores = groupScoresByLanguageAndHighestScores(scoresInSolo);
-    return { solo: scoresInSoloGroupedScores, multi: multiplayerGroupedScores, games };
+    return {
+      solo: scoresInSoloGroupedScores,
+      multi: multiplayerGroupedScores,
+      games,
+    };
   },
   async saveGame(game: GameType, roomID: string) {
     try {
@@ -321,7 +327,11 @@ export const Services = {
           }
         }));
     } catch (error) {
-      log.error('An error occured while adding a new score');
+      if (error instanceof Error) {
+        log.error({ error: error.message }, 'An error occured while adding a new score');
+      } else {
+        console.error(error);
+      }
     }
     return { message: 'Game created successfully' };
   },

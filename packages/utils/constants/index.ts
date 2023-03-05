@@ -1,6 +1,6 @@
 export * from './alphabet';
 export * from './defaultLevel';
-export * from './email';
+export * from './formPolicies';
 export * from './languages';
 export * from './fontSizes';
 export * from './calendar';

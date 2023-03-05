@@ -1479,7 +1479,7 @@
   resolved "https://registry.yarnpkg.com/@blueprintjs/colors/-/colors-4.0.0-alpha.2.tgz#ce8e7450ae542fcddb72b372b49669adf13c0173"
   integrity sha512-B8NX2oKVTPGVJd7ZCbm9FMPoEdQiLKceo0/UxsJ+gwqNiuo45RzdmrXACI6oFO4hGHL2WiLU0oysLNj2zpHDkA==
 
-"@blueprintjs/core@^3.51.2", "@blueprintjs/core@^3.52.0":
+"@blueprintjs/core@^3.51.2":
   version "3.52.0"
   resolved "https://registry.yarnpkg.com/@blueprintjs/core/-/core-3.52.0.tgz#cfb558fb435ba4b3e79e44ed470c79a787fa3724"
   integrity sha512-92Tsr0uw1ey8ZsdYSfPyeN1hbjI8PC+HWyXUSNG+nM4g5AYTuKXVXKTxxGBtZN9hG2LlmUld8YIMFWtuLBErDQ==
@@ -1503,19 +1503,6 @@
   integrity sha512-6pXhHC8zEvoDKN5KNsIHNuCRKsemmRbXNv1jweB95VaFzR1M+Mik+Qi+13Wd+VtZrzes2ZcWttIeyuK91NoLCw==
   dependencies:
     classnames "^2.2"
-    tslib "~1.13.0"
-
-"@blueprintjs/popover2@^0.12.8":
-  version "0.12.9"
-  resolved "https://registry.yarnpkg.com/@blueprintjs/popover2/-/popover2-0.12.9.tgz#ff725e05a422580a6ea8dfd5e777aad13ce13102"
-  integrity sha512-q1wXGav85NKYfgFo9CxXnqARY0i9QY4KUwjJpZrTqnebwM0wQJLQpAnYvFrHYWYxHacSxz+SWdoqI8AK9h/m7Q==
-  dependencies:
-    "@blueprintjs/core" "^3.52.0"
-    "@popperjs/core" "^2.5.4"
-    classnames "^2.2"
-    dom4 "^2.1.5"
-    react-popper "^2.2.4"
-    resize-observer-polyfill "^1.5.1"
     tslib "~1.13.0"
 
 "@cnakazawa/watch@^1.0.3":
@@ -3073,11 +3060,6 @@
   resolved "https://registry.yarnpkg.com/@oclif/screen/-/screen-1.0.4.tgz#b740f68609dfae8aa71c3a6cab15d816407ba493"
   integrity sha512-60CHpq+eqnTxLZQ4PGHYNwUX572hgpMHGPtTWMjdTMsAvlm69lZV/4ly6O3sAYkomo4NggGcomrDpBe34rxUqw==
 
-"@popperjs/core@^2.5.4":
-  version "2.11.2"
-  resolved "https://registry.yarnpkg.com/@popperjs/core/-/core-2.11.2.tgz#830beaec4b4091a9e9398ac50f865ddea52186b9"
-  integrity sha512-92FRmppjjqz29VMJ2dn+xdyXZBrMlE42AV6Kq6BwjWV7CNUW1hs2FtxSNLQE+gJhaZ6AAmYuO9y8dshhcBl7vA==
-
 "@prisma/client@3.14.0":
   version "3.14.0"
   resolved "https://registry.yarnpkg.com/@prisma/client/-/client-3.14.0.tgz#bb90405c012fcca11f4647d91153ed4c58f3bd48"
@@ -3607,6 +3589,20 @@
   version "3.1.0"
   resolved "https://registry.yarnpkg.com/@socket.io/component-emitter/-/component-emitter-3.1.0.tgz#96116f2a912e0c02817345b3c10751069920d553"
   integrity sha512-+9jVqKhRSpsc591z5vX+X5Yyw+he/HCB4iQ/RYxw35CEPaY1gnsNE43nf9n9AaYjAQrTiI/mOwKUKdUs9vf7Xg==
+
+"@splinetool/react-spline@^2.2.3":
+  version "2.2.3"
+  resolved "https://registry.yarnpkg.com/@splinetool/react-spline/-/react-spline-2.2.3.tgz#f0c93fe1f539be95de4564c19440be1061d42ee0"
+  integrity sha512-KdvyP2cCLLG/PcHp0ObE147nhawY4R/iqI6733MSWBx4KSpeo4oD589rCPuXeGdgyr2lCtZqUQOkQj4QCnXxmw==
+  dependencies:
+    react-merge-refs "^1.1.0"
+
+"@splinetool/runtime@^0.9.139":
+  version "0.9.139"
+  resolved "https://registry.yarnpkg.com/@splinetool/runtime/-/runtime-0.9.139.tgz#f64a0b52af11c6d00682caf20851cd6b9c943a2b"
+  integrity sha512-c+SaF84LwpGS1zHkLrdCyBMQHITp1tJIrfnWj87q657O7BB6djG1PQhEi0UgaTkWuxsK+b0pOTmSiOyUBaPhew==
+  dependencies:
+    on-change "^4.0.0"
 
 "@stitches/react@1.2.8":
   version "1.2.8"
@@ -12170,6 +12166,11 @@ object.values@^1.1.5:
     define-properties "^1.1.3"
     es-abstract "^1.19.1"
 
+on-change@^4.0.0:
+  version "4.0.1"
+  resolved "https://registry.yarnpkg.com/on-change/-/on-change-4.0.1.tgz#a3fea9971748efab3560351c8278ea1a692b7c16"
+  integrity sha512-Gxmr/8NsLTigoUUEPvnAIUGl7uxwfC3Mm1G+qTmODEZcT4ZGfeaFyQgfGCdbKVS2pICIFYB82RH6MUHToPcS4Q==
+
 on-exit-leak-free@^0.2.0:
   version "0.2.0"
   resolved "https://registry.yarnpkg.com/on-exit-leak-free/-/on-exit-leak-free-0.2.0.tgz#b39c9e3bf7690d890f4861558b0d7b90a442d209"
@@ -13482,20 +13483,15 @@ react-dom@17.0.2:
     object-assign "^4.1.1"
     scheduler "^0.20.2"
 
-react-fast-compare@^3.0.1:
-  version "3.2.0"
-  resolved "https://registry.yarnpkg.com/react-fast-compare/-/react-fast-compare-3.2.0.tgz#641a9da81b6a6320f270e89724fb45a0b39e43bb"
-  integrity sha512-rtGImPZ0YyLrscKI9xTpV8psd6I8VAtjKCzQDlzyDvqJA8XOW78TXYQwNRNd8g8JZnDu8q9Fu/1v4HPAVwVdHA==
-
 react-iconly@^2.2.5:
   version "2.2.5"
   resolved "https://registry.yarnpkg.com/react-iconly/-/react-iconly-2.2.5.tgz#32b9a1d66815ae6a421026694e7d16027248d87f"
   integrity sha512-c9WO/2TJltmyCVGj+/mdJZFoldfzYA8uUPmcml03D6YlBVWsCN5gq5Vb2k95qmeg+vSqMRvC69yghZvM0T4lKQ==
 
 react-icons@^4.3.1:
-  version "4.3.1"
-  resolved "https://registry.yarnpkg.com/react-icons/-/react-icons-4.3.1.tgz#2fa92aebbbc71f43d2db2ed1aed07361124e91ca"
-  integrity sha512-cB10MXLTs3gVuXimblAdI71jrJx8njrJZmNMEMC+sQu5B/BIOmlsAjskdqpn81y8UBVEGuHODd7/ci5DvoSzTQ==
+  version "4.6.0"
+  resolved "https://registry.yarnpkg.com/react-icons/-/react-icons-4.6.0.tgz#f83eda179af5d02c047449a20b702c858653d397"
+  integrity sha512-rR/L9m9340yO8yv1QT1QurxWQvWpbNHqVX0fzMln2HEb9TEIrQRGsqiNFQfiv9/JEUbyHmHPlNTB2LWm2Ttz0g==
 
 react-is@17.0.2, react-is@^17.0.1:
   version "17.0.2"
@@ -13516,6 +13512,11 @@ react-lifecycles-compat@^3.0.4:
   version "3.0.4"
   resolved "https://registry.yarnpkg.com/react-lifecycles-compat/-/react-lifecycles-compat-3.0.4.tgz#4f1a273afdfc8f3488a8c516bfda78f872352362"
   integrity sha512-fBASbA6LnOU9dOU2eW7aQ8xmYBSXUIWr+UmF9b1efZBazGNO+rcXT/icdKnYm2pTwcRylVUYwW7H1PHfLekVzA==
+
+react-merge-refs@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/react-merge-refs/-/react-merge-refs-1.1.0.tgz#73d88b892c6c68cbb7a66e0800faa374f4c38b06"
+  integrity sha512-alTKsjEL0dKH/ru1Iyn7vliS2QRcBp9zZPGoWxUOvRGWPUYgjo+V01is7p04It6KhgrzhJGnIj9GgX8W4bZoCQ==
 
 react-motion@^0.5.2:
   version "0.5.2"
@@ -13539,14 +13540,6 @@ react-popper@^1.3.7:
     typed-styles "^0.0.7"
     warning "^4.0.2"
 
-react-popper@^2.2.4:
-  version "2.2.5"
-  resolved "https://registry.yarnpkg.com/react-popper/-/react-popper-2.2.5.tgz#1214ef3cec86330a171671a4fbcbeeb65ee58e96"
-  integrity sha512-kxGkS80eQGtLl18+uig1UIf9MKixFSyPxglsgLBxlYnyDf65BiY9B3nZSc6C9XUNDgStROB0fMQlTEz1KxGddw==
-  dependencies:
-    react-fast-compare "^3.0.1"
-    warning "^4.0.2"
-
 react-refresh@0.8.3:
   version "0.8.3"
   resolved "https://registry.yarnpkg.com/react-refresh/-/react-refresh-0.8.3.tgz#721d4657672d400c5e3c75d063c4a85fb2d5d68f"
@@ -13566,6 +13559,11 @@ react-router@6.2.1, react-router@^6.0.1:
   integrity sha512-2fG0udBtxou9lXtK97eJeET2ki5//UWfQSl1rlJ7quwe6jrktK9FCCc8dQb5QY6jAv3jua8bBQRhhDOM/kVRsg==
   dependencies:
     history "^5.2.0"
+
+react-tiny-popover@^7.2.0:
+  version "7.2.0"
+  resolved "https://registry.yarnpkg.com/react-tiny-popover/-/react-tiny-popover-7.2.0.tgz#e6277620efea6acea9c47efbfe5dcb473a552e99"
+  integrity sha512-AIliRDqTFB1+qy4GvWn+8B8JPKA13xtESWYdFkrdCeI8hEnPKufBvcF9a3dO/0SmD21mV6721xxhAnUm8TRXJw==
 
 react-transition-group@^2.9.0:
   version "2.9.0"

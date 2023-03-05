@@ -6,11 +6,9 @@ import type { AppProps } from 'next/app';
 import { ApolloProvider } from '@apollo/client';
 import { NextUIProvider } from '@nextui-org/react';
 import { generateWordSet, FontSizes, Languages } from '@sqrib/utils';
-import { FocusStyleManager } from '@blueprintjs/core';
 import { useRouter } from 'next/dist/client/router';
 import Layout from '../src/components/Layout/Layout.component';
-import SideBar from '../src/components/SideBar/SideBar.component';
-import { ITheme, themes } from '../styles/theme';
+import SideBar from '../src/UI/SideBar/SideBar.component';
 import '../styles/sass/globals.scss';
 import styles from '../styles/sass/pages/_app.module.scss';
 import { GameOptions } from '../src/utils/mode';
@@ -19,12 +17,10 @@ import { MainContext } from '../src/context/MainContext';
 import { client } from '../client';
 import { Alert } from '../src/components/Alert/Alert.component';
 import { useWindowSize } from '../src/hooks/useWindowSize';
-import Nav from '../src/components/Nav/Nav.component';
+import Header from '../src/components/Header/Header.component';
 
 function MyApp({ Component, pageProps }: AppProps) {
-  const [theme, setTheme] = useState<ITheme>(themes.LIGHT);
   const [fontSize, setFontSize] = useState<number>(FontSizes.LARGE);
-  const [, setShowModeSelection] = useState<boolean>(false);
   const [gameMode] = useState<string>(GameMode.COUNTDOWN);
   const [language, setLanguage] = useState<string>(Languages.FR);
   const [userInput, setUserInput] = useState('');
@@ -39,6 +35,8 @@ function MyApp({ Component, pageProps }: AppProps) {
   const [letterWidth, setLetterWidth] = useState<number | undefined>();
   const [startTimer, setStartTimer] = useState<boolean>(false);
   const [isTimeOut, setIsTimeOut] = useState(false);
+  // On mobile and tablet size only the menu take the full screen
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [wordsStack, setWordsStack] = useState<string[]>(
     generateWordSet(language, GameOptions[gameMode].stackLength),
   );
@@ -46,8 +44,10 @@ function MyApp({ Component, pageProps }: AppProps) {
     60,
   );
 
+  // Is triggered everytime we change route
   useEffect(() => {
     onRestart();
+    setIsMenuOpen(false);
   }, [useRouter().pathname]);
 
   const onRestart = useCallback(() => {
@@ -69,26 +69,23 @@ function MyApp({ Component, pageProps }: AppProps) {
   }, [language, gameMode]);
 
   const MainContextProps = useMemo(() => ({
-    userInput, wordIndex, isTimeOut, setIsTimeOut, startTimer, setStartTimer, gameMode, countDown, wordsStack, setWordsStack, computedWords, setComputedWords, correctWords, setCorrectWords, setCountDown, setWordIndex, setUserInput, score, setScore, offSet, setOffSet, yFocusedPosition, setYFocusedPosition, yNextPosition, setYNextPosition, horizontalPosition, setHorizontalPosition, letterWidth, setLetterWidth, fontSize, language, setFontSize, theme, setShowModeSelection, onRestart, setLanguage, setTheme,
-  }), [userInput, wordIndex, isTimeOut, setTheme, startTimer, gameMode, countDown, wordsStack, setWordsStack, computedWords, correctWords, score, setScore, offSet, yFocusedPosition, yNextPosition, horizontalPosition, letterWidth, fontSize, language, theme, onRestart, setLanguage]);
-
-  // Disable ugly focus on blueprint's elements
-  FocusStyleManager.onlyShowFocusOnTabs();
+    userInput, wordIndex, isTimeOut, setIsTimeOut, startTimer, setStartTimer, gameMode, countDown, wordsStack, setWordsStack, computedWords, setComputedWords, correctWords, setCorrectWords, setCountDown, setWordIndex, setUserInput, score, setScore, offSet, setOffSet, yFocusedPosition, setYFocusedPosition, yNextPosition, setYNextPosition, horizontalPosition, setHorizontalPosition, letterWidth, setLetterWidth, fontSize, language, setFontSize, onRestart, setLanguage,
+  }), [userInput, wordIndex, isTimeOut, startTimer, gameMode, countDown, wordsStack, setWordsStack, computedWords, correctWords, score, setScore, offSet, yFocusedPosition, yNextPosition, horizontalPosition, letterWidth, fontSize, language, onRestart, setLanguage]);
 
   const { isMediumScreen, isSmallScreen } = useWindowSize();
   return (
     <ApolloProvider client={client}>
-      <Layout theme={theme}>
+      <Layout>
         <Alert />
         <div className='flex' style={{ padding: isSmallScreen ? '0.5rem' : '1rem' }}>
-          <SideBar />
+          <SideBar fullScreen={isMediumScreen} isMenuOpen={isMenuOpen} setIsMenuOpen={setIsMenuOpen} />
           <div className='flex w100 flex-column'>
-            <Nav />
+            <Header isMenuOpen={isMenuOpen} setIsMenuOpen={setIsMenuOpen} />
             <div className={styles.componentWrapper}>
               <div className='flex justify-center h100'>
                 <MainContext.Provider value={MainContextProps}>
                   <NextUIProvider>
-                    <Component theme={theme} {...pageProps} />
+                    <Component style={{ width: '100%' }} {...pageProps} />
                     {/* Compensate the height of the side bar appearing on the bottom of the screen on mobile view */}
                     {isMediumScreen && <div style={{ height: '40px' }} />}
                   </NextUIProvider>

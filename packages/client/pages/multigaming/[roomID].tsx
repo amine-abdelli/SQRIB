@@ -1,7 +1,5 @@
 import { GameType } from '@sqrib/utils';
-import {
-  Container, Modal, Spacer, Text,
-} from '@nextui-org/react';
+import { Container } from '@nextui-org/react';
 import { useRouter } from 'next/router';
 import React, {
   useContext,
@@ -20,6 +18,8 @@ import VictoryModal from '../../src/components/Multigaming/VictoryModal/VictoryM
 import { MainContext } from '../../src/context/MainContext';
 import { useGetSelf } from '../../src/hooks/useGetSelf';
 import { useLocalStorage } from '../../src/hooks/useLocalStorage';
+import Modal from '../../src/UI/Modal/Modal.component';
+import Spacer from '../../src/UI/Spacer/Spacer.component';
 
 function Room() {
   const router = useRouter();
@@ -67,18 +67,24 @@ function Room() {
   }, [socketRef]);
   // Global wordStack is set to calculate score details every time a user press enter
   useEffect(() => {
-    setWordsStack(wordSet);
+    setWordsStack(wordSet!);
   }, [setWordsStack, wordSet]);
 
   useEffect(() => {
     setUsername(selfData?.self.nickname || usernameStoredInLocalStorage);
   }, [selfData?.self.nickname, username, usernameStoredInLocalStorage]);
-
   useEffect(() => {
     if (username && roomID && gameParameters) {
       socketRef.emit('join-room', {
         roomID, username, userId, gameParameters, isCreating: isHost,
       });
+      // remove create=true from url
+      const pathname = `/multigaming/${encryptedRoomID}`;
+      if (router.asPath !== pathname && isHost) {
+        router.replace({
+          pathname,
+        });
+      }
     }
   }, [username, roomID, gameParameters, socketRef, isHost, userId]);
 
@@ -99,7 +105,6 @@ function Room() {
       alertService.success(customMessage, {});
     });
   }, [socketRef, username, roomID, gameParameters]);
-
   // Keep this order so the roomList is updated with the latest names
   function startGame() {
     socketRef.emit('start-game', { roomID, gameParameters });
@@ -120,12 +125,14 @@ function Room() {
   return (
     <Container>
       <Modal
-        open={shouldDisplayUsernameInput}
-        onClose={() => setShouldDisplayUsernameInput(false)}
+        isOpen={shouldDisplayUsernameInput}
+        setIsOpen={() => setShouldDisplayUsernameInput(false)}
       >
-        <EnterInput
-          setUsername={setUsername}
-        />
+        <Modal.Body>
+          <EnterInput
+            setUsername={setUsername}
+          />
+        </Modal.Body>
       </Modal>
       <CreateModal
         isVisible={game?.status === 'staging'}
@@ -143,7 +150,6 @@ function Room() {
         <GameRoom
           roomID={roomID}
           game={game}
-          isGameEnded={game?.status === 'finished'}
           socketRef={socketRef}
           username={username}
           wordSet={wordSet || []}
@@ -153,24 +159,27 @@ function Room() {
           setShouldDisplayFirstCounterModal={setShouldDisplayFirstCounterModal}
         />
       )}
-      {game?.status === 'finished' && (
-      <VictoryModal
-        counter={counter}
-        isGameEnded={game?.status === 'finished'}
-        game={game}
-      />
-      )}
+      {game ? (
+        <VictoryModal
+          counter={counter}
+          socketRef={socketRef}
+          game={game}
+        />
+      ) : null}
       <Modal
-        css={{ padding: '2rem' }}
-        open={shouldDisplayFirstCounterModal}
-        onClose={() => setShouldDisplayFirstCounterModal(false)}
+        isOpen={shouldDisplayFirstCounterModal}
+        setIsOpen={() => setShouldDisplayFirstCounterModal(false)}
       >
-        <Text h3>Prêt?</Text>
-        <Text h3>
-          {counter > 0 ? (
-            counter
-          ) : 'GO'}
-        </Text>
+        <Modal.Body>
+          <div className='flex flex-column justify-center'>
+            <h2>Prêt?</h2>
+            <h3 className='text-align'>
+              {counter > 0 ? (
+                counter
+              ) : 'GO'}
+            </h3>
+          </div>
+        </Modal.Body>
       </Modal>
     </Container>
   );

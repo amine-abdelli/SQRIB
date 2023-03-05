@@ -1,91 +1,19 @@
 export interface ITheme {
-  theme: string,
   primary: string,
   secondary: string,
   tertiary: string,
-}
-export interface IThemes {
-  DARK: ITheme,
-  LIGHT: ITheme
+  quaternary: string,
+  outline: string,
+  error: string,
+  success: string,
 }
 
-export const themes: IThemes = {
-  DARK: {
-    theme: 'dark',
-    primary: '#343434',
-    secondary: '#dfdad2',
-    tertiary: '#FF8C00',
-
-  },
-  LIGHT: {
-    theme: 'light',
-    primary: '#dfdad2',
-    secondary: '#343434',
-    tertiary: '#FF8C00',
-  },
+export const theme: Record<string, string> = {
+  primary: '#D69C5D',
+  secondary: '#0D4D4B',
+  tertiary: '#FFFFFF',
+  quaternary: '#A7D1CE4D',
+  outline: '#181818',
+  error: '#E96062',
+  success: '#13A452',
 };
-
-// // Theme.ts
-// const light = {
-//   bg: {
-//     primary: '#eff0f5',
-//     secondary: '#ffffff',
-//     inset: '#e2e4e8',
-//     input: 'rgba(65,67,78,0.12)',
-//   },
-//   text: {
-//     primary: '#050505',
-//     secondary: '#2f3037',
-//     tertiary: '#525560',
-//     quarternary: '#9194a1',
-//     placeholder: 'rgba(82,85,96,0.5)',
-//     onPrimary: '#ffffff',
-//   },
-//   // ...
-// };
-
-// const dark = {
-//   bg: {
-//     primary: '#050505',
-//     secondary: '#111111',
-//     inset: '#111111',
-//     input: 'rgba(191,193,201,0.12)',
-//   },
-//   text: {
-//     primary: '#fbfbfc',
-//     secondary: '#e3e4e8',
-//     tertiary: '#a9abb6',
-//     quarternary: '#6c6f7e',
-//     placeholder: 'rgba(145,148,161,0.5)',
-//     onPrimary: '#050505',
-//   },
-//   // ...
-// };
-
-// const defaultTheme = {
-//   fontSizes: [
-//     '14px', // 0
-//     '16px', // 1
-//     '18px', // 2
-//     '22px', // 3
-//     '26px', // 4
-//     '32px', // 5
-//     '40px', // 6
-//   ],
-//   fontWeights: {
-//     body: 400,
-//     subheading: 500,
-//     link: 600,
-//     bold: 700,
-//     heading: 800,
-//   },
-//   lineHeights: {
-//     body: 1.5,
-//     heading: 1.3,
-//     code: 1.6,
-//   },
-//   // ...
-// };
-
-// export const lightTheme = { ...defaultTheme, ...light };
-// export const darkTheme = { ...defaultTheme, ...dark };

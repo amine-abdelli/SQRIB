@@ -8,7 +8,7 @@ export async function findScores(parent: any, args: any, context: Context): Prom
   log.info(`Trying to find many scores by userId, ${{ userId: context.userId }}`);
   const { userId } = context;
   if (!userId) {
-    log.error('An error occured while trying to find many scores by userId');
+    log.error('A userId was not provided while trying to find many scores by userId');
     throw new ApolloError('User not found');
   }
   const scores = findManyScoresByUserId({ userId }, context.prisma);

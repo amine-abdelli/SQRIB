@@ -4,10 +4,8 @@ import React, {
 import { useApolloClient, useMutation } from '@apollo/client';
 import { ADD_NEW_SCORE_MUTATION, SELF_QUERY } from '@sqrib/api';
 import { Game } from '@sqrib/utils';
-import { Container } from '@nextui-org/react';
 import { Scoring } from '../src/components/Scoring/Scoring.component';
 import { Displayer } from '../src/components/Displayer/Displayer.component';
-import KeyBoard from '../src/components/KeyBoard/KeyBoard.component';
 import { MainContext } from '../src/context/MainContext';
 import DisplayerHeader from '../src/components/DisplayerHeader/DisplayerHeader.component';
 import RefreshButton from '../src/components/Buttons/RefreshButton/RefreshButton.component';
@@ -16,16 +14,18 @@ import { createScoringObject } from '../src/utils/scoring.utils';
 import { alertService } from '../services';
 import { useGetSelf } from '../src/hooks/useGetSelf';
 import { socket, socketConnect } from '../services/socket.service';
+import { useWindowSize } from '../src/hooks/useWindowSize';
+import Options from '../src/components/Options/Options.component';
+import KeyBoard from '../src/components/KeyBoard/KeyBoard.component';
 
 function Main() {
   const { cache } = useApolloClient();
   const {
     userInput,
+    setUserInput,
     isTimeOut,
     startTimer,
     setStartTimer,
-    setUserInput,
-    theme,
     wordsStack,
   } = useContext(MainContext);
 
@@ -34,6 +34,7 @@ function Main() {
       setStartTimer(true);
     }
   }, [userInput]);
+
   const { current: socketRef } = useRef(socket);
   useEffect(() => {
     socketConnect(socketRef);
@@ -88,7 +89,7 @@ function Main() {
         correctLetters,
         language: selfData?.self.settings.language, //!
         username: selfData?.self.nickname || null, //!
-        timer: 60, //!
+        timer: 60,
       },
     });
   }
@@ -97,15 +98,30 @@ function Main() {
     wrongWords, correctLetters, totalLetters, points, precision, wrongLetters, mpm,
   } = createScoringObject(correctWords, computedWords);
 
+  const { isSmallScreen } = useWindowSize();
   return (
-    <Container>
+    <div style={{
+      padding: `0 ${isSmallScreen ? 0 : '20px'}`,
+      display: 'flex',
+      flexDirection: 'column',
+      justifyContent: 'space-evenly',
+      height: '100%',
+    }}
+    >
       <div
         className='w100 flex flex-column justify-between'
+        style={{
+          background: '#FFFFFF', border: '4px solid black', boxShadow: '4px 4px 0px black', padding: '0 25px 25px 25px', margin: 0,
+        }}
       >
-        <DisplayerHeader />
+        <Options
+          fontSize
+          language
+          sound
+        />
         <div
           className='flex align-center'
-          style={{ margin: '10px 0' }}
+          style={{ margin: '10px 0 0 0' }}
         >
           <Scoring
             isTimeOut={isTimeOut}
@@ -120,22 +136,24 @@ function Main() {
             correctLetters={correctLetters}
             onSetFinish={onSetFinish}
             startTimer={startTimer}
+            timer
           />
+        </div>
+        <DisplayerHeader customStack={wordsStack} />
+        <div style={{ position: 'relative' }}>
           <RefreshButton disable={Boolean(computedWords.length && !startTimer)} />
-        </div>
-        <div className="flex justify-center">
-          <Displayer wordsStack={wordsStack} />
-        </div>
-        <div style={{ margin: '1rem 0' }}>
           <Input
             userInput={userInput}
             setUserInput={setUserInput}
             isTimeOut={isTimeOut}
           />
         </div>
-        <KeyBoard theme={theme} enable={startTimer && !isTimeOut} />
+        <div className="flex justify-center">
+          <Displayer bordered wordsStack={wordsStack} />
+        </div>
       </div>
-    </Container>
+      <KeyBoard enable={startTimer && !isTimeOut} />
+    </div>
   );
 }
 export default Main;

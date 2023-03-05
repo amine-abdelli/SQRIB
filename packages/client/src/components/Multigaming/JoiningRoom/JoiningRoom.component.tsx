@@ -1,7 +1,10 @@
-import { Button, StyledSpacer } from '@nextui-org/react';
 import { useRouter } from 'next/router';
 import React from 'react';
+import { theme } from '../../../../styles/theme';
 import { useGetSelf } from '../../../hooks/useGetSelf';
+import Button from '../../../UI/Button/Button.component';
+import Card from '../../../UI/Card/Card.component';
+import Spacer from '../../../UI/Spacer/Spacer.component';
 import { Routes } from '../../../utils/enums';
 
 import RoomTable from '../RoomTable/RoomTable.component';
@@ -29,36 +32,31 @@ function JoiningRoom({
   }
 
   return (
-    <div className='w100'>
+    <Card width="500" shadowed>
       <h3 className='text-center'>Rejoindre une partie</h3>
       <RoomTable setRoomName={setRoomID} data={roomList} />
+      <Spacer h="20" />
       <Button
-        className='w100'
-        animated
         onClick={() => roomID && router.push(`${ROOT_URL}/multigaming/${btoa(`${roomID}`)}`)}
         disabled={!roomID}
-      >
-        rejoindre une partie
-      </Button>
-      <StyledSpacer />
+        text="Rejoindre une partie"
+      />
+      <Spacer h="10" />
       <Button
-        animated
-        className='w100'
+        disabled={!!roomID}
+        secondary
         onClick={() => createGameRoom()}
-      >
-        Créer une partie
-      </Button>
+        text="Créer une partie"
+      />
       {!isLoggedIn && (
       <Button
         onClick={() => setShouldDisplayUsernameInput(true)}
         light
-        className='w100'
-        color="primary"
-      >
-        Je change mon pseudo
-      </Button>
+        color={theme.primary}
+        text="Je change mon pseudo"
+      />
       )}
-    </div>
+    </Card>
   );
 }
 

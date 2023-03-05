@@ -29,7 +29,7 @@ function useWindowSize() {
   return {
     width,
     height,
-    // those magic numbers are from breakpoints.less
+    isVerySmallScreen: width < 440,
     isSmallScreen: width < 576,
     isMediumScreen: width < 768,
     isLargeScreen: width < 992,

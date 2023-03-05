@@ -1,21 +1,16 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useRef } from 'react';
+import { theme } from '../../../styles/theme';
 import styles from './Layout.module.scss';
 
-function Layout({ children, theme }: any) {
+function Layout({ children }: any) {
   const layout = useRef(null);
-  useEffect(() => {
-    const domNode: any = layout.current;
-    if (theme.theme === 'light') {
-      domNode.classList.add('lightTheme');
-      domNode.classList.remove('darkTheme');
-    } else if (theme.theme === 'dark') {
-      domNode.classList.add('darkTheme');
-      domNode.classList.remove('lightTheme');
-    }
-  }, [theme.theme]);
   return (
     <div className={styles.gapLayoutWrapper} style={{ backgroundColor: theme.tertiary, width: '100%' }}>
-      <div ref={layout} className={styles.layoutWrapper} style={{ width: '100%', backgroundColor: theme.primary }}>
+      <div
+        ref={layout}
+        className={styles.layoutWrapper}
+        style={{ width: '100%', backgroundColor: theme.secondary }}
+      >
         {children}
       </div>
     </div>

@@ -15,7 +15,7 @@ interface OnGameProps {
 function OnGame({
   wordSet, isGameEnded, isAllow, disabled,
 }: OnGameProps) {
-  const { setUserInput, userInput, theme } = useContext(MainContext);
+  const { setUserInput, userInput } = useContext(MainContext);
   return (
     <div>
       <Displayer wordsStack={wordSet?.slice(0, 100) || []} />
@@ -27,7 +27,7 @@ function OnGame({
         disabled={disabled}
       />
       <Spacer />
-      <KeyBoard theme={theme} enable={isAllow} />
+      <KeyBoard enable={isAllow} />
     </div>
   );
 }

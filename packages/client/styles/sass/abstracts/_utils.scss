@@ -14,12 +14,16 @@
   justify-content: space-around;
 }
 
-.flex-rom {
+.flex-row {
   flex-direction: row;
 }
 
 .align-center {
   align-items: center;
+}
+
+.align-start {
+  align-items: flex-start;
 }
 
 .text-center {
@@ -110,4 +114,8 @@
 
 .inline-block {
   display: block !important;
+}
+
+.bold {
+  font-weight: bolder !important;
 }

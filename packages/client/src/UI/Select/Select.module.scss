@@ -1,0 +1,11 @@
+@import '../../../styles/sass/abstracts/index';
+
+.select {
+  @include thinBorder();
+  font-weight: 800;
+  height: 2rem;
+  
+  option {
+    font-weight: 800;
+  }
+}

@@ -1,10 +1,13 @@
-import { Input } from '@nextui-org/react';
 import React, { useState } from 'react';
-import { ChevronDownCircle } from 'react-iconly';
+import { ChevronDownCircle, Document } from 'react-iconly';
+import { alertService } from '../../../../../services';
+import { theme } from '../../../../../styles/theme';
+import Input from '../../../../UI/Input/Input.component';
 import styles from './GameLink.module.scss';
 
 export function copyToClipboard(text: string) {
   navigator.clipboard.writeText(text);
+  alertService.success('Lien copié dans clipboard', { keepAfterRouteChange: false });
 }
 
 function onCopyButtonClick(setIsClicked: (isClicked: boolean) => void, url: string) {
@@ -19,21 +22,25 @@ function GameLink({ url }: {url: string}) {
   const [isClicked, setIsClicked] = useState(false);
   return (
     <div>
-      <div className='flex align-center'>
+      <div
+        onClick={() => onCopyButtonClick(setIsClicked, url)}
+        className='flex align-center'
+      >
         <Input
-          css={{ width: '100%' }}
-          contentRightStyling={false}
+          fullWidth
+          style={{ cursor: 'pointer' }}
           value={url}
           aria-labelledby="Game url link to share"
-          contentRight={(
+          rightContent={(
             <span
               onClick={() => onCopyButtonClick(setIsClicked, url)}
               className={styles.copyButton}
             >
-              {isClicked ? <ChevronDownCircle style={{ color: 'green' }} /> : 'copier'}
+              {isClicked ? <ChevronDownCircle style={{ color: 'green' }} /> : <Document style={{ color: theme.primary }} />}
             </span>
-      )}
+          )}
         />
+
       </div>
     </div>
   );

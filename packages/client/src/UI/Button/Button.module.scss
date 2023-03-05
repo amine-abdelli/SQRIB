@@ -1,0 +1,26 @@
+@import "../../../styles/sass/abstracts/colors";
+@import "../../../styles/sass/abstracts/variables";
+@import "../../../styles/sass/abstracts/mixins";
+
+.primaryButton {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: $primary;
+    color: $outline;
+    font-weight: bold;
+    cursor: pointer;
+    transition: scale 0.1s ease-in-out;
+    @include thinBorder();
+
+    &:active {
+        transition: scale 0.1s ease-in-out;
+        scale: 0.99;
+    }
+
+    &:disabled {
+        background-color: grey;
+        scale: 1;
+        cursor: auto;
+    }
+}

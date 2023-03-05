@@ -1,0 +1,76 @@
+@import "../../../styles/sass/abstracts/index";
+
+.sideBar {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  background-color: $secondary;
+  height: calc(100vh - 5px - 2rem);
+  width: 220px;
+  @include thickBorder();
+
+  .closingCross {
+    position: absolute; 
+    right: 15px; 
+    top: 15px;
+    height: 20px;
+    width: 20px;
+    cursor: pointer;
+    color: $tertiary;
+  }
+  
+  .sideBarButton {
+    position: relative;
+    padding: 5px 0;
+    width: 100%;
+    cursor: pointer;
+
+    p {
+      font-family: 'Poppins';
+      color: $tertiary;
+      font-weight: 700;
+      font-size: 20px; // 40px; on mobile
+      margin: 0;
+      transition: color 0.25s ease;
+      @include stroke($outline, 3px);
+
+      &:hover {
+        color: $primary;
+        transition: color 0.2s ease;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: $md-screen) {
+  .sideBar {
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 999;
+    overflow: hidden;
+    background: no-repeat url('../../../src/assets/Images/main-background.png');
+    background-size: cover;
+
+    .sideBarButtonsWrapper {
+      flex: 1; 
+      display: flex; 
+      flex-direction: column; 
+      justify-content: space-evenly; 
+    }
+
+    .sideBarButton {
+      padding: 0;
+
+      p {
+        text-align: center;
+        font-size: 35px;
+      }
+    }
+  }
+}

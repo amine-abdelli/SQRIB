@@ -1,0 +1,29 @@
+@import '../../../styles/sass/abstracts/index.scss';
+
+.optionsWrapper {
+  margin-top: 10px 0 0 0;
+  padding: 0;
+  background-color: $tertiary;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+
+  .buttonGroup {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+
+    .optionLanguageButton {
+      width: inherit;
+      color: $outline;
+
+      &:hover {
+        color: $primary;
+      }
+    }
+  }
+
+  .separator {
+    color: rgb(236, 236, 236);
+  }
+}

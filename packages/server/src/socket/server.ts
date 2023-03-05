@@ -17,54 +17,77 @@ export function initializeSocket(io: Socket) {
      * Remove user from global object
      */
     socket.on('disconnect', () => {
-      log.info(`${socket.id} disconnected`);
-      GAMES = Services.disconnect(GAMES, LEGIT_TOKENS, socket, io);
-      Services.emitRoomList(io, GAMES);
+      try {
+        log.info(`${socket.id} disconnected`);
+        GAMES = Services.disconnect(GAMES, LEGIT_TOKENS, socket, io);
+        Services.emitRoomList(io, GAMES);
+      } catch (error) {
+        if (error instanceof Error) {
+          log.error({ error: error.message }, 'Socket: An error occured while disconnecting');
+        } else {
+          console.error(error);
+        }
+      }
     });
 
     /**
      * Update user's progression and handle users win
      */
     socket.on('progression', async ({ roomID, wordIndex, scoringObject }) => {
-      if (GAMES[roomID]?.status !== GameStatus.STAGING) {
-        GAMES = Services.progression(GAMES, roomID, wordIndex, socket, scoringObject);
-        io.to(roomID).emit('progression', { game: GAMES[roomID] });
-      }
-      /**
-       * If every player has ended the game, timer stops and the game status change to 'finished'.
-       * Users wordIndexes are set back to 0 et and a new set of words is generated.
-       * after 5 seconds, the game status change to 'playing' and
-       * users are allow to play again
-       */
-      if (hasEveryPlayerEnded(GAMES[roomID]) && GAMES[roomID]?.status === GameStatus.PLAYING) {
-        const savedGame = await Services.saveGame(GAMES[roomID], roomID);
-        Services.stopTimer(roomID);
-
-        if (savedGame.message) {
-          const scores = await Services.getScoresData();
-          io.emit('get-global-game-data', scores);
+      try {
+        if (GAMES[roomID]?.status !== GameStatus.STAGING) {
+          GAMES = Services.progression(GAMES, roomID, wordIndex, socket, scoringObject);
+          io.to(roomID).emit('progression', { game: GAMES[roomID] });
         }
-        GAMES = Services.updateGameStatus(GameStatus.FINISHED, GAMES, roomID);
+        /**
+         * If a player finishes a word set switch his status to finished
+         */
+        if (wordIndex === +GAMES[roomID].wordAmount) {
+          GAMES[roomID].clients[socket.id].status = GameStatus.FINISHED;
+        }
+        /**
+        * If every player has ended the game, timer stops and the game status change to 'finished'.
+        * Users wordIndexes are set back to 0 et and a new set of words is generated.
+        * after 5 seconds, the game status change to 'playing' and
+        * users are allow to play again
+        */
+        if (hasEveryPlayerEnded(GAMES[roomID]) && GAMES[roomID]?.status === GameStatus.PLAYING) {
+          io.to(roomID).emit('podium-data', { game: GAMES[roomID] });
+          const savedGame = await Services.saveGame(GAMES[roomID], roomID);
+          Services.stopTimer(roomID);
 
-        const { updatedSetObject, updatedGameObject } = Services
-          .onWin(GAMES, SETS, roomID, io);
-
-        let counter = 6;
-        const timer = setInterval(() => {
-          counter -= 1;
-          io.to(roomID).emit('counter', { counter });
-          if (counter === -2) {
-            clearInterval(timer);
-            SETS = updatedSetObject;
-            const transitionalObject = Services
-              .updatePlayersStatus(GameStatus.PLAYING, updatedGameObject, roomID);
-            GAMES = Services.updateGameStatus(GameStatus.PLAYING, transitionalObject, roomID);
-            emitGameStatus(GAMES, roomID, io);
-            io.to(roomID).emit('on-win', { game: GAMES[roomID] });
-            Services.startTimer(roomID, io);
-            counter = 6;
+          if (savedGame.message) {
+            const scores = await Services.getScoresData();
+            io.emit('get-global-game-data', scores);
           }
-        }, 1000);
+          GAMES = Services.updateGameStatus(GameStatus.FINISHED, GAMES, roomID);
+
+          const { updatedSetObject, updatedGameObject } = Services
+            .onWin(GAMES, SETS, roomID, io);
+
+          let counter = 6;
+          const timer = setInterval(() => {
+            counter -= 1;
+            io.to(roomID).emit('counter', { counter });
+            if (counter === -2) {
+              clearInterval(timer);
+              SETS = updatedSetObject;
+              const transitionalObject = Services
+                .updatePlayersStatus(GameStatus.PLAYING, updatedGameObject, roomID);
+              GAMES = Services.updateGameStatus(GameStatus.PLAYING, transitionalObject, roomID);
+              emitGameStatus(GAMES, roomID, io);
+              io.to(roomID).emit('on-win', { game: GAMES[roomID] });
+              Services.startTimer(roomID, io);
+              counter = 6;
+            }
+          }, 1000);
+        }
+      } catch (error) {
+        if (error instanceof Error) {
+          log.error({ error: error.message }, 'An error occured in game progression');
+        } else {
+          console.error(error);
+        }
       }
     });
 
@@ -83,47 +106,64 @@ export function initializeSocket(io: Socket) {
     socket.on('join-room', ({
       roomID, username, userId, gameParameters, isCreating,
     }) => {
-      const isLegit = LEGIT_TOKENS.includes(roomID);
-      // If the room exists, the user is not already in the room and the roomID is legit, join it !
-      if (!isCreating && GAMES[roomID] && isLegit && !GAMES[roomID]?.clients[socket.id]) {
-        log.info('Trying to join a room', { roomID, username });
-        GAMES = Services.joinRoom(GAMES, roomID, username, userId, socket);
-        // Join room -> RoomID
-        socket.join(roomID);
-        io.to(roomID).emit('greet', {
-          playerID: socket.id,
-          playerName: username,
+      try {
+        const isLegit = LEGIT_TOKENS.includes(roomID);
+        // eslint-disable-next-line max-len
+        // If the room exists, the user is not already in the room and the roomID is legit, join it !
+        if (!isCreating && GAMES[roomID] && isLegit && !GAMES[roomID]?.clients[socket.id]) {
+          log.info('Trying to join a room', { roomID, username });
+          GAMES = Services.joinRoom(GAMES, roomID, username, userId, socket);
+          // Join room -> RoomID
+          socket.join(roomID);
+          io.to(roomID).emit('greet', {
+            playerID: socket.id,
+            playerName: username,
+          });
+          // Everytime a user join or create a room, we emit the room list to update the room table
+          Services.emitRoomList(io, GAMES);
+          // If room doesn't exist and the roomID is legit, create it !
+        } else if (isCreating && !GAMES[roomID] && isLegit) {
+          log.info('Trying to create a room', { roomID, username });
+          const { updatedGameObject, updatedSetObject } = Services
+            .createRoom(GAMES, roomID, gameParameters, SETS, username, userId, socket);
+          GAMES = updatedGameObject;
+          SETS = updatedSetObject;
+          socket.join(roomID);
+        }
+
+        // Send current game data to the room
+        io.to(roomID).emit('join-room', {
+          roomID,
+          wordSet: SETS[GAMES[roomID]?.setID],
+          game: GAMES[roomID],
+          isLegit,
         });
         // Everytime a user join or create a room, we emit the room list to update the room table
         Services.emitRoomList(io, GAMES);
-      // If room doesn't exist and the roomID is legit, create it !
-      } else if (isCreating && !GAMES[roomID] && isLegit) {
-        log.info('Trying to create a room', { roomID, username });
-        const { updatedGameObject, updatedSetObject } = Services
-          .createRoom(GAMES, roomID, gameParameters, SETS, username, userId, socket);
-        GAMES = updatedGameObject;
-        SETS = updatedSetObject;
-        socket.join(roomID);
+      } catch (error) {
+        if (error instanceof Error) {
+          log.error({ error: error.message }, 'An error occured while joining the room');
+        } else {
+          console.error(error);
+        }
       }
-
-      // Send current game data to the room
-      io.to(roomID).emit('join-room', {
-        roomID,
-        wordSet: SETS[GAMES[roomID]?.setID],
-        game: GAMES[roomID],
-        isLegit,
-      });
-      // Everytime a user join or create a room, we emit the room list to update the room table
-      Services.emitRoomList(io, GAMES);
     });
 
     /**
      * Send the list of rooms with their details
      */
     socket.on('room-list', async () => {
-      log.info('Requesting room list');
-      const roomList = Services.roomList(GAMES);
-      io.emit('room-list', roomList);
+      try {
+        log.info('Requesting room list');
+        const roomList = Services.roomList(GAMES);
+        io.emit('room-list', roomList);
+      } catch (error) {
+        if (error instanceof Error) {
+          log.error({ error: error.message }, 'An error occured while querying the room list');
+        } else {
+          console.error(error);
+        }
+      }
     });
 
     /**
@@ -133,12 +173,20 @@ export function initializeSocket(io: Socket) {
      * the user won't be allow to join or create a room.
      */
     socket.on('generate-room-id', () => {
-      log.info('Generating room id');
-      const decodedRoomID = v4();
-      const buff = Buffer.from(`${decodedRoomID}?create=true`);
-      const base64token = buff.toString('base64');
-      LEGIT_TOKENS.push(decodedRoomID);
-      io.to(socket.id).emit('generate-room-id', { roomID: base64token });
+      try {
+        log.info('Generating room id');
+        const decodedRoomID = v4();
+        const buff = Buffer.from(`${decodedRoomID}?create=true`);
+        const base64token = buff.toString('base64');
+        LEGIT_TOKENS.push(decodedRoomID);
+        io.to(socket.id).emit('generate-room-id', { roomID: base64token });
+      } catch (error) {
+        if (error instanceof Error) {
+          log.error({ error: error.message }, 'An error occured while generating a room id');
+        } else {
+          console.error(error);
+        }
+      }
     });
 
     /**
@@ -146,48 +194,80 @@ export function initializeSocket(io: Socket) {
      * and the game start. We also update the new game parameters selected by the creator.
      */
     socket.on('start-game', ({ roomID, gameParameters }) => {
-      log.info(`${socket.id} is starting the game`, { roomID });
-      const { updatedGameObject, updatedSetObject } = Services.updateRoomWithNewParameters(
-        GAMES,
-        roomID,
-        gameParameters,
-        SETS,
-      );
-      GAMES = Services.updateGameStatus(GameStatus.PLAYING, updatedGameObject, roomID);
-      SETS = updatedSetObject;
-      // Update game status to the client to close creation room modal
-      io.to(roomID).emit('start-game', { game: GAMES[roomID] });
+      try {
+        log.info(`${socket.id} is starting the game`, { roomID });
+        const { updatedGameObject, updatedSetObject } = Services.updateRoomWithNewParameters(
+          GAMES,
+          roomID,
+          gameParameters,
+          SETS,
+        );
+        GAMES = Services.updateGameStatus(GameStatus.PLAYING, updatedGameObject, roomID);
+        SETS = updatedSetObject;
 
-      // 3, 2, 1, GO ! at first start
-      let counter = 4;
-      const timer = setInterval(() => {
-        counter -= 1;
-        io.to(roomID).emit('counter', { counter, isFirstCounter: true });
-        if (counter === -2) {
-          clearInterval(timer);
-          GAMES = Services.updatePlayersStatus(GameStatus.PLAYING, GAMES, roomID);
-          // Send the updated game to the client with latest game data
-          io.to(roomID).emit('start-game', { game: GAMES[roomID] });
-          // start timer
-          Services.startTimer(roomID, io);
+        // Update words stack with new parameters
+        io.to(roomID).emit('join-room', {
+          roomID,
+          wordSet: SETS[GAMES[roomID]?.setID],
+          game: GAMES[roomID],
+        });
+
+        // Update game status to the client to close creation room modal
+        io.to(roomID).emit('start-game', { game: GAMES[roomID] });
+
+        // 3, 2, 1, GO ! at first start
+        let counter = 4;
+        const timer = setInterval(() => {
+          counter -= 1;
+          io.to(roomID).emit('counter', { counter, isFirstCounter: true });
+          if (counter === -2) {
+            clearInterval(timer);
+            GAMES = Services.updatePlayersStatus(GameStatus.PLAYING, GAMES, roomID);
+            // Send the updated game to the client with latest game data
+            io.to(roomID).emit('start-game', { game: GAMES[roomID] });
+            // start timer
+            Services.startTimer(roomID, io);
+          }
+        }, 1000);
+      } catch (error) {
+        if (error instanceof Error) {
+          log.error({ error: error.message }, 'An error occured trying to start a game');
+        } else {
+          console.error(error);
         }
-      }, 1000);
+      }
     });
 
     /**
      * Fetch and format scores related data
      */
     socket.on('get-global-game-data', async () => {
-      log.info('Fetching scores data');
-      const scores = await Services.getScoresData();
-      io.emit('get-global-game-data', scores);
+      try {
+        log.info('Fetching scores data');
+        const scores = await Services.getScoresData();
+        io.emit('get-global-game-data', scores);
+      } catch (error) {
+        if (error instanceof Error) {
+          log.error({ error: error.message }, 'An error occured while fetching global game data');
+        } else {
+          console.error(error);
+        }
+      }
     });
     /**
      * Update leader board on save
      */
     socket.on('update-leader-board', async () => {
-      const scores = await Services.getScoresData();
-      io.emit('get-global-game-data', scores);
+      try {
+        const scores = await Services.getScoresData();
+        io.emit('get-global-game-data', scores);
+      } catch (error) {
+        if (error instanceof Error) {
+          log.error({ error: error.message }, 'An error occured while updating the leaderboard');
+        } else {
+          console.error(error);
+        }
+      }
     });
   });
 }

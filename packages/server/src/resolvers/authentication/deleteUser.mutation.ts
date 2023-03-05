@@ -9,18 +9,18 @@ export interface deleteUserArgs {
 }
 async function deleteUser(parent: any, { email, password }: deleteUserArgs, context: Context) {
   try {
-    log.info('Trying to delete a user', { email });
+    log.info({ email }, 'Trying to delete a user');
     if (!context.userId) {
-      log.error('User could not be deleted');
+      log.error({ email }, 'User could not be deleted');
       throw new ApolloError('User could not be deleted');
     }
     await deleteUserService(email, password, context);
-    log.info('User deletion successful', { email });
+    log.info({ email }, 'User deletion successful');
     return {
       message: `${email} deleted successfully`,
     };
   } catch (e) {
-    log.error('Error deleting user', { email, error: e });
+    log.error({ email, error: e }, 'Error deleting user');
     throw e;
   }
 }

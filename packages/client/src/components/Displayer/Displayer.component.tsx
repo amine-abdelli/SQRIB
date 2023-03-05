@@ -31,7 +31,6 @@ function Displayer(
 
   const displayedWords = useMemo(() => wordsStack?.map((word: string, i: number): ReactElement => {
     const isWordPassed = wordIndex && computedWords && wordsStack && i && (i < wordIndex);
-
     if (i === wordIndex) {
       return (
         <>
@@ -66,9 +65,7 @@ function Displayer(
         <>
           {' '}
           <WordDisplayer
-            style={{
-              textDecoration: isWordPassed && (wordsStack[i] !== computedWords[i]) ? 'underline red' : '',
-            }}
+            style={{ textDecoration: isWordPassed && (wordsStack[i] !== computedWords[i]) ? 'underline red' : '' }}
             setState={() => null}
             key={i}
             word={splitStringToSpans(wordsStack[i], computedWords[i])}

@@ -5,6 +5,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { VolumeDown, VolumeOff } from 'react-iconly';
 import { theme } from '../../../styles/theme';
 import { MainContext } from '../../context/MainContext';
+import { useGetSelf } from '../../hooks/useGetSelf';
 import Button from '../../UI/Button/Button.component';
 import styles from './Options.module.scss';
 import { ISettingsProps, OptionsProps } from './Options.props';
@@ -19,6 +20,7 @@ function Options({
   const {
     language, setLanguage, fontSize, setFontSize,
   } = useContext(MainContext);
+  const { isLoggedIn } = useGetSelf();
 
   const [updateSettings] = useMutation(
     UPDATE_SETTINGS_MUTATION,
@@ -48,7 +50,9 @@ function Options({
       theme: false,
       sound: false,
     };
-    updateSettings({ variables: settings });
+    if (isLoggedIn) {
+      updateSettings({ variables: settings });
+    }
   }, [language, fontSize, sound, updateSettings]);
 
   return (

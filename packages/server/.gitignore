@@ -1,6 +1,0 @@
-node_modules
-.env
-.DS_STORE
-.gitignore
-dist
-yarn-error.log

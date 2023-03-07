@@ -1,22 +1,26 @@
 import express from 'express';
-import dotenv from 'dotenv';
-import cookieParser from 'cookie-parser';
-
+import http from 'http';
+import { Server } from 'socket.io';
 import cors from 'cors';
+import dotenv from 'dotenv';
 import { log } from '@sqrib/shared';
-
-dotenv.config();
-
-const SQRIB_SERVER_PORT = process.env.SQRIB_SERVER_PORT || 4000;
+import { handleSocketConnection } from './sockets/socket';
 
 const app = express();
-
+const server = http.createServer(app);
+const io = new Server(server);
+dotenv.config();
+app.use(express.json());
 app.use(cors());
 
-app.use(cookieParser());
-
-app.use((req, res) => {
-  res.send('Sqrib server');
+app.get('/api', (req, res) => {
+  res.json({ message: 'Hello from server' });
 });
 
-app.listen(SQRIB_SERVER_PORT, () => log.info(`SQRIB server running on port ${SQRIB_SERVER_PORT}`));
+io.on('connection', handleSocketConnection);
+
+const PORT = process.env.PORT || 4000;
+
+server.listen(PORT, () => {
+  log.info(`Sqrib server running on port ${PORT}`);
+});

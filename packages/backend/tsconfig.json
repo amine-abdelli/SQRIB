@@ -1,0 +1,13 @@
+{
+  "extends": "./../../tsconfig.json",
+  "compilerOptions": {
+    "outDir": "dist",
+    "target": "ESNext",
+    "module": "CommonJS",
+    "esModuleInterop": true,
+    "baseUrl": ".",
+  },
+  "lib": ["es2020"],
+  "include": ["src/**/*", "socket"],
+  "exclude": ["node_modules", "../../node_modules","**/*.spec.ts"]
+}

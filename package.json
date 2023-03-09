@@ -2,17 +2,11 @@
   "name": "sqrib",
   "private": true,
   "scripts": {
-    "start": "./node_modules/.bin/turbo run start",
-    "start:prod": "./node_modules/.bin/turbo run start:prod",
-    "docker:start": "docker compose --file docker-compose.dev.yml up",
-    "docker:build": "docker compose --file docker-compose.dev.yml build",
-    "docker:start-staging": "docker compose --file docker-compose.staging.yml up",
-    "docker:build-staging": "docker compose --file docker-compose.staging.yml build",
-    "docker:start-prod": "docker compose --file docker-compose.prod.yml up",
-    "docker:build-prod": "docker compose --file docker-compose.prod.yml build",
-    "test": "./node_modules/.bin/turbo run test",
-    "lint": "./node_modules/.bin/turbo run lint",
-    "build": "./node_modules/.bin/turbo run build",
+    "dev": "yarn workspace @sqrib/server start",
+    "start": "yarn workspaces run start:prod",
+    "lint": "yarn workspace @sqrib/client lint && yarn workspace @sqrib/server lint && yarn workspace @sqrib/shared lint",
+    "test": "yarn workspace @sqrib/client test && yarn workspace @sqrib/server test && yarn workspace @sqrib/shared test\"",
+    "build": "yarn workspace @sqrib/client build && yarn workspace @sqrib/server build",
     "clean": "yarn run delete-eslint-cache && yarn run delete-node-modules && yarn",
     "delete-eslint-cache": "find . -name '*.eslintcache' -type f -delete ",
     "delete-node-modules": "find . -name 'node_modules' -type d -prune -exec rm -rf '{}' +"
@@ -28,10 +22,8 @@
   ],
   "version": "1.0.0",
   "main": "index.js",
-  "repository": "https://github.com/SQRIB/SQRIB.git",
+  "repository": "https://github.com/amine-abdelli/SQRIB.git",
   "author": "Amine Abdelli <amine.abdelli@outlook.fr>",
   "license": "MIT",
-  "devDependencies": {
-    "turbo": "^1.2.11"
-  }
+  "packageManager": "yarn@3.0.0-rc.6"
 }

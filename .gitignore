@@ -5,6 +5,5 @@
 build/**
 dist/**
 .next/**
-# for production only
-fetch-and-deploy.sh
-.puml
+
+yarn-error.log

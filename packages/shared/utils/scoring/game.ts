@@ -1,5 +1,7 @@
-import { Game, GameType } from '../constants';
-import { ScoreType } from '../type';
+// import { Game, GameType } from '../constants';
+// import { ScoreType } from '../type';
+
+import { Game, GameType, scoringObjectType } from '../constants';
 
 /**
  * Sort winners by their scores
@@ -17,11 +19,11 @@ export function createPodium(game: GameType) {
 }
 
 // Check if a score is from a multiplayer game
-export function isMulti(score: ScoreType | any) {
+export function isMulti(score: scoringObjectType | any) {
   return score.type === Game.MULTI;
 }
 
 // Check if a score is from a solo game
-export function isSolo(score: ScoreType | any) {
+export function isSolo(score: any | any) {
   return score.type === Game.SOLO;
 }

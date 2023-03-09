@@ -1,8 +1,10 @@
-import { notificationController } from './notification/notification.controller';
+import { log } from '@sqrib/shared';
+import { Socket } from 'socket.io';
+import { testController } from './test';
 
 // Define a controller function
-export function handleSocketConnection(socket: any) {
-  console.log('A new user just connected !');
-  notificationController(socket);
-  socket.on('disconnect', () => console.log('user disconnected'));
+export function handleSocketConnection(socket: Socket) {
+  log.info(`${socket.id} connected !`);
+  testController(socket);
+  socket.on('disconnect', () => log.info(`${socket.id} disconnected !`));
 }

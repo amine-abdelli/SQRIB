@@ -28,7 +28,7 @@
   ],
   "version": "1.0.0",
   "main": "index.js",
-  "repository": "https://github.com/SQRIB/SQRIB.git",
+  "repository": "https://github.com/amine-abdelli/SQRIB.git",
   "author": "Amine Abdelli <amine.abdelli@outlook.fr>",
   "license": "MIT"
 }

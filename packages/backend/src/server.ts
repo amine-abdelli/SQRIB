@@ -1,9 +1,11 @@
-import express from 'express';
+import express, { Request, Response } from 'express';
 import http from 'http';
 import { Server } from 'socket.io';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import { log } from '@sqrib/shared';
+import serveStatic from 'serve-static';
+import path from 'path';
 import { handleSocketConnection } from './sockets/socket';
 
 const app = express();
@@ -13,13 +15,20 @@ dotenv.config();
 app.use(express.json());
 app.use(cors());
 
-app.get('/api', (req, res) => {
+app.get('/api', (req: Request, res: Response) => {
   res.json({ message: 'Hello from server' });
 });
 
-io.on('connection', handleSocketConnection);
+io.on('connection', (socket: any) => handleSocketConnection(socket));
 
 const PORT = process.env.PORT || 4000;
+
+if (process.env.NODE_ENV === 'production') {
+  app.use(serveStatic(`${__dirname}/public`));
+  app.get('/*', (req: Request, res: Response) => {
+    res.sendFile(path.join(__dirname, 'public', 'index.html'));
+  });
+}
 
 server.listen(PORT, () => {
   log.info(`Sqrib server running on port ${PORT}`);

@@ -2,8 +2,8 @@
   "name": "sqrib",
   "private": true,
   "scripts": {
-    "dev": "yarn workspace @sqrib/server start",
-    "start": "yarn workspaces run start:prod",
+    "dev": "yarn workspace @sqrib/server dev",
+    "start": "yarn workspaces run start",
     "lint": "yarn workspace @sqrib/client lint && yarn workspace @sqrib/server lint && yarn workspace @sqrib/shared lint",
     "test": "yarn workspace @sqrib/client test && yarn workspace @sqrib/server test && yarn workspace @sqrib/shared test\"",
     "build": "yarn workspace @sqrib/client build && yarn workspace @sqrib/server build",

@@ -8,7 +8,7 @@ function foo(socketParam: Socket) {
 }
 
 async function bar() {
-  const data = await fetch('http://localhost:4000/api');
+  const data = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:4000'}/api`);
   console.log(await data.json());
 }
 

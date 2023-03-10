@@ -1,9 +1,0 @@
-services:
-  - name: web
-    env:
-      - NODE_ENV=production
-    buildCommand: npm run build
-    startCommand: npm run start
-    envVars:
-      - key: NODE_VERSION
-        value: 16.17.1

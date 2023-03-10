@@ -23,7 +23,7 @@ io.on('connection', (socket: any) => handleSocketConnection(socket));
 
 const PORT = process.env.PORT || 4000;
 
-if (process.env.NODE_ENV === 'production') {
+if (process.env.NODE_ENV !== 'development') {
   app.use(serveStatic(`${__dirname}/public`));
   app.get('/*', (req: Request, res: Response) => {
     res.sendFile(path.join(__dirname, 'public', 'index.html'));

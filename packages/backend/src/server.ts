@@ -1,6 +1,6 @@
 import express, { Request, Response } from 'express';
 import http from 'http';
-import { Server } from 'socket.io';
+import { Server, Socket } from 'socket.io';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import { log } from '@sqrib/shared';
@@ -19,7 +19,7 @@ app.get('/api', (req: Request, res: Response) => {
   res.json({ message: 'Hello from server' });
 });
 
-io.on('connection', (socket: any) => handleSocketConnection(socket));
+io.on('connection', (socket: Socket) => handleSocketConnection(socket));
 
 const PORT = process.env.PORT || 4000;
 

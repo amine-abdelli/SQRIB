@@ -1,0 +1,78 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id                   String     @id @default(uuid())
+  username             String     @unique
+  email                String     @unique
+  password             String
+  avatar               String?
+  created_at           DateTime   @default(now())
+  is_confirmed         Boolean    @default(false)
+  is_locked            Boolean    @default(true)
+  last_password_update DateTime?
+  last_activity        DateTime   @default(now())
+  scores               Score[]
+  Settings             Settings?
+  Palmares             Palmares?
+}
+
+model Settings {
+  id              String   @id @default(uuid())
+  theme           String   @default("light")
+  language        String   @default("fr") // "fr", "en", "es", "de"
+  font_size       String   @default("medium") // "small", "medium", "large"
+  keyboard_layout String   @default("azerty") // "azerty", "qwerty"
+  sound           Boolean  @default(true)
+  created_at      DateTime @default(now())
+  user            User     @relation(fields: [user_id], references: [id])
+  user_id         String   @unique
+}
+
+model Palmares {
+  id                    String   @id @default(uuid())
+  role                  String   @default("user")
+  game_count            Int      @default(0)
+  best_wpm              Int      @default(0)
+  best_precision        Float    @default(0)
+  best_points           Int      @default(0)
+  total_xp              Int      @default(0)
+  achievments_count     Int      @default(0)
+  total_time_in_seconds Int      @default(0)
+  created_at            DateTime @default(now())
+  user                  User     @relation(fields: [user_id], references: [id])
+  user_id               String   @unique
+}
+
+model Game {
+  id          String   @id @default(uuid())
+  type        String   @default("solo")
+  mode        String?
+  name        String
+  language    String   @default("fr")
+  word_count  Int
+  duration    Int // Duration in seconds
+  word_set_id String?
+  scores      Score[]
+  created_at  DateTime @default(now())
+}
+
+model Score {
+  id         String   @id @default(uuid())
+  wpm        Int      @default(0)
+  precision  Float    @default(0)
+  points     Int      @default(0)
+  xp         Int      @default(0)
+  duration   Int      @default(0) // Duration in seconds
+  User       User?    @relation(fields: [user_id], references: [id])
+  user_id    String?
+  Game       Game?    @relation(fields: [game_id], references: [id])
+  game_id    String?
+  created_at DateTime @default(now())
+}

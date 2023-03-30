@@ -7,6 +7,8 @@ import { log } from '@sqrib/shared';
 import serveStatic from 'serve-static';
 import path from 'path';
 import { handleSocketConnection } from './sockets/socket';
+import Routers from './routers';
+import { createContext } from './utils/context.utils';
 
 const app = express();
 const server = http.createServer(app);
@@ -15,21 +17,29 @@ dotenv.config();
 app.use(express.json());
 app.use(cors());
 
-app.get('/api', (req: Request, res: Response) => {
-  res.json({ message: 'Hello from server' });
-});
+// Create context data for each request
+app.use(createContext);
 
+/**
+ * Controllers
+ */
+Routers.map(({ route, router }) => app.use(route, router));
+
+/**
+ * Socket entry point
+ */
 io.on('connection', (socket: Socket) => handleSocketConnection(socket));
-
-const PORT = process.env.PORT || 4000;
 
 if (process.env.NODE_ENV !== 'development') {
   app.use(serveStatic(`${__dirname}/public`));
-  app.get('/*', (req: Request, res: Response) => {
+  app.get('/*', (_: Request, res: Response) => {
     res.sendFile(path.join(__dirname, 'public', 'index.html'));
   });
 }
 
+const PORT = process.env.PORT || 4000;
+
 server.listen(PORT, () => {
-  log.info(`Sqrib server running on port ${PORT}`);
+  log.info(`Sqrib server running on port ${PORT}
+                            Press CTRL-C to stop`);
 });

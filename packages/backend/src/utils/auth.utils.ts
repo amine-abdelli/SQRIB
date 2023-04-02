@@ -1,13 +1,7 @@
 import jwt from 'jsonwebtoken';
 import { CookieOptions } from 'express';
 
-const ONE_WEEK_IN_SECONDS = 7 * 24 * 60 * 60;
-
-// export interface Token {
-//   expiresIn: number
-//   emittedAt: number
-//   userId: string
-// }
+// const ONE_WEEK_IN_SECONDS = 7 * 24 * 60 * 60;
 
 export function isTokenExpired(expiresIn: number, emittedAt: number) {
   return Date.now() > ((expiresIn * 1000) + emittedAt);
@@ -31,11 +25,6 @@ export function isTokenExpired(expiresIn: number, emittedAt: number) {
 //     return userId;
 //   }
 //   return '';
-// }
-
-// export interface LoginVariables {
-//   email: string,
-//   password: string
 // }
 
 // export async function authenticateUser({ email, password }: LoginVariables, context: Context) {

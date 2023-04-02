@@ -8,7 +8,6 @@ export const ENDPOINTS = Object.freeze({
   auth: {
     login: '/login',
     logout: '/logout',
-    refreshToken: '/refresh-token',
   },
   settings: {
     update: '/update',

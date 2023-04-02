@@ -29,13 +29,4 @@ export async function logout(_: Request, res: Response, next: NextFunction) {
   }
 }
 
-/**
- * Refresh token
- * @route /refresh-token
- * @method POST
- */
-export async function refreshToken(req: Request, res: Response) {
-  res.json({ res: 'refresh token' });
-}
-
 export default router;

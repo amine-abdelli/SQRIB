@@ -1,46 +1,94 @@
-import { User } from '@prisma/client';
-import { IUser, log } from '@sqrib/shared';
+/* eslint-disable consistent-return */
+import { Prisma, User } from '@prisma/client';
 import {
-  createUserRepository, deleteUserRepository, getUserByIdRepository, updateUserByIdRepository,
+  emailPolicy, IUser, log, passwordPolicy, usernamePolicy,
+} from '@sqrib/shared';
+import bcrypt from 'bcryptjs';
+import { HttpError } from '../utils/error.utils';
+import {
+  createUserRepository, deleteUserRepository, getUserByEmailRepository, getUserByIdRepository,
+  updateUserByIdRepository,
 } from '../repositories/user.repository';
 
-export function createUserService(data: IUser): Promise<User> {
-  try {
-    log.info('Creating user with data:', { email: data.email });
-    return createUserRepository(data);
-  } catch (error) {
-    log.error('Error creating user with settings and palmares:', error);
-    throw error;
+export async function createUserService(
+  { username, email, password }: IUser,
+): Promise<User> {
+  log.info('Creating user with data:', { email });
+  if (!emailPolicy.test(email)
+  || !passwordPolicy.test(password)
+  || !usernamePolicy.test(username)) {
+    throw new HttpError(400, 'Invalid email, username or password');
   }
+
+  const user = await getUserByEmailRepository(email);
+  if (user) {
+    throw new HttpError(403, 'User already exists');
+  }
+  const hashedPassword = await bcrypt.hash(password, 10);
+  const createdUser = await createUserRepository({ username, email, password: hashedPassword });
+  if (!createdUser) {
+    throw new HttpError(500, 'An error occurred while creating a user');
+  }
+  log.info('User created successfully:', { email: createdUser.email });
+  return createdUser;
 }
 
-export function deleteUserService(userId: string) {
-  try {
-    log.info('Deleting user:', { userId });
-    return deleteUserRepository(userId);
-  } catch (error) {
-    log.error('Error deleting user with settings and palmares:', { error });
-    throw error;
+export async function deleteUserService(email: string, password: string):
+Promise<[Prisma.BatchPayload, Prisma.BatchPayload, User] | null> {
+  log.info('Deleting user:', { email });
+  if (!email || !password) {
+    throw new HttpError(400, 'Email or password parameter missing');
   }
+  const userToDelete = await getUserByEmailRepository(email);
+  if (!userToDelete) {
+    throw new HttpError(404, 'Cannot perform user deletion as user could not be found');
+  }
+  const isPasswordValid = await bcrypt.compare(password, userToDelete.password);
+  if (!isPasswordValid) {
+    throw new HttpError(401, 'Invalid password');
+  }
+  const deleteResponse = await deleteUserRepository(userToDelete.id);
+  log.info('User deleted successfully:', { email });
+  return deleteResponse;
 }
 
-export function getUserByIdService(userId: string): Promise<User | null> {
-  try {
-    log.info('Getting user by ID: ', userId);
-    return getUserByIdRepository(userId);
-  } catch (error) {
-    log.error('Error getting user by ID: ', error);
-    throw error;
+export async function getUserByIdService(userId: string): Promise<User | null> {
+  log.info('Getting user by ID: ', { userId });
+  if (!userId) {
+    throw new HttpError(400, 'Missing user ID');
   }
+  const user = await getUserByIdRepository(userId);
+  if (!user) {
+    throw new HttpError(404, 'User not found');
+  }
+  log.info('User data retrieved successfully:', { email: user.email });
+  return user;
 }
 
-export function updateUserByIdService(userId: string, data: Partial<User>): Promise<
-User | null> {
-  try {
-    log.info('Updating user by ID: ', userId);
-    return updateUserByIdRepository(userId, data);
-  } catch (error) {
-    log.error('Error updating user by ID: ', error);
-    throw error;
+export async function getUserByEmailService(email: string): Promise<User | null> {
+  log.info('Getting user by email: ', { email });
+  if (!emailPolicy.test(email)) {
+    throw new HttpError(400, 'Invalid email format or parameter missing');
   }
+  const user = await getUserByEmailRepository(email);
+  if (!user) {
+    throw new HttpError(404, 'User not found');
+  }
+  log.info('User data retrieved successfully:', { email: user.email });
+  return user;
+}
+
+export async function updateUserByIdService(userId: string, data: Partial<User>):
+ Promise<User | null> {
+  log.info('Updating user by ID: ', userId);
+  if (!userId) {
+    throw new HttpError(400, 'Missing user ID');
+  }
+  const user = await getUserByIdRepository(userId);
+  if (!user) {
+    throw new HttpError(404, 'User not found');
+  }
+  const updatedUser = await updateUserByIdRepository(user.id, data);
+  log.info('User updated successfully:', { email: updatedUser?.email });
+  return updatedUser;
 }

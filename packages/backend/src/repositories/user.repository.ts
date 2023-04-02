@@ -48,9 +48,22 @@ export function getUserByIdRepository(userId: string): Promise<User | null> {
 }
 
 /**
+ * Get user by ID.
+ * @param userId string
+ * @returns a one user
+ */
+export function getUserByEmailRepository(email: string): Promise<User | null> {
+  return prisma.user.findUnique({
+    where: {
+      email,
+    },
+  });
+}
+
+/**
  * Update a user by its ID.
  * @param userId string
- * @param data Partia<User>
+ * @param data Partial<User>
  * @returns An updated user
  */
 export function updateUserByIdRepository(userId: string, data: Partial<User>) {

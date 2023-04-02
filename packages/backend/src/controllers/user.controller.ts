@@ -1,4 +1,4 @@
-import express, { Request, Response } from 'express';
+import express, { Request, Response, NextFunction } from 'express';
 import { getUserIdFromContext } from '../utils/context.utils';
 import {
   createUserService, deleteUserService, getUserByIdService, updateUserByIdService,
@@ -11,10 +11,13 @@ const router = express.Router();
  * @route /create
  * @method POST
  */
-export async function createOneUser({ body }: Request, res: Response) {
-  const { email, username, password } = body;
-  const user = await createUserService({ email, username, password });
-  res.status(200).json({ res: user });
+export async function createOneUser({ body }: Request, res: Response, next: NextFunction) {
+  try {
+    const user = await createUserService(body);
+    return res.status(200).json({ user });
+  } catch (error) {
+    return next(error);
+  }
 }
 
 /**
@@ -22,22 +25,27 @@ export async function createOneUser({ body }: Request, res: Response) {
  * @route /update
  * @method PUT
  */
-export async function updateOneUser({ body }: Request, res: Response) {
-  const { userId, data } = body;
-  const updatedUser = await updateUserByIdService(userId, data);
-  res.status(200).json({ res: updatedUser });
+export async function updateOneUser({ body, ctx }: Request, res: Response, next: NextFunction) {
+  try {
+    const updatedUser = await updateUserByIdService(getUserIdFromContext(ctx!, res), body);
+    return res.status(200).json({ user: updatedUser });
+  } catch (error) {
+    return next(error);
+  }
 }
 
 /**
- * Get user
+ * Get user's data
  * @route /me
  * @method GET
  */
-export async function getUserData({ ctx }: Request, res: Response) {
-  // eslint-disable-next-line prefer-destructuring
-  const userId = getUserIdFromContext(ctx!, res);
-  const user = await getUserByIdService(userId);
-  res.status(200).json(user);
+export async function getUserData({ ctx }: Request, res: Response, next: NextFunction) {
+  try {
+    const user = await getUserByIdService(getUserIdFromContext(ctx!, res));
+    return res.status(200).json(user);
+  } catch (error) {
+    return next(error);
+  }
 }
 
 /**
@@ -45,14 +53,14 @@ export async function getUserData({ ctx }: Request, res: Response) {
  * @route /delete
  * @method DELETE
  */
-export async function deleteOneUser({ ctx }: Request, res: Response) {
-  const userId = getUserIdFromContext(ctx!, res);
-  const user = await getUserByIdService(userId);
-  if (!user) {
-    res.status(404).json({ message: `User ${userId} not found !` });
+export async function deleteOneUser({ body }: Request, res: Response, next: NextFunction) {
+  try {
+    const { email, password } = body;
+    await deleteUserService(email, password);
+    return res.status(200).json({ message: `User ${email} deleted successfully` });
+  } catch (error) {
+    return next(error);
   }
-  await deleteUserService(userId);
-  res.status(200).json({ message: `User ${userId} deleted successfully` });
 }
 
 export default router;

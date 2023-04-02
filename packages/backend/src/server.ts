@@ -9,6 +9,7 @@ import path from 'path';
 import { handleSocketConnection } from './sockets/socket';
 import Routers from './routers';
 import { createContext } from './utils/context.utils';
+import { errorHandler } from './utils/error.utils';
 
 const app = express();
 const server = http.createServer(app);
@@ -20,10 +21,11 @@ app.use(cors());
 // Create context data for each request
 app.use(createContext);
 
-/**
- * Controllers
- */
+// Routers
 Routers.map(({ route, router }) => app.use(route, router));
+
+// Error handling layer
+app.use(errorHandler);
 
 /**
  * Socket entry point

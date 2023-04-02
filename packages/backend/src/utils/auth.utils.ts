@@ -1,6 +1,4 @@
-// export function formatEmail(email: string) {
-//   return email.toLowerCase().trim();
-// }
+import jwt from 'jsonwebtoken';
 
 // const ONE_WEEK_IN_SECONDS = 7 * 24 * 60 * 60;
 // const APP_TOKENIZATION_SECRET: string = process.env.TOKEN_PRIVATE_KEY!;
@@ -98,4 +96,6 @@
 //   return guardedResolver(...args);
 // };
 
-export {};
+export function getTokenPayload(token: string) {
+  return jwt.verify(token, process.env.JWT_SECRET || '');
+}

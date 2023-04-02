@@ -27,7 +27,7 @@ export async function createOneUser({ body }: Request, res: Response, next: Next
  */
 export async function updateOneUser({ body, ctx }: Request, res: Response, next: NextFunction) {
   try {
-    const updatedUser = await updateUserByIdService(getUserIdFromContext(ctx!, res), body);
+    const updatedUser = await updateUserByIdService(getUserIdFromContext(ctx!), body);
     return res.status(200).json({ user: updatedUser });
   } catch (error) {
     return next(error);
@@ -41,7 +41,7 @@ export async function updateOneUser({ body, ctx }: Request, res: Response, next:
  */
 export async function getUserData({ ctx }: Request, res: Response, next: NextFunction) {
   try {
-    const user = await getUserByIdService(getUserIdFromContext(ctx!, res));
+    const user = await getUserByIdService(getUserIdFromContext(ctx!));
     return res.status(200).json(user);
   } catch (error) {
     return next(error);

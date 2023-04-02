@@ -1,12 +1,12 @@
-import { IUser } from '@sqrib/shared';
+import { IRegister } from '@sqrib/shared';
 import { User } from '@prisma/client';
 import { prisma } from '../client';
 
 /**
  * Create user and its associated settings and palmares.
- * @param data IUser
+ * @param data IRegister
  */
-export function createUserRepository(data: IUser): Promise<User> {
+export function createUserRepository(data: IRegister): Promise<User> {
   return prisma.user.create({
     data: {
       email: data.email,
@@ -72,5 +72,13 @@ export function updateUserByIdRepository(userId: string, data: Partial<User>) {
       id: userId,
     },
     data,
+  });
+}
+
+export function getUserByUsernameRepository(username: string): Promise<User | null> {
+  return prisma.user.findUnique({
+    where: {
+      username,
+    },
   });
 }

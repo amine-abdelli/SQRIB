@@ -5,6 +5,7 @@ const express = require('express');
 
 const router = express.Router();
 
+// Require auth
 router.put(ENDPOINTS.settings.update, SettingsController.updateUserSettings);
 
 export default router;

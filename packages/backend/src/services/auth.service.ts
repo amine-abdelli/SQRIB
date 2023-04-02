@@ -5,6 +5,11 @@ import { getTokenPayload } from '../utils';
 import { getUserByEmailRepository, getUserByUsernameRepository } from '../repositories';
 import { HttpError } from '../utils/error.utils';
 
+const jwtConfig = {
+  expiresIn: '7d',
+  algorithm: 'HS512',
+} as jwt.SignOptions;
+
 export async function loginService(userCredentials: IUserCredential) {
   const { username, email, password } = userCredentials;
   log.info('Logging user : ', email || username);
@@ -25,10 +30,7 @@ export async function loginService(userCredentials: IUserCredential) {
   const token = jwt.sign(
     { userId: user.id },
     JWT_TOKEN_SECRET,
-    {
-      expiresIn: '7d',
-      algorithm: 'HS512',
-    },
+    jwtConfig,
   );
   return token;
 }

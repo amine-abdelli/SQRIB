@@ -1,41 +1,7 @@
 import jwt from 'jsonwebtoken';
+import { CookieOptions } from 'express';
 
-// const ONE_WEEK_IN_SECONDS = 7 * 24 * 60 * 60;
-// const APP_TOKENIZATION_SECRET: string = process.env.TOKEN_PRIVATE_KEY!;
-
-// // TODO: Uncomment once domain is in https for production
-// export const COOKIE_SETTINGS: CookieOptions = {
-//   // cookie is valid for all subpaths of my domain
-//   path: '/',
-//   // this cookie won't be readable by the browser
-//   httpOnly: true,
-//   // and won't be usable outside of my domain
-//   sameSite: 'none',
-//   // HTTPS?
-//   secure: true,
-// };
-
-// // Cache issues led to create this function to make sure the emittedAt key is always regenerated
-// function generateTokenSettings() {
-//   return {
-//     expiresIn: ONE_WEEK_IN_SECONDS,
-//     emittedAt: Date.now(),
-//   };
-// }
-
-// export function createToken(
-//   user: Omit<User, 'password' | 'didacticiel_level'>,
-//   tokenOptions: SignOptions = {},
-// ): string {
-//   const tokenSettings = { ...generateTokenSettings(), ...tokenOptions };
-//   return jwt.sign(
-//     {
-//       userId: user.id,
-//       ...tokenSettings,
-//     },
-//     APP_TOKENIZATION_SECRET,
-//   );
-// }
+const ONE_WEEK_IN_SECONDS = 7 * 24 * 60 * 60;
 
 // export interface Token {
 //   expiresIn: number
@@ -43,13 +9,9 @@ import jwt from 'jsonwebtoken';
 //   userId: string
 // }
 
-// export function isTokenExpired(expiresIn: number, emittedAt: number) {
-//   return Date.now() > ((expiresIn * 1000) + emittedAt);
-// }
-
-// export function getTokenPayload(token: string): Token {
-//   return jwt.verify(token, APP_TOKENIZATION_SECRET) as Token;
-// }
+export function isTokenExpired(expiresIn: number, emittedAt: number) {
+  return Date.now() > ((expiresIn * 1000) + emittedAt);
+}
 
 // export async function getUserId(req: express.Request, res: express.Response) {
 //   const token = req.cookies.session_id;
@@ -86,16 +48,17 @@ import jwt from 'jsonwebtoken';
 //   return user;
 // }
 
-// export const authGuard = <T extends (...args: any[]) => any>(guardedResolver: T) => (
-//   ...args: Parameters<T>
-// ): ReturnType<T> => {
-//   if (!args[2].userId) {
-//     log.warn('Unauthenticated');
-//     throw new AuthenticationError('User unauthenticated');
-//   }
-//   return guardedResolver(...args);
-// };
-
 export function getTokenPayload(token: string) {
   return jwt.verify(token, process.env.JWT_SECRET || '');
 }
+
+export const COOKIE_SETTINGS: CookieOptions = {
+  // cookie is valid for all subpaths of my domain
+  path: '/',
+  // this cookie won't be readable by the browser
+  httpOnly: true,
+  // and won't be usable outside of my domain
+  sameSite: 'none',
+  // HTTPS?
+  secure: true,
+};

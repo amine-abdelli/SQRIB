@@ -1,5 +1,5 @@
 import express, { Request, Response, NextFunction } from 'express';
-import { authTest, loginService } from '../services/auth.service';
+import { loginService, logoutService } from '../services/auth.service';
 
 const router = express.Router();
 
@@ -8,10 +8,9 @@ const router = express.Router();
  * @route /login
  * @method POST
  */
-export async function login(req: Request, res: Response, next: NextFunction) {
+export function login(req: Request, res: Response, next: NextFunction) {
   try {
-    const token = await loginService(req.body);
-    return res.status(200).json({ token });
+    return loginService(req.body, res);
   } catch (error) {
     return next(error);
   }
@@ -22,10 +21,9 @@ export async function login(req: Request, res: Response, next: NextFunction) {
  * @route /logout
  * @method POST
  */
-export async function logout(req: Request, res: Response, next: NextFunction) {
+export async function logout(_: Request, res: Response, next: NextFunction) {
   try {
-    authTest(req.body.token);
-    return res.status(200).json({ message: '' });
+    return logoutService(res);
   } catch (error) {
     return next(error);
   }

@@ -21,11 +21,37 @@ function App() {
     return () => socketDisconnect(socketRef);
   }, [socketRef]);
 
+  async function login() {
+    return fetch('http://localhost:4000/auth/login', {
+      method: 'POST',
+      credentials: 'include',
+      body: JSON.stringify({ username: 'amine_karbon', password: 'Passw0rd!' }),
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+        ...new Headers(),
+      },
+    }).then((res) => res.json());
+  }
+
+  async function logout() {
+    return fetch('http://localhost:4000/auth/logout', {
+      method: 'POST',
+      credentials: 'include',
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+        ...new Headers(),
+      },
+    }).then((res) => res.json());
+  }
   return (
     <div className="App">
       <header className="App-header">
         <button onClick={() => foo(socketRef)}>SOCKET</button>
         <button onClick={() => bar()}>API</button>
+        <button onClick={() => login()}>LOGIN TEST</button>
+        <button onClick={() => logout()}>LOGOUT TEST</button>
         <p>
           Edit <code>src/App.js</code> and save to reload.
         </p>

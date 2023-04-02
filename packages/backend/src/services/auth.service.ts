@@ -1,8 +1,9 @@
 import { IUserCredential, formatEmail, log } from '@sqrib/shared';
+import { Response } from 'express';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
-import { getTokenPayload } from '../utils';
-import { getUserByEmailRepository, getUserByUsernameRepository } from '../repositories';
+import { COOKIE_SETTINGS } from '../utils';
+import { getUserByEmailRepository, getUserByUsernameRepository, updateUserByIdRepository } from '../repositories';
 import { HttpError } from '../utils/error.utils';
 
 const jwtConfig = {
@@ -10,9 +11,9 @@ const jwtConfig = {
   algorithm: 'HS512',
 } as jwt.SignOptions;
 
-export async function loginService(userCredentials: IUserCredential) {
+export async function loginService(userCredentials: IUserCredential, res: Response) {
   const { username, email, password } = userCredentials;
-  log.info('Logging user : ', email || username);
+  log.info('Logging user : ', { user: email || username });
   if ((!username && !email) || !password) {
     throw new HttpError(400, 'Missing username, email or password');
   }
@@ -32,10 +33,16 @@ export async function loginService(userCredentials: IUserCredential) {
     JWT_TOKEN_SECRET,
     jwtConfig,
   );
-  return token;
+  if (!token) {
+    throw new HttpError(500, 'An error occurred while generating token');
+  }
+  await updateUserByIdRepository(user.id, { last_activity: new Date() });
+  res.status(200).cookie('session_id', token, COOKIE_SETTINGS).send({ message: 'User logged in !' });
+  log.info('User successfully logged in : ', { user: email || username });
 }
 
-export async function authTest(token: string) {
-  const payload = getTokenPayload(token);
-  return payload;
+export function logoutService(res: Response) {
+  log.info('Trying to logout user !');
+  res.clearCookie('session_id', COOKIE_SETTINGS).send({ message: 'User logged out !' });
+  log.info('User successfully logged out');
 }

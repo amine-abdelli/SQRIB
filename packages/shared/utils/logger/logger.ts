@@ -1,6 +1,6 @@
 import pino from 'pino';
 
-const log = pino(
+const baseLogger = pino(
   {
     level: process.env.LOG_LEVEL || 'info',
     transport: {
@@ -13,4 +13,13 @@ const log = pino(
   },
 );
 
-export { log };
+const logWrapper = {
+  info: (msg: string, obj: unknown = {}) => baseLogger.info(obj, msg),
+  error: (msg: string, obj: unknown = {}) => baseLogger.error(obj, msg),
+  warn: (msg: string, obj: unknown = {}) => baseLogger.warn(obj, msg),
+  debug: (msg: string, obj: unknown = {}) => baseLogger.debug(obj, msg),
+  fatal: (msg: string, obj: unknown = {}) => baseLogger.fatal(obj, msg),
+  trace: (msg: string, obj: unknown = {}) => baseLogger.trace(obj, msg),
+};
+
+export { logWrapper as log };

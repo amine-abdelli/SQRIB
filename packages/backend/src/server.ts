@@ -8,8 +8,7 @@ import serveStatic from 'serve-static';
 import path from 'path';
 import { handleSocketConnection } from './sockets/socket';
 import Routers from './routers';
-import { createContext } from './utils/context.utils';
-import { errorHandler } from './utils/error.utils';
+import { errorHandler } from './utils';
 
 const app = express();
 const server = http.createServer(app);
@@ -22,9 +21,6 @@ const corsOptions = {
   credentials: true,
 };
 app.use(cors(corsOptions));
-
-// Create context data for each request
-app.use(createContext);
 
 // Routers
 Routers.map(({ route, router }) => app.use(route, router));

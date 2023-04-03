@@ -1,11 +1,6 @@
-// Define your context interface
-export interface ContextData {
-  userId: string;
-}
-
 // Extend the Express Request interface to include your context
-declare module 'express' {
+declare namespace Express {
   export interface Request {
-    ctx?: ContextData;
+    userId: string;
   }
 }

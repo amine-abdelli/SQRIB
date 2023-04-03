@@ -1,11 +1,10 @@
+import express from 'express';
+import { withAuth } from '../middlewares/auth.middleware';
 import * as SettingsController from '../controllers/settings.controller';
 import { ENDPOINTS } from '../routes';
 
-const express = require('express');
-
 const router = express.Router();
 
-// Require auth
-router.put(ENDPOINTS.settings.update, SettingsController.updateUserSettings);
+router.put(ENDPOINTS.settings.update, ...withAuth(SettingsController.updateUserSettings));
 
 export default router;

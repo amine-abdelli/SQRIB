@@ -2,9 +2,8 @@ import { IUserCredential, formatEmail, log } from '@sqrib/shared';
 import { Response } from 'express';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
-import { COOKIE_SETTINGS } from '../utils';
+import { COOKIE_SETTINGS, HttpError } from '../utils';
 import { getUserByEmailRepository, getUserByUsernameRepository, updateUserByIdRepository } from '../repositories';
-import { HttpError } from '../utils/error.utils';
 
 const jwtConfig = {
   expiresIn: '7d',

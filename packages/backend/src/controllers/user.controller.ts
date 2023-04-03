@@ -1,5 +1,4 @@
 import express, { Request, Response, NextFunction } from 'express';
-import { getUserIdFromContext } from '../utils/context.utils';
 import {
   createUserService, deleteUserService, getUserByIdService, updateUserByIdService,
 } from '../services/user.service';
@@ -25,9 +24,9 @@ export async function createOneUser({ body }: Request, res: Response, next: Next
  * @route /update
  * @method PUT
  */
-export async function updateOneUser({ body, ctx }: Request, res: Response, next: NextFunction) {
+export async function updateOneUser(req: Request, res: Response, next: NextFunction) {
   try {
-    const updatedUser = await updateUserByIdService(getUserIdFromContext(ctx!), body);
+    const updatedUser = await updateUserByIdService(req.userId, req.body);
     return res.status(200).json({ user: updatedUser });
   } catch (error) {
     return next(error);
@@ -39,9 +38,9 @@ export async function updateOneUser({ body, ctx }: Request, res: Response, next:
  * @route /me
  * @method GET
  */
-export async function getUserData({ ctx }: Request, res: Response, next: NextFunction) {
+export async function getUserData(req: Request, res: Response, next: NextFunction) {
   try {
-    const user = await getUserByIdService(getUserIdFromContext(ctx!));
+    const user = await getUserByIdService(req.userId);
     return res.status(200).json(user);
   } catch (error) {
     return next(error);

@@ -4,7 +4,7 @@ import {
   emailPolicy, IRegister, log, passwordPolicy, usernamePolicy, formatEmail,
 } from '@sqrib/shared';
 import bcrypt from 'bcryptjs';
-import { HttpError } from '../utils/error.utils';
+import { HttpError } from '../utils';
 import {
   createUserRepository, deleteUserRepository, getUserByEmailRepository, getUserByIdRepository,
   updateUserByIdRepository,

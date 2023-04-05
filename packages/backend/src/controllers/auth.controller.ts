@@ -1,5 +1,5 @@
 import express, { Request, Response, NextFunction } from 'express';
-import { loginService, logoutService } from '../services/auth.service';
+import { loginService, logoutService } from '../services';
 
 const router = express.Router();
 

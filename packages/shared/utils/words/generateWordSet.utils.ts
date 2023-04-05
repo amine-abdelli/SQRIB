@@ -1,13 +1,4 @@
 import _ from 'lodash';
-import fr from '../dictionnaries/fr/fr.json';
-import en from '../dictionnaries/en/en.json';
-import de from '../dictionnaries/de/de.json';
-import es from '../dictionnaries/es/es.json';
-
-const dictionnary_fr: string[] = fr?.map(({ label }) => label);
-const dictionnary_en: string[] = en?.map(({ label }) => label);
-const dictionnary_de: string[] = de?.map(({ label }) => label);
-const dictionnary_es: string[] = es?.map(({ label }) => label);
 
 export const specialCharacterRegex: RegExp = /[^\w\s]/gi;
 
@@ -53,14 +44,19 @@ function setGenerator(array: string[]): any {
 export function generateWordSet(lang: string, wordSetLength: number) {
   switch (lang) {
     case 'fr':
-      return shuffleWordSet(setGenerator(dictionnary_fr), wordSetLength);
+      return shuffleWordSet(setGenerator([]), wordSetLength);
+      // return shuffleWordSet(setGenerator([dictionnary_fr]), wordSetLength);
     case 'en':
-      return shuffleWordSet(setGenerator(dictionnary_en), wordSetLength);
+      return shuffleWordSet(setGenerator([]), wordSetLength);
+      // return shuffleWordSet(setGenerator(dictionnary_en), wordSetLength);
     case 'de':
-      return shuffleWordSet(setGenerator(dictionnary_de), wordSetLength);
+      return shuffleWordSet(setGenerator([]), wordSetLength);
+      // return shuffleWordSet(setGenerator(dictionnary_de), wordSetLength);
     case 'es':
-      return shuffleWordSet(setGenerator(dictionnary_es), wordSetLength);
-    default: shuffleWordSet(setGenerator(dictionnary_fr), wordSetLength);
+      return shuffleWordSet(setGenerator([]), wordSetLength);
+      // return shuffleWordSet(setGenerator(dictionnary_es), wordSetLength);
+    default: shuffleWordSet(setGenerator([]), wordSetLength);
+        // default: shuffleWordSet(setGenerator(dictionnary_fr), wordSetLength);
   }
   return [];
 }

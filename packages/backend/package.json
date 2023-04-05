@@ -8,6 +8,7 @@
   "scripts": {
     "dev": "ts-node-dev -r dotenv/config --no-notify --respawn --exit-child -r tsconfig-paths/register --transpile-only src/server",
     "start": "node -r ts-node/register -r dotenv/config -r tsconfig-paths/register --max_old_space_size=500 ./dist/server.js",
+    "prisma:sandbox": "ts-node-dev -r dotenv/config -r tsconfig-paths/register --transpile-only sandbox.ts",
     "build": "rm -rf ./dist/ && yarn workspace @sqrib/client build && tsc -p tsconfig.json && mv ../frontend/dist/ ../backend/dist/public",
     "lint": "eslint **/**.ts",
     "test": "jest"

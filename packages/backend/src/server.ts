@@ -8,7 +8,7 @@ import serveStatic from 'serve-static';
 import path from 'path';
 import { handleSocketConnection } from './sockets/socket';
 import Routers from './routers';
-import { errorHandler } from './utils';
+import { errorHandler } from './middlewares/error.middleware';
 
 const app = express();
 const server = http.createServer(app);

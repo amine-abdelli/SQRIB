@@ -1,5 +1,5 @@
 import express, { Request, Response, NextFunction } from 'express';
-import { updateUserSettingsService } from '../services/settings.service';
+import { updateUserSettingsService } from '../services';
 
 const router = express.Router();
 

@@ -1,7 +1,7 @@
 import express, { Request, Response, NextFunction } from 'express';
 import {
   createUserService, deleteUserService, getUserByIdService, updateUserByIdService,
-} from '../services/user.service';
+} from '../services';
 
 const router = express.Router();
 

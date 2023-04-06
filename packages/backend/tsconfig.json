@@ -8,6 +8,6 @@
     "baseUrl": ".",
   },
   "lib": ["es2020"],
-  "include": ["src/**/*", "socket", "custom.d.ts"],
+  "include": ["src/**/*", "socket", "custom.d.ts", "test"],
   "exclude": ["node_modules", "../../node_modules","**/*.spec.ts"]
 }

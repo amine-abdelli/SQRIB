@@ -1,5 +1,5 @@
 import express, { Request, Response, NextFunction } from 'express';
-import { generatePracticeWordChainService, generateTrainingWordChainService } from '../services';
+import { generatePracticeWordChainService, generateTrainingWordChainService, saveSoloScoringService } from '../services';
 
 const router = express.Router();
 const MIN_WORDS_LENGTH = 3;
@@ -33,6 +33,21 @@ export function getPracticeWordChain({ body }: Request, res: Response, next: Nex
   try {
     const wordChain = generatePracticeWordChainService(body.count, body.language);
     res.status(200).json(wordChain);
+  } catch (error) {
+    next(error);
+  }
+}
+
+/**
+ * Save solo scoring
+ * @route /save-solo-scoring
+ * @method POST
+ */
+export async function saveSoloScoring({ body }: Request, res: Response, next: NextFunction) {
+  try {
+    console.log('huhuhuhu');
+    await saveSoloScoringService(body);
+    res.status(200).json({ message: 'Scores saved' });
   } catch (error) {
     next(error);
   }

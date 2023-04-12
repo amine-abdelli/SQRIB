@@ -15,6 +15,7 @@ export const ENDPOINTS = Object.freeze({
   game: {
     training: '/training',
     practice: '/practice',
+    saveSoloScoring: '/save-solo-scoring',
   },
 });
 

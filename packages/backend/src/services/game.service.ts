@@ -1,8 +1,10 @@
 import {
+  ISaveScoring,
   Languages,
   alphabet, dictionaries, log,
 } from '@sqrib/shared';
 
+import { saveSoloScoringRepository } from '../repositories';
 import { generateWordSet } from '../utils/words.utils';
 import { HttpError } from '../utils';
 import { generateRandomWordsWithPriority } from '../utils/markov.utils';
@@ -39,4 +41,11 @@ export function generatePracticeWordChainService(count: number, language: Langua
   const wordChain = generateWordSet((language || Languages.FR), count);
   log.info('Practice word chain generated successfully');
   return wordChain || [];
+}
+
+export async function saveSoloScoringService({ game, score }: ISaveScoring) {
+  log.info('Saving solo scoring');
+  const savedGame = await saveSoloScoringRepository({ game, score });
+  log.info('Score saved successfully');
+  return savedGame;
 }

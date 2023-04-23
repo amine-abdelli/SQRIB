@@ -1,8 +1,9 @@
 import React from 'react';
+import '../theme/pages/_Training.page.scss';
 
 function Training() {
   return (
-    <div>Training</div>
+    <main className='layout--main'>Training</main>
   );
 }
 

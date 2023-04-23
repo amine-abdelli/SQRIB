@@ -1,28 +1,23 @@
 import { Navigate, useRoutes } from 'react-router-dom';
 import {
+  Practice,
   Training,
+  Multiplayer,
+  LeaderBoard,
+  Settings,
 } from './elements';
 
 // ----------------------------------------------------------------------
 
 export default function Router() {
   return useRoutes([
-    {
-      path: '/',
-      element: (
-        <Training />
-      ),
-    },
-    {
-      path: '/page',
-      children: [
-        {
-          path: '/one',
-          element: <p>Page ONE</p>,
-          index: true,
-        },
-      ],
-    },
+    { path: '/', element: <Training /> },
+    { path: '/training', element: <Training /> },
+    { path: '/practice', element: <Practice /> },
+    { path: '/multiplayer', element: <Multiplayer /> },
+    { path: '/leaderboard', element: <LeaderBoard /> },
+    { path: '/settings', element: <Settings /> },
+    { path: '*', element: <Navigate to="/404" replace /> },
     // {
     //   path: '/',
     //   children: [
@@ -69,6 +64,5 @@ export default function Router() {
     //      }
     //  ],
     // },
-    // { path: '*', element: <Navigate to="/404" replace /> },
   ]);
 }

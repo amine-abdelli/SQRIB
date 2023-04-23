@@ -1,8 +1,16 @@
 import React from 'react';
+import { BrowserRouter } from 'react-router-dom';
+
+import { Layout } from './layouts/desktop/Layout.desktop';
+import Router from './routes';
 
 function App() {
   return (
-    <div>App</div>
+    <BrowserRouter>
+      <Layout>
+        <Router />
+      </Layout>
+    </BrowserRouter>
   );
 }
 

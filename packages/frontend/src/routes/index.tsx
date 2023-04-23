@@ -1,4 +1,5 @@
 import { Navigate, useRoutes } from 'react-router-dom';
+import React from 'react';
 import {
   Practice,
   Training,
@@ -8,6 +9,14 @@ import {
 } from './elements';
 
 // ----------------------------------------------------------------------
+
+export const PageOne = () => (
+    <div>Page One</div>
+);
+
+export const PageTwo = () => (
+  <div>Page Two</div>
+);
 
 export default function Router() {
   return useRoutes([

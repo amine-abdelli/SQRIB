@@ -1,7 +1,7 @@
 import io, { Socket } from 'socket.io-client';
+import { BACKEND_URL } from './config-global';
 
-const ENDPOINT = import.meta.env.VITE_API_URL || 'http://localhost:4000';
-const socket = io(ENDPOINT, {
+const socket = io(BACKEND_URL, {
   transports: ['websocket'],
   autoConnect: true,
 });

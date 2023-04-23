@@ -4,6 +4,7 @@ import App from './App';
 import './theme/globals.scss';
 
 // eslint-disable-next-line no-undef
+// eslint-disable-next-line no-undef
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
     <App />

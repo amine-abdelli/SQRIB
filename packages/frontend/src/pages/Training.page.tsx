@@ -1,5 +1,4 @@
 import React from 'react';
-import '../theme/pages/_Training.page.scss';
 
 function Training() {
   return (

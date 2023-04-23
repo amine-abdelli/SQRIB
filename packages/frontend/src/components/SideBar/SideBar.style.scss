@@ -1,0 +1,59 @@
+@import "../../../src/theme/globals.scss";
+
+.sidebar {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  height: 100%; 
+  background-color: $secondary;
+  width: 220px;
+  @include thickBorder();
+
+  .sidebar-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    .logo {
+      width: 10rem;
+    }
+    
+    .logo--text {
+      color: $primary;
+      font-style: normal;
+      font-weight: 800;
+      font-size: 38px;
+      line-height: 70px;
+      text-align: center;
+      @include stroke($outline, 3px);
+    }
+  }
+}
+
+.invisible {
+  display: none;
+}
+
+@media screen and (max-width: $md-screen) {
+  .sidebar {
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    top: 0;
+    left: 0;
+    background: no-repeat url('../../../src/assets/images/main-background.png');
+
+    
+    .nav-link--wrapper {
+      .nav-link {
+        display: flex;
+        justify-content: center;
+
+        // Relate to <Link /> component
+        a {
+          font-size: 38px;
+        }
+      }
+    }
+  }
+}

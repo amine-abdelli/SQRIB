@@ -9,16 +9,6 @@ import {
   NotFound,
 } from './elements';
 
-// ----------------------------------------------------------------------
-
-export const PageOne = () => (
-    <div>Page One</div>
-);
-
-export const PageTwo = () => (
-  <div>Page Two</div>
-);
-
 export default function Router() {
   return useRoutes([
     { path: '/', element: <Training /> },

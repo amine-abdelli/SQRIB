@@ -14,3 +14,4 @@ export const Practice = Loadable(lazy(() => import('../pages/Practice.page')));
 export const Multiplayer = Loadable(lazy(() => import('../pages/Multiplayer.page')));
 export const LeaderBoard = Loadable(lazy(() => import('../pages/Leaderboard.page')));
 export const Settings = Loadable(lazy(() => import('../pages/Settings.page')));
+export const NotFound = Loadable(lazy(() => import('../pages/NotFound.page')));

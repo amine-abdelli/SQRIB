@@ -1,4 +1,4 @@
-import { Navigate, useRoutes } from 'react-router-dom';
+import { useRoutes } from 'react-router-dom';
 import React from 'react';
 import {
   Practice,
@@ -6,6 +6,7 @@ import {
   Multiplayer,
   LeaderBoard,
   Settings,
+  NotFound,
 } from './elements';
 
 // ----------------------------------------------------------------------
@@ -26,7 +27,7 @@ export default function Router() {
     { path: '/multiplayer', element: <Multiplayer /> },
     { path: '/leaderboard', element: <LeaderBoard /> },
     { path: '/settings', element: <Settings /> },
-    { path: '*', element: <Navigate to="/404" replace /> },
+    { path: '*', element: <NotFound /> },
     // {
     //   path: '/',
     //   children: [

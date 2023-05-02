@@ -1,0 +1,41 @@
+@import "../../theme/abstracts";
+
+.options--wrapper {
+  margin-top: 10px 0 0 0;
+  padding: 0;
+  background-color: $tertiary;
+  display: flex;
+  align-items: center;
+  // TODO Uncomment this line to space option button group evenly
+  // justify-content: space-evenly;
+
+  .button-group {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    position: relative;
+
+    &--wrapper {
+      margin: 0 2rem;
+    }
+    &--label {
+      text-align: center;
+      font-weight: 200;
+      font-size: 12px;
+    }
+
+    .option-language--button {
+      width: inherit;
+      color: $outline;
+      width: 100%;
+
+      &:hover {
+        color: $primary;
+      }
+    }
+  }
+
+  .separator {
+    color: $outline;
+  }
+}

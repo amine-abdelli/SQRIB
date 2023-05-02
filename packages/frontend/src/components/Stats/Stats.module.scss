@@ -1,0 +1,43 @@
+@import '../../../styles/sass/abstracts/variables';
+
+.statsWrapper {
+  .statsContent {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    flex-wrap: wrap;
+
+    .scoreCardWrapper {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+    }
+
+    .mpm {
+      margin: 0;
+      padding: 0;
+      text-align: center;
+      
+      p:first-of-type {
+        text-align: center;
+      }
+
+      h3 {
+        text-align: center;
+      }
+    }
+
+    .mpmTranslation {
+      padding: 0;
+      margin: 0;
+      text-align: center;
+    }
+
+    .statsButton {
+      background-color: orange;
+      color: white;
+      width: 100%;
+      margin-top: 5px;
+    }
+  }
+}

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { SideBar } from '../../components/SideBar/SideBar.component';
 import '../../theme/components/_layout.scss';
-import Button from '../../components/Button/Button.component';
+import { Button } from '../../components/Button/Button.component';
 import { useWindowSize } from '../../hooks/useWindowSize.hook';
 
 type LayoutProps = {

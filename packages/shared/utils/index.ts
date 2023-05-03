@@ -1,6 +1,5 @@
 export * from './math';
 export * from './words';
-export * from './markov';
 export * from './dictionaries';
 export * from './array';
 export * from './date';

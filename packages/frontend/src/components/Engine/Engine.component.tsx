@@ -1,9 +1,11 @@
 /* eslint-disable max-len */
 import React, { ReactElement, useEffect, useState } from 'react';
-import { FontSize, Languages, dictionaries } from '@sqrib/shared';
+import { Languages, dictionaries } from '@sqrib/shared';
 import { useTimestamp } from '../../hooks/useTimestamp.hook';
 import { calculateAccuracy, calculatePoints, calculateWPM } from '../../utils';
 import { useTimer } from '../../hooks/useTimer.hook';
+import { FontSize } from '../../utils/fontsize.enum';
+import { TTrainingMode, TrainingMode } from '../Options/Options.props';
 
 interface IScore {
   wpm: number,
@@ -32,6 +34,12 @@ export interface EngineProps {
   setFontSize: React.Dispatch<React.SetStateAction<FontSize>>,
   language: Languages,
   setLanguage: React.Dispatch<React.SetStateAction<Languages>>,
+  mode: TTrainingMode,
+  setMode: React.Dispatch<React.SetStateAction<TTrainingMode>>,
+  countDown: number,
+  setCountDown: React.Dispatch<React.SetStateAction<number>>,
+  wordCount: number,
+  setWordCount: React.Dispatch<React.SetStateAction<number>>,
 }
 
 export interface EngineChildren {
@@ -58,19 +66,27 @@ function Engine({ children }: EngineChildren) {
   const [shouldReset, setShouldReset] = React.useState(false);
   const [fontSize, setFontSize] = React.useState<FontSize>(FontSize.SMALL);
   const [language, setLanguage] = React.useState<Languages>(Languages.FR);
-  const [score, setScore] = React.useState<IScore>({
-    wpm: 0, accuracy: 0, typedWords: 0, points: 0,
-  });
+  const [mode, setMode] = useState<TTrainingMode>(TrainingMode.TIME_TRIAL);
+  const [countDown, setCountDown] = useState(60);
+  const [wordCount, setWordCount] = useState(100);
 
   function onFinish() {
     setIsRunning(false);
     setInput('');
   }
 
-  const timer = useTimer({
-    initialValue: 60, isRunning, onFinish, countDown: true,
+  const [score, setScore] = React.useState<IScore>({
+    wpm: 0, accuracy: 0, typedWords: 0, points: 0,
   });
 
+  const useTimerOptions = {
+    initialValue: mode === TrainingMode.TIME_TRIAL ? countDown : 0,
+    countDown: mode === TrainingMode.TIME_TRIAL,
+    isRunning,
+    onFinish,
+  };
+
+  const timer = useTimer(useTimerOptions);
   /**
    * Options
    * - Timer - 15 30 45 *60* 75 90 105 (count down) /// initialValue: 60, isRunning, onFinish: () => console.log('FINISHED'), countDown: true
@@ -156,6 +172,12 @@ function Engine({ children }: EngineChildren) {
     setFontSize,
     language,
     setLanguage,
+    mode,
+    setMode,
+    countDown,
+    setCountDown,
+    wordCount,
+    setWordCount,
   };
 
   return (

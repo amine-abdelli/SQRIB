@@ -1,4 +1,4 @@
-import { FontSize } from '@sqrib/shared';
+import { FontSize } from '../../../utils/fontsize.enum';
 
 export interface WordProps {
   word: string,

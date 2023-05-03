@@ -17,7 +17,7 @@ function Scoring({ score, timer }: EngineProps) {
         {!isVerySmallScreen && <ScoringItem content={`Précision : ${score.accuracy}%`} />}
         <ScoringItem content={`Mpm : ${score.wpm}`} />
         {!isLargeScreen && <ScoringItem content={`Points : ${score.points}`} />}
-        {timer && <CountDown timer={timer} />}
+        <CountDown timer={timer} />
       </div>
   );
 }

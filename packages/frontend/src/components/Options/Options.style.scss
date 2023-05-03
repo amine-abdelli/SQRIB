@@ -7,16 +7,18 @@
   display: flex;
   align-items: center;
   // TODO Uncomment this line to space option button group evenly
-  // justify-content: space-evenly;
+  justify-content: space-evenly;
+  flex-wrap: wrap;
 
   .button-group {
     display: flex;
     justify-content: flex-start;
     align-items: center;
     position: relative;
-
+    
     &--wrapper {
-      margin: 0 2rem;
+      flex-wrap: wrap;
+      margin: 0 1rem;
     }
     &--label {
       text-align: center;
@@ -38,4 +40,8 @@
   .separator {
     color: $outline;
   }
+}
+
+.main-options--wrapper {
+  justify-content: center;
 }

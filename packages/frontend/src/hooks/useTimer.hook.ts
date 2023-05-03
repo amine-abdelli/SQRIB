@@ -90,7 +90,7 @@ function useTimer({
     return () => {
       clearInterval(intervalRef as NodeJS.Timeout);
     };
-  }, [isRunning, timer]);
+  }, [isRunning, timer, initialValue]);
 
   return timer;
 }

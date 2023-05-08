@@ -7,5 +7,5 @@ export interface WordProps {
   indexOfProgression: number,
   currentIndex: number,
   input: string,
-  fontSize: FontSize
+  fontSize: FontSize,
 }

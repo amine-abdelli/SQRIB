@@ -10,18 +10,20 @@ function Word({
   const wordsFontSize = {
     fontSize: `${fontSize}px`,
   };
+
   const wordFromDictionnay = word?.split('');
   const wordTypedByUser = comparison?.split('');
   const wordUserIsCurrentlyTyping = input?.split('');
+
   return (
     isFocused
       ? (
-        <span style={wordsFontSize} className='word word--focused'>
-          {wordFromDictionnay?.map((aLetter: string, i: number) => <span style={{ color: getFocusedWordLetterColor(aLetter, wordUserIsCurrentlyTyping?.[i], i, wordUserIsCurrentlyTyping.length) }}>{aLetter}</span>)}
+        <span style={{ ...wordsFontSize }} className='word word--focused'>
+          {wordFromDictionnay?.map((aLetter: string, i: number) => <span style={{ color: getFocusedWordLetterColor(aLetter, wordUserIsCurrentlyTyping?.[i], i, wordUserIsCurrentlyTyping.length), scale: i === (input.length ? input.length - 1 : input.length) ? '1.1' : '' }}>{aLetter}</span>)}
         </span>
       ) : (
       <span className='word' style={{ textDecoration: getTextDecorationColor(word, comparison, indexOfProgression, currentIndex), ...wordsFontSize }}>
-        {wordFromDictionnay?.map((aLetter: string, i: number) => <span style={{ color: getLetterColor(aLetter, wordTypedByUser?.[i], indexOfProgression, currentIndex, isFocused) }}>{aLetter}</span>)}
+        {wordFromDictionnay?.map((aLetter: string, i: number) => (<span style={{ color: getLetterColor(aLetter, wordTypedByUser?.[i], indexOfProgression, currentIndex, isFocused) }}>{aLetter}</span>))}
       </span>
       )
   );

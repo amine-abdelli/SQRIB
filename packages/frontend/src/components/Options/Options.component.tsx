@@ -5,8 +5,7 @@ import { COLORS } from '../../theme/colors';
 import { EngineProps } from '../Engine';
 import './Options.style.scss';
 import {
-  Difficulty, TDifficulty, TWordsCollectionLayout,
-  TWordsType, TrainingMode, WordsCollectionLayout, WordsType,
+  Difficulty, TDifficulty, TWordsType, TrainingMode, WordsCollectionLayout, WordsType,
 } from './Options.props';
 import { FontSize } from '../../utils/fontsize.enum';
 
@@ -48,15 +47,10 @@ function OptionGroup({
 }
 
 function Options({
-  fontSize,
-  setFontSize,
-  language,
-  setLanguage,
-  mode, setMode, countDown,
-  setCountDown, wordCount, setWordCount,
+  fontSize, setFontSize, language, setLanguage, mode, setMode, countDown,
+  setCountDown, wordCount, setWordCount, layout, setLayout,
 }: EngineProps) {
   // Words collection layout
-  const [layout, setLayout] = useState<TWordsCollectionLayout>(WordsCollectionLayout.HORIZONTAL);
   const [difficulty, setDifficulty] = useState<TDifficulty>(Difficulty.EASY);
   const [wordsType, setWordsType] = useState<TWordsType>(WordsType.RANDOM);
 
@@ -77,7 +71,7 @@ function Options({
       <div className="options--wrapper main-options--wrapper">
         <OptionGroup label='mode' options={[TrainingMode.SPEED_CHALLENGE, TrainingMode.TIME_TRIAL]} selected={mode} setSelected={setMode} />
         {/* You have 15, 30, 45, 60, 75 or 90seconds to type as many words as possible  */}
-        {mode === TrainingMode.TIME_TRIAL && <OptionGroup label='timer' options={[15, 30, 45, 60, 75, 90]} selected={countDown} setSelected={setCountDown} />}
+        {mode === TrainingMode.TIME_TRIAL && <OptionGroup label='timer' options={[15, 30, 60, 75, 90, 120]} selected={countDown} setSelected={setCountDown} />}
         {/* You have 25, 50, 75, 100, 125 or 150 words to type as fast as possible  */}
         {mode === TrainingMode.SPEED_CHALLENGE && <OptionGroup label='word count' options={[25, 50, 75, 100, 125, 150]} selected={wordCount} setSelected={setWordCount} />}
       </div>

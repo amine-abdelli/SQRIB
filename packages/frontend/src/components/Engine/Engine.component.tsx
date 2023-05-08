@@ -1,17 +1,20 @@
 /* eslint-disable max-len */
 import React, { ReactElement, useEffect, useState } from 'react';
-import { Languages, dictionaries } from '@sqrib/shared';
+import { Languages } from '@sqrib/shared';
 import { useTimestamp } from '../../hooks/useTimestamp.hook';
 import { calculateAccuracy, calculatePoints, calculateWPM } from '../../utils';
 import { useTimer } from '../../hooks/useTimer.hook';
 import { FontSize } from '../../utils/fontsize.enum';
-import { TTrainingMode, TrainingMode } from '../Options/Options.props';
+import { TTrainingMode, TrainingMode, WordsCollectionLayout } from '../Options/Options.props';
+import { useGetTrainingWordChain } from '../../hooks/queries/useGetTraining.hook';
 
 interface IScore {
   wpm: number,
   accuracy: number,
   typedWords: number,
   points: number,
+  startTime: number,
+  endTime: number,
 }
 
 export interface EngineProps {
@@ -29,7 +32,6 @@ export interface EngineProps {
   score: IScore,
   isRunning: boolean,
   setIsRunning: React.Dispatch<React.SetStateAction<boolean>>,
-  setShouldReset: React.Dispatch<React.SetStateAction<boolean>>,
   fontSize: FontSize,
   setFontSize: React.Dispatch<React.SetStateAction<FontSize>>,
   language: Languages,
@@ -40,11 +42,18 @@ export interface EngineProps {
   setCountDown: React.Dispatch<React.SetStateAction<number>>,
   wordCount: number,
   setWordCount: React.Dispatch<React.SetStateAction<number>>,
+  layout: WordsCollectionLayout,
+  setLayout: React.Dispatch<React.SetStateAction<WordsCollectionLayout>>,
+  resetTraining: () => void,
 }
 
 export interface EngineChildren {
   children: ReactElement<EngineProps> | ReactElement<EngineProps>[];
 }
+// World's wpm record held by Sean Wrona since 2010
+const WORLD_WPM_RECORD = 256;
+// Let's double it to be save
+const MAX_POSSIBLE_WORLD_COUNT = WORLD_WPM_RECORD * 2;
 
 // Faire en sorte de pouvoir rejouer une même série de mots et de comparer ses propres scores sur une même série de mots.
 //                        Après plusieurs score sur une même série de mots, proposer d'enregister le meilleur score sur cette série de mots
@@ -59,34 +68,42 @@ function Engine({ children }: EngineChildren) {
   const [typedWords, setTypedWords] = useState<string[]>([]);
   const [input, setInput] = React.useState<string>('');
   const [indexOfProgression, setIndexOfProgression] = React.useState<number>(0);
-  const [wordChain, setWordChain] = React.useState<string[]>(dictionaries.fr.slice(1, 11));
+  const [wordChain, setWordChain] = React.useState<string[]>([]);
   const [startTime, setStartTime] = React.useState<number>(0);
   const [isRunning, setIsRunning] = React.useState(false);
   const [endTime, setEndTime] = React.useState(useTimestamp(isRunning));
-  const [shouldReset, setShouldReset] = React.useState(false);
   const [fontSize, setFontSize] = React.useState<FontSize>(FontSize.SMALL);
   const [language, setLanguage] = React.useState<Languages>(Languages.FR);
   const [mode, setMode] = useState<TTrainingMode>(TrainingMode.TIME_TRIAL);
   const [countDown, setCountDown] = useState(60);
   const [wordCount, setWordCount] = useState(100);
+  const [layout, setLayout] = useState<WordsCollectionLayout>(WordsCollectionLayout.HORIZONTAL);
 
+  const [score, setScore] = React.useState<IScore>({
+    wpm: 0, accuracy: 0, typedWords: 0, points: 0, startTime: 0, endTime: 0,
+  });
+  const isTimeTrialMode = mode === TrainingMode.TIME_TRIAL;
+
+  const { data, refetch } = useGetTrainingWordChain({ count: isTimeTrialMode ? MAX_POSSIBLE_WORLD_COUNT : wordCount, language });
   function onFinish() {
     setIsRunning(false);
     setInput('');
+    refetch();
   }
-
-  const [score, setScore] = React.useState<IScore>({
-    wpm: 0, accuracy: 0, typedWords: 0, points: 0,
-  });
-
   const useTimerOptions = {
-    initialValue: mode === TrainingMode.TIME_TRIAL ? countDown : 0,
-    countDown: mode === TrainingMode.TIME_TRIAL,
+    initialValue: isTimeTrialMode ? countDown : 0,
+    countDown: isTimeTrialMode,
     isRunning,
     onFinish,
   };
-
   const timer = useTimer(useTimerOptions);
+
+  useEffect(() => {
+    if (data) {
+      setWordChain(data.data);
+    }
+  }, [language, wordCount, data, refetch]);
+  // TODO Reset TIMER on timer (13 30 60 75 90 120) and mode change
   /**
    * Options
    * - Timer - 15 30 45 *60* 75 90 105 (count down) /// initialValue: 60, isRunning, onFinish: () => console.log('FINISHED'), countDown: true
@@ -96,22 +113,19 @@ function Engine({ children }: EngineChildren) {
    * - Word chain - custom, *random*, suggested // Options sent to the backend
    */
 
-  // Reset the game on click on "Reset"
-  useEffect(() => {
-    if (shouldReset) {
-      setTypedWords([]);
-      setInput('');
-      setIndexOfProgression(0);
-      setIsRunning(false);
-      setWordChain(dictionaries.fr.slice(1, 11)); // TODO Query wordChain from the backend
-      setStartTime(0);
-      setEndTime(0);
-      setScore({
-        wpm: 0, accuracy: 0, typedWords: 0, points: 0,
-      });
-      setShouldReset(false);
-    }
-  }, [shouldReset]);
+  // Reset all game parameters
+  function resetTraining() {
+    refetch();
+    setTypedWords([]);
+    setInput('');
+    setIndexOfProgression(0);
+    setIsRunning(false);
+    setStartTime(0);
+    setEndTime(0);
+    setScore({
+      wpm: 0, accuracy: 0, typedWords: 0, points: 0, startTime: 0, endTime: 0,
+    });
+  }
 
   // Start the game when the user starts typing
   useEffect(() => {
@@ -127,23 +141,24 @@ function Engine({ children }: EngineChildren) {
     }
   }, [typedWords]);
 
-  const actualTime = useTimestamp(isRunning);
+  const currentTime = useTimestamp(isRunning);
   useEffect(() => {
     if (isRunning) {
-      setEndTime(actualTime);
+      setEndTime(currentTime);
       setScore({
         wpm: calculateWPM(wordChain, typedWords, startTime, endTime),
         accuracy: calculateAccuracy(wordChain, typedWords),
         typedWords: typedWords.length,
         points: calculatePoints(wordChain, typedWords, startTime, endTime),
+        startTime,
+        endTime,
       });
     }
-  }, [useTimestamp(isRunning), isRunning]);
+  }, [currentTime, isRunning, input]);
 
   useEffect(() => {
     setTypedWords([]);
     setIndexOfProgression(0);
-    setWordChain(dictionaries.fr.slice(1, 11)); // TODO Query wordChain from the backend
     setStartTime(0);
     setEndTime(0);
     if (isRunning) {
@@ -156,9 +171,8 @@ function Engine({ children }: EngineChildren) {
   const props = {
     input,
     setInput,
-    // TODO Query wordChain from the backend
+    resetTraining,
     wordChain,
-    setWordChain,
     timer,
     typedWords,
     setTypedWords,
@@ -167,7 +181,6 @@ function Engine({ children }: EngineChildren) {
     score,
     isRunning,
     setIsRunning,
-    setShouldReset,
     fontSize,
     setFontSize,
     language,
@@ -178,6 +191,8 @@ function Engine({ children }: EngineChildren) {
     setCountDown,
     wordCount,
     setWordCount,
+    layout,
+    setLayout,
   };
 
   return (

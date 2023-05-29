@@ -1,7 +1,7 @@
 import React, { Dispatch, SetStateAction } from 'react';
 import { Cursor } from './Cursor/Cursor.component';
 import './WordsCollectionHeader.style.scss';
-import { EngineProps } from '../Engine';
+import { EngineProps } from '../../modules/Training/Engine';
 import { getFocusedWordLetterColor } from '../../utils/typing.utils';
 
 /* Save letter's position. It helps to position triangle */
@@ -53,7 +53,7 @@ function WordsCollectionHeader({
   const [letterWidth, setLetterWidth] = React.useState<number>(0);
   const size = 60;
   return (
-    <div className="words-collections-header--Wrapper">
+    <div className="words-collections-header--wrapper">
       <p
         className="words-collections-header"
         style={{ fontSize: `${size}px` }}

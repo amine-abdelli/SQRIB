@@ -5,6 +5,6 @@ import { ENDPOINTS } from '../routes';
 const router = express.Router();
 
 router.get(ENDPOINTS.game.training, GameController.getTrainingWordChain);
-router.get(ENDPOINTS.game.practice, GameController.getPracticeWordChain);
+router.get(ENDPOINTS.game.learning, GameController.getLearningWordChain);
 
 export default router;

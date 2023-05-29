@@ -1,16 +1,16 @@
-@import '../abstracts';
+@import "../abstracts";
 
 .layout {
   display: flex;
   height: 100vh;
   background-color: $secondary;
   padding: 1rem;
-  background: no-repeat url('../../../src/assets/images/main-background.png');
+  background: url("../../../src/assets/images/main-background.png");
 
   .layout--main {
     flex-grow: 1;
     height: 100%;
-    padding: 20px;
+    padding: 0 20px;
     overflow-y: auto;
   }
 }

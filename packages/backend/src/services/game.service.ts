@@ -7,7 +7,7 @@ import { generateWordSet } from '../utils/words.utils';
 import { HttpError } from '../utils';
 import { generateRandomWordsWithPriority } from '../utils/markov.utils';
 
-export function generateTrainingWordChainService(
+export function generateLearningWordChainService(
   count: number,
   minLength: number,
   maxLength: number,
@@ -29,14 +29,14 @@ export function generateTrainingWordChainService(
   return wordChain || [];
 }
 
-export function generatePracticeWordChainService(count: number, language: Languages) {
+export function generateTrainingWordChainService(count: number, language: Languages) {
   const allowedLanguages = ['fr', 'en', 'de', 'es'];
   if (!allowedLanguages.includes(language)) {
     throw new HttpError(400, `"${language}" is not a valid language`);
   }
-  if (!count) { throw new HttpError(400, 'Missing count or language parameter'); }
-  log.info('Generating practice word chain', { count, language });
+  if (!count || !language) { throw new HttpError(400, 'Missing count or language parameter'); }
+  log.info('Generating Training word chain', { count, language });
   const wordChain = generateWordSet((language || Languages.FR), count);
-  log.info('Practice word chain generated successfully');
+  log.info('Training word chain generated successfully');
   return wordChain || [];
 }

@@ -1,13 +1,18 @@
 import React from 'react';
-import Logo from '../../../../assets/images/key-logo.png';
+import '../../SideBar.style.scss';
+import SqribIcon from '../../../../assets/images/key-logo.png';
+
+function Logo({ label }: {label: string}) {
+  return <h1 className='logo--text'>{label}</h1>;
+}
 
 function Header() {
   return (
     <header className='sidebar-header'>
-      <img className='logo' src={Logo} alt="A key board logo" />
-      <h1 className='logo--text'>SQRIB.IO</h1>
+      <img className='logo' src={SqribIcon} alt="A key board logo" />
+      <Logo label='SQRIB.IO' />
     </header>
   );
 }
 
-export { Header };
+export { Header, Logo };

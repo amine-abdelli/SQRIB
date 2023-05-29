@@ -4,18 +4,21 @@ import { ButtonProps } from './Button.props';
 
 function Button({
   label, onClick, secondary, stretch, disabled, className,
-  color,
+  color, light, style
 }: ButtonProps) {
+  const buttonProps = {
+    backgroundColor: secondary ? '#FFFFFF' : '',
+    width: stretch ? '' : '100%',
+    color,
+    padding: stretch ? '5px 10px' : '',
+    ...style
+  };
   return (
     <button
       disabled={disabled}
       onClick={onClick}
-      style={{
-        backgroundColor: secondary ? '#FFFFFF' : '',
-        width: stretch ? '' : '100%',
-        color,
-      }}
-      className={`button--primary ${className}`}
+      style={buttonProps}
+      className={`button--primary ${light ? 'button--light' : ''} ${className}`}
       type='submit'
     >
       {label}
@@ -23,4 +26,4 @@ function Button({
   );
 }
 
-export default Button;
+export { Button };

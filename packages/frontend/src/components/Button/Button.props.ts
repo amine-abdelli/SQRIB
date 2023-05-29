@@ -2,7 +2,7 @@ import { CSSProperties } from 'react';
 
 export interface ButtonProps {
   // eslint-disable-next-line no-undef
-  label: string | JSX.Element,
+  label: string | number | JSX.Element,
   onClick: () => void,
   secondary?: boolean,
   stretch?: boolean,

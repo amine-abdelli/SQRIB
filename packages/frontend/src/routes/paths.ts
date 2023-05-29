@@ -4,7 +4,7 @@ export enum AUTH_ROUTES {
 
 export enum MAIN_ROUTES {
   TRAINING = '/training',
-  PRACTICE = '/practice',
+  LEARNING = '/learning',
   MULTIPLAYER = '/multiplayer',
   LEADERBOARD = '/leaderboard',
   SETTINGS = '/settings',

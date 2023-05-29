@@ -1,11 +1,23 @@
-.spacer-small {
+.spacer-small.vertical {
   height: 0.5rem;
 }
 
-.spacer-medium {
+.spacer-medium.vertical {
   height: 1rem;
 }
 
-.spacer-large {
+.spacer-large.vertical {
   height: 2rem;
+}
+
+.spacer-small.horizontal {
+  width: 0.5rem;
+}
+
+.spacer-medium.horizontal {
+  width: 1rem;
+}
+
+.spacer-large.horizontal {
+  width: 2rem;
 }

@@ -1,6 +1,7 @@
 @import "../../../src/theme/";
 
-.button--primary {
+.button {
+  &--primary {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -10,16 +11,27 @@
     cursor: pointer;
     transition: scale 0.1s ease-in-out;
     padding: 5px 15px;
+    white-space: nowrap;
     @include thinBorder();
 
     &:active {
-        transition: scale 0.1s ease-in-out;
-        scale: 0.99;
+      transition: scale 0.1s ease-in-out;
+      scale: 0.99;
     }
 
     &:disabled {
-        background-color: grey;
-        scale: 1;
-        cursor: auto;
+      background-color: grey;
+      scale: 1;
+      cursor: auto;
     }
+  }
+
+  &--light {
+    border: none;
+    background: transparent;
+    box-shadow: none;
+    font-weight: 400;
+    padding: 0;
+    margin: 0 4px;
+  }
 }

@@ -1,0 +1,14 @@
+.scoring--wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  font-size: 1rem;
+
+  & > * {
+    margin-right: 1rem;
+  }
+
+  .scoring-item {
+    font-weight: 800;
+  }
+}

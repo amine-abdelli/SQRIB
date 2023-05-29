@@ -1,7 +1,7 @@
 import { useRoutes } from 'react-router-dom';
 import React from 'react';
 import {
-  Practice,
+  Learning,
   Training,
   Multiplayer,
   LeaderBoard,
@@ -9,21 +9,11 @@ import {
   NotFound,
 } from './elements';
 
-// ----------------------------------------------------------------------
-
-export const PageOne = () => (
-    <div>Page One</div>
-);
-
-export const PageTwo = () => (
-  <div>Page Two</div>
-);
-
 export default function Router() {
   return useRoutes([
     { path: '/', element: <Training /> },
     { path: '/training', element: <Training /> },
-    { path: '/practice', element: <Practice /> },
+    { path: '/learning', element: <Learning /> },
     { path: '/multiplayer', element: <Multiplayer /> },
     { path: '/leaderboard', element: <LeaderBoard /> },
     { path: '/settings', element: <Settings /> },

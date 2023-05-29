@@ -1,3 +1,5 @@
+$disabled-color: lightgray;
+
 .main-input--wrapper {
   display: flex;
   justify-content: center;
@@ -9,5 +11,18 @@
     background-color: white;
     font-weight: 800; 
     font-size: 20px;
+    
+    &:disabled {
+      cursor: not-allowed;
+      border-bottom: 2px solid $disabled-color;
+    
+      &::placeholder {
+        color: $disabled-color;
+      }
+    }
+
+    &:focus {
+      outline: none;
+    }
   }
 }

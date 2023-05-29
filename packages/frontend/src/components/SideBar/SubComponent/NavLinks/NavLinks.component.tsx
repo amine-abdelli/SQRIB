@@ -8,7 +8,7 @@ function NavLinks() {
   return (
     <ul className='nav-link--wrapper'>
       <NavLink currentPath={pathname} to={MAIN_ROUTES.TRAINING} label='Training' />
-      <NavLink currentPath={pathname} to={MAIN_ROUTES.PRACTICE} label='Practice' />
+      <NavLink currentPath={pathname} to={MAIN_ROUTES.LEARNING} label='Learning' />
       <NavLink currentPath={pathname} to={MAIN_ROUTES.MULTIPLAYER} label='Multiplayer' />
       <NavLink currentPath={pathname} to={MAIN_ROUTES.LEADERBOARD} label='LeaderBoard' />
       <NavLink currentPath={pathname} to={MAIN_ROUTES.SETTINGS} label='Settings' />

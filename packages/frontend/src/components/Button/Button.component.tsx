@@ -4,13 +4,14 @@ import { ButtonProps } from './Button.props';
 
 function Button({
   label, onClick, secondary, stretch, disabled, className,
-  color, light,
+  color, light, style
 }: ButtonProps) {
   const buttonProps = {
     backgroundColor: secondary ? '#FFFFFF' : '',
     width: stretch ? '' : '100%',
     color,
     padding: stretch ? '5px 10px' : '',
+    ...style
   };
   return (
     <button

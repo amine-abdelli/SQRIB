@@ -4,7 +4,7 @@ import { ScoringItem } from './ScoringItem/ScoringItem.component';
 import { useWindowSize } from '../../hooks/useWindowSize.hook';
 import Avatar from '../Avatar/Avatar.component';
 import './Scoring.style.scss';
-import { EngineProps } from '../Engine';
+import { EngineProps } from '../../modules/Training/Engine';
 
 function Scoring({ score, timer }: EngineProps) {
   const nickname = 'Narstonerz';

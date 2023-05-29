@@ -1,65 +1,20 @@
-// import { useState, useEffect, useRef } from 'react';
-
-// type UseTimerProps = {
-//   initialValue?: number;
-//   isRunning?: boolean;
-//   onFinish?: () => void;
-//   countDown?: boolean;
-// };
-
-// const useTimer = ({
-//   initialValue = 0,
-//   isRunning = true,
-//   onFinish,
-//   countDown = false,
-// }: UseTimerProps): number => {
-//   const [timer, setTimer] = useState(initialValue);
-//   const intervalRef = useRef<NodeJS.Timeout | null>(null);
-
-//   useEffect(() => {
-//     console.log('isRunning', isRunning);
-//     if (isRunning) {
-//       console.log('here');
-//       intervalRef.current = setInterval(() => {
-//         setTimer((prevTimer) => {
-//           console.log('prevTimer', prevTimer);
-//           const newValue = countDown ? prevTimer - 1 : prevTimer + 1;
-//           if (countDown && newValue <= 0) {
-//             clearInterval(intervalRef.current as NodeJS.Timeout);
-//             if (onFinish) onFinish();
-//             return 0;
-//           }
-//           return newValue;
-//         });
-//       }, 1000);
-//     } else {
-//       clearInterval(intervalRef.current as NodeJS.Timeout);
-//     }
-
-//     return () => {
-//       clearInterval(intervalRef.current as NodeJS.Timeout);
-//     };
-//   }, [isRunning, onFinish, countDown]);
-
-//   return timer;
-// };
-
-// export { useTimer };
 import { useState, useEffect, useRef } from 'react';
 
 type UseTimerProps = {
-  initialValue?: number;
-  isRunning?: boolean;
-  countDown?: boolean;
-  onFinish?: () => void;
+  initialValue?: number,
+  isRunning?: boolean,
+  countDown?: boolean,
+  onFinish?: () => void
 };
+
+type UseTimerReturnType = { timer: number, resetTimer: () => void }
 
 function useTimer({
   initialValue = 0,
   isRunning = true,
   onFinish,
   countDown = false,
-}: UseTimerProps): number {
+}: UseTimerProps): UseTimerReturnType {
   const [timer, setTimer] = useState(initialValue);
 
   let intervalRef: any = useRef();
@@ -83,7 +38,8 @@ function useTimer({
     if (isRunning) {
       main();
     } else {
-      setTimer(initialValue);
+      // Uncomment to reset timer on countdown end or when isRunning is false
+      // setTimer(initialValue);
       clearInterval(intervalRef as NodeJS.Timeout);
     }
 
@@ -92,7 +48,11 @@ function useTimer({
     };
   }, [isRunning, timer, initialValue]);
 
-  return timer;
+  function resetTimer() {
+    setTimer(initialValue);
+  }
+
+  return {timer, resetTimer };
 }
 
 export { useTimer };

@@ -1,6 +1,7 @@
 @import "../../theme/abstracts";
 
 .options--wrapper {
+  position: relative;
   margin-top: 10px 0 0 0;
   padding: 0;
   background-color: $tertiary;
@@ -15,11 +16,12 @@
     justify-content: flex-start;
     align-items: center;
     position: relative;
-    
+
     &--wrapper {
       flex-wrap: wrap;
       margin: 0 1rem;
     }
+
     &--label {
       text-align: center;
       font-weight: 200;
@@ -40,8 +42,28 @@
   .separator {
     color: $outline;
   }
+
+  // Option gear
+  .option-cta {
+    position: absolute;
+    right: 0;
+  }
+
+  .disabled-options {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    cursor: not-allowed;
+    z-index: 99;
+  }
 }
 
 .main-options--wrapper {
   justify-content: center;
+}
+
+.hidden {
+  display: none;
 }

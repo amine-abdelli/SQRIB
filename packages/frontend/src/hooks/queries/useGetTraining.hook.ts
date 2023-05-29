@@ -11,5 +11,7 @@ export function useGetTrainingWordChain<T>(
   return useQuery(
     [GET_TRAINING_WORD_CHAIN, requestBody],
     () => apiService.get<T>(endpoints.getTrainingWordChain, requestBody),
+    // Fetch data only when we trigger refetch method
+    { enabled: false }
   );
 }

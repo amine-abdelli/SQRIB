@@ -27,6 +27,8 @@ function Engine({ children }: EngineChildren) {
   const [startTime, setStartTime] = React.useState<number>(0);
   const [endTime, setEndTime] = React.useState(useTimestamp(isRunning));
   const [layout, setLayout] = useState<WordsCollectionLayout>(WordsCollectionLayout.HORIZONTAL);
+  const [verticalOffSet, setVerticalOffSet] = useState(0);
+
 
   const [score, setScore] = React.useState<IScore>({
     wpm: 0, accuracy: 0, typedWords: 0, points: 0, startTime: 0, endTime: 0,
@@ -53,6 +55,8 @@ function Engine({ children }: EngineChildren) {
   const { timer, resetTimer } = useTimer(useTimerOptions);
 
   function resetScoreAndTimer() {
+    // Set word collection to its initial vertical position
+    setVerticalOffSet(0)
     setScore({
       wpm: 0, accuracy: 0, typedWords: 0, points: 0, startTime: 0, endTime: 0,
     });
@@ -179,6 +183,8 @@ function Engine({ children }: EngineChildren) {
           layout,
           setLayout,
           isUserAllowToType,
+          verticalOffSet,
+          setVerticalOffSet
         })
       )}
     </>

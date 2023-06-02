@@ -1,3 +1,4 @@
+import { Dispatch, SetStateAction } from 'react';
 import { FontSize } from '../../../utils/fontsize.enum';
 
 export interface WordProps {
@@ -8,4 +9,6 @@ export interface WordProps {
   currentIndex: number,
   input: string,
   fontSize: FontSize,
+  setCurrentWordSpanPosition: Dispatch<SetStateAction<number>>,
+  setNextWordSpanPosition: Dispatch<SetStateAction<number>>,
 }

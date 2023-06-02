@@ -41,7 +41,9 @@ export interface EngineProps {
   setLayout: React.Dispatch<React.SetStateAction<WordsCollectionLayout>>,
   resetTraining: () => void,
   resetTrainingAndRefetch: () => void,
-  isUserAllowToType: boolean
+  isUserAllowToType: boolean,
+  verticalOffSet: number,
+  setVerticalOffSet: React.Dispatch<React.SetStateAction<number>>
 }
 
 export interface EngineChildren {

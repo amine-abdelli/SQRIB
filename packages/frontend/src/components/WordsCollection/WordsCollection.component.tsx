@@ -1,15 +1,23 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Word } from './SubComponent';
 import { EngineProps } from '../../modules/Training/Engine';
 import './WordsCollection.style.scss';
 import { Overlay } from '../Overlay/Overlay.component';
 
 function WordsCollection({
-  wordChain, indexOfProgression, typedWords, input, fontSize, isRunning, isUserAllowToType
+  wordChain, indexOfProgression, typedWords, input, fontSize, isRunning, isUserAllowToType, setVerticalOffSet, verticalOffSet
 }: EngineProps) {
+  const [currentWordSpanPosition, setCurrentWordSpanPosition] = useState(0);
+  const [nextWordSpanPosition, setNextWordSpanPosition] = useState(0);
+
+  useEffect(() => {
+    setVerticalOffSet(verticalOffSet - ((nextWordSpanPosition - currentWordSpanPosition)));
+  }, [indexOfProgression])
+
   return (
     <div className='words-collection--wrapper' >
-      {wordChain.map((aWord, index) => (<>
+      <div style={{ translate: `0 ${verticalOffSet}px` }}>
+        {wordChain.map((aWord, index) => (<>
           <Word
             isFocused={indexOfProgression === index}
             comparison={typedWords[index]}
@@ -18,10 +26,13 @@ function WordsCollection({
             currentIndex={index}
             input={input}
             fontSize={fontSize}
-            />
+            setNextWordSpanPosition={setNextWordSpanPosition}
+            setCurrentWordSpanPosition={setCurrentWordSpanPosition}
+          />
           <span style={{ fontSize }}>{' '}</span>
         </>
-      ))}
+        ))}
+      </div>
       <Overlay isVisible={!isRunning} isUserAllowToType={isUserAllowToType} />
     </div>
   );

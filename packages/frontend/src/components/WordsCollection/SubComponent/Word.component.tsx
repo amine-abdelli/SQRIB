@@ -5,26 +5,25 @@ import { getFocusedWordLetterColor, getLetterColor, getTextDecorationColor } fro
 import './Word.style.scss';
 
 function Word({
-  word, isFocused, comparison, indexOfProgression, currentIndex, input, fontSize,
+  word, isFocused, comparison, indexOfProgression, currentIndex, input, fontSize, setCurrentWordSpanPosition, setNextWordSpanPosition
 }: WordProps) {
-  const wordsFontSize = {
-    fontSize: `${fontSize}px`,
-  };
-
+  const wordsFontSize = { fontSize: `${fontSize}px` };
   const wordFromDictionnay = word?.split('');
   const wordTypedByUser = comparison?.split('');
   const wordUserIsCurrentlyTyping = input?.split('');
-
   return (
     isFocused
       ? (
-        <span style={{ ...wordsFontSize }} className='word word--focused'>
-          {wordFromDictionnay?.map((aLetter: string, i: number) => <span style={{ color: getFocusedWordLetterColor(aLetter, wordUserIsCurrentlyTyping?.[i], i, wordUserIsCurrentlyTyping.length), scale: i === (input.length ? input.length - 1 : input.length) ? '1.1' : '' }}>{aLetter}</span>)}
-        </span>
+        <span
+          ref={(e) => setCurrentWordSpanPosition(e?.getBoundingClientRect()?.y ?? 0)}
+          style={{ ...wordsFontSize, background: 'rgb(19, 164, 82, 0.1)' }}
+        >
+          {wordFromDictionnay?.map((aLetter: string, i: number) => <span style={{ color: getFocusedWordLetterColor(aLetter, wordUserIsCurrentlyTyping?.[i], i, wordUserIsCurrentlyTyping.length) }}>{aLetter}</span>)}
+        </span >
       ) : (
-      <span className='word' style={{ textDecoration: getTextDecorationColor(word, comparison, indexOfProgression, currentIndex), ...wordsFontSize }}>
-        {wordFromDictionnay?.map((aLetter: string, i: number) => (<span style={{ color: getLetterColor(aLetter, wordTypedByUser?.[i], indexOfProgression, currentIndex, isFocused) }}>{aLetter}</span>))}
-      </span>
+        <span style={{ textDecoration: getTextDecorationColor(word, comparison, indexOfProgression, currentIndex), ...wordsFontSize }} ref={(e) => currentIndex === indexOfProgression + 1 ? setNextWordSpanPosition(e?.getBoundingClientRect().y ?? 0) : null}>
+          {wordFromDictionnay?.map((aLetter: string, i: number) => (<span style={{ color: getLetterColor(aLetter, wordTypedByUser?.[i], indexOfProgression, currentIndex, isFocused) }}>{aLetter}</span>))}
+        </span>
       )
   );
 }

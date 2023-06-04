@@ -29,6 +29,7 @@ function calculateAccuracy(
 ): number {
   let correctCharacters = 0;
   let totalCharacters = 0;
+  calculateAccuracy2(userTypedWords, originalWords)
 
   for (let i = 0; i < userTypedWords.length; i += 1) {
     const originalWord = originalWords[i] || '';
@@ -48,6 +49,20 @@ function calculateAccuracy(
   // Calculate accuracy
   const accuracy = (correctCharacters / totalCharacters) * 100;
   return round(accuracy, 1) || 0;
+}
+
+function calculateAccuracy2(typedWords: string[], wordsOfReference: string[]) {
+  let correctCharacters = 0;
+  let totalCharacters = 0;
+
+  for (let i = 0; i < wordsOfReference.length - 1; i++) {
+          const aWordOfReference = wordsOfReference[i]?.split('') || [];
+          const aWordTyped = typedWords[i]?.split('') || [];
+    for (let j = 0; j < wordsOfReference.length - 1; j++) {
+      console.log('aWordOfReference', aWordOfReference)
+      console.log('aWordOfReference', aWordTyped)
+    }
+  }
 }
 
 function calculatePoints(

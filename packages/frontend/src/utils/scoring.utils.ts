@@ -1,14 +1,10 @@
-function round(number: number, n: number = 0): number {
-  return +Math.round(number).toFixed(n);
-}
-
 function calculateWPM(
   originalWords: string[],
   userTypedWords: string[],
   startTime: number,
   endTime: number,
 ): number {
-  const elapsedTime = (endTime - startTime) / 1000 / 60; // Convert time to minutes
+  const elapsedTimeInMinutes = (endTime - startTime) / 1000 / 60; // Convert time to minutes
   let correctLettersCount = 0;
 
   // Iterate through userTypedWords and compare to originalWords
@@ -19,36 +15,20 @@ function calculateWPM(
   }
 
   // Calculate WPM (considering that 1 WPM is 5 letters typed correctly)
-  const wpm = correctLettersCount / 5 / elapsedTime;
+  const wpm = correctLettersCount / 5 / elapsedTimeInMinutes;
   return round(wpm) || 0;
 }
 
-function calculateAccuracy(
-  originalWords: string[],
-  userTypedWords: string[],
-): number {
-  let correctCharacters = 0;
-  let totalCharacters = 0;
+const round = (num: number, n: number = 0): number => +num.toFixed(n);
 
-  for (let i = 0; i < userTypedWords.length; i += 1) {
-    const originalWord = originalWords[i] || '';
-    const userTypedWord = userTypedWords[i] || '';
+const countCorrectLetters = (ref: string = '', typed: string = ''): number =>
+  [...typed].filter((v, i) => v === ref[i]).length;
 
-    // Count the total characters in userTypedWords
-    totalCharacters += userTypedWord.length;
-
-    // Iterate through the characters in each word and compare them
-    for (let j = 0; j < Math.min(originalWord.length, userTypedWord.length); j += 1) {
-      if (originalWord[j] === userTypedWord[j]) {
-        correctCharacters += 1;
-      }
-    }
-  }
-
-  // Calculate accuracy
-  const accuracy = (correctCharacters / totalCharacters) * 100;
-  return round(accuracy, 1) || 0;
-}
+const calculateAccuracy = (typedWords: string[], wordsOfReference: string[]): number => {
+  const totalCharacters = wordsOfReference.reduce((a, v) => a + v.length, 0);
+  const correctLettersCount = typedWords.reduce((a, v, i) => a + countCorrectLetters(wordsOfReference[i], v), 0);
+  return round((correctLettersCount / totalCharacters) * 100, 2);
+};
 
 function calculatePoints(
   originalWords: string[],
@@ -83,12 +63,12 @@ function calculatePoints(
   return round(points) || 0;
 }
 
-function convertSecondsToTimer(timer: number): string {
+function convertSecondsToTimerFormat(timer: number): string {
   const minutes = Math.floor(timer / 60);
   const seconds = timer - minutes * 60;
   return `${minutes < 10 ? `0${minutes}` : minutes}:${seconds < 10 ? `0${seconds}` : seconds}`;
 }
 
 export {
-  calculateWPM, calculateAccuracy, calculatePoints, convertSecondsToTimer,
+  calculateWPM, calculateAccuracy, calculatePoints, convertSecondsToTimerFormat,
 };

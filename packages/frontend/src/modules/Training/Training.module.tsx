@@ -11,12 +11,14 @@ import { Button } from '../../components/Button/Button.component';
 import KeyBoard from '../../components/KeyBoard/KeyBoard.component';
 import '../../theme/components/_containers.scss';
 import { TrainingModal } from './components/TrainingModal/TrainingModal.component';
+import { OptionModal } from './components/OptionModal/OptionModal.component';
 
 function TrainingModule(props: EngineProps) {
+  const [shouldDisplayOption, setShouldDisplayOption] = React.useState<boolean>(false);
+  const optionProps = { ...props, shouldDisplayOption, setShouldDisplayOption }
   return (
     <section className='training-container--wrapper'>
-      <Options {...props} />
-      <Scoring {...props} />
+      <Scoring {...optionProps} />
       <Spacer size={SpacerSize.SMALL} y />
       <WordsCollectionHeader {...props} />
       <div style={{ position: 'relative' }}>
@@ -29,6 +31,7 @@ function TrainingModule(props: EngineProps) {
         ? <WordsCollection {...props} /> : <WordsCollection {...props} />}
       <KeyBoard enable />
       <TrainingModal {...props} />
+      <OptionModal {...optionProps} />
     </section>
   );
 }

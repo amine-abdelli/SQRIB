@@ -1,0 +1,11 @@
+@import '../../theme/abstracts/index.scss';
+
+.select {
+  @include thinBorder();
+  font-weight: 800;
+  height: 2rem;
+  
+  option {
+    font-weight: 800;
+  }
+}

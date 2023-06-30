@@ -43,7 +43,9 @@ export interface EngineProps {
   resetTrainingAndRefetch: () => void,
   isUserAllowToType: boolean,
   verticalOffSet: number,
-  setVerticalOffSet: React.Dispatch<React.SetStateAction<number>>
+  setVerticalOffSet: React.Dispatch<React.SetStateAction<number>>,
+  shouldOpenVictoryModal: boolean, 
+  setShouldOpenVictoryModal: React.Dispatch<React.SetStateAction<boolean>>,
 }
 
 export interface EngineChildren {

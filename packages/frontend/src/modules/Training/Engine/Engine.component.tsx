@@ -26,9 +26,9 @@ function Engine({ children }: EngineChildren) {
   const [isUserAllowToType, setIsUserAllowToType] = useState<boolean>(true);
   const [startTime, setStartTime] = React.useState<number>(0);
   const [endTime, setEndTime] = React.useState(useTimestamp(isRunning));
-  const [layout, setLayout] = useState<WordsCollectionLayout>(WordsCollectionLayout.HORIZONTAL);
+  const [layout, setLayout] = useState<WordsCollectionLayout>(WordsCollectionLayout.VERTICAL);
   const [verticalOffSet, setVerticalOffSet] = useState(0);
-
+  const [shouldOpenVictoryModal, setShouldOpenVictoryModal] = React.useState(false)
 
   const [score, setScore] = React.useState<IScore>({
     wpm: 0, accuracy: 0, typedWords: 0, points: 0, startTime: 0, endTime: 0,
@@ -117,13 +117,21 @@ function Engine({ children }: EngineChildren) {
     }
   }, [input.length]);
 
-  // End the game when the user reach the end of the word chain
+  // Speed Challenge : End the game when the user reach the end of the word chain
   useEffect(() => {
     if (isRunning && (typedWords.length === wordChain.length)) {
       setIsUserAllowToType(false);
       setIsRunning(false);
+      setShouldOpenVictoryModal(true);
     }
   }, [typedWords]);
+
+  // Time Trial : End of game, trigger the victory modal
+  useEffect(() => {
+    if(mode === TrainingMode.TIME_TRIAL && timer === 0) {
+      setShouldOpenVictoryModal(true)
+    }
+  }, [mode, timer])
 
   const currentTime = useTimestamp(isRunning);
   // Update score every second or letter typed
@@ -184,7 +192,9 @@ function Engine({ children }: EngineChildren) {
           setLayout,
           isUserAllowToType,
           verticalOffSet,
-          setVerticalOffSet
+          setVerticalOffSet,
+          shouldOpenVictoryModal, 
+          setShouldOpenVictoryModal
         })
       )}
     </>

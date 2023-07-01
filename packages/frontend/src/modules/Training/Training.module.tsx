@@ -15,7 +15,7 @@ import { ReplayModal } from './components/ReplayModal/ReplayModal.component';
 import { FaPlay, FaStop } from 'react-icons/fa';
 import { COLORS } from '../../theme/colors';
 
-function TrainingModule(props: EngineProps) {
+function TrainingModule(props: EngineProps | any) {
   const [shouldDisplayOption, setShouldDisplayOption] = React.useState<boolean>(true);
   const [shouldDisplayReplayModal, setShouldDisplayReplayModal] = React.useState<boolean>(false);
   const optionProps = { ...props, shouldDisplayOption, setShouldDisplayOption }

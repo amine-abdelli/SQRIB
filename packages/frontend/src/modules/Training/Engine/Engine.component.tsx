@@ -59,7 +59,7 @@ function Engine({ children }: EngineChildren) {
     if (!isUserAllowToType && mode === TrainingMode.TIME_TRIAL && timer === 0) {
       setShouldOpenVictoryModal(true)
     }
-  }, [mode, timer, isRunning])
+  }, [mode, timer])
 
   function resetScoreAndTimer() {
     // Set word collection to its initial vertical position

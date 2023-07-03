@@ -54,6 +54,13 @@ function Engine({ children }: EngineChildren) {
 
   const { timer, resetTimer } = useTimer(useTimerOptions);
 
+  // Time Trial : End of game, trigger the victory modal
+  useEffect(() => {
+    if (!isUserAllowToType && mode === TrainingMode.TIME_TRIAL && timer === 0) {
+      setShouldOpenVictoryModal(true)
+    }
+  }, [mode, timer, isRunning])
+
   function resetScoreAndTimer() {
     // Set word collection to its initial vertical position
     setVerticalOffSet(0)
@@ -75,9 +82,9 @@ function Engine({ children }: EngineChildren) {
   }, [language, wordCount, mode, data, refetch]);
 
   useEffect(() => {
-      setIsUserAllowToType(true);
-      setIsRunning(false);
-      resetScoreAndTimer();
+    setIsUserAllowToType(true);
+    setIsRunning(false);
+    resetScoreAndTimer();
   }, [mode, countDown])
 
   // Allow user to input on main mode changes
@@ -126,13 +133,6 @@ function Engine({ children }: EngineChildren) {
     }
   }, [typedWords]);
 
-  // Time Trial : End of game, trigger the victory modal
-  useEffect(() => {
-    if(mode === TrainingMode.TIME_TRIAL && timer === 0) {
-      setShouldOpenVictoryModal(true)
-    }
-  }, [mode, timer])
-
   const currentTime = useTimestamp(isRunning);
   // Update score every second or letter typed
   useEffect(() => {
@@ -165,37 +165,37 @@ function Engine({ children }: EngineChildren) {
   return (
     <>
       {React.Children.map(children, (child) => React.cloneElement(child, {
-          input,
-          setInput,
-          wordChain,
-          timer,
-          typedWords,
-          setTypedWords,
-          indexOfProgression,
-          setIndexOfProgression,
-          score,
-          isRunning,
-          setIsRunning,
-          fontSize,
-          setFontSize,
-          resetTraining,
-          resetTrainingAndRefetch,
-          language,
-          setLanguage,
-          mode,
-          setMode,
-          countDown,
-          setCountDown,
-          wordCount,
-          setWordCount,
-          layout,
-          setLayout,
-          isUserAllowToType,
-          verticalOffSet,
-          setVerticalOffSet,
-          shouldOpenVictoryModal, 
-          setShouldOpenVictoryModal
-        })
+        input,
+        setInput,
+        wordChain,
+        timer,
+        typedWords,
+        setTypedWords,
+        indexOfProgression,
+        setIndexOfProgression,
+        score,
+        isRunning,
+        setIsRunning,
+        fontSize,
+        setFontSize,
+        resetTraining,
+        resetTrainingAndRefetch,
+        language,
+        setLanguage,
+        mode,
+        setMode,
+        countDown,
+        setCountDown,
+        wordCount,
+        setWordCount,
+        layout,
+        setLayout,
+        isUserAllowToType,
+        verticalOffSet,
+        setVerticalOffSet,
+        shouldOpenVictoryModal,
+        setShouldOpenVictoryModal
+      })
       )}
     </>
   );

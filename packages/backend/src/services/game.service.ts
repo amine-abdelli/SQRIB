@@ -1,5 +1,6 @@
 import {
   Languages,
+  TLanguage,
   alphabet, dictionaries, log,
 } from '@sqrib/shared';
 
@@ -12,7 +13,7 @@ export function generateLearningWordChainService(
   minLength: number,
   maxLength: number,
   level: number,
-  language?: Languages,
+  language?: TLanguage,
 ) {
   if (!count || !minLength || !maxLength || !level) { throw new HttpError(400, 'Missing count, or level parameter'); }
   if (level > alphabet.length) { throw new HttpError(400, 'Count must be equal or less than 26'); }
@@ -29,7 +30,7 @@ export function generateLearningWordChainService(
   return wordChain || [];
 }
 
-export function generateTrainingWordChainService(count: number, language: Languages) {
+export function generateTrainingWordChainService(count: number, language: TLanguage) {
   const allowedLanguages = ['fr', 'en', 'de', 'es'];
   if (!allowedLanguages.includes(language)) {
     throw new HttpError(400, `"${language}" is not a valid language`);

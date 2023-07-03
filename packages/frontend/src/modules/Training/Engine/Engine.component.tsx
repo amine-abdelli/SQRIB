@@ -1,6 +1,6 @@
 /* eslint-disable max-len */
 import React, { useEffect, useState } from 'react';
-import { Languages } from '@sqrib/shared';
+import { Languages, TLanguage } from '@sqrib/shared';
 import { useTimestamp } from '../../../hooks/useTimestamp.hook';
 import { calculateAccuracy, calculatePoints, calculateWPM } from '../../../utils';
 import { useTimer } from '../../../hooks/useTimer.hook';
@@ -18,7 +18,7 @@ function Engine({ children }: EngineChildren) {
   const [indexOfProgression, setIndexOfProgression] = React.useState<number>(0);
   const [wordChain, setWordChain] = React.useState<string[]>([]);
   const [fontSize, setFontSize] = React.useState<FontSize>(FontSize.SMALL);
-  const [language, setLanguage] = React.useState<Languages>(Languages.FR);
+  const [language, setLanguage] = React.useState<TLanguage>(Languages.FR);
   const [mode, setMode] = useState<TTrainingMode>(TrainingMode.TIME_TRIAL);
   const [countDown, setCountDown] = useState(60);
   const [wordCount, setWordCount] = useState(100);

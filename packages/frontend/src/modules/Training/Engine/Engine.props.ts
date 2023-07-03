@@ -1,4 +1,4 @@
-import { Languages } from "@sqrib/shared";
+import { TLanguage } from "@sqrib/shared";
 import { FontSize } from "../../../utils";
 import { TTrainingMode, WordsCollectionLayout } from "../../../components/Options/Options.props";
 import { ReactElement } from "react";
@@ -29,8 +29,8 @@ export interface EngineProps {
   setIsRunning: React.Dispatch<React.SetStateAction<boolean>>,
   fontSize: FontSize,
   setFontSize: React.Dispatch<React.SetStateAction<FontSize>>,
-  language: Languages,
-  setLanguage: React.Dispatch<React.SetStateAction<Languages>>,
+  language: TLanguage,
+  setLanguage: React.Dispatch<React.SetStateAction<TLanguage>>,
   mode: TTrainingMode,
   setMode: React.Dispatch<React.SetStateAction<TTrainingMode>>,
   countDown: number,
@@ -44,7 +44,7 @@ export interface EngineProps {
   isUserAllowToType: boolean,
   verticalOffSet: number,
   setVerticalOffSet: React.Dispatch<React.SetStateAction<number>>,
-  shouldOpenVictoryModal: boolean, 
+  shouldOpenVictoryModal: boolean,
   setShouldOpenVictoryModal: React.Dispatch<React.SetStateAction<boolean>>,
 }
 

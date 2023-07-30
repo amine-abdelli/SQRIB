@@ -1,5 +1,5 @@
 export interface IScoreCardProps {
-  content: string | number;
+  content: string | number | Element | any;
   title: string;
   highlight?: boolean;
   best?: boolean;

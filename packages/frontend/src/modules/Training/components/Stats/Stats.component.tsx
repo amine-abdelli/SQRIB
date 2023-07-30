@@ -1,39 +1,40 @@
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
 import { Divider } from '@blueprintjs/core';
 import {
   Button, Text,
 } from '@nextui-org/react';
-import { InfoCircle } from 'react-iconly';
 
 import Success from '../../../../assets/images/success.png';
 import star from '../../../../assets/images/star.png';
 // import Signup from '../Signup/Signup.component';
 import { ScoreCard } from '../../../../components/ScoreCard/ScoreCard.component';
-import { IStats } from './Stats.props';
 import './Stats.style.scss';
 import { EngineProps } from '../../Engine';
+import { TrainingMode } from '../../../../components/Options/Options.props';
+import { COLORS } from '../../../../theme/colors';
+import { Spacer, SpacerSize } from '../../../../components';
+import { StatsProps } from '../TrainingModal/TrainingModal.component';
 
 function countCorrectlyTypedWords(typedWords: string[], wordChain: string[]) {
   let correctlyTypedWords = 0;
   for (let i = 0; i < typedWords.length; i++) {
     const element = typedWords[i];
-    if(element === wordChain[i]) {
+    if (element === wordChain[i]) {
       correctlyTypedWords += 1;
     }
   }
   return correctlyTypedWords
 }
 
-function Stats(props: EngineProps) {
-  const { score, typedWords, wordChain } = props;
+function Stats(props: StatsProps) {
+  const { score, nextStep } = props;
+  const totalTypedWords = score.typedWords.length;
   const wpm = score.wpm;
   const accuracy = score.accuracy;
-  const points = score.points; 
-  const durationInSeconds = (score.endTime - score.startTime) / 1000;
-  const totalTypedWords = typedWords.length;
-  const correctlyTypedWords = countCorrectlyTypedWords(typedWords, wordChain);
-  const incorrectlyTypedWords = typedWords.length - countCorrectlyTypedWords(typedWords, wordChain);
-  const ranking = 'DONT_KNOW_YET';
+  const points = score.points;
+  const correctlyTypedWords = countCorrectlyTypedWords(score.wordChain, score.typedWords);
+  const incorrectlyTypedWords = score.typedWords.length - countCorrectlyTypedWords(score.wordChain, score.typedWords);
+  console.log('score ', score)
 
   // const { scores, isLoggedIn } = useGetSelf();
   const isLoggedIn = true;
@@ -62,10 +63,7 @@ function Stats(props: EngineProps) {
   }
   return (
     <div className='stats--wrapper'>
-      <div style={{
-        display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column',
-      }}
-      >
+      <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column' }}>
         {isBestScore && <Text style={{ textAlign: 'center' }}>MEILLEUR SCORE</Text>}
         {isBestScore && <h4 style={{ textAlign: 'center' }}>FELICITATION</h4>}
         {isFirstScore && <Text style={{ textAlign: 'center' }}>TON PREMIER SCORE</Text>}
@@ -78,45 +76,48 @@ function Stats(props: EngineProps) {
         />
       </div>
       <div className='stats--content'>
-        <div
-          className='flex justify-center flex-column'
-          style={{
-            flexBasis: '100%', alignItems: 'center',
-          }}
-        >
+        <div className='flex justify-center flex-column' style={{ flexBasis: '100%', alignItems: 'center' }}>
           <span className='flex align-center'>
-            <Text h3 className='mpm'>
+          <Spacer y size={SpacerSize.SMALL} />
+            <h1 className='mpm' style={{ fontWeight: 'bolder' }}>
               {`${wpm || 0} mpm`}
-            </Text>
+            </h1>
+            <Spacer y size={SpacerSize.SMALL} />
           </span>
         </div>
         <Divider />
         <div className='score-card--wrapper'>
-          <ScoreCard content={totalTypedWords} title="Mots saisies" stat />
+          <ScoreCard content={totalTypedWords} title="Typed words" stat />
           <Divider />
-          <ScoreCard content={incorrectlyTypedWords} title="Mots incorrects" malus stat />
+          <ScoreCard content={incorrectlyTypedWords} title="Incorrect words" malus stat />
           <Divider />
-          <ScoreCard content={correctlyTypedWords} title="Mots corrects" bonus stat />
+          <ScoreCard content={correctlyTypedWords} title="Correct words" bonus stat />
         </div>
         <Divider />
         <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center' }}>
-          <ScoreCard content={999} title="Total lettres" stat />
+           {/* ! TODO USE REAL DATA INSTEAD OF 76 72 and 4 */}
+          <ScoreCard content={
+            <div style={{ display: 'flex', justifyContent: 'center' }}>
+              <span style={{ fontWeight: 'bold' }}>76</span>
+              <Spacer x size={SpacerSize.SMALL} />
+              <span>{"("}</span>
+              <span style={{ color: COLORS.SUCCESS }}>72</span>
+              <span>|</span>
+              <span style={{ color: COLORS.ERROR }}>4</span>
+              <span>)</span>
+            </div>
+          } title="Keystrokes" stat />
           <Divider />
-          <ScoreCard content={999} title="Lettres incorrectes" malus stat />
-          <Divider />
-          <ScoreCard content={999} title="Lettres corrects" bonus stat />
-        </div>
-        <Divider />
-        <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center' }}>
-          <ScoreCard content={`${999}`} title="Vitesse moyenne" stat />
-          <Divider />
-          <ScoreCard content={`${accuracy}%`} title="Précision" stat />
+          <ScoreCard content={`${accuracy}%`} title="Accuracy" stat />
           <Divider />
           <ScoreCard content={points} title="Points" stat />
         </div>
         <Button
           color='success'
-          onClick={submitScoreAndRestart}
+          onClick={() => {
+            submitScoreAndRestart()
+            nextStep()
+          }}
           className='stats--button'
         >
           {isLoggedIn ? 'SAUVEGARDER' : 'CONTINUER'}
@@ -124,8 +125,7 @@ function Stats(props: EngineProps) {
         {isLoggedIn && (
           <Button
             onClick={() => {
-              // setShowStatsModal(false);
-              // onRestart();
+              nextStep()
             }}
             light
             className='w100'

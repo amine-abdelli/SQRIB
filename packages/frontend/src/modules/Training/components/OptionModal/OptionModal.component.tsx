@@ -32,6 +32,14 @@ interface OptionProps {
   select?: boolean
 }
 
+export function OptionIcon({ icon }: any) {
+  return (
+    <span style={{ width: '2rem', display: 'flex', justifyContent: 'center', background: 'white', height: '2rem', alignItems: 'center', borderRadius: '50px' }}>
+      {icon}
+    </span>
+  )
+}
+
 function OptionGroup({
   icon, label, options, selected, setSelected, subLabel, select
 }: OptionProps) {
@@ -100,7 +108,7 @@ function ModeOptionGroup({
 function ModeOptions({ mode, setMode, countDown, setCountDown, wordCount, setWordCount }: OptionModalProps) {
   const [wordsType, setWordsType] = useState<TWordsType>(WordsType.RANDOM);
 
-  const modeOptions = [{ value: TrainingMode.SPEED_CHALLENGE, label: 'speed challenge' }, { value: TrainingMode.TIME_TRIAL, label: 'time trial' }];
+  const modeOptions = [{ value: TrainingMode.TIME_TRIAL, label: 'time trial' }, { value: TrainingMode.SPEED_CHALLENGE, label: 'speed challenge' }];
   const wordCountOptions = [{ value: 25, label: 25 }, { value: 50, label: 50 }, { value: 75, label: 75 }, { value: 100, label: 100 }, { value: 125, label: 125 }, { value: 150, label: 150 }];
   const durationOptions = [{ value: 15, label: 15 }, { value: 30, label: 30 }, { value: 60, label: 60 }, { value: 75, label: 75 }, { value: 90, label: 90 }, { value: 120, label: 120 }];
   const wordTypeOptions = [{ value: 'random', label: 'random' }, { value: 'quote', label: 'quote' }, { value: 'custom', label: 'custom' }];

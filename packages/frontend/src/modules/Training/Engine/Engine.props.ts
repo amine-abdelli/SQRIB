@@ -6,7 +6,8 @@ import { ReactElement } from "react";
 export interface IScore {
   wpm: number,
   accuracy: number,
-  typedWords: number,
+  typedWords: string[],
+  wordChain: string[],
   points: number,
   startTime: number,
   endTime: number,
@@ -46,6 +47,7 @@ export interface EngineProps {
   setVerticalOffSet: React.Dispatch<React.SetStateAction<number>>,
   shouldOpenVictoryModal: boolean,
   setShouldOpenVictoryModal: React.Dispatch<React.SetStateAction<boolean>>,
+  setIsUserAllowToType: React.Dispatch<React.SetStateAction<boolean>>,
 }
 
 export interface EngineChildren {

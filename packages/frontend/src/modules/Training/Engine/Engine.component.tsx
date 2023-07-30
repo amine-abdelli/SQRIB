@@ -21,7 +21,7 @@ function Engine({ children }: EngineChildren) {
   const [language, setLanguage] = React.useState<TLanguage>(Languages.FR);
   const [mode, setMode] = useState<TTrainingMode>(TrainingMode.TIME_TRIAL);
   const [countDown, setCountDown] = useState(60);
-  const [wordCount, setWordCount] = useState(100);
+  const [wordCount, setWordCount] = useState(75);
   const [isRunning, setIsRunning] = React.useState(false);
   const [isUserAllowToType, setIsUserAllowToType] = useState<boolean>(true);
   const [startTime, setStartTime] = React.useState<number>(0);
@@ -31,13 +31,15 @@ function Engine({ children }: EngineChildren) {
   const [shouldOpenVictoryModal, setShouldOpenVictoryModal] = React.useState(false)
 
   const [score, setScore] = React.useState<IScore>({
-    wpm: 0, accuracy: 0, typedWords: 0, points: 0, startTime: 0, endTime: 0,
+    wpm: 0, accuracy: 0, typedWords: [], points: 0, startTime: 0, endTime: 0, wordChain: []
   });
 
   const isTimeTrialMode = mode === TrainingMode.TIME_TRIAL;
 
   const { data, refetch } = useGetTrainingWordChain({ count: isTimeTrialMode ? ((WORLD_WPM_RECORD * 1.1) / 60) * countDown : wordCount, language });
-
+  // ! TODO RETHINK THE WHOLE PARAMETERS UPDATE WORKFLOW
+  // ! CONSIDER CHANGING PARAMETERS ON CLICK ON A SAVE BUTTON
+  // ! CONSIDER THAN NOW OPTIONS CAN BE CHANGED ONLY IF THE GAME IS ENDED SO WE DON'T NEED ANY MORE SWITCH DURING THE GAME
   function onFinish() {
     setIsRunning(false);
     setIsUserAllowToType(false);
@@ -65,7 +67,7 @@ function Engine({ children }: EngineChildren) {
     // Set word collection to its initial vertical position
     setVerticalOffSet(0)
     setScore({
-      wpm: 0, accuracy: 0, typedWords: 0, points: 0, startTime: 0, endTime: 0,
+      wpm: 0, accuracy: 0, typedWords: [], points: 0, startTime: 0, endTime: 0, wordChain: []
     });
     resetTimer();
   }
@@ -76,7 +78,9 @@ function Engine({ children }: EngineChildren) {
   // Stop the game and fetch new wordChain on parameter change
   useEffect(() => {
     if (data) {
-      setIsRunning(false);
+      // ! This cause the victory modal to display wrong correct/incorrect typed words because of the refetch
+      // ! Execute fetch on function trigger ONLY to avoid strange behavior
+      console.log('useEffect triggering refetch')
       setWordChain(data.data);
     }
   }, [language, wordCount, mode, data, refetch]);
@@ -141,15 +145,17 @@ function Engine({ children }: EngineChildren) {
       setScore({
         wpm: calculateWPM(wordChain, typedWords, startTime, endTime),
         accuracy: calculateAccuracy(wordChain, typedWords),
-        typedWords: typedWords.length,
+        typedWords: typedWords,
         points: calculatePoints(wordChain, typedWords, startTime, endTime),
         startTime,
         endTime,
+        wordChain
       });
     }
   }, [currentTime, isRunning, input]);
 
   useEffect(() => {
+    setVerticalOffSet(0)
     setTypedWords([]);
     setIndexOfProgression(0);
     setStartTime(0);
@@ -194,7 +200,8 @@ function Engine({ children }: EngineChildren) {
         verticalOffSet,
         setVerticalOffSet,
         shouldOpenVictoryModal,
-        setShouldOpenVictoryModal
+        setShouldOpenVictoryModal,
+        setIsUserAllowToType
       })
       )}
     </>

@@ -1,8 +1,7 @@
 import React from 'react'
 import Modal from '../../../../components/Modal/Modal.component';
-import { EngineProps, Logo, Spacer, SpacerSize } from '../../../../components';
+import { EngineProps, Spacer, SpacerSize } from '../../../../components';
 import { Button } from '../../../../components/Button/Button.component';
-import { Tooltip } from 'react-tooltip'
 
 export interface ReplayModalProps extends EngineProps {
   shouldDisplayReplayModal: boolean;
@@ -10,24 +9,18 @@ export interface ReplayModalProps extends EngineProps {
   setShouldDisplayOption: React.Dispatch<React.SetStateAction<boolean>>
 };
 
-const ReplayModal = ({ shouldDisplayReplayModal, setShouldDisplayReplayModal, resetTraining, resetTrainingAndRefetch, setShouldDisplayOption }: ReplayModalProps) => {
-  function closeModal() {
-    setShouldDisplayReplayModal(false)
-  }
+const ReplayModal = ({ shouldDisplayReplayModal, setShouldDisplayReplayModal, resetTraining, resetTrainingAndRefetch, setShouldDisplayOption, setIsUserAllowToType }: ReplayModalProps) => {
+  const  closeModal = React.useCallback(() => setShouldDisplayReplayModal(false), [setShouldDisplayReplayModal])
   return (
     <Modal
       isOpen={shouldDisplayReplayModal}
       setIsOpen={setShouldDisplayReplayModal}
+      closeable
+      darkCross
     >
       <Modal.Body>
         <div style={{ display: 'flex', flexDirection: 'column' }}>
           <Spacer y size={SpacerSize.SMALL} />
-          <Tooltip anchorSelect='.replay--button' place='top'>
-            Replay the same words collection
-          </Tooltip>
-          <Tooltip anchorSelect='.new-game--button' place='top'>
-            Generate new word set
-          </Tooltip>
           <a className='replay--button'><Button onClick={() => {
             resetTraining()
             closeModal()
@@ -39,10 +32,10 @@ const ReplayModal = ({ shouldDisplayReplayModal, setShouldDisplayReplayModal, re
           }} label="New words" /></a>
           <Spacer y size={SpacerSize.SMALL} />
           <a className="new-game--button"><Button onClick={() => {
+            setIsUserAllowToType(true)
             setShouldDisplayOption(true)
             closeModal()
           }} label="Change settings" stretch secondary /></a>
-
         </div>
       </Modal.Body>
     </Modal>

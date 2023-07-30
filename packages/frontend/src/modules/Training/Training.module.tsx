@@ -44,7 +44,7 @@ function TrainingModule(props: EngineProps) {
       {props.layout === WordsCollectionLayout.HORIZONTAL
         ? <WordsCollection {...props} /> : <WordsCollection {...props} />}
       <KeyBoard enable />
-      <TrainingModal {...props} />
+      <TrainingModal {...replayProps} />
       <OptionModal {...optionProps} />
       <ReplayModal {...replayProps} />
     </section>

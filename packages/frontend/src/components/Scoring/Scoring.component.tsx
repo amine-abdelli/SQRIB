@@ -14,7 +14,6 @@ import { TbSortAscendingNumbers } from 'react-icons/tb';
 import { MdOutlineTypeSpecimen } from 'react-icons/md';
 import './Scoring.style.scss';
 import { IoLanguageOutline } from 'react-icons/io5';
-import { COLORS } from '../../theme/colors';
 
 const SETTINGS_CONVERTER: Record<string, string> = {
   speedChallenge: 'Speed Challenge',
@@ -26,7 +25,7 @@ const SETTINGS_CONVERTER: Record<string, string> = {
 }
 
 const nickname = 'Narstonerz';
-function Scoring({ score, timer, setShouldDisplayOption, isRunning, mode, wordCount, language, countDown }: OptionModalProps) {
+function Scoring({ score, timer, setShouldDisplayOption, isRunning, mode, wordCount, language, countDown, typedWords }: OptionModalProps) {
   const { isSmallScreen, isLargeScreen, isVerySmallScreen } = useWindowSize();
   return (
     <>
@@ -68,17 +67,20 @@ function Scoring({ score, timer, setShouldDisplayOption, isRunning, mode, wordCo
           <Spacer x size={SpacerSize.MEDIUM} />
         </div>
         {/* Add tool tip to explain why it can't be */}
-        <Button disabled={isRunning} color={isRunning ? 'grey' : ''} label={
-          <>
-            {<AiOutlineEdit color={isRunning ? 'grey' : ''} size={22} />}
-            Settings
-          </>
-        } style={{ fontSize: '16px', margin: '10px', padding: '2px 5px' }} onClick={() => setShouldDisplayOption((prev) => !prev)} secondary stretch />
+        <Button
+          disabled={isRunning}
+          color={isRunning ? 'grey' : ''}
+          label={<>{<AiOutlineEdit color={isRunning ? 'grey' : ''} size={22} />}Settings</>}
+          style={{ fontSize: '16px', margin: '10px', padding: '2px 5px' }}
+          onClick={() => setShouldDisplayOption((prev) => !prev)}
+          secondary
+          stretch
+        />
       </div>
       <div className="scoring">
         <div className="scoring--wrapper">
           {nickname && <Avatar username={nickname} size='small' />}
-          {!isSmallScreen && <ScoringItem content={`Mots saisies : ${score.typedWords.length}${mode === TrainingMode.TIME_TRIAL ? '' : '/' + wordCount}`} />}
+          {!isSmallScreen && <ScoringItem content={`Mots saisies : ${typedWords.length}${mode === TrainingMode.TIME_TRIAL ? '' : '/' + wordCount}`} />}
           {!isVerySmallScreen && <ScoringItem content={`Précision : ${score.accuracy}%`} />}
           <ScoringItem content={`Mpm : ${score.wpm}`} />
           {!isLargeScreen && <ScoringItem content={`Points : ${score.points}`} />}

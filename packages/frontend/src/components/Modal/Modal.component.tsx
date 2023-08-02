@@ -22,7 +22,7 @@ function Modal({
   } : {};
 
   return (
-    <>
+    isOpen ? <>
       <div
         className={sqribBackground ? 'sqrib-background' : 'modal--wrapper'}
         style={{
@@ -33,7 +33,7 @@ function Modal({
         {subComponents}
       </div>
       {isOpen && <div onClick={() => setIsOpen && closeable &&  setIsOpen(false)} style={{ backdropFilter: `blur(${blur ? '3' : '0'}px)` }} className='overlay' />}
-    </>
+    </> : <></>
   );
 }
 

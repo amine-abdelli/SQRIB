@@ -6,8 +6,6 @@ import { ReactElement } from "react";
 export interface IScore {
   wpm: number,
   accuracy: number,
-  typedWords: string[],
-  wordChain: string[],
   points: number,
   startTime: number,
   endTime: number,

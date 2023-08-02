@@ -9,58 +9,35 @@ import star from '../../../../assets/images/star.png';
 // import Signup from '../Signup/Signup.component';
 import { ScoreCard } from '../../../../components/ScoreCard/ScoreCard.component';
 import './Stats.style.scss';
-import { EngineProps } from '../../Engine';
-import { TrainingMode } from '../../../../components/Options/Options.props';
 import { COLORS } from '../../../../theme/colors';
 import { Spacer, SpacerSize } from '../../../../components';
 import { StatsProps } from '../TrainingModal/TrainingModal.component';
-
-function countCorrectlyTypedWords(typedWords: string[], wordChain: string[]) {
-  let correctlyTypedWords = 0;
-  for (let i = 0; i < typedWords.length; i++) {
-    const element = typedWords[i];
-    if (element === wordChain[i]) {
-      correctlyTypedWords += 1;
-    }
-  }
-  return correctlyTypedWords
-}
+import { countCorrectlyTypedWords, countLetters } from '../../../../utils';
 
 function Stats(props: StatsProps) {
-  const { score, nextStep } = props;
-  const totalTypedWords = score.typedWords.length;
+  const { score, nextStep, wordChain, typedWords } = props;
+  const totalTypedWords = typedWords.length;
   const wpm = score.wpm;
   const accuracy = score.accuracy;
   const points = score.points;
-  const correctlyTypedWords = countCorrectlyTypedWords(score.wordChain, score.typedWords);
-  const incorrectlyTypedWords = score.typedWords.length - countCorrectlyTypedWords(score.wordChain, score.typedWords);
-  console.log('score ', score)
+  const correctlyTypedWords = countCorrectlyTypedWords(wordChain, typedWords);
+  const incorrectlyTypedWords = typedWords.length - countCorrectlyTypedWords(wordChain, typedWords);
+  const { correctLetters, wrongLetters, totalLetters } = countLetters(wordChain, typedWords)
 
-  // const { scores, isLoggedIn } = useGetSelf();
   const isLoggedIn = true;
 
   const [shouldOpenSignup, setShouldOpenSignup] = useState(false);
-  // const isBestScore = mpm > topValue(scores, 'mpm') && scores?.length > 0;
-  // const isFirstScore = scores?.length === 0;
-  // const isNotParticular = !isFirstScore && !isBestScore;
+
   const isBestScore = true;
   const isFirstScore = false;
   const isNotParticular = false;
+
   function submitScoreAndRestart() {
     if (isLoggedIn) {
-      // onSetFinish(
-      //   mpm,
-      //   wrongWords,
-      //   points,
-      //   precision,
-      //   wrongLetters,
-      //   totalLetters,
-      //   correctLetters,
-      // );
+      // submitScore();
     }
-    // onRestart();
-    // setShowStatsModal(false);
   }
+  
   return (
     <div className='stats--wrapper'>
       <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column' }}>
@@ -78,7 +55,7 @@ function Stats(props: StatsProps) {
       <div className='stats--content'>
         <div className='flex justify-center flex-column' style={{ flexBasis: '100%', alignItems: 'center' }}>
           <span className='flex align-center'>
-          <Spacer y size={SpacerSize.SMALL} />
+            <Spacer y size={SpacerSize.SMALL} />
             <h1 className='mpm' style={{ fontWeight: 'bolder' }}>
               {`${wpm || 0} mpm`}
             </h1>
@@ -95,15 +72,14 @@ function Stats(props: StatsProps) {
         </div>
         <Divider />
         <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center' }}>
-           {/* ! TODO USE REAL DATA INSTEAD OF 76 72 and 4 */}
           <ScoreCard content={
             <div style={{ display: 'flex', justifyContent: 'center' }}>
-              <span style={{ fontWeight: 'bold' }}>76</span>
+              <span style={{ fontWeight: 'bold' }}>{totalLetters}</span>
               <Spacer x size={SpacerSize.SMALL} />
               <span>{"("}</span>
-              <span style={{ color: COLORS.SUCCESS }}>72</span>
+              <span style={{ color: COLORS.SUCCESS }}>{correctLetters}</span>
               <span>|</span>
-              <span style={{ color: COLORS.ERROR }}>4</span>
+              <span style={{ color: COLORS.ERROR }}>{wrongLetters}</span>
               <span>)</span>
             </div>
           } title="Keystrokes" stat />

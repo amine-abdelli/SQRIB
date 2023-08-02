@@ -161,11 +161,14 @@ export interface OptionModalProps extends EngineProps {
 };
 
 function OptionModal(props: OptionModalProps) {
-  const { fontSize, setFontSize, language, setLanguage, layout, setLayout, isUserAllowToType, isRunning, shouldDisplayOption, setShouldDisplayOption } = props;
+  const { fontSize, setFontSize, language, setLanguage, layout, setLayout, isUserAllowToType, isRunning, shouldDisplayOption, setShouldDisplayOption, resetTrainingAndRefetch } = props;
   const layoutOptions = [{ value: WordsCollectionLayout.VERTICAL, label: <MdOutlineSubject size={22} /> }, { value: WordsCollectionLayout.HORIZONTAL, label: <FaGripLines size={18} /> }];
   const languageOptions = [{ value: Languages.FR, label: Languages.FRENCH }, { value: Languages.EN, label: Languages.ENGLISH }, { value: Languages.ES, label: Languages.SPANISH }, { value: Languages.DE, label: Languages.GERMAN }];
   const fontSizeOptions = [{ value: FontSize.SMALL, label: FontSize.SMALL }, { value: FontSize.MEDIUM, label: FontSize.MEDIUM }, { value: FontSize.LARGE, label: FontSize.LARGE }, { value: FontSize.X_LARGE, label: FontSize.X_LARGE }];
-
+  const onSave = () => {
+    setShouldDisplayOption(false);
+    resetTrainingAndRefetch();
+  }
   return (
     <Modal
       isOpen={shouldDisplayOption}
@@ -213,6 +216,7 @@ function OptionModal(props: OptionModalProps) {
             selected={fontSize}
             setSelected={setFontSize}
           />
+          <Button label="Save" onClick={onSave} />
         </div>
       </Modal.Body>
     </Modal>

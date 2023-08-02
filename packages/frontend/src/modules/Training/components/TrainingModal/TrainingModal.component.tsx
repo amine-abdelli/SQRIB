@@ -17,8 +17,10 @@ const TrainingModal = (props: ReplayModalProps) => {
     setStep(1)
   }
   const statsProps: StatsProps = { ...props, nextStep }
+  
   function closeModal() {
     setShouldOpenVictoryModal(false)
+    setStep(0)
   }
   return (
     <Modal isOpen={shouldOpenVictoryModal} setIsOpen={setShouldOpenVictoryModal}>

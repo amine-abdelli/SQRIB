@@ -1,3 +1,4 @@
+// TODO Take into account ONLY correctly typed words
 function calculateWPM(
   originalWords: string[],
   userTypedWords: string[],
@@ -13,9 +14,11 @@ function calculateWPM(
       correctLettersCount += userTypedWords[i].length;
     }
   }
+  // The number of time the user pressed the space bar
+  const spaceBarPressCount = userTypedWords.length;
 
   // Calculate WPM (considering that 1 WPM is 5 letters typed correctly)
-  const wpm = correctLettersCount / 5 / elapsedTimeInMinutes;
+  const wpm = (correctLettersCount + spaceBarPressCount) / 5 / elapsedTimeInMinutes;
   return round(wpm) || 0;
 }
 
@@ -27,7 +30,7 @@ const countCorrectLetters = (ref: string = '', typed: string = ''): number =>
 const calculateAccuracy = (typedWords: string[], wordsOfReference: string[]): number => {
   const totalCharacters = wordsOfReference.reduce((a, v) => a + v.length, 0);
   const correctLettersCount = typedWords.reduce((a, v, i) => a + countCorrectLetters(wordsOfReference[i], v), 0);
-  return round((correctLettersCount / totalCharacters) * 100, 2);
+  return round((correctLettersCount / totalCharacters) * 100, 2) ?? 0;
 };
 
 function calculatePoints(

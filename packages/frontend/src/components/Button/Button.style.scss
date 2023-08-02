@@ -20,11 +20,10 @@
     }
 
     &:disabled {
-      // background-color: grey;
       scale: 1;
       cursor: not-allowed;
       &:hover {
-        color: inherit !important;
+        color: grey !important;
       }
     }
   }

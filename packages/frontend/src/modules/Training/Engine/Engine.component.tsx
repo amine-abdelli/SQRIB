@@ -31,7 +31,7 @@ function Engine({ children }: EngineChildren) {
   const [shouldOpenVictoryModal, setShouldOpenVictoryModal] = React.useState(false)
 
   const [score, setScore] = React.useState<IScore>({
-    wpm: 0, accuracy: 0, typedWords: [], points: 0, startTime: 0, endTime: 0, wordChain: []
+    wpm: 0, accuracy: 0, points: 0, startTime: 0, endTime: 0
   });
 
   const isTimeTrialMode = mode === TrainingMode.TIME_TRIAL;
@@ -44,7 +44,6 @@ function Engine({ children }: EngineChildren) {
     setIsRunning(false);
     setIsUserAllowToType(false);
     setInput('');
-    refetch();
   }
 
   const useTimerOptions = {
@@ -56,45 +55,26 @@ function Engine({ children }: EngineChildren) {
 
   const { timer, resetTimer } = useTimer(useTimerOptions);
 
-  // Time Trial : End of game, trigger the victory modal
-  useEffect(() => {
-    if (!isUserAllowToType && mode === TrainingMode.TIME_TRIAL && timer === 0) {
-      setShouldOpenVictoryModal(true)
-    }
-  }, [mode, timer])
 
   function resetScoreAndTimer() {
     // Set word collection to its initial vertical position
     setVerticalOffSet(0)
     setScore({
-      wpm: 0, accuracy: 0, typedWords: [], points: 0, startTime: 0, endTime: 0, wordChain: []
+      wpm: 0, accuracy: 0, points: 0, startTime: 0, endTime: 0
     });
     resetTimer();
   }
+
   useEffect(() => {
-    refetch()
-  }, [wordCount, language, countDown])
+    refetch();
+  }, [])
 
   // Stop the game and fetch new wordChain on parameter change
   useEffect(() => {
     if (data) {
-      // ! This cause the victory modal to display wrong correct/incorrect typed words because of the refetch
-      // ! Execute fetch on function trigger ONLY to avoid strange behavior
-      console.log('useEffect triggering refetch')
       setWordChain(data.data);
     }
-  }, [language, wordCount, mode, data, refetch]);
-
-  useEffect(() => {
-    setIsUserAllowToType(true);
-    setIsRunning(false);
-    resetScoreAndTimer();
-  }, [mode, countDown])
-
-  // Allow user to input on main mode changes
-  useEffect(() => {
-    setIsUserAllowToType(true);
-  }, [mode, language]);
+  }, [data, refetch]);
 
   /**
    * Options
@@ -128,6 +108,14 @@ function Engine({ children }: EngineChildren) {
     }
   }, [input.length]);
 
+  // Time Trial : End of game, trigger the victory modal
+  useEffect(() => {
+    if (!isUserAllowToType && mode === TrainingMode.TIME_TRIAL && timer === 0) {
+      setIsUserAllowToType(false);
+      setShouldOpenVictoryModal(true)
+    }
+  }, [mode, timer])
+
   // Speed Challenge : End the game when the user reach the end of the word chain
   useEffect(() => {
     if (isRunning && (typedWords.length === wordChain.length)) {
@@ -145,21 +133,14 @@ function Engine({ children }: EngineChildren) {
       setScore({
         wpm: calculateWPM(wordChain, typedWords, startTime, endTime),
         accuracy: calculateAccuracy(wordChain, typedWords),
-        typedWords: typedWords,
         points: calculatePoints(wordChain, typedWords, startTime, endTime),
         startTime,
-        endTime,
-        wordChain
+        endTime
       });
     }
   }, [currentTime, isRunning, input]);
 
   useEffect(() => {
-    setVerticalOffSet(0)
-    setTypedWords([]);
-    setIndexOfProgression(0);
-    setStartTime(0);
-    setEndTime(0);
     if (isRunning) {
       setStartTime(Date.now());
     } else {

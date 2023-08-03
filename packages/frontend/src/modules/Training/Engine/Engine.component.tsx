@@ -1,6 +1,6 @@
 /* eslint-disable max-len */
 import React, { useEffect, useState } from 'react';
-import { Languages } from '@sqrib/shared';
+import { Languages, TLanguage } from '@sqrib/shared';
 import { useTimestamp } from '../../../hooks/useTimestamp.hook';
 import { calculateAccuracy, calculatePoints, calculateWPM } from '../../../utils';
 import { useTimer } from '../../../hooks/useTimer.hook';
@@ -18,31 +18,32 @@ function Engine({ children }: EngineChildren) {
   const [indexOfProgression, setIndexOfProgression] = React.useState<number>(0);
   const [wordChain, setWordChain] = React.useState<string[]>([]);
   const [fontSize, setFontSize] = React.useState<FontSize>(FontSize.SMALL);
-  const [language, setLanguage] = React.useState<Languages>(Languages.FR);
+  const [language, setLanguage] = React.useState<TLanguage>(Languages.FR);
   const [mode, setMode] = useState<TTrainingMode>(TrainingMode.TIME_TRIAL);
   const [countDown, setCountDown] = useState(60);
-  const [wordCount, setWordCount] = useState(100);
+  const [wordCount, setWordCount] = useState(75);
   const [isRunning, setIsRunning] = React.useState(false);
   const [isUserAllowToType, setIsUserAllowToType] = useState<boolean>(true);
   const [startTime, setStartTime] = React.useState<number>(0);
   const [endTime, setEndTime] = React.useState(useTimestamp(isRunning));
-  const [layout, setLayout] = useState<WordsCollectionLayout>(WordsCollectionLayout.HORIZONTAL);
+  const [layout, setLayout] = useState<WordsCollectionLayout>(WordsCollectionLayout.VERTICAL);
   const [verticalOffSet, setVerticalOffSet] = useState(0);
-
+  const [shouldOpenVictoryModal, setShouldOpenVictoryModal] = React.useState(false)
 
   const [score, setScore] = React.useState<IScore>({
-    wpm: 0, accuracy: 0, typedWords: 0, points: 0, startTime: 0, endTime: 0,
+    wpm: 0, accuracy: 0, points: 0, startTime: 0, endTime: 0
   });
 
   const isTimeTrialMode = mode === TrainingMode.TIME_TRIAL;
 
   const { data, refetch } = useGetTrainingWordChain({ count: isTimeTrialMode ? ((WORLD_WPM_RECORD * 1.1) / 60) * countDown : wordCount, language });
-
+  // ! TODO RETHINK THE WHOLE PARAMETERS UPDATE WORKFLOW
+  // ! CONSIDER CHANGING PARAMETERS ON CLICK ON A SAVE BUTTON
+  // ! CONSIDER THAN NOW OPTIONS CAN BE CHANGED ONLY IF THE GAME IS ENDED SO WE DON'T NEED ANY MORE SWITCH DURING THE GAME
   function onFinish() {
     setIsRunning(false);
     setIsUserAllowToType(false);
     setInput('');
-    refetch();
   }
 
   const useTimerOptions = {
@@ -54,36 +55,26 @@ function Engine({ children }: EngineChildren) {
 
   const { timer, resetTimer } = useTimer(useTimerOptions);
 
+
   function resetScoreAndTimer() {
     // Set word collection to its initial vertical position
     setVerticalOffSet(0)
     setScore({
-      wpm: 0, accuracy: 0, typedWords: 0, points: 0, startTime: 0, endTime: 0,
+      wpm: 0, accuracy: 0, points: 0, startTime: 0, endTime: 0
     });
     resetTimer();
   }
+
   useEffect(() => {
-    refetch()
-  }, [wordCount, language, countDown])
+    refetch();
+  }, [])
 
   // Stop the game and fetch new wordChain on parameter change
   useEffect(() => {
     if (data) {
-      setIsRunning(false);
       setWordChain(data.data);
     }
-  }, [language, wordCount, mode, data, refetch]);
-
-  useEffect(() => {
-      setIsUserAllowToType(true);
-      setIsRunning(false);
-      resetScoreAndTimer();
-  }, [mode, countDown])
-
-  // Allow user to input on main mode changes
-  useEffect(() => {
-    setIsUserAllowToType(true);
-  }, [mode, language]);
+  }, [data, refetch]);
 
   /**
    * Options
@@ -117,11 +108,20 @@ function Engine({ children }: EngineChildren) {
     }
   }, [input.length]);
 
-  // End the game when the user reach the end of the word chain
+  // Time Trial : End of game, trigger the victory modal
+  useEffect(() => {
+    if (!isUserAllowToType && mode === TrainingMode.TIME_TRIAL && timer === 0) {
+      setIsUserAllowToType(false);
+      setShouldOpenVictoryModal(true)
+    }
+  }, [mode, timer])
+
+  // Speed Challenge : End the game when the user reach the end of the word chain
   useEffect(() => {
     if (isRunning && (typedWords.length === wordChain.length)) {
       setIsUserAllowToType(false);
       setIsRunning(false);
+      setShouldOpenVictoryModal(true);
     }
   }, [typedWords]);
 
@@ -133,19 +133,14 @@ function Engine({ children }: EngineChildren) {
       setScore({
         wpm: calculateWPM(wordChain, typedWords, startTime, endTime),
         accuracy: calculateAccuracy(wordChain, typedWords),
-        typedWords: typedWords.length,
         points: calculatePoints(wordChain, typedWords, startTime, endTime),
         startTime,
-        endTime,
+        endTime
       });
     }
   }, [currentTime, isRunning, input]);
 
   useEffect(() => {
-    setTypedWords([]);
-    setIndexOfProgression(0);
-    setStartTime(0);
-    setEndTime(0);
     if (isRunning) {
       setStartTime(Date.now());
     } else {
@@ -157,35 +152,38 @@ function Engine({ children }: EngineChildren) {
   return (
     <>
       {React.Children.map(children, (child) => React.cloneElement(child, {
-          input,
-          setInput,
-          wordChain,
-          timer,
-          typedWords,
-          setTypedWords,
-          indexOfProgression,
-          setIndexOfProgression,
-          score,
-          isRunning,
-          setIsRunning,
-          fontSize,
-          setFontSize,
-          resetTraining,
-          resetTrainingAndRefetch,
-          language,
-          setLanguage,
-          mode,
-          setMode,
-          countDown,
-          setCountDown,
-          wordCount,
-          setWordCount,
-          layout,
-          setLayout,
-          isUserAllowToType,
-          verticalOffSet,
-          setVerticalOffSet
-        })
+        input,
+        setInput,
+        wordChain,
+        timer,
+        typedWords,
+        setTypedWords,
+        indexOfProgression,
+        setIndexOfProgression,
+        score,
+        isRunning,
+        setIsRunning,
+        fontSize,
+        setFontSize,
+        resetTraining,
+        resetTrainingAndRefetch,
+        language,
+        setLanguage,
+        mode,
+        setMode,
+        countDown,
+        setCountDown,
+        wordCount,
+        setWordCount,
+        layout,
+        setLayout,
+        isUserAllowToType,
+        verticalOffSet,
+        setVerticalOffSet,
+        shouldOpenVictoryModal,
+        setShouldOpenVictoryModal,
+        setIsUserAllowToType
+      })
       )}
     </>
   );

@@ -5,7 +5,7 @@ import './WordsCollection.style.scss';
 import { Overlay } from '../Overlay/Overlay.component';
 
 function WordsCollection({
-  wordChain, indexOfProgression, typedWords, input, fontSize, isRunning, isUserAllowToType, setVerticalOffSet, verticalOffSet
+  wordChain, indexOfProgression, typedWords, input, fontSize, isRunning, isUserAllowToType, setVerticalOffSet, verticalOffSet, mode
 }: EngineProps) {
   const [currentWordSpanPosition, setCurrentWordSpanPosition] = useState(0);
   const [nextWordSpanPosition, setNextWordSpanPosition] = useState(0);
@@ -33,7 +33,7 @@ function WordsCollection({
         </>
         ))}
       </div>
-      <Overlay isVisible={!isRunning} isUserAllowToType={isUserAllowToType} />
+      <Overlay isVisible={!isRunning} isUserAllowToType={isUserAllowToType} mode={mode} />
     </div>
   );
 }

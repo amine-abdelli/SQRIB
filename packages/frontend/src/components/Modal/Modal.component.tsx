@@ -22,18 +22,18 @@ function Modal({
   } : {};
 
   return (
-    <>
+    isOpen ? <>
       <div
         className={sqribBackground ? 'sqrib-background' : 'modal--wrapper'}
         style={{
           ...style, ...fullScreenStyle as any, display: isOpen ? 'block' : 'none',
         }}
       >
-        {setIsOpen && <ClosingCross display={true} onClose={setIsOpen} dark={darkCross} />}
+        {setIsOpen && <ClosingCross display={!!closeable} onClose={setIsOpen} dark={darkCross} />}
         {subComponents}
       </div>
-      {isOpen && <div onClick={() => setIsOpen && setIsOpen(false)} style={{ backdropFilter: `blur(${blur ? '3' : '0'}px)` }} className='overlay' />}
-    </>
+      {isOpen && <div onClick={() => setIsOpen && closeable &&  setIsOpen(false)} style={{ backdropFilter: `blur(${blur ? '3' : '0'}px)` }} className='overlay' />}
+    </> : <></>
   );
 }
 

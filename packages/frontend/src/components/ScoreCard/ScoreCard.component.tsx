@@ -2,6 +2,7 @@ import React from 'react';
 import { BsStars } from 'react-icons/bs';
 import { IScoreCardProps } from './ScoreCard.props';
 import './ScoreCard.style.scss';
+import { Spacer, SpacerSize } from '../Spacer';
 
 // function borderColor(highlight: boolean | undefined, best: boolean | undefined) {
 //   if (highlight) {
@@ -13,7 +14,7 @@ import './ScoreCard.style.scss';
 // }
 
 function ScoreCard({
-  content, title, highlight, best, unit = '', stat,
+  content, title, best, unit = '', stat,
 }: IScoreCardProps) {
   return (
     <div
@@ -34,7 +35,8 @@ function ScoreCard({
         {best && <BsStars style={{ marginRight: '3px' }} color='gold' size={20} />}
         {title.toUpperCase()}
       </span>
-      <span className='card--content'>{`${content} ${unit}`}</span>
+      <Spacer y size={SpacerSize.SMALL} />
+      <span className='card--content'>{typeof content === 'string' ? `${content} ${unit}` : content}</span>
     </div>
   );
 }

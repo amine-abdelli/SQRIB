@@ -1,8 +1,8 @@
-import { Languages } from '../utils';
+import { TLanguage } from './language';
 
 export interface TrainingGamesRequestBody {
   count: number;
-  language: Languages;
+  language: TLanguage;
 }
 
 export interface TrainingGamesResponseBody {

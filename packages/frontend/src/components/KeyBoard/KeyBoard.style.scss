@@ -1,3 +1,5 @@
+@import '../../theme/index.scss';
+
 .keyBoardWrapper {
   padding: 5px;
   border: 1px black solid;
@@ -8,12 +10,19 @@
 }
 
 .keyBoardRow {
+  background-color: #FFFFFF;
   display: flex;
   justify-content: space-between;
 }
 
 .key {
-  border: 1px solid;
+  border-color: #181818;
+  color: #181818;
+  border: 3px solid black;
+  font-size: 16px;
+  box-sizing: border-box;
+  font-family: $FiraCodefontFamily;
+  font-weight: 800;
   display: flex;
   justify-content: center;
   align-items: center;

@@ -3,8 +3,9 @@ import { keyBoardLayout } from './keyBoardLayout';
 import { KeyBoardEnum } from './KeyBoard.enum';
 import './KeyBoard.style.scss';
 import { translateKeyBoardCode } from './helpers/KeyBoard.helper';
+import { expressKeyStyleProperty } from '../../utils';
 
-function KeyBoard({ enable }: { enable: boolean }) {
+function KeyBoard({ enable, misspellings }: { enable: boolean, misspellings: string[] }) {
   const [keyPressed, setKeyPressed] = useState<string>('');
   const keyBoardKeys: string[] = keyBoardLayout[KeyBoardEnum.DEFAULT_QWERTY];
 
@@ -23,43 +24,23 @@ function KeyBoard({ enable }: { enable: boolean }) {
     };
   }, []);
 
-  // Highlight keys to focus in didacticiel mode
-  // const highlightedKeys = alphabet.filter((_, i) => i <= 7);
-
-  function expressKeyStyleProperty(e: string, pressedKey: string) {
-    if (e === 'Escape') {
-      return '#FFFFFF';
-    }
-    if (pressedKey === e) {
-      return '#D69C5D';
-    }
-    return '#FFFFFF';
-  }
-
   return (
     <div style={{ border: 'none' }} className='keyBoardWrapper'>
       {keyBoardKeys.map((row: string, i: number) => (
         <div key={row[i]}>
           <div className='keyBoardRow' style={{ cursor: enable ? 'pointer' : 'not-allowed' }}>
-            {row?.split(' ').map((e: string) => {
-              const isKeyPressedAndEnable: boolean = keyPressed === e && enable;
+            {row?.split(' ').map((key: string) => {
+              const isKeyPressedAndEnable: boolean = keyPressed === key && enable;
               return (
                 <span
-                  key={e}
+                  key={key}
                   className='key'
                   style={{
-                    borderColor: '#181818',
                     transform: isKeyPressedAndEnable ? 'scale(0.95)' : 'scale(0.99)',
-                    backgroundColor: enable ? expressKeyStyleProperty(e, keyPressed) : 'grey',
-                    color: '#181818',
-                    border: '3px solid black',
-                    fontWeight: 800,
-                    fontSize: '16px',
-                    boxSizing: 'border-box',
-                    fontFamily: 'Poppins',
+                    backgroundColor: enable ? expressKeyStyleProperty(key, keyPressed, misspellings) : 'grey',
                   }}
                 >
-                  {translateKeyBoardCode(e)}
+                  {translateKeyBoardCode(key)}
                 </span>
               );
             })}

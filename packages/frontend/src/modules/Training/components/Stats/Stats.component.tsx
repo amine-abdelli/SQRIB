@@ -17,12 +17,12 @@ import { countCorrectlyTypedWords, countLetters } from '../../../../utils';
 function Stats(props: StatsProps) {
   const { score, nextStep, wordChain, typedWords } = props;
   const totalTypedWords = typedWords.length;
-  const wpm = score.wpm;
-  const accuracy = score.accuracy;
-  const points = score.points;
+  const wpm = score.wpm || 0;
+  const accuracy = score.accuracy || 0;
+  const points = score.points || 0;
   const correctlyTypedWords = countCorrectlyTypedWords(wordChain, typedWords);
   const incorrectlyTypedWords = typedWords.length - countCorrectlyTypedWords(wordChain, typedWords);
-  const { correctLetters, wrongLetters, totalLetters } = countLetters(wordChain, typedWords)
+  const { correctLetters, wrongLetters, totalLetters } = countLetters(wordChain, typedWords);
 
   const isLoggedIn = true;
 

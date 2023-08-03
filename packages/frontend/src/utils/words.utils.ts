@@ -11,15 +11,18 @@
 export function countLetters(wordChain: string[], typedWords: string[]) {
   const totalLetters = typedWords.reduce((acc, curr) => acc + curr.length, 0);
   let count = 0;
+  const wrongLettersList = [];
   //
   for (let i = 0; i < wordChain?.length; i += 1) {
     for (let j = 0; j < typedWords[i]?.length; j += 1) {
       if (wordChain[i][j] === typedWords[i][j]) {
         count += 1;
+      } else {
+        wrongLettersList.push(wordChain[i][j])
       }
     }
   }
-  return { correctLetters: count, wrongLetters: totalLetters - count, totalLetters };
+  return { correctLetters: count, wrongLetters: wrongLettersList.length, totalLetters, wrongLettersList };
 }
 
 export function countCorrectlyTypedWords(typedWords: string[], wordChain: string[]) {

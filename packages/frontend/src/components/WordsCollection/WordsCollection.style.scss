@@ -1,3 +1,5 @@
+@import '../../theme/index.scss';
+
 .words-collection--wrapper {
   position: relative;
   width: 100%;
@@ -8,4 +10,9 @@
   // Make words collection to take vertically the space left
   flex: 1;
   overflow-y: hidden;
+  div {
+    span {
+      font-family: $FiraCodefontFamily;
+    }
+  }
 }

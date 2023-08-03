@@ -14,6 +14,7 @@ import { OptionModal } from './components/OptionModal/OptionModal.component';
 import { ReplayModal } from './components/ReplayModal/ReplayModal.component';
 import { FaPlay, FaStop } from 'react-icons/fa';
 import { COLORS } from '../../theme/colors';
+import { countLetters } from '../../utils';
 
 function TrainingModule(props: EngineProps) {
   const [shouldDisplayOption, setShouldDisplayOption] = React.useState<boolean>(true);
@@ -43,7 +44,7 @@ function TrainingModule(props: EngineProps) {
       </div>
       {props.layout === WordsCollectionLayout.HORIZONTAL
         ? <WordsCollection {...props} /> : <WordsCollection {...props} />}
-      <KeyBoard enable />
+      <KeyBoard enable misspellings={countLetters(props.wordChain, props.typedWords).wrongLettersList} />
       <TrainingModal {...replayProps} />
       <OptionModal {...optionProps} />
       <ReplayModal {...replayProps} />

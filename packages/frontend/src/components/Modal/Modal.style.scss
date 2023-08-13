@@ -1,7 +1,7 @@
 @import "../../theme/abstracts/mixins";
 @import "../../theme/abstracts/colors";
 
-$zIndex: 99999999;
+$zIndex: 2;
 
 @mixin baseModalWrapper {
   z-index: $zIndex;

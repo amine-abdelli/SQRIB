@@ -2,7 +2,6 @@
 
 .keyBoardWrapper {
   padding: 5px;
-  border: 1px black solid;
   width: 100%;
   height: auto;
   border-radius: 5px;
@@ -30,4 +29,9 @@
   margin: 1px;
   flex-grow: 1;
   border-radius: 5px;
+}
+
+.stretch {
+  width: 2rem;
+  flex-grow: 0;
 }

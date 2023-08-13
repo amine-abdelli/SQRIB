@@ -12,6 +12,13 @@ export interface ModalProps {
   sqribBackground?: boolean
 }
 
-export interface SubComponentProps {
-  children: JSX.Element,
+export interface SubcomponentProps {
+  style?: React.CSSProperties;
+  children?: React.ReactNode;
 }
+
+export type ModalComponents = {
+  Header: React.FC<SubcomponentProps>;
+  Body: React.FC<SubcomponentProps>;
+  Footer: React.FC<SubcomponentProps>;
+};

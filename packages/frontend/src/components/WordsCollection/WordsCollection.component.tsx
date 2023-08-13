@@ -3,10 +3,11 @@ import { Word } from './SubComponent';
 import { EngineProps } from '../../modules/Training/Engine';
 import './WordsCollection.style.scss';
 import { Overlay } from '../Overlay/Overlay.component';
+import { IWordsCollectionProps } from './WordsCollection.props';
 
 function WordsCollection({
-  wordChain, indexOfProgression, typedWords, input, fontSize, isRunning, isUserAllowToType, setVerticalOffSet, verticalOffSet, mode
-}: EngineProps) {
+  wordChain, indexOfProgression, typedWords, input, fontSize, isRunning, isUserAllowToType, setVerticalOffSet, verticalOffSet, mode, setMisspellings
+}: IWordsCollectionProps) {
   const [currentWordSpanPosition, setCurrentWordSpanPosition] = useState(0);
   const [nextWordSpanPosition, setNextWordSpanPosition] = useState(0);
 
@@ -28,6 +29,8 @@ function WordsCollection({
             fontSize={fontSize}
             setNextWordSpanPosition={setNextWordSpanPosition}
             setCurrentWordSpanPosition={setCurrentWordSpanPosition}
+            setMisspellings={setMisspellings}
+            isRunning={isRunning}
           />
           <span style={{ fontSize }}>{' '}</span>
         </>

@@ -11,4 +11,6 @@ export interface WordProps {
   fontSize: FontSize,
   setCurrentWordSpanPosition: Dispatch<SetStateAction<number>>,
   setNextWordSpanPosition: Dispatch<SetStateAction<number>>,
+  setMisspellings: Dispatch<SetStateAction<string[]>>,
+  isRunning: boolean,
 }

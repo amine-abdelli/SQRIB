@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import { Languages, TLanguage } from '@sqrib/shared';
 import { useTimestamp } from '../../../hooks/useTimestamp.hook';
-import { calculateAccuracy, calculatePoints, calculateWPM } from '../../../utils';
+import { calculateZenModeAccuracy, calculatePoints, calculateWPM } from '../../../utils';
 import { useTimer } from '../../../hooks/useTimer.hook';
 import { FontSize } from '../../../utils/fontsize.enum';
 import { TTrainingMode, TrainingMode, WordsCollectionLayout } from '../../../components/Options/Options.props';
@@ -29,6 +29,8 @@ function Engine({ children }: EngineChildren) {
   const [layout, setLayout] = useState<WordsCollectionLayout>(WordsCollectionLayout.VERTICAL);
   const [verticalOffSet, setVerticalOffSet] = useState(0);
   const [shouldOpenVictoryModal, setShouldOpenVictoryModal] = React.useState(false)
+  const [isZenModeOn, setIsZenModeOn] = React.useState(true);
+  const [misspellings, setMisspellings] = React.useState<string[]>([]);
 
   const [score, setScore] = React.useState<IScore>({
     wpm: 0, accuracy: 0, points: 0, startTime: 0, endTime: 0
@@ -37,9 +39,6 @@ function Engine({ children }: EngineChildren) {
   const isTimeTrialMode = mode === TrainingMode.TIME_TRIAL;
 
   const { data, refetch } = useGetTrainingWordChain({ count: isTimeTrialMode ? ((WORLD_WPM_RECORD * 1.1) / 60) * countDown : wordCount, language });
-  // ! TODO RETHINK THE WHOLE PARAMETERS UPDATE WORKFLOW
-  // ! CONSIDER CHANGING PARAMETERS ON CLICK ON A SAVE BUTTON
-  // ! CONSIDER THAN NOW OPTIONS CAN BE CHANGED ONLY IF THE GAME IS ENDED SO WE DON'T NEED ANY MORE SWITCH DURING THE GAME
   function onFinish() {
     setIsRunning(false);
     setIsUserAllowToType(false);
@@ -92,9 +91,11 @@ function Engine({ children }: EngineChildren) {
     setIndexOfProgression(0);
     setIsRunning(false);
     setStartTime(0);
+    setVerticalOffSet(0)
     setEndTime(0);
     setIsUserAllowToType(true);
     resetScoreAndTimer();
+    setMisspellings([]);
   }
 
   function resetTrainingAndRefetch() {
@@ -132,8 +133,8 @@ function Engine({ children }: EngineChildren) {
       setEndTime(currentTime);
       setScore({
         wpm: calculateWPM(wordChain, typedWords, startTime, endTime),
-        accuracy: calculateAccuracy(wordChain, typedWords),
-        points: calculatePoints(wordChain, typedWords, startTime, endTime),
+        accuracy: calculateZenModeAccuracy(wordChain, typedWords, misspellings),
+        points: calculatePoints(wordChain, typedWords, startTime, endTime, misspellings),
         startTime,
         endTime
       });
@@ -182,7 +183,11 @@ function Engine({ children }: EngineChildren) {
         setVerticalOffSet,
         shouldOpenVictoryModal,
         setShouldOpenVictoryModal,
-        setIsUserAllowToType
+        setIsUserAllowToType,
+        misspellings,
+        setMisspellings,
+        isZenModeOn,
+        setIsZenModeOn
       })
       )}
     </>

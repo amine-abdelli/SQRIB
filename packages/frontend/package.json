@@ -15,11 +15,12 @@
     "@nextui-org/react": "^1.0.0-beta.12",
     "@sqrib/shared": "^1.0.0",
     "axios": "^1.4.0",
+    "canvas-confetti": "^1.6.0",
     "node-sass": "^8.0.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-iconly": "^2.2.10",
-    "react-icons": "^4.9.0",
+    "react-icons": "^4.10.1",
     "react-query": "^3.39.3",
     "react-router-dom": "^6.10.0",
     "react-tiny-popover": "^7.2.4",
@@ -29,6 +30,7 @@
     "vitest": "^0.29.2"
   },
   "devDependencies": {
+    "@types/canvas-confetti": "^1.6.0",
     "@types/react": "^18.0.27",
     "@types/react-dom": "^18.0.10",
     "@vitejs/plugin-react-swc": "^3.0.0",

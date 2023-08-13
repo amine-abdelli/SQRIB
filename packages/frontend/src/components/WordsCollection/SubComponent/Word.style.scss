@@ -5,8 +5,8 @@ span {
   padding: 0;
   // TODO uncomment to display the word in one line
   // white-space: pre;
+}
 
-  &--focused {
-    font-weight: 600;
-  }
+.word--focused {
+  background: rgb(19, 164, 82, 0.1);
 }

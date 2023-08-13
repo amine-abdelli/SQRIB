@@ -1,0 +1,26 @@
+.text {
+  &.h1 {
+    font-size: 2rem;
+  }
+  &.h2 {
+    font-size: 1.5rem;
+  }
+  &.h3 {
+    font-size: 1.25rem;
+  }
+  &.bold {
+    font-weight: bold;
+  }
+  &.italic {
+    font-style: italic;
+  }
+  &.underline {
+    text-decoration: underline;
+  }
+  &.centered {
+    text-align: center;
+  }
+  &.thin {
+    font-weight: 300;  // Generally, 300 is considered a "light" font-weight
+  }
+}

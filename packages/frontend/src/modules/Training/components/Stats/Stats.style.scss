@@ -1,6 +1,8 @@
 @import '../../../../theme/abstracts/variables';
 
 .stats--wrapper {
+  padding: 1rem;
+  width: 22.5rem;
   .stats--content {
     display: flex;
     justify-content: center;
@@ -9,8 +11,11 @@
 
     .score-card--wrapper {
       display: flex;
-      flex-direction: row;
-      justify-content: center;
+      justify-content: space-between;
+      padding: 0.1rem 0.5rem;
+    }
+    .score-card--wrapper:nth-child(odd) {
+      background-color: fade-out($secondary, 0.85);
     }
 
     .mpm {
@@ -25,13 +30,6 @@
       h3 {
         text-align: center;
       }
-    }
-
-    .stats--button {
-      background-color: orange;
-      color: white;
-      width: 100%;
-      margin-top: 5px;
     }
   }
 }

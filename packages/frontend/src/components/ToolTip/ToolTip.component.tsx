@@ -1,8 +1,8 @@
-import React, { FC, useState, ReactNode, useRef, useEffect } from 'react';
+import React, { FC, useState, useRef, useEffect } from 'react';
 import { TooltipProps } from './ToolTip.props';
 import './ToolTip.style.scss';
 
-const Tooltip: FC<TooltipProps> = ({ children, content, direction = 'top', enable = true}) => {
+const Tooltip: FC<TooltipProps> = ({ children, content, direction = 'top', enable = true, size}) => {
   const childRef = useRef<HTMLDivElement>(null);
   const [active, setActive] = useState(false);
 
@@ -28,7 +28,7 @@ const Tooltip: FC<TooltipProps> = ({ children, content, direction = 'top', enabl
     <div className="tooltip-container" ref={childRef}>
       {children}
       {active && enable && (
-        <div className={`tooltip-box tooltip-${direction}`}>
+        <div className={`tooltip-box tooltip-${direction}`} style={{ width: size ? `${size}rem` : ''}}>
           {content}
         </div>
       )}

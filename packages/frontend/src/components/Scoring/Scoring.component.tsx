@@ -3,17 +3,17 @@ import { CountDown } from '../CountDown/CountDown.component';
 import { ScoringItem } from './ScoringItem/ScoringItem.component';
 import { useWindowSize } from '../../hooks/useWindowSize.hook';
 import Avatar from '../Avatar/Avatar.component';
-import { OptionIcon, OptionModalProps } from '../../modules/Training/components/OptionModal';
+import { OptionModalProps } from '../../modules/Training/components/OptionModal';
 import { Button } from '../Button/Button.component';
 import { AiOutlineEdit } from 'react-icons/ai';
 import { Spacer, SpacerSize } from '../Spacer';
-import { Tooltip } from '../ToolTip/ToolTip.component';
 import { Game, TimeCircle } from 'react-iconly';
 import { TrainingMode } from '../Options/Options.props';
 import { TbSortAscendingNumbers } from 'react-icons/tb';
 import { MdOutlineTypeSpecimen } from 'react-icons/md';
 import './Scoring.style.scss';
 import { IoLanguageOutline } from 'react-icons/io5';
+import { OptionIcon } from '../../modules/Training/components/OptionModal/SubComponents/OptionGroup';
 
 const SETTINGS_CONVERTER: Record<string, string> = {
   speedChallenge: 'Speed Challenge',
@@ -80,8 +80,8 @@ function Scoring({ score, timer, setShouldDisplayOption, isRunning, mode, wordCo
       <div className="scoring">
         <div className="scoring--wrapper">
           {nickname && <Avatar username={nickname} size='small' />}
-          {!isSmallScreen && <ScoringItem content={`Mots saisies : ${typedWords.length}${mode === TrainingMode.TIME_TRIAL ? '' : '/' + wordCount}`} />}
-          {!isVerySmallScreen && <ScoringItem content={`Précision : ${score.accuracy}%`} />}
+          {!isSmallScreen && <ScoringItem content={`Typed words : ${typedWords.length}${mode === TrainingMode.TIME_TRIAL ? '' : '/' + wordCount}`} />}
+          {!isVerySmallScreen && <ScoringItem content={`Accuracy : ${score.accuracy}%`} />}
           <ScoringItem content={`Mpm : ${score.wpm}`} />
           {!isLargeScreen && <ScoringItem content={`Points : ${score.points}`} />}
         </div>

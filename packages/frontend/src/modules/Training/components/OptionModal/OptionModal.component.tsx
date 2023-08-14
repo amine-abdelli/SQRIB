@@ -12,100 +12,13 @@ import { Logo, Spacer, SpacerSize } from '../../../../components';
 import { IoLanguageOutline } from 'react-icons/io5';
 import { MdOutlineTypeSpecimen, MdOutlineSubject } from 'react-icons/md';
 import { RiFontSize } from 'react-icons/ri';
+import { PiFlowerLotusLight } from 'react-icons/pi';
 import { TbSortAscendingNumbers } from 'react-icons/tb';
 import { FaGripLines } from 'react-icons/fa';
-import Select from '../../../../components/Select/Select.component';
+import { CheckboxWithLabel } from './SubComponents/CheckboxWithLabel/CheckboxWithLabel.component';
+import { ModeOptionGroup, OptionGroup } from './SubComponents/OptionGroup';
 
-type OptionItem = {
-  // Can be a string, a number, jsx or anything else
-  value: any;
-  label: any;
-};
-
-interface OptionProps {
-  icon?: any,
-  options: Array<OptionItem>;
-  selected: string | number,
-  setSelected: any,
-  label: string,
-  subLabel?: string,
-  select?: boolean
-}
-
-export function OptionIcon({ icon }: any) {
-  return (
-    <span style={{ width: '2rem', display: 'flex', justifyContent: 'center', background: 'white', height: '2rem', alignItems: 'center', borderRadius: '50px' }}>
-      {icon}
-    </span>
-  )
-}
-
-function OptionGroup({
-  icon, label, options, selected, setSelected, subLabel, select
-}: OptionProps) {
-  return (
-    <div style={{ padding: '0 0.5rem', background: '#f5f5f5', height: '3rem', borderRadius: '5px', marginBottom: '0.5rem' }} className="button-group--wrapper">
-      <span style={{ width: '2rem', display: 'flex', justifyContent: 'center', background: 'white', height: '2rem', alignItems: 'center', borderRadius: '50px' }}>
-        {icon}
-      </span>
-      <Spacer x size='small' />
-      <div className='button-group--wrapper' style={{ height: '75%' }}>
-        <div>
-          <p className='button-group--label'>{label}</p>
-          <p style={{ fontSize: '12px', color: 'GrayText', fontWeight: 300 }}>{subLabel}</p>
-        </div>
-        <Spacer x size={SpacerSize.LARGE} />
-        <div className="button-group" style={{ background: 'lightgrey', height: '100%', padding: '0.1rem', borderRadius: '5px' }}>
-          {select ? <Select data={options} onChange={setSelected} value={selected} stretch />
-            : options.map(({ label, value }) => (
-              <Button
-                style={{ background: selected === value ? 'white' : '', padding: '0.8rem', borderRadius: '5px' }}
-                className="value-language--button"
-                color={selected === value ? COLORS.GOLD : ''}
-                onClick={() => setSelected(value)}
-                light
-                label={label}
-                disabled={value === WordsType.QUOTE || value === WordsType.CUSTOM || value === WordsCollectionLayout.HORIZONTAL}
-              />
-            ))}
-        </div>
-      </div>
-    </div>
-  );
-}
-
-function ModeOptionGroup({
-  icon, label, options, selected, setSelected, subLabel
-}: OptionProps) {
-  return (
-    <div style={{ padding: '0.5rem' }}>
-      <Spacer x size='small' />
-      <div style={{ height: '75%' }}>
-        <div>
-          <p className='button-group--label' style={{ fontSize: 42, textAlign: 'center', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>{icon}<Spacer x size={SpacerSize.SMALL} />{label}</p>
-          <h1 style={{ margin: '0.5rem 0' }}>Select a game mode</h1>
-          <p style={{ fontSize: '12px', color: 'GrayText', fontWeight: 300 }}>{subLabel}</p>
-        </div>
-        <Spacer y size={SpacerSize.SMALL} />
-        <div className="button-group" style={{ height: '100%', padding: '0.1rem 0', borderRadius: '5px' }}>
-          {options.map(({ label, value }) => (
-            <Button
-              style={{ background: selected === value ? 'white' : 'lightgrey', padding: '1rem', border: `${selected === value ? 3 : 1}px solid black`, fontWeight: 800, margin: '0 0.5rem' }}
-              className="option-language--button"
-              color={selected === value ? COLORS.GOLD : ''}
-              onClick={() => setSelected(value)}
-              light
-              label={label}
-            />
-          ))}
-        </div>
-      </div>
-    </div>
-  );
-}
-
-
-function ModeOptions({ mode, setMode, countDown, setCountDown, wordCount, setWordCount }: OptionModalProps) {
+function ModeOptions({ mode, setMode, countDown, setCountDown, wordCount, setWordCount, isZenModeOn, setIsZenModeOn }: OptionModalProps) {
   const [wordsType, setWordsType] = useState<TWordsType>(WordsType.RANDOM);
 
   const modeOptions = [{ value: TrainingMode.TIME_TRIAL, label: 'time trial' }, { value: TrainingMode.SPEED_CHALLENGE, label: 'speed challenge' }];
@@ -124,6 +37,14 @@ function ModeOptions({ mode, setMode, countDown, setCountDown, wordCount, setWor
         options={modeOptions}
         selected={mode}
         setSelected={setMode}
+      />
+      {/* TODO Should become HARD MODE*/}
+      <CheckboxWithLabel
+        icon={<PiFlowerLotusLight />}
+        label='Zen mode'
+        subLabel="With this mode, you can hop to the next word without needing to fix it. A stress-free mode for those who prefer not to be interrupted in their typing flow."
+        checked={isZenModeOn}
+        onChange={() => setIsZenModeOn(!isZenModeOn)}
       />
       <Spacer y size={SpacerSize.SMALL} />
       {/* You have 15, 30, 45, 60, 75 or 90seconds to type as many words as possible  */}
@@ -158,15 +79,17 @@ function ModeOptions({ mode, setMode, countDown, setCountDown, wordCount, setWor
 export interface OptionModalProps extends EngineProps {
   shouldDisplayOption: boolean;
   setShouldDisplayOption: React.Dispatch<React.SetStateAction<boolean>>;
+  closeModal: () => void;
 };
 
 function OptionModal(props: OptionModalProps) {
-  const { fontSize, setFontSize, language, setLanguage, layout, setLayout, isUserAllowToType, isRunning, shouldDisplayOption, setShouldDisplayOption, resetTrainingAndRefetch } = props;
+  const { fontSize, setFontSize, language, setLanguage, layout, setLayout, isUserAllowToType, isRunning, shouldDisplayOption, setShouldDisplayOption, resetTrainingAndRefetch, closeModal } = props;
   const layoutOptions = [{ value: WordsCollectionLayout.VERTICAL, label: <MdOutlineSubject size={22} /> }, { value: WordsCollectionLayout.HORIZONTAL, label: <FaGripLines size={18} /> }];
   const languageOptions = [{ value: Languages.FR, label: Languages.FRENCH }, { value: Languages.EN, label: Languages.ENGLISH }, { value: Languages.ES, label: Languages.SPANISH }, { value: Languages.DE, label: Languages.GERMAN }];
   const fontSizeOptions = [{ value: FontSize.SMALL, label: FontSize.SMALL }, { value: FontSize.MEDIUM, label: FontSize.MEDIUM }, { value: FontSize.LARGE, label: FontSize.LARGE }, { value: FontSize.X_LARGE, label: FontSize.X_LARGE }];
   const onSave = () => {
     setShouldDisplayOption(false);
+    closeModal();
     resetTrainingAndRefetch();
   }
   return (
@@ -182,12 +105,9 @@ function OptionModal(props: OptionModalProps) {
       <Modal.Body>
         <div className="options--wrapper main-options--wrapper">
           {/* Unallow user to change options while a session is running. Force him to stop the game first */}
-          {/* <div className={isUserAllowToType && isRunning ? 'disabled-options' : ''} /> */}
           <ModeOptions {...props} />
         </div>
-        <Spacer y size={SpacerSize.SMALL} />
         <div className={`options--wrapper ${shouldDisplayOption ? '' : 'hidden'}`}>
-          <Spacer y size={SpacerSize.SMALL} />
           {/* Unallow user to change options while a session is running. Force him to stop the game first */}
           <div className={isUserAllowToType && isRunning ? 'disabled-options' : ''} />
           {/* <span className="separator">|</span> */}
@@ -216,7 +136,7 @@ function OptionModal(props: OptionModalProps) {
             selected={fontSize}
             setSelected={setFontSize}
           />
-          <Button label="Save" onClick={onSave} />
+          <Button label="Save" onClick={onSave} style={{ padding: '1rem' }} />
         </div>
       </Modal.Body>
     </Modal>

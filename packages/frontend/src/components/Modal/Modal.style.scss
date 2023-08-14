@@ -6,7 +6,6 @@ $zIndex: 2;
 @mixin baseModalWrapper {
   z-index: $zIndex;
   background-color: $tertiary;
-  overflow: hidden;
   @include thickBorder();
   @include absoluteCenter();
 }

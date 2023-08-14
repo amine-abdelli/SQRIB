@@ -1,6 +1,7 @@
 .tooltip-container {
   position: relative;
   display: inline-block;
+  cursor: pointer;
 }
 
 .tooltip-box {
@@ -9,12 +10,16 @@
   padding: 10px;
   border-radius: 5px;
   transform: translateX(-50%);
-  white-space: nowrap;
-  word-wrap: break-word;
-  background-color: white;
-  overflow-wrap: break-word;
+  color: #FFFFFF;
+  background-color: fade-out($color: #000000, $amount: 0.2);
   border: 2px solid black;
+
+  /* To ensure the text wraps when it hits the edge of the container */
+  white-space: normal;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
 }
+
 .tooltip-top {
   bottom: 100%;
   left: 50%;

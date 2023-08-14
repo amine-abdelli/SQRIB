@@ -1,0 +1,43 @@
+.option-icon {
+  width: 2rem;
+  display: flex;
+  justify-content: center;
+  background: white;
+  height: 2rem;
+  align-items: center;
+  border-radius: 50px;
+}
+
+.button-group-container {
+  padding: 0.5rem;
+
+  p.icon {
+    font-size: 42px;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  p.mode {
+    margin: 0.5rem 0;
+  }
+
+  p.sublabel {
+    font-size: 12px;
+    color: GrayText;
+    font-weight: 300;
+  }
+
+  .mode-button-container {
+    height: 100%;
+    padding: 0.1rem 0;
+    border-radius: 5px;
+  }
+  
+  .mode-button {
+    font-weight: 800;
+    margin: 0 0.5rem;
+    padding: 1rem;
+  }
+}

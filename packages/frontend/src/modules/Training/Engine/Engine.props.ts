@@ -46,6 +46,10 @@ export interface EngineProps {
   shouldOpenVictoryModal: boolean,
   setShouldOpenVictoryModal: React.Dispatch<React.SetStateAction<boolean>>,
   setIsUserAllowToType: React.Dispatch<React.SetStateAction<boolean>>,
+  misspellings: string[],
+  setMisspellings: React.Dispatch<React.SetStateAction<string[]>>,
+  isZenModeOn: boolean, 
+  setIsZenModeOn: React.Dispatch<React.SetStateAction<boolean>>,
 }
 
 export interface EngineChildren {

@@ -1,0 +1,38 @@
+@import '../../theme/index.scss';
+
+.card-button {
+  @include thinBorder();
+  cursor: pointer;
+  padding: 0.5rem 1rem;
+  background-color: $primary;
+  white-space: normal;
+  word-break: break-word;
+  width: 20rem;
+  transition: scale 0.1s ease-in-out;
+ 
+  &:active {
+    transition: scale 0.1s ease-in-out;
+    scale: 0.99;
+  }
+
+  &:hover {
+    background-color: fade-out($primary, 0.1);
+  }
+
+  &--label {
+    font-size: 18px;
+    font-weight: 800;
+  }
+
+  &--sublabel {
+    font-weight: 300;
+  }
+
+  &--secondary {
+    background-color: $tertiary;
+
+    &:hover {
+      background-color: fade-out($outline, 0.95);
+    }
+  }
+}

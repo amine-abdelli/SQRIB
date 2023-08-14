@@ -9,17 +9,20 @@
  *    - totalLetters: The total number of letters that the user typed.
  */
 export function countLetters(wordChain: string[], typedWords: string[]) {
-  const totalLetters = typedWords.reduce((acc, curr) => acc + curr.length, 0);
+  const totalLettersOfReference = wordChain.slice(0, typedWords.length).reduce((a, v) => a + v.length, 0);
   let count = 0;
+  const wrongLettersList = [];
   //
   for (let i = 0; i < wordChain?.length; i += 1) {
     for (let j = 0; j < typedWords[i]?.length; j += 1) {
       if (wordChain[i][j] === typedWords[i][j]) {
         count += 1;
+      } else {
+        wrongLettersList.push(wordChain[i][j])
       }
     }
   }
-  return { correctLetters: count, wrongLetters: totalLetters - count, totalLetters };
+  return { correctLetters: count, wrongLetters: wrongLettersList.length, totalLetters: totalLettersOfReference };
 }
 
 export function countCorrectlyTypedWords(typedWords: string[], wordChain: string[]) {
@@ -31,4 +34,21 @@ export function countCorrectlyTypedWords(typedWords: string[], wordChain: string
     }
   }
   return correctlyTypedWords
+}
+
+
+export function countOccurrences(arr: string[]) {
+  return arr.reduce((acc: any, letter: string) => {
+      if (acc[letter]) {
+          acc[letter]++;
+      } else {
+          acc[letter] = 1;
+      }
+      return acc;
+  }, {});
+}
+
+export function pickRandomItem(items: any[] = []): string {
+  const randomIndex = Math.floor(Math.random() * items.length);
+  return items[randomIndex];
 }

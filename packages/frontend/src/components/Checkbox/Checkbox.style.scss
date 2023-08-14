@@ -1,0 +1,18 @@
+@import "../../../src/theme/";
+
+.checkbox {
+      zoom: 2;
+      margin: 0;
+      padding: 0;
+      inline-size:  1px solid black;
+      
+      &:checked {
+        accent-color: $primary;
+        color:white;
+        border: 3px solid $primary;
+      }
+
+      &:hover {
+        cursor: pointer;
+      }
+  }

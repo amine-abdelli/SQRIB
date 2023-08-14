@@ -7,7 +7,7 @@ import { WordsCollectionHeader } from '../../components/DisplayerHeader/Displaye
 import { Scoring } from '../../components/Scoring/Scoring.component';
 import { WordsCollectionLayout } from '../../components/Options/Options.props';
 import { Button } from '../../components/Button/Button.component';
-import KeyBoard from '../../components/KeyBoard/KeyBoard.component';
+import { KeyBoard } from '../../components/KeyBoard/KeyBoard.component';
 import '../../theme/components/_containers.scss';
 import { TrainingModal } from './components/TrainingModal/TrainingModal.component';
 import { OptionModal } from './components/OptionModal/OptionModal.component';
@@ -18,8 +18,11 @@ import { COLORS } from '../../theme/colors';
 function TrainingModule(props: EngineProps) {
   const [shouldDisplayOption, setShouldDisplayOption] = React.useState<boolean>(true);
   const [shouldDisplayReplayModal, setShouldDisplayReplayModal] = React.useState<boolean>(false);
-  const optionProps = { ...props, shouldDisplayOption, setShouldDisplayOption }
-  const replayProps = { ...props, shouldDisplayReplayModal, setShouldDisplayReplayModal, setShouldDisplayOption }
+  const closeModal = React.useCallback(() => setShouldDisplayReplayModal(false), [setShouldDisplayReplayModal]);
+  const openModal = React.useCallback(() => setShouldDisplayReplayModal(true), [setShouldDisplayReplayModal]);
+  const { isUserAllowToType, misspellings, setInput, input } = props;
+  const optionProps = { ...props, shouldDisplayOption, setShouldDisplayOption, closeModal }
+  const replayProps = { ...props, shouldDisplayReplayModal, setShouldDisplayReplayModal, setShouldDisplayOption, closeModal }
   return (
     <section className='training-container--wrapper'>
       <Scoring {...optionProps} />
@@ -33,9 +36,7 @@ function TrainingModule(props: EngineProps) {
           stretch
         /> : <Button
           style={{ display: 'flex', justifyContent: 'flex-end', position: 'absolute', right: 0 }}
-          onClick={() => {
-            setShouldDisplayReplayModal(true)
-          }}
+          onClick={openModal}
           label={<FaPlay />}
           stretch
         />}
@@ -43,7 +44,7 @@ function TrainingModule(props: EngineProps) {
       </div>
       {props.layout === WordsCollectionLayout.HORIZONTAL
         ? <WordsCollection {...props} /> : <WordsCollection {...props} />}
-      <KeyBoard enable />
+      <KeyBoard enable={isUserAllowToType} misspellings={misspellings} setInput={setInput} input={input} />
       <TrainingModal {...replayProps} />
       <OptionModal {...optionProps} />
       <ReplayModal {...replayProps} />

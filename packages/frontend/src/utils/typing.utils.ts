@@ -46,4 +46,21 @@ function getFocusedWordLetterColor(
   return COLORS.GREY;
 }
 
-export { getTextDecorationColor, getLetterColor, getFocusedWordLetterColor };
+function getRGBA(letter: string, misspellings: string[]): string {
+  const count = misspellings.filter(item => item === letter).length;
+  const alpha = count >= 10 ? 1 : count / 10;
+  return count > 0 ? `rgba(243, 18, 96, ${alpha})` : '#FFFFFF';
+}
+
+function expressKeyStyleProperty(e: string, pressedKey: string, misspellings: string[], enable: boolean) {
+  if (e === 'Escape' && enable) {
+    return '#FFFFFF';
+  }
+  if (pressedKey === e && enable) {
+    return '#D69C5D';
+  }
+  return getRGBA(e, misspellings);
+}
+
+
+export { getTextDecorationColor, getLetterColor, getFocusedWordLetterColor, getRGBA, expressKeyStyleProperty };

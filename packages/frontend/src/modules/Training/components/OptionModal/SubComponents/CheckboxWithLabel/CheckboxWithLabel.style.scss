@@ -1,0 +1,15 @@
+.checkbox-with-label {
+  &--wrapper {
+    padding: 0 0.5rem;
+  }
+
+  &--icon {
+    width: 2rem;
+     display: flex;
+     justify-content: center;
+     background: white;
+     height: 2rem;
+     align-items: center;
+     border-radius: 50px;
+  }
+}

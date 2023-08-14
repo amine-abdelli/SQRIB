@@ -1,56 +1,50 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import Modal from '../../../../components/Modal/Modal.component'
 import { Stats } from '../Stats/Stats.component'
-import { Spacer, SpacerSize } from '../../../../components'
-import { Tooltip } from 'react-tooltip'
-import { Button } from '../../../../components/Button/Button.component'
 import { ReplayModalProps } from '../ReplayModal/ReplayModal.component'
+import { ReplayOptions } from '../ReplayModal/ReplayOptions/ReplayOptions.component'
+import { ArrowLeft } from 'react-iconly'
+import { Button } from '../../../../components/Button/Button.component'
+import { useConfetti } from '../../../../contexts/ConfettiContext'
 
 export interface StatsProps extends ReplayModalProps {
   nextStep: () => void
 }
 
 const TrainingModal = (props: ReplayModalProps) => {
-  const { shouldOpenVictoryModal, setShouldOpenVictoryModal, resetTraining, resetTrainingAndRefetch, setShouldDisplayOption } = props;
+  const { shouldOpenVictoryModal, setShouldOpenVictoryModal, resetTraining, resetTrainingAndRefetch, setShouldDisplayOption, setIsUserAllowToType } = props;
   const [step, setStep] = React.useState<0 | 1>(0);
+  const [shouldTriggerConfetti, setShouldTriggerConfetti] = React.useState(false);
+  const { triggerConfetti } = useConfetti();
+
+  useEffect(() => {
+    if(shouldOpenVictoryModal && shouldTriggerConfetti === false) {
+      triggerConfetti()
+      setShouldTriggerConfetti(true)
+    }
+  }, [shouldOpenVictoryModal])
+
   function nextStep() {
     setStep(1)
   }
   const statsProps: StatsProps = { ...props, nextStep }
-  
+
   function closeModal() {
     setShouldOpenVictoryModal(false)
+    setShouldTriggerConfetti(false)
     setStep(0)
   }
+  const ReplayOptionsProps = { resetTraining, resetTrainingAndRefetch, setShouldDisplayOption, setIsUserAllowToType, closeModal }
   return (
     <Modal isOpen={shouldOpenVictoryModal} setIsOpen={setShouldOpenVictoryModal}>
+      <Modal.Header>
+        {step === 1 ? <Button stretch light label={<ArrowLeft size={24} />} onClick={() => setStep(0)} style={{ padding: 0}}/> : null}
+      </Modal.Header>
       <Modal.Body>
-        {step === 0 && <Stats {...statsProps} />}
-        {step === 1 && (
-          <div style={{ display: 'flex', flexDirection: 'column' }}>
-            <Spacer y size={SpacerSize.SMALL} />
-            <Tooltip anchorSelect='.replay--button' place='top'>
-              Replay the same words collection
-            </Tooltip>
-            <Tooltip anchorSelect='.new-game--button' place='top'>
-              Generate new word set
-            </Tooltip>
-            <a className='replay--button'><Button onClick={() => {
-              resetTraining()
-              closeModal()
-            }} label="Replay" /></a>
-            <Spacer y size={SpacerSize.SMALL} />
-            <a className="new-game--button"><Button onClick={() => {
-              closeModal()
-              resetTrainingAndRefetch()
-            }} label="New words" /></a>
-            <Spacer y size={SpacerSize.SMALL} />
-            <a className="new-game--button"><Button onClick={() => {
-              closeModal()
-              setShouldDisplayOption(true)
-            }} label="Change settings" stretch secondary /></a>
-          </div>
-        )}
+        {step === 0 ? <Stats {...statsProps} />: null}
+        {step === 1 ? (
+          <ReplayOptions {...ReplayOptionsProps} />
+        ): null}
       </Modal.Body>
     </Modal>
   )

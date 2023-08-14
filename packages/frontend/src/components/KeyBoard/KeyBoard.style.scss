@@ -1,6 +1,7 @@
+@import '../../theme/index.scss';
+
 .keyBoardWrapper {
   padding: 5px;
-  border: 1px black solid;
   width: 100%;
   height: auto;
   border-radius: 5px;
@@ -8,12 +9,19 @@
 }
 
 .keyBoardRow {
+  background-color: #FFFFFF;
   display: flex;
   justify-content: space-between;
 }
 
 .key {
-  border: 1px solid;
+  border-color: #181818;
+  color: #181818;
+  border: 3px solid black;
+  font-size: 16px;
+  box-sizing: border-box;
+  font-family: $FiraCodefontFamily;
+  font-weight: 800;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -21,4 +29,9 @@
   margin: 1px;
   flex-grow: 1;
   border-radius: 5px;
+}
+
+.stretch {
+  width: 2rem;
+  flex-grow: 0;
 }

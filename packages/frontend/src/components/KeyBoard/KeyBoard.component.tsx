@@ -2,65 +2,48 @@ import React, { useEffect, useState } from 'react';
 import { keyBoardLayout } from './keyBoardLayout';
 import { KeyBoardEnum } from './KeyBoard.enum';
 import './KeyBoard.style.scss';
-import { translateKeyBoardCode } from './helpers/KeyBoard.helper';
+import { Key } from './subComponent/Key.component';
 
-function KeyBoard({ enable }: { enable: boolean }) {
+function KeyBoard({ enable, misspellings, setInput, input }: { enable: boolean, misspellings: string[], setInput: Function, input: string }) {
   const [keyPressed, setKeyPressed] = useState<string>('');
   const keyBoardKeys: string[] = keyBoardLayout[KeyBoardEnum.DEFAULT_QWERTY];
 
   useEffect(() => {
-    function handleKeyDown(e: KeyboardEvent) {
-      setKeyPressed(e.key);
+    if (enable) {
+      function handleKeyDown(event: KeyboardEvent) {
+        // Prevent user from pasting text
+        if (event.ctrlKey && event.key === "v") {
+          event.preventDefault();
+        }
+        setKeyPressed(event.key);
+      }
+      function handleKeyUp() {
+        setKeyPressed('');
+      }
+      document.addEventListener('keydown', handleKeyDown);
+      document.addEventListener('keyup', handleKeyUp);
+      return function cleanup() {
+        document.removeEventListener('keydown', handleKeyDown);
+        document.removeEventListener('keyup', handleKeyUp);
+      };
     }
-    function handleKeyUp() {
-      setKeyPressed('');
-    }
-    document.addEventListener('keydown', handleKeyDown);
-    document.addEventListener('keyup', handleKeyUp);
-    return function cleanup() {
-      document.removeEventListener('keydown', handleKeyDown);
-      document.removeEventListener('keyup', handleKeyUp);
-    };
   }, []);
 
-  // Highlight keys to focus in didacticiel mode
-  // const highlightedKeys = alphabet.filter((_, i) => i <= 7);
-
-  function expressKeyStyleProperty(e: string, pressedKey: string) {
-    if (e === 'Escape') {
-      return '#FFFFFF';
-    }
-    if (pressedKey === e) {
-      return '#D69C5D';
-    }
-    return '#FFFFFF';
-  }
-
   return (
-    <div style={{ border: 'none' }} className='keyBoardWrapper'>
+    <div className='keyBoardWrapper'>
       {keyBoardKeys.map((row: string, i: number) => (
         <div key={row[i]}>
-          <div className='keyBoardRow' style={{ cursor: enable ? 'pointer' : 'not-allowed' }}>
-            {row?.split(' ').map((e: string) => {
-              const isKeyPressedAndEnable: boolean = keyPressed === e && enable;
+          <div className='keyBoardRow' style={{ cursor: enable ? '' : 'not-allowed' }}>
+            {row?.split(' ').map((key: string) => {
+              const isKeyPressedAndEnable: boolean = keyPressed === key && enable;
               return (
-                <span
-                  key={e}
-                  className='key'
-                  style={{
-                    borderColor: '#181818',
-                    transform: isKeyPressedAndEnable ? 'scale(0.95)' : 'scale(0.99)',
-                    backgroundColor: enable ? expressKeyStyleProperty(e, keyPressed) : 'grey',
-                    color: '#181818',
-                    border: '3px solid black',
-                    fontWeight: 800,
-                    fontSize: '16px',
-                    boxSizing: 'border-box',
-                    fontFamily: 'Poppins',
-                  }}
-                >
-                  {translateKeyBoardCode(e)}
-                </span>
+                <Key
+                  letter={key}
+                  enable={enable}
+                  isKeyPressedAndEnable={isKeyPressedAndEnable}
+                  keyPressed={keyPressed}
+                  misspellings={misspellings}
+                />
               );
             })}
           </div>
@@ -70,4 +53,4 @@ function KeyBoard({ enable }: { enable: boolean }) {
   );
 }
 
-export default KeyBoard;
+export { KeyBoard };

@@ -12,6 +12,7 @@ $disabled-color: lightgray;
     background-color: white;
     font-weight: 800;
     font-size: 20px;
+    font-family: $FiraCodefontFamily;
 
     &::placeholder {
       font-family: $FiraCodefontFamily;

@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Word } from './SubComponent';
-import { EngineProps } from '../../modules/Training/Engine';
-import './WordsCollection.style.scss';
 import { Overlay } from '../Overlay/Overlay.component';
 import { IWordsCollectionProps } from './WordsCollection.props';
+import './WordsCollection.style.scss';
 
 function WordsCollection({
   wordChain, indexOfProgression, typedWords, input, fontSize, isRunning, isUserAllowToType, setVerticalOffSet, verticalOffSet, mode, setMisspellings

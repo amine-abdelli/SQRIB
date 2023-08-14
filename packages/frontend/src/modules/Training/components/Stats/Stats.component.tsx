@@ -37,20 +37,20 @@ function Stats(props: StatsProps) {
         </div>
         <div className='score-card--wrapper'>
           <Text>Typed words</Text>
-          <Text>{totalTypedWords}</Text>
+          <Text bold>{totalTypedWords}</Text>
         </div>
         <div className='score-card--wrapper'>
           <Text>Incorrect words</Text>
-          <Text>{incorrectlyTypedWords}</Text>
+          <Text bold>{incorrectlyTypedWords}</Text>
         </div>
         <div className='score-card--wrapper'>
           <Text>Correct words</Text>
-          <Text>{correctlyTypedWords}</Text>
+          <Text bold>{correctlyTypedWords}</Text>
         </div>
         <div className='score-card--wrapper'>
           <Text>Keystrokes</Text>
           <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-            <Text>{totalLetters}</Text>
+            <Text bold>{totalLetters}</Text>
             <Spacer x size={SpacerSize.SMALL} />
             <Text thin size={14} color={COLORS.SUCCESS}>{correctLetters}</Text>
             <Text thin color={COLORS.GREY}>|</Text>
@@ -60,11 +60,11 @@ function Stats(props: StatsProps) {
         </div>
         <div className='score-card--wrapper'>
           <Text>Accuracy</Text>
-          <Text>{accuracy}%</Text>
+          <Text bold>{accuracy}%</Text>
         </div>
         <div className='score-card--wrapper'>
           <Text>Points</Text>
-          <Text>{points}</Text>
+          <Text bold>{points}</Text>
         </div>
         <TipGenerator />
         <div style={{ width: '100%', display: misspellings?.length ? '' : 'none' }}>

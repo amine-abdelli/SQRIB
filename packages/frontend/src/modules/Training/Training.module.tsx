@@ -9,11 +9,11 @@ import { WordsCollectionLayout } from '../../components/Options/Options.props';
 import { Button } from '../../components/Button/Button.component';
 import { KeyBoard } from '../../components/KeyBoard/KeyBoard.component';
 import '../../theme/components/_containers.scss';
-import { TrainingModal } from './components/TrainingModal/TrainingModal.component';
-import { OptionModal } from './components/OptionModal/OptionModal.component';
+import { SettingsModal } from './components/SettingsModal/SettingsModal.component';
 import { ReplayModal } from './components/ReplayModal/ReplayModal.component';
 import { FaPlay, FaStop } from 'react-icons/fa';
 import { COLORS } from '../../theme/colors';
+import { ScoreBoardModal } from './components/ScoreBoardModal/ScoreBoardModal.component';
 
 function TrainingModule(props: EngineProps) {
   const [shouldDisplayOption, setShouldDisplayOption] = React.useState<boolean>(true);
@@ -45,8 +45,8 @@ function TrainingModule(props: EngineProps) {
       {props.layout === WordsCollectionLayout.HORIZONTAL
         ? <WordsCollection {...props} /> : <WordsCollection {...props} />}
       <KeyBoard enable={isUserAllowToType} misspellings={misspellings} setInput={setInput} input={input} />
-      <TrainingModal {...replayProps} />
-      <OptionModal {...optionProps} />
+      <ScoreBoardModal {...replayProps} />
+      <SettingsModal {...optionProps} />
       <ReplayModal {...replayProps} />
     </section>
   );

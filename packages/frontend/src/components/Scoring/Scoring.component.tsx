@@ -3,7 +3,7 @@ import { CountDown } from '../CountDown/CountDown.component';
 import { ScoringItem } from './ScoringItem/ScoringItem.component';
 import { useWindowSize } from '../../hooks/useWindowSize.hook';
 import Avatar from '../Avatar/Avatar.component';
-import { OptionModalProps } from '../../modules/Training/components/OptionModal';
+import { SettingsModalProps } from '../../modules/Training/components/SettingsModal';
 import { Button } from '../Button/Button.component';
 import { AiOutlineEdit } from 'react-icons/ai';
 import { Spacer, SpacerSize } from '../Spacer';
@@ -13,7 +13,7 @@ import { TbSortAscendingNumbers } from 'react-icons/tb';
 import { MdOutlineTypeSpecimen } from 'react-icons/md';
 import './Scoring.style.scss';
 import { IoLanguageOutline } from 'react-icons/io5';
-import { OptionIcon } from '../../modules/Training/components/OptionModal/SubComponents/OptionGroup';
+import { OptionIcon } from '../../modules/Training/components/SettingsModal/SubComponents/OptionGroup';
 import { useAuthContext } from '../../contexts/AuthContext';
 
 const SETTINGS_CONVERTER: Record<string, string> = {
@@ -25,7 +25,7 @@ const SETTINGS_CONVERTER: Record<string, string> = {
   es: 'Spanish'
 }
 
-function Scoring({ score, timer, setShouldDisplayOption, isRunning, mode, wordCount, language, countDown, typedWords }: OptionModalProps) {
+function Scoring({ score, timer, setShouldDisplayOption, isRunning, mode, wordCount, language, countDown, typedWords }: SettingsModalProps) {
   const { user, isAuthenticated } = useAuthContext()
   const { isSmallScreen, isLargeScreen, isVerySmallScreen } = useWindowSize();
   return (

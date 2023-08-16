@@ -8,9 +8,9 @@ const router = express.Router();
  * @route /login
  * @method POST
  */
-export function login(req: Request, res: Response, next: NextFunction) {
+export async function login(req: Request, res: Response, next: NextFunction) {
   try {
-    return loginService(req.body, res);
+    return await loginService(req.body, res);
   } catch (error) {
     return next(error);
   }

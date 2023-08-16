@@ -7,6 +7,7 @@ import bcrypt from 'bcryptjs';
 import { HttpError } from '../utils';
 import {
   createUserRepository, deleteUserRepository, getUserByEmailRepository, getUserByIdRepository,
+  getUserByUsernameRepository,
   updateUserByIdRepository,
 } from '../repositories/user.repository';
 
@@ -15,14 +16,18 @@ export async function createUserService(
 ): Promise<User> {
   log.info('Creating user with data:', { email });
   if (!emailPolicy.test(email)
-  || !passwordPolicy.test(password)
-  || !usernamePolicy.test(username)) {
+    || !passwordPolicy.test(password)
+    || !usernamePolicy.test(username)) {
     throw new HttpError(400, 'Invalid email, username or password');
   }
 
   const user = await getUserByEmailRepository(email);
   if (user) {
-    throw new HttpError(403, 'User already exists');
+    throw new HttpError(403, 'This email is already used');
+  }
+  const userByUsername = await getUserByUsernameRepository(username);
+  if (userByUsername) {
+    throw new HttpError(403, 'This username is already taken');
   }
   const hashedPassword = await bcrypt.hash(password, 10);
   const createdUser = await createUserRepository({
@@ -38,7 +43,7 @@ export async function createUserService(
 }
 
 export async function deleteUserService(email: string, password: string):
-Promise<[Prisma.BatchPayload, User] | null> {
+  Promise<[Prisma.BatchPayload, User] | null> {
   log.info('Deleting user:', { email });
   if (!email || !password) {
     throw new HttpError(400, 'Email or password parameter missing');
@@ -83,7 +88,7 @@ export async function getUserByEmailService(email: string): Promise<User | null>
 }
 
 export async function updateUserByIdService(userId: string, data: Partial<User>):
- Promise<User | null> {
+  Promise<User | null> {
   log.info('Updating user by ID: ', userId);
   if (!userId) {
     throw new HttpError(400, 'Missing user ID');

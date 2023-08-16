@@ -10,7 +10,8 @@ import { useCreateUser } from '../../../api/queries/userCreateAccount.hooks';
 import { useModal } from '../../../contexts/ModalContext';
 import { MODAL_ID } from '../../../components/Modals/modals.constants';
 import { AxiosError } from 'axios';
-import { useAuthContext } from '../../../contexts/AuthContext';
+import { alertService } from '../../Alert/Alert.service';
+import { formatErrorMessage } from '../../../utils';
 
 function Signup() {
   const [isValid, setIsValid] = useState({
@@ -23,18 +24,19 @@ function Signup() {
     password: '',
     retypedPassword: '',
   });
-  const { closeModal } = useModal()
+  const { closeModal, openModal } = useModal()
   const { mutateAsync: submitUserSubscription } = useCreateUser({
     onSuccess(data, variables) {
       setSignupForm({ username: '', email: '', password: '', retypedPassword: '' })
       setTriggerLoginChecking(false)
+      alertService.success('You\'ve been successfully signed up', { keepAfterRouteChange: true });
       closeModal(MODAL_ID.SIGNUP)
-      // Trigger notification message
+      openModal(MODAL_ID.LOGIN)
     },
     onError(error, variables, context) {
       const axiosError = error as AxiosError
       setSignupForm({ username: '', email: '', password: '', retypedPassword: '' })
-      console.log('ERROR', axiosError.message)
+      alertService.error(formatErrorMessage(axiosError), { keepAfterRouteChange: true });
       // Trigger notification message
     }
   })

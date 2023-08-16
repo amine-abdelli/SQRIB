@@ -1,4 +1,6 @@
-import { UserCredential, formatEmail, log } from '@sqrib/shared';
+import {
+  UserCredential, formatEmail, log, emailPolicy,
+} from '@sqrib/shared';
 import { Response } from 'express';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
@@ -11,16 +13,17 @@ const jwtConfig = {
 } as jwt.SignOptions;
 
 export async function loginService(userCredentials: UserCredential, res: Response) {
-  const { username, email, password } = userCredentials;
-  log.info('Logging user : ', { user: email || username });
-  if ((!username && !email) || !password) {
+  const { email: emailOrUsername, password } = userCredentials;
+  const isEmail = emailPolicy.test(emailOrUsername || '');
+  log.info('Logging user : ', { user: emailOrUsername });
+  if ((!emailOrUsername) || !password) {
     throw new HttpError(400, 'Missing username, email or password');
   }
   let user;
-  if (email) {
-    user = await getUserByEmailRepository(formatEmail(email));
-  } else if (username) {
-    user = await getUserByUsernameRepository(username);
+  if (emailOrUsername && isEmail) {
+    user = await getUserByEmailRepository(formatEmail(emailOrUsername));
+  } else if (emailOrUsername) {
+    user = await getUserByUsernameRepository(emailOrUsername);
   }
   const isPasswordValid = await bcrypt.compare(password, user?.password || '');
   if (!user || !isPasswordValid) {
@@ -36,7 +39,7 @@ export async function loginService(userCredentials: UserCredential, res: Respons
     throw new HttpError(500, 'An error occurred while generating token');
   }
   await updateUserByIdRepository(user.id, { last_activity: new Date() });
-  log.info('User successfully logged in : ', { user: email || username });
+  log.info('User successfully logged in : ', { user: emailOrUsername });
   return res.status(200).cookie('session_id', token, COOKIE_SETTINGS).send({ message: 'User logged in !' });
 }
 

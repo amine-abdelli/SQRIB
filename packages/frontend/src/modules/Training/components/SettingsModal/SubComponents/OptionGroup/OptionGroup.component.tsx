@@ -31,7 +31,7 @@ export function ModeOptionGroup({
         <div className="button-group mode-button-container">
           {options.map(({ label, value }) => (
             <Button
-              style={{ background: selected === value ? 'white' : 'lightgrey', border: `${selected === value ? 3 : 1}px solid black` }}
+              style={{ background: selected === value ? COLORS.WHITE : 'lightgrey', border: `${selected === value ? 3 : 1}px solid black` }}
               className="mode-button"
               color={selected === value ? COLORS.GOLD : ''}
               onClick={() => setSelected(value)}
@@ -50,7 +50,7 @@ export function OptionGroup({
 }: OptionProps) {
   return (
     <div style={{ padding: '0 0.5rem', background: '#f5f5f5', height: '3rem', borderRadius: '5px', marginBottom: '0.5rem' }} className="button-group--wrapper">
-      <span style={{ width: '2rem', display: 'flex', justifyContent: 'center', background: 'white', height: '2rem', alignItems: 'center', borderRadius: '50px' }}>
+      <span style={{ width: '2rem', display: 'flex', justifyContent: 'center', background: COLORS.WHITE, height: '2rem', alignItems: 'center', borderRadius: '50px' }}>
         {icon}
       </span>
       <Spacer x size='small' />
@@ -64,7 +64,7 @@ export function OptionGroup({
           {select ? <Select data={options} onChange={setSelected} value={selected} stretch />
             : options.map(({ label, value }) => (
               <Button
-                style={{ background: selected === value ? 'white' : '', padding: '0.8rem', borderRadius: '5px' }}
+                style={{ background: selected === value ? COLORS.WHITE : '', padding: '0.8rem', borderRadius: '5px' }}
                 color={selected === value ? COLORS.GOLD : ''}
                 onClick={() => setSelected(value)}
                 light

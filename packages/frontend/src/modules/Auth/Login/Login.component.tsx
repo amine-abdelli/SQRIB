@@ -1,41 +1,41 @@
 
 import React, { useEffect, useState } from 'react';
-import { Text } from '@nextui-org/react';
-import { emailPolicy } from '@sqrib/shared';
 import Modal from '../../../components/Modal/Modal.component';
 import { Logo, Spacer, SpacerSize } from '../../../components';
 import { Button } from '../../../components/Button/Button.component';
 import { Input } from '../components/Input/Input.component';
 import { useLogin } from '../../../api/queries/useLogin.hook';
-
+import { alertService } from '../../Alert/Alert.service';
+import { formatErrorMessage } from '../../../utils';
+import { MODAL_ID } from '../../../components/Modals/modals.constants';
+import { useModal } from '../../../contexts/ModalContext';
 
 function Login() {
-  const [login, setLogin] = useState({ email: '', password: '' });
-  const [isValid, setIsValid] = useState({ email: '', password: '' });
+  const [login, setLogin] = useState({
+    // Can be email or username
+    email: '',
+    password: ''
+  });
   const [isAuthWrong, setIsAuthWrong] = useState(false);
   const [triggerLoginChecking, setTriggerLoginChecking] = useState(false);
+  const { closeModal } = useModal()
   const { mutateAsync: loginUser } = useLogin({
     onSuccess(data, variables, context) {
+      setLogin({ email: '', password: '' });
+      setTriggerLoginChecking(false);
+      closeModal(MODAL_ID.LOGIN)
+      alertService.success('You\'ve been successfully logged in :) !', {});
+      // ! FIX RELOADING THING
       window.location.reload()
     },
     onError(error, variables, context) {
-      // Notification here
+      alertService.error(formatErrorMessage(error), {});
     }
   })
 
-  useEffect(() => {
-    setIsValid({
-      email: login.email.match(emailPolicy) ? '' : 'E-mail invalide',
-      password: login.password.length < 8 ? 'Votre mot de passe doit contenir au moins 8 caractères' : '',
-    });
-    setIsAuthWrong(false);
-  }, [login.email, login.password]);
-
   const onFinish = async () => {
     setTriggerLoginChecking(true);
-    if (isValid && login.password && login.email.match(emailPolicy)) {
-      setLogin({ email: '', password: '' });
-      setTriggerLoginChecking(false);
+    if (login.password && login.email) {
       await loginUser(login)
     }
   };
@@ -56,17 +56,13 @@ function Login() {
         </h1>
       </Modal.Header>
       <Modal.Body style={{ width: '20rem' }}>
-        {isAuthWrong && (
-          <Text style={{ textAlign: 'center', marginBottom: '5px' }} color='error'>
-            L&apos;e-mail ou le mot de passe saisie est incorrecte
-          </Text>
-        )}
+        {/* Can be email or username */}
         <Input
           type='email'
-          placeholder='john.doe@sqrib.io'
+          placeholder='Your email or username'
           onChange={(e) => setLogin({ ...login, email: e.target.value })}
           value={login.email}
-          helperText={triggerLoginChecking && isValid.email ? 'Veuillez saisir une adresse e-mail valide' : ''}
+          helperText={triggerLoginChecking ? 'Veuillez saisir une adresse e-mail valide' : ''}
         />
         <Input
           type='password'

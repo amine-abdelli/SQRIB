@@ -5,7 +5,7 @@ import { TWordsType, TrainingMode, WordsCollectionLayout, WordsType } from '../.
 import { FontSize } from '../../../../utils';
 import { Button } from '../../../../components/Button/Button.component';
 import { Languages } from '@sqrib/shared';
-import './OptionModal.style.scss';
+import './SettingsModal.style.scss';
 import { Category, Game, TimeCircle } from 'react-iconly';
 import { Logo, Spacer, SpacerSize } from '../../../../components';
 import { IoLanguageOutline } from 'react-icons/io5';
@@ -17,7 +17,7 @@ import { FaGripLines } from 'react-icons/fa';
 import { CheckboxWithLabel } from './SubComponents/CheckboxWithLabel/CheckboxWithLabel.component';
 import { ModeOptionGroup, OptionGroup } from './SubComponents/OptionGroup';
 
-function ModeOptions({ mode, setMode, countDown, setCountDown, wordCount, setWordCount, isZenModeOn, setIsZenModeOn }: OptionModalProps) {
+function ModeOptions({ mode, setMode, countDown, setCountDown, wordCount, setWordCount, isZenModeOn, setIsZenModeOn }: SettingsModalProps) {
   const [wordsType, setWordsType] = useState<TWordsType>(WordsType.RANDOM);
 
   const modeOptions = [{ value: TrainingMode.TIME_TRIAL, label: 'time trial' }, { value: TrainingMode.SPEED_CHALLENGE, label: 'speed challenge' }];
@@ -75,13 +75,13 @@ function ModeOptions({ mode, setMode, countDown, setCountDown, wordCount, setWor
   )
 }
 
-export interface OptionModalProps extends EngineProps {
+export interface SettingsModalProps extends EngineProps {
   shouldDisplayOption: boolean;
   setShouldDisplayOption: React.Dispatch<React.SetStateAction<boolean>>;
   closeModal: () => void;
 };
 
-function OptionModal(props: OptionModalProps) {
+function SettingsModal(props: SettingsModalProps) {
   const { fontSize, setFontSize, language, setLanguage, layout, setLayout, isUserAllowToType, isRunning, shouldDisplayOption, setShouldDisplayOption, resetTrainingAndRefetch, closeModal } = props;
   const layoutOptions = [{ value: WordsCollectionLayout.VERTICAL, label: <MdOutlineSubject size={22} /> }, { value: WordsCollectionLayout.HORIZONTAL, label: <FaGripLines size={18} /> }];
   const languageOptions = [{ value: Languages.FR, label: Languages.FRENCH }, { value: Languages.EN, label: Languages.ENGLISH }, { value: Languages.ES, label: Languages.SPANISH }, { value: Languages.DE, label: Languages.GERMAN }];
@@ -141,4 +141,4 @@ function OptionModal(props: OptionModalProps) {
   )
 }
 
-export { OptionModal }
+export { SettingsModal }

@@ -45,9 +45,9 @@ export function getUserByIdRepository(userId: string): Promise<User | null> {
 }
 
 /**
- * Get user by ID.
- * @param userId string
- * @returns a one user
+ * Get user by Email.
+ * @param email string
+ * @returns one user
  */
 export function getUserByEmailRepository(email: string): Promise<User | null> {
   return prisma.user.findUnique({

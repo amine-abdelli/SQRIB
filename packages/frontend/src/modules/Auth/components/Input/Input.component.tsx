@@ -46,7 +46,7 @@ function Input({
               maxWidth: '200px',
               padding: '10px 20px',
               margin: '10px',
-              color: disabled ? 'grey' : 'white',
+              color: disabled ? COLORS.GREY : COLORS.WHITE,
             }}
             >
               {helperText}

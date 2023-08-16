@@ -8,11 +8,13 @@ import { ConfettiProvider } from './contexts/ConfettiContext';
 import { ModalProvider } from './contexts/ModalContext';
 import { ModalDefinitions } from './components/Modals';
 import { AuthProvider } from './contexts/AuthContext';
+import { Alert } from './modules/Alert/Alert.component';
 
 
 function App() {
   return (
     <QueryClientProvider client={new QueryClient()}>
+      <Alert />
       <AuthProvider>
         <SoundProvider>
           <ConfettiProvider>

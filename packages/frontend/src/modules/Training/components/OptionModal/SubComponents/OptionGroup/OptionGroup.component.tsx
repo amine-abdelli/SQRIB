@@ -24,7 +24,7 @@ export function ModeOptionGroup({
       <div>
         <div>
           <Text p className='button-group--label icon'>{icon}<Spacer x size={SpacerSize.SMALL} />{label}</Text>
-          <Text p className="mode">Select a game mode</Text>
+          <Text p centered className="mode">Select a game mode</Text>
           <Text p className="sublabel">{subLabel}</Text>
         </div>
         <Spacer y size={SpacerSize.SMALL} />

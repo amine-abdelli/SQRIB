@@ -1,21 +1,19 @@
-import { IRegister } from '@sqrib/shared';
 import { User } from '@prisma/client';
+
+import { CreateUserRequestBody } from '@sqrib/shared';
 import { prisma } from '../client';
 
 /**
  * Create user and its associated settings and palmares.
  * @param data IRegister
  */
-export function createUserRepository(data: IRegister): Promise<User> {
+export function createUserRepository(data: CreateUserRequestBody): Promise<User> {
   return prisma.user.create({
     data: {
       email: data.email,
       username: data.username,
       password: data.password,
       Palmares: {
-        create: {},
-      },
-      Settings: {
         create: {},
       },
     },
@@ -29,7 +27,6 @@ export function createUserRepository(data: IRegister): Promise<User> {
 export function deleteUserRepository(userId: string) {
   return prisma.$transaction([
     prisma.palmares.deleteMany({ where: { user_id: userId } }),
-    prisma.settings.deleteMany({ where: { user_id: userId } }),
     prisma.user.delete({ where: { id: userId } }),
   ]);
 }

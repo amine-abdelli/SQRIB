@@ -1,7 +1,7 @@
 import { useQuery, UseQueryResult } from 'react-query';
 import { TrainingGamesRequestBody, TrainingGamesResponseBody } from '@sqrib/shared';
-import { apiService } from '../../api/api';
-import { endpoints } from '../../api';
+import { apiService } from '../api';
+import { endpoints } from '..';
 
 export const GET_TRAINING_WORD_CHAIN = 'GET_TRAINING_WORD_CHAIN';
 

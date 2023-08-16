@@ -7,6 +7,8 @@ class HttpService {
   constructor(baseURL: string) {
     this.axiosInstance = axios.create({
       baseURL,
+      // Mandatory to set cookies in the browser
+      withCredentials: true
     });
   }
 

@@ -1,7 +1,7 @@
 /* eslint-disable consistent-return */
 import { Prisma, User } from '@prisma/client';
 import {
-  emailPolicy, IRegister, log, passwordPolicy, usernamePolicy, formatEmail,
+  emailPolicy, log, passwordPolicy, usernamePolicy, formatEmail, CreateUserRequestBody,
 } from '@sqrib/shared';
 import bcrypt from 'bcryptjs';
 import { HttpError } from '../utils';
@@ -11,7 +11,7 @@ import {
 } from '../repositories/user.repository';
 
 export async function createUserService(
-  { username, email, password }: IRegister,
+  { username, email, password }: CreateUserRequestBody,
 ): Promise<User> {
   log.info('Creating user with data:', { email });
   if (!emailPolicy.test(email)
@@ -38,7 +38,7 @@ export async function createUserService(
 }
 
 export async function deleteUserService(email: string, password: string):
-Promise<[Prisma.BatchPayload, Prisma.BatchPayload, User] | null> {
+Promise<[Prisma.BatchPayload, User] | null> {
   log.info('Deleting user:', { email });
   if (!email || !password) {
     throw new HttpError(400, 'Email or password parameter missing');
@@ -56,7 +56,7 @@ Promise<[Prisma.BatchPayload, Prisma.BatchPayload, User] | null> {
   return deleteResponse;
 }
 
-export async function getUserByIdService(userId: string): Promise<User | null> {
+export async function getUserByIdService(userId: string): Promise<User> {
   log.info('Getting user by ID: ', { userId });
   if (!userId) {
     throw new HttpError(400, 'Missing user ID');

@@ -8,3 +8,4 @@ export * from './enums';
 export * from './logger';
 export * from './scoring';
 export * from './email';
+export * from './game';

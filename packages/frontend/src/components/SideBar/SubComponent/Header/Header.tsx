@@ -1,10 +1,11 @@
 import React from 'react';
-import '../../SideBar.style.scss';
 import SqribIcon from '../../../../assets/images/key-logo.png';
 import { Spacer, SpacerSize } from '../../../Spacer';
+import '../../SideBar.style.scss';
 
-function Logo({ label }: {label: string}) {
-  return <h1 className='logo--text'>{label}</h1>;
+function Logo({ label, centered = false }: {label: string, centered?: boolean}) {
+  const classes = `logo--text ${centered ? 'logo--text--centered' : ''}`
+  return <h1 className={classes}>{label}</h1>;
 }
 
 function Header() {

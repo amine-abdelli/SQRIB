@@ -12,4 +12,5 @@ export interface TextProps extends HTMLProps<HTMLParagraphElement | HTMLHeadingE
   centered?: boolean;
   thin?: boolean;
   size?: number;
+  background?: string;
 }

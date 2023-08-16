@@ -1,12 +1,23 @@
+@mixin BaseText {
+  white-space: normal;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+}
+
 .text {
   &.h1 {
+    @include BaseText();
     font-size: 2rem;
   }
   &.h2 {
+    @include BaseText();
     font-size: 1.5rem;
   }
   &.h3 {
+    @include BaseText();
     font-size: 1.25rem;
+  } &.p {
+    @include BaseText();
   }
   &.bold {
     font-weight: bold;
@@ -20,9 +31,9 @@
   &.centered {
     display: flex;
     align-items: center;
-    text-align: center;
+    justify-content: center;
   }
   &.thin {
-    font-weight: 300;  // Generally, 300 is considered a "light" font-weight
+    font-weight: 300; // Generally, 300 is considered a "light" font-weight
   }
 }

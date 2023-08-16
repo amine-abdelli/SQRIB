@@ -1,4 +1,4 @@
-import { IUserCredential, formatEmail, log } from '@sqrib/shared';
+import { UserCredential, formatEmail, log } from '@sqrib/shared';
 import { Response } from 'express';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
@@ -10,7 +10,7 @@ const jwtConfig = {
   algorithm: 'HS512',
 } as jwt.SignOptions;
 
-export async function loginService(userCredentials: IUserCredential, res: Response) {
+export async function loginService(userCredentials: UserCredential, res: Response) {
   const { username, email, password } = userCredentials;
   log.info('Logging user : ', { user: email || username });
   if ((!username && !email) || !password) {
@@ -36,8 +36,8 @@ export async function loginService(userCredentials: IUserCredential, res: Respon
     throw new HttpError(500, 'An error occurred while generating token');
   }
   await updateUserByIdRepository(user.id, { last_activity: new Date() });
-  res.status(200).cookie('session_id', token, COOKIE_SETTINGS).send({ message: 'User logged in !' });
   log.info('User successfully logged in : ', { user: email || username });
+  return res.status(200).cookie('session_id', token, COOKIE_SETTINGS).send({ message: 'User logged in !' });
 }
 
 export function logoutService(res: Response) {

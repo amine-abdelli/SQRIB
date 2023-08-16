@@ -1,4 +1,4 @@
 export interface AvatarProps {
-  username: string,
+  username: string | JSX.Element,
   size?: 'small' | 'regular'
 }

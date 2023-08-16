@@ -17,6 +17,7 @@ export enum COLORS {
   GREY = '#778899', // Grey
   ERROR = '#F31260', // Error
   SUCCESS = '#13A452', // Success
+  LINK = '#0070F0'
 }
 
 export enum ERROR_SHADES {

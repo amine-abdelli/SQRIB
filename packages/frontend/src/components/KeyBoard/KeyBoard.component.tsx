@@ -39,6 +39,7 @@ function KeyBoard({ enable, misspellings, setInput, input }: { enable: boolean, 
               return (
                 <Key
                   letter={key}
+                  key={key}
                   enable={enable}
                   isKeyPressedAndEnable={isKeyPressedAndEnable}
                   keyPressed={keyPressed}

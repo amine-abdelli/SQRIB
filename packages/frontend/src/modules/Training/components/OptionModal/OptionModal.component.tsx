@@ -4,7 +4,6 @@ import Modal from '../../../../components/Modal/Modal.component';
 import { TWordsType, TrainingMode, WordsCollectionLayout, WordsType } from '../../../../components/Options/Options.props';
 import { FontSize } from '../../../../utils';
 import { Button } from '../../../../components/Button/Button.component';
-import { COLORS } from '../../../../theme/colors';
 import { Languages } from '@sqrib/shared';
 import './OptionModal.style.scss';
 import { Category, Game, TimeCircle } from 'react-iconly';
@@ -97,10 +96,9 @@ function OptionModal(props: OptionModalProps) {
       isOpen={shouldDisplayOption}
       setIsOpen={setShouldDisplayOption}
       closeable
-      darkCross
     >
       <Modal.Header>
-        <Logo label='SESSION SETTINGS' />
+        <Logo centered label='SESSION SETTINGS' />
       </Modal.Header>
       <Modal.Body>
         <div className="options--wrapper main-options--wrapper">

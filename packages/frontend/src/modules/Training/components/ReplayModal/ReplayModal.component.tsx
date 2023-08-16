@@ -1,6 +1,6 @@
 import React from 'react'
 import Modal from '../../../../components/Modal/Modal.component';
-import { EngineProps, Spacer, SpacerSize } from '../../../../components';
+import { EngineProps } from '../../../../components';
 import { ReplayOptions } from './ReplayOptions/ReplayOptions.component';
 
 export interface ReplayModalProps extends EngineProps {
@@ -17,7 +17,6 @@ const ReplayModal = ({ shouldDisplayReplayModal, setShouldDisplayReplayModal, re
       isOpen={shouldDisplayReplayModal}
       setIsOpen={setShouldDisplayReplayModal}
       closeable
-      darkCross
     >
       <Modal.Body>
         <ReplayOptions {...ReplayOptionsProps } />

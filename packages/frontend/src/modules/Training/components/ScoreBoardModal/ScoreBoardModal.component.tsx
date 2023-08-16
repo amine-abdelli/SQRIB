@@ -11,7 +11,7 @@ export interface StatsProps extends ReplayModalProps {
   nextStep: () => void
 }
 
-const TrainingModal = (props: ReplayModalProps) => {
+const ScoreBoardModal = (props: ReplayModalProps) => {
   const { shouldOpenVictoryModal, setShouldOpenVictoryModal, resetTraining, resetTrainingAndRefetch, setShouldDisplayOption, setIsUserAllowToType } = props;
   const [step, setStep] = React.useState<0 | 1>(0);
   const [shouldTriggerConfetti, setShouldTriggerConfetti] = React.useState(false);
@@ -50,4 +50,4 @@ const TrainingModal = (props: ReplayModalProps) => {
   )
 }
 
-export { TrainingModal }
+export { ScoreBoardModal }

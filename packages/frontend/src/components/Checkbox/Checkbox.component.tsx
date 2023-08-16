@@ -6,7 +6,7 @@ function Checkbox({
   onClick, checked
 }: CheckboxProps) {
   return (
-      <input className='checkbox' type="checkbox" onClick={onClick} checked={checked} />
+      <input className='checkbox' type="checkbox" onChange={onClick} checked={checked} />
   );
 }
 

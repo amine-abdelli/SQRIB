@@ -52,4 +52,12 @@
       background-color: transparent;
     }
   }
+
+  &--link {
+    color: $link-color;
+
+    &:hover {
+      color: fade-out($link-color, 0.25)
+    }
+  }
 }

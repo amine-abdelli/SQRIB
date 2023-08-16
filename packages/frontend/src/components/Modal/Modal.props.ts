@@ -6,7 +6,6 @@ export interface ModalProps {
   children: any,
   blur?: boolean,
   closeable?: boolean,
-  darkCross?: boolean,
   fullScreen?: boolean,
   style?: CSSProperties,
   sqribBackground?: boolean

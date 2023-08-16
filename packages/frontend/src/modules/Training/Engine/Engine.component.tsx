@@ -6,7 +6,7 @@ import { calculateZenModeAccuracy, calculatePoints, calculateWPM } from '../../.
 import { useTimer } from '../../../hooks/useTimer.hook';
 import { FontSize } from '../../../utils/fontsize.enum';
 import { TTrainingMode, TrainingMode, WordsCollectionLayout } from '../../../components/Options/Options.props';
-import { useGetTrainingWordChain } from '../../../hooks/queries/useGetTraining.hook';
+import { useGetTrainingWordChain } from '../../../api/queries/useGetTraining.hook';
 import { EngineChildren, IScore } from './Engine.props';
 
 // World's wpm record held by Sean Wrona since 2010

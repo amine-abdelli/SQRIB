@@ -5,19 +5,30 @@ import { Layout } from './layouts/desktop/Layout.desktop';
 import Router from './routes';
 import { SoundProvider } from './contexts';
 import { ConfettiProvider } from './contexts/ConfettiContext';
+import { ModalProvider } from './contexts/ModalContext';
+import { ModalDefinitions } from './components/Modals';
+import { AuthProvider } from './contexts/AuthContext';
+import { Alert } from './modules/Alert/Alert.component';
+
 
 function App() {
   return (
     <QueryClientProvider client={new QueryClient()}>
-      <SoundProvider>
-        <ConfettiProvider>
-          <BrowserRouter>
-            <Layout>
-              <Router />
-            </Layout>
-          </BrowserRouter>
-        </ConfettiProvider>
-      </SoundProvider>
+      <Alert />
+      <AuthProvider>
+        <SoundProvider>
+          <ConfettiProvider>
+            <ModalProvider>
+              <BrowserRouter>
+                <Layout>
+                  <Router />
+                  <ModalDefinitions />
+                </Layout>
+              </BrowserRouter>
+            </ModalProvider>
+          </ConfettiProvider>
+        </SoundProvider>
+      </AuthProvider>
     </QueryClientProvider>
   );
 }

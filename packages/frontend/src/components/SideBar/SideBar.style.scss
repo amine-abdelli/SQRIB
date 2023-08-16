@@ -3,6 +3,7 @@
 .sidebar {
   position: relative;
   display: flex;
+  justify-content: space-between;
   flex-direction: column;
   height: 100%; 
   background-color: $secondary;
@@ -29,8 +30,11 @@
   font-style: normal;
   font-weight: 800;
   font-size: 38px;
-  text-align: center;
   @include stroke($outline, 3px);
+  
+  &--centered {
+    text-align: center;
+  }
 }
 
 @media screen and (max-width: $md-screen) {

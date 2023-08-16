@@ -40,8 +40,9 @@ export async function updateOneUser(req: Request, res: Response, next: NextFunct
  */
 export async function getUserData(req: Request, res: Response, next: NextFunction) {
   try {
-    const user = await getUserByIdService(req.userId);
-    return res.status(200).json(user);
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { password, ...rest } = await getUserByIdService(req.userId);
+    return res.status(200).json(rest);
   } catch (error) {
     return next(error);
   }

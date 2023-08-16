@@ -1,13 +1,15 @@
 import React from 'react';
 import { AvatarProps } from './Avatar.props';
 import { COLORS } from '../../theme/colors';
+import { colorGenerator } from '@sqrib/shared';
 
 function Avatar({ username, size }: AvatarProps) {
   const edgeSize = size === 'small' ? '2.2rem' : '3rem';
+  const colorPicker = () => React.useMemo(() => colorGenerator(), [username])
   return (
     <div style={{
       display: 'inline-flex',
-      background: COLORS.DARK_GREEN,
+      background: colorPicker(),
       color: COLORS.WHITE,
       border: `2px solid ${COLORS.WHITE}`,
       borderRadius: '100%',
@@ -20,7 +22,7 @@ function Avatar({ username, size }: AvatarProps) {
       boxShadow: `2px 2px 0 ${COLORS.BLACK}`,
     }}
     >
-      {username?.[0].toLocaleUpperCase()}
+      {typeof username === 'string' ? username?.[0].toLocaleUpperCase() : username}
     </div>
   );
 }

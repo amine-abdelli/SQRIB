@@ -63,7 +63,7 @@ function WordsCollectionHeader({
           input,
           setHorizontalPosition,
           setLetterWidth,
-        ) || <p style={{ color: 'transparent' }}>amine le bg du 59</p>}
+        )}
       </p>
       {horizontalPosition && letterWidth ? (
         <Cursor

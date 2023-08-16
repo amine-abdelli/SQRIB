@@ -1,0 +1,64 @@
+.alert {
+  position: absolute;
+  top: 0px;
+  left: 46%;
+  padding: 0.75rem 1.25rem;
+  margin-bottom: 1rem;
+  border: 1px solid transparent;
+  z-index: 9;
+  min-width: 17.5rem;
+  max-width: 25rem;
+  border: 3px solid #181818;
+  animation-name: notificationTrigger;
+  animation-duration: 0.3s;
+  animation-timing-function: cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  animation-fill-mode: forwards;
+
+  p {
+    font-weight: 300;
+  }
+
+  &-success {
+    color: #181818;
+    background-color: #d4edda;
+    font-weight: 800;
+  }
+
+  &-danger {
+    color: #721c24;
+    background-color: #f8d7da;
+    border-color: #f5c6cb;
+  }
+
+  &-info {
+    color: #0c5460;
+    background-color: #d1ecf1;
+    border-color: #bee5eb;
+  }
+
+  &-warning {
+    color: #856404;
+    background-color: #fff3cd;
+    border-color: #ffeeba;
+  }
+}
+
+.close {
+  float: right;
+  font-size: 1.5rem;
+  font-weight: 700;
+  line-height: 1;
+  color: #000;
+  text-shadow: 0 1px 0 #fff;
+  opacity: 0.5;
+  cursor: pointer;
+}
+
+@keyframes notificationTrigger {
+  0% {
+    transform: translateY(-10px);
+  }
+  100% {
+    transform: translateY(5px);
+  }
+}

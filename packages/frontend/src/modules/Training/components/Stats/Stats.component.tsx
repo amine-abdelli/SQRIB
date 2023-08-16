@@ -2,17 +2,19 @@ import React from 'react';
 import './Stats.style.scss';
 import { COLORS } from '../../../../theme/colors';
 import { Logo, Spacer, SpacerSize } from '../../../../components';
-import { StatsProps } from '../TrainingModal/TrainingModal.component';
-import { countCorrectlyTypedWords, countLetters, countOccurrences } from '../../../../utils';
+import { countCorrectlyTypedWords, countLetters } from '../../../../utils';
 import { Text } from '../../../../components/Text/Text.component';
 import { Button } from '../../../../components/Button/Button.component';
 import { TipGenerator } from '../../../../components/TipGenerator/TipGenerator.component';
 import { FocusArea } from '../FocusArea/FocusArea.component';
 import { IoInformationCircleOutline } from 'react-icons/io5';
 import { Tooltip } from '../../../../components/ToolTip/ToolTip.component';
+import { useAuthContext } from '../../../../contexts/AuthContext';
+import { StatsProps } from '../ScoreBoardModal/ScoreBoardModal.component';
 
 function Stats(props: StatsProps) {
   const { score, nextStep, wordChain, typedWords, misspellings } = props;
+  const { isAuthenticated } = useAuthContext();
 
   const totalTypedWords = typedWords.length;
   const wpm = score.wpm || 0;
@@ -22,7 +24,6 @@ function Stats(props: StatsProps) {
   const incorrectlyTypedWords = typedWords.length - countCorrectlyTypedWords(wordChain, typedWords);
   const { correctLetters, totalLetters } = countLetters(wordChain, typedWords);
   const wrongLetters = misspellings.length;
-  const isLoggedIn = false;
 
 
   // TODO Display Compare current score with your best score of the day, your previous score, the best score every of SQRIB and best score of the world
@@ -109,26 +110,21 @@ function Stats(props: StatsProps) {
         </div>
         <Spacer y size={SpacerSize.MEDIUM} />
         <Button
-          color='white'
+          color={COLORS.WHITE}
           onClick={() => {
             nextStep()
           }}
-          label={isLoggedIn ? 'SAVE' : 'CONTINUE'}
+          label={isAuthenticated ? 'SAVE' : 'CONTINUE'}
         />
-        {isLoggedIn && (
+        <Spacer y size={SpacerSize.SMALL} />
+        {isAuthenticated && (
           <Button
             onClick={() => nextStep()}
+            link
             label='Continue without saving' />
         )}
         <Spacer y size={SpacerSize.SMALL} />
-        {!isLoggedIn && (
-          <Button
-            onClick={() => null}
-            light
-            color="blue"
-            label='Signup'
-          />
-        )}
+        {isAuthenticated ? '' : <Text thin size={13} color={COLORS.GREY}>Next time log in or sign up to keep track of your journey. 🚀</Text>}
       </div>
     </div>
   );

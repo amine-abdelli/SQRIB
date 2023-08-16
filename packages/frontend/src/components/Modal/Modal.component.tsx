@@ -9,7 +9,6 @@ const Modal: FC<ModalProps> & ModalComponents = ({
   children,
   closeable,
   blur,
-  darkCross,
   fullScreen,
   style,
   sqribBackground
@@ -43,7 +42,7 @@ const Modal: FC<ModalProps> & ModalComponents = ({
         className={sqribBackground ? 'sqrib-background' : 'modal--wrapper'}
         style={combinedStyle}
       >
-        {setIsOpen && <ClosingCross display={!!closeable} onClose={setIsOpen} dark={darkCross} />}
+        {setIsOpen && <ClosingCross display={!!closeable} onClose={setIsOpen} dark />}
         {renderSubcomponent('Header')}
         {renderSubcomponent('Body')}
         {renderSubcomponent('Footer')}
@@ -71,9 +70,5 @@ const Footer = (props: any) => <Subcomponent {...props} style={{ marginTop: '15p
 Modal.Header = Header;
 Modal.Body = Body;
 Modal.Footer = Footer;
-
-Modal.defaultProps = {
-  darkCross: false,
-};
 
 export default Modal;

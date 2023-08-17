@@ -1,0 +1,34 @@
+@import "../../theme/index.scss";
+$disabled-color: lightgray;
+
+.main-input--wrapper {
+  display: flex;
+  justify-content: center;
+  margin: 0 0 10px 0;
+
+  .main-input {
+    border: none;
+    border-bottom: 2px solid black;
+    background-color: white;
+    font-weight: 800;
+    font-size: 20px;
+    font-family: $FiraCodefontFamily;
+
+    &::placeholder {
+      font-family: $FiraCodefontFamily;
+    }
+
+    &:disabled {
+      cursor: not-allowed;
+      border-bottom: 2px solid $disabled-color;
+
+      &::placeholder {
+        color: $disabled-color;
+      }
+    }
+
+    &:focus {
+      outline: none;
+    }
+  }
+}

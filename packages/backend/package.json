@@ -7,9 +7,9 @@
   "license": "MIT",
   "scripts": {
     "dev": "ts-node-dev -r dotenv/config --no-notify --respawn --exit-child -r tsconfig-paths/register --transpile-only src/server",
-    "start": "node -r ts-node/register -r dotenv/config -r tsconfig-paths/register --max_old_space_size=500 ./dist/server.js",
+    "start": "node -r ts-node/register -r dotenv/config -r tsconfig-paths/register --max_old_space_size=500 ./dist/src/server.js",
     "prisma:sandbox": "ts-node-dev -r dotenv/config -r tsconfig-paths/register --transpile-only sandbox.ts",
-    "build": "rm -rf ./dist/ && yarn workspace @sqrib/client build && tsc -p tsconfig.json && mv ../frontend/dist/ ../backend/dist/public",
+    "build": "rm -rf ./dist/ && yarn workspace @sqrib/client build && tsc -p tsconfig.json && node src/build.js",
     "lint": "eslint **/**.ts",
     "test": "jest"
   },
@@ -25,6 +25,7 @@
     "express": "^4.17.1",
     "express-http-context": "^1.2.4",
     "express-rate-limit": "^5.5.1",
+    "fs-extra": "^11.1.1",
     "jsonwebtoken": "^8.5.1",
     "lodash": "^4.17.21",
     "pino": "^7.11.0",

@@ -1,0 +1,14 @@
+@import "../abstracts/colors";
+
+.training-container {
+  &--wrapper {
+    background: #ffffff;
+    border: 4px solid black;
+    box-shadow: 4px 4px 0px black;
+    padding: 2rem;
+    margin: 0;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+}

@@ -1,0 +1,63 @@
+@import "../../../src/theme/";
+
+.button {
+  &--primary {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: $primary;
+    color: $outline;
+    font-weight: bold;
+    cursor: pointer;
+    transition: scale 0.1s ease-in-out;
+    padding: 5px 15px;
+    white-space: nowrap;
+    @include thinBorder();
+
+    &:active {
+      transition: scale 0.1s ease-in-out;
+      scale: 0.99;
+    }
+
+    &:disabled {
+      scale: 1;
+      cursor: not-allowed;
+      border: 3px solid grey;
+      box-shadow: 4px 4px 0px grey;
+      &:hover {
+        color: grey !important;
+      }
+    }
+
+    &:hover {
+      background-color: fade-out($primary, 0.1);
+    }
+  }
+
+  &--light {
+    border: none;
+    background: transparent;
+    box-shadow: none;
+    font-weight: 400;
+    padding: 0;
+
+    &:disabled {
+      scale: 1;
+      cursor: not-allowed;
+      border: none;
+      box-shadow: none;
+    }
+    
+    &:hover {
+      background-color: transparent;
+    }
+  }
+
+  &--link {
+    color: $link-color;
+
+    &:hover {
+      color: fade-out($link-color, 0.25)
+    }
+  }
+}

@@ -1,0 +1,62 @@
+@import "../../../src/theme/globals.scss";
+
+.sidebar {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+  height: 100%; 
+  background-color: $secondary;
+  width: 220px;
+  @include thickBorder();
+
+  .sidebar-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+}
+
+.invisible {
+  display: none;
+}
+
+.logo {
+  width: 10rem;
+}
+
+.logo--text {
+  color: $primary;
+  font-style: normal;
+  font-weight: 800;
+  font-size: 38px;
+  @include stroke($outline, 3px);
+  
+  &--centered {
+    text-align: center;
+  }
+}
+
+@media screen and (max-width: $md-screen) {
+  .sidebar {
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    top: 0;
+    left: 0;
+    background: no-repeat url('../../assets/images/main-background.png');
+
+    
+    .nav-link--wrapper {
+      .nav-link {
+        display: flex;
+        justify-content: center;
+
+        // Relate to <Link /> component
+        a {
+          font-size: 38px;
+        }
+      }
+    }
+  }
+}

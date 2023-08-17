@@ -1,0 +1,17 @@
+@import '../../../styles/sass/abstracts/index.scss';
+
+@mixin staticAlertBase($color) {
+  background: $color;
+  padding: 5px;
+  @include thinBorder();
+  box-shadow: none;
+  color: $outline;
+}
+
+.success {
+  @include staticAlertBase($success)
+}
+
+.error {
+  @include staticAlertBase($error)
+}

@@ -1,0 +1,28 @@
+@import "../abstracts";
+
+.layout {
+  display: flex;
+  height: 100vh;
+  background-color: $secondary;
+  padding: 1rem;
+  background: url("../../assets/images/main-background.png");
+
+  .layout--main {
+    flex-grow: 1;
+    height: 100%;
+    padding: 0 20px;
+    overflow-y: auto;
+  }
+}
+
+@media screen and (max-width: $md-screen) {
+  .layout {
+    .button--primary {
+      margin: 0.5rem;
+      padding: 0.4rem 0.5rem;
+      position: absolute;
+      top: 0;
+      right: 0;
+    }
+  }
+}

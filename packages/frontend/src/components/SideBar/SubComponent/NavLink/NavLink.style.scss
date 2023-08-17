@@ -1,0 +1,28 @@
+@import '../../../../theme/globals.scss';
+
+.nav-link {
+  position: relative;
+  padding: 5px 0;
+  width: 100%;
+  cursor: pointer;
+
+  a {
+    color: $tertiary;
+    font-weight: 700;
+    font-size: 24px;
+    margin: 0;
+    transition: color 0.25s ease;
+    @include stroke($outline, 3px);
+
+    &:hover {
+      color: $primary;
+      transition: color 0.2s ease;
+    }
+  }
+}
+
+.focused {
+  a {
+    color: $primary
+  }
+}

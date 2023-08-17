@@ -1,0 +1,12 @@
+span {
+  font-weight: 400;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  // TODO uncomment to display the word in one line
+  // white-space: pre;
+}
+
+.word--focused {
+  background: rgb(19, 164, 82, 0.1);
+}

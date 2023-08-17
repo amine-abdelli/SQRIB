@@ -1,4 +1,4 @@
-import { Languages, dictionaries } from '@sqrib/shared';
+import { TLanguage, dictionaries } from '@sqrib/shared';
 import _ from 'lodash';
 
 export const specialCharacterRegex: RegExp = /[^\w\s]/gi;
@@ -19,7 +19,7 @@ function shuffle(array: string[], wordCount: number) {
  * @param array Array of words
  * @returns a set of words composed of easy, medium and hard words
  */
-function generateWordChain(array: string[]): string[] {
+function generateWordChain(array: string[], wordCount: number): string[] {
   const easy: string[] = array.filter((
     word: string,
   ) => word.length <= 5 && !specialCharacterRegex.test(word));
@@ -30,10 +30,12 @@ function generateWordChain(array: string[]): string[] {
     (word: string) => word.length > 5 && specialCharacterRegex.test(word),
   );
 
-  const easySet: string[] = shuffle(easy, 270); // No accent <= 5
-  const mediumSet: string[] = shuffle(medium, 104); // Less than 10 letters with accent/word
-  const hardSet: string[] = shuffle(hard, 26); // At least 5 character with accent
-
+  // No accent <= 5
+  const easySet: string[] = shuffle(easy, wordCount * 0.70);
+  // Less than 10 letters with accent/word
+  const mediumSet: string[] = shuffle(medium, wordCount * 0.25);
+  // At least 5 character with accent
+  const hardSet: string[] = shuffle(hard, wordCount * 0.10);
   return [...easySet, ...mediumSet, ...hardSet];
 }
 
@@ -43,6 +45,6 @@ function generateWordChain(array: string[]): string[] {
  * @param wordCount The number of word in one set of word
  * @returns An array of words of the specified length in the specified language
  */
-export function generateWordSet(lang: Languages, wordCount: number) {
-  return shuffle(generateWordChain(dictionaries[lang]), wordCount);
+export function generateWordSet(lang: TLanguage, wordCount: number) {
+  return shuffle(generateWordChain(dictionaries[lang], wordCount), wordCount);
 }

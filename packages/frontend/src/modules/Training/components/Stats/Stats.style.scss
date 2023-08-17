@@ -1,0 +1,35 @@
+@import '../../../../theme/abstracts/variables';
+
+.stats--wrapper {
+  padding: 1rem;
+  width: 22.5rem;
+  .stats--content {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    flex-wrap: wrap;
+
+    .score-card--wrapper {
+      display: flex;
+      justify-content: space-between;
+      padding: 0.1rem 0.5rem;
+    }
+    .score-card--wrapper:nth-child(odd) {
+      background-color: fade-out($secondary, 0.85);
+    }
+
+    .mpm {
+      margin: 0;
+      padding: 0;
+      text-align: center;
+      
+      p:first-of-type {
+        text-align: center;
+      }
+
+      h3 {
+        text-align: center;
+      }
+    }
+  }
+}

@@ -1,0 +1,103 @@
+{
+    "env": {
+        "browser": true,
+        "es2021": true,
+        "jest/globals": true
+    },
+    "extends": [
+        "next",
+        "plugin:react/recommended",
+        "airbnb",
+        "plugin:import/typescript",
+        "react-app",
+        "plugin:@typescript-eslint/recommended",
+        "react-app/jest",
+        "../../.eslintrc.json",
+        "next/core-web-vitals"
+    ],
+    "parser": "@typescript-eslint/parser",
+    "parserOptions": {
+        "ecmaFeatures": {
+            "jsx": true
+        },
+        "ecmaVersion": 12,
+        "sourceType": "module"
+    },
+    "plugins": [
+        "react",
+        "jest",
+        "testing-library"
+    ],
+    "rules": {
+        "react/jsx-no-bind": "off",
+        "tjsx-a11y/click-events-have-key-events": 0,
+        "jsx-a11y/no-static-element-interactions": 0,
+        "ntjsx-a11y/no-static-element-interactions": "off",
+        "react/prop-types": 0,
+        "no-use-before-define": "off",
+        "quotes": [2, "single"],
+        "@typescript-eslint/no-use-before-define": ["error"],
+        "import/extensions": [
+            "error",
+            "ignorePackages",
+            {
+                "js": "never",
+                "jsx": "never",
+                "ts": "never",
+                "tsx": "never"
+            }
+        ],
+        "react/jsx-filename-extension": [
+            1,
+            {
+                "extensions": [
+                    ".js",
+                    ".jsx",
+                    ".ts",
+                    ".tsx"
+                ]
+            }
+        ],
+        "import/prefer-default-export": [
+            0
+        ],
+        "camelcase": 0,
+        "no-underscore-dangle": 0,
+        "react/react-in-jsx-scope": "off",
+        "no-shadow": "off",
+        "@typescript-eslint/no-shadow": [
+            "error"
+        ],
+        "import/no-extraneous-dependencies": [
+            "error",
+            {
+                "devDependencies": [
+                    ".storybook/**",
+                    "stories/**",
+                    "**/*.stories.tsx",
+                    "**/*.spec.ts",
+                    "**/*.spec.tsx",
+                    "**/*.spec.js",
+                    "**/*.spec.jsx"
+                ]
+            }
+        ],
+        "@typescript-eslint/type-annotation-spacing": [
+            2,
+            {
+                "before": false,
+                "after": true,
+                "overrides": {
+                    "arrow": {
+                        "before": true,
+                        "after": true
+                    }
+                }
+            }
+        ],
+        "react/jsx-props-no-spreading": "off"
+    },
+    "globals": {        
+        "JSX": true
+    }
+}

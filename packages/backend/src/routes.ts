@@ -13,8 +13,8 @@ export const ENDPOINTS = Object.freeze({
     update: '/update',
   },
   game: {
+    learning: '/learning',
     training: '/training',
-    practice: '/practice',
     saveSoloScoring: '/save-solo-scoring',
   },
 });

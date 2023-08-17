@@ -8,71 +8,118 @@ datasource db {
 }
 
 model User {
-  id                   String     @id @default(uuid())
-  username             String     @unique
-  email                String     @unique
+  id                   String            @id @default(uuid())
+  username             String            @unique
+  email                String            @unique
   password             String
+  description          String?
   avatar               String?
-  created_at           DateTime   @default(now())
-  is_confirmed         Boolean    @default(false)
-  is_locked            Boolean    @default(true)
+  created_at           DateTime          @default(now())
+  is_confirmed         Boolean           @default(false)
+  is_locked            Boolean           @default(false)
   last_password_update DateTime?
-  last_activity        DateTime   @default(now())
-  scores               Score[]
-  Settings             Settings?
+  last_activity        DateTime          @default(now())
+  sessions             Session[]
   Palmares             Palmares?
+  Scores               Score[]
+  UserAchievements     UserAchievement[]
 }
 
-model Settings {
-  id              String   @id @default(uuid())
-  theme           String   @default("light")
-  language        String   @default("fr") // "fr", "en", "es", "de"
-  font_size       String   @default("medium") // "small", "medium", "large"
-  keyboard_layout String   @default("azerty") // "azerty", "qwerty"
-  sound           Boolean  @default(true)
-  created_at      DateTime @default(now())
-  user            User     @relation(fields: [user_id], references: [id])
-  user_id         String   @unique
+model Achievement {
+  id               String            @id @default(uuid())
+  name             String
+  description      String
+  icon             String
+  created_at       DateTime          @default(now())
+  UserAchievements UserAchievement[]
 }
 
+model UserAchievement {
+  id             String      @id @default(uuid())
+  achievement    Achievement @relation(fields: [achievement_id], references: [id])
+  achievement_id String
+  user           User        @relation(fields: [user_id], references: [id])
+  user_id        String
+  created_at     DateTime    @default(now())
+}
+
+// Only one per user. Stack all the general metrics
 model Palmares {
   id                    String   @id @default(uuid())
   role                  String   @default("user")
   game_count            Int      @default(0)
   best_wpm              Int      @default(0)
-  best_precision        Float    @default(0)
+  best_accuracy         Float    @default(0)
+  average_accuracy      Float    @default(0)
   best_points           Int      @default(0)
+  total_points          Int      @default(0)
   total_xp              Int      @default(0)
-  achievments_count     Int      @default(0)
   total_time_in_seconds Int      @default(0)
   created_at            DateTime @default(now())
   user                  User     @relation(fields: [user_id], references: [id])
   user_id               String   @unique
 }
 
-model Game {
-  id          String   @id @default(uuid())
-  type        String   @default("solo")
-  mode        String?
-  name        String
-  language    String   @default("fr")
-  word_count  Int
-  duration    Int // Duration in seconds
-  word_set_id String?
-  scores      Score[]
-  created_at  DateTime @default(now())
+model Session {
+  id             String      @id @default(uuid())
+  type           SessionType // "training", "multiplayer" ,"learning"
+  mode           SessionMode // "timeTrial", "speedChallenge"
+  name           String?
+  zen_mode       Boolean? // for training mode only
+  language       Language
+  word_count     Int // Number of words
+  total_duration Int // Total time available for the session in seconds
+  word_set_id    String?
+  scores         Score[] // Many for multiplayer mode
+  created_at     DateTime    @default(now())
+  User           User        @relation(fields: [userId], references: [id])
+  userId         String
 }
 
 model Score {
   id         String   @id @default(uuid())
   wpm        Int      @default(0)
-  precision  Float    @default(0)
+  accuracy   Float    @default(0)
   points     Int      @default(0)
   xp         Int      @default(0)
-  duration   Int      @default(0) // Duration in seconds
+  start_time DateTime // When the user began typing
+  end_time   DateTime // When the user finished typing or the session ended
   User       User?    @relation(fields: [user_id], references: [id])
   user_id    String?
-  Game       Game?    @relation(fields: [game_id], references: [id])
-  game_id    String?
+  Session    Session? @relation(fields: [session_id], references: [id])
+  session_id String?
   created_at DateTime @default(now())
+}
+
+model GlobalMetrics {
+  id                    String   @id @default(uuid())
+  game_count            Int      @default(0) // Total number of games
+  account_count         Int      @default(0) // Total number of accounts
+  best_wpm              Int      @default(0) // Best wpm ever
+  average_wpm           Float    @default(0) // Average wpm of all games
+  best_accuracy         Float    @default(0) // Best accuracy ever
+  average_accuracy      Float    @default(0) // Average accuracy of all games
+  best_points           Int      @default(0) // Best points ever
+  average_points        Int      @default(0) // Average points of all games
+  total_points          Int      @default(0) // Total points of all games
+  total_time_in_seconds Int      @default(0) // Total time spent typing
+  created_at            DateTime @default(now())
+}
+
+enum Language {
+  FR
+  EN
+  ES
+  DE
+}
+
+enum SessionMode {
+  TIME_TRIAL
+  SPEED_CHALLENGE
+}
+
+enum SessionType {
+  TRAINING
+  LEARNING
+  MULTIPLAYER
 }

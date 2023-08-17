@@ -1,0 +1,27 @@
+.scoring {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  .scoring--wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    font-size: 1rem;
+
+    & > * {
+      margin-right: 1rem;
+    }
+
+    .scoring-item {
+      font-weight: 800;
+    }
+  }
+}
+
+.summary {
+  display: flex;
+  align-items: center;
+  font-weight: 600;
+}

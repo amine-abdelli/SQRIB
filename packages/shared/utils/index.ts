@@ -1,6 +1,5 @@
 export * from './math';
 export * from './words';
-export * from './markov';
 export * from './dictionaries';
 export * from './array';
 export * from './date';
@@ -9,3 +8,4 @@ export * from './enums';
 export * from './logger';
 export * from './scoring';
 export * from './email';
+export * from './game';

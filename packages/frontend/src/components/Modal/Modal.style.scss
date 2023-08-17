@@ -12,7 +12,7 @@ $zIndex: 2;
 
 .sqrib-background {
   @include baseModalWrapper();
-  background: no-repeat url('../../../src/assets/Images/main-background.png');
+  background: no-repeat url('../../assets/images/main-background.png');
 }
 
 .modal--wrapper {

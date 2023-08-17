@@ -2,7 +2,6 @@ import { log, settingsInputAllowedKeys } from '@sqrib/shared';
 import { Request } from 'express';
 import { validateObjectKeys } from '../utils/input.utils';
 import { HttpError } from '../utils';
-import { updateUserSettingsRepository } from '../repositories';
 
 export async function updateUserSettingsService(
   req: Request,
@@ -11,7 +10,7 @@ export async function updateUserSettingsService(
   if (!validateObjectKeys(req.body, settingsInputAllowedKeys)) {
     throw new HttpError(400, 'Invalid settings !');
   }
-  const updatedSettings = await updateUserSettingsRepository(req.userId, req.body);
+  // const updatedSettings = await updateUserSettingsRepository(req.userId, req.body);
   log.info('User settings updated !');
-  return updatedSettings;
+  return {};
 }

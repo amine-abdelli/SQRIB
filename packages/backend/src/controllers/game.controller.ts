@@ -1,6 +1,6 @@
 import express, { Request, Response, NextFunction } from 'express';
 import { TrainingGamesRequestBody } from '@sqrib/shared';
-import { generateTrainingWordChainService, generateLearningWordChainService, saveSoloScoringService } from '../services';
+import { generateTrainingWordChainService, generateLearningWordChainService, saveTrainingScoringService } from '../services';
 
 const router = express.Router();
 const MIN_WORDS_LENGTH = 3;
@@ -46,10 +46,10 @@ export function getLearningWordChain({ body }: Request, res: Response, next: Nex
  * @route /save-solo-scoring
  * @method POST
  */
-export async function saveSoloScoring({ body }: Request, res: Response, next: NextFunction) {
+export async function saveTrainingScore({ body }: Request, res: Response, next: NextFunction) {
   try {
-    console.log('huhuhuhu');
-    await saveSoloScoringService(body);
+    const savedScore = await saveTrainingScoringService(body);
+    console.log('savedScore :', savedScore);
     res.status(200).json({ message: 'Scores saved' });
   } catch (error) {
     next(error);

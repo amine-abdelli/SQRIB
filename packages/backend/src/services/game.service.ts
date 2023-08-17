@@ -1,5 +1,4 @@
 import {
-  ISaveScoring,
   Languages,
   TLanguage,
   alphabet, dictionaries, log,
@@ -44,7 +43,7 @@ export function generateTrainingWordChainService(count: number, language: TLangu
   return wordChain || [];
 }
 
-export async function saveSoloScoringService({ game, score }: ISaveScoring) {
+export async function saveTrainingScoringService({ game, score }: ISaveScoring) {
   log.info('Saving solo scoring');
   const savedGame = await saveSoloScoringRepository({ game, score });
   log.info('Score saved successfully');

@@ -11,9 +11,13 @@ import { IoInformationCircleOutline } from 'react-icons/io5';
 import { Tooltip } from '../../../../components/ToolTip/ToolTip.component';
 import { useAuthContext } from '../../../../contexts/AuthContext';
 import { StatsProps } from '../ScoreBoardModal/ScoreBoardModal.component';
+import { useSaveTrainingScore } from '../../../../api/queries';
+import { TrainingMode } from '../../../../components/Options/Options.props';
+import { alertService } from '../../../Alert/Alert.service';
+import { SessionType } from '@sqrib/shared';
 
 function Stats(props: StatsProps) {
-  const { score, nextStep, wordChain, typedWords, misspellings } = props;
+  const { score, nextStep, wordChain, typedWords, misspellings, hasScoreBeenSaved, setHasScoreBeenSaved } = props;
   const { isAuthenticated } = useAuthContext();
 
   const totalTypedWords = typedWords.length;
@@ -25,7 +29,32 @@ function Stats(props: StatsProps) {
   const { correctLetters, totalLetters } = countLetters(wordChain, typedWords);
   const wrongLetters = misspellings.length;
 
-
+  const { mutateAsync: saveScore } = useSaveTrainingScore({ onSuccess: () => { 
+    alertService.success('Score saved successfully !', {}); 
+    setHasScoreBeenSaved(true)
+  } });
+  async function saveTrainingScore() {
+    if (isAuthenticated && !hasScoreBeenSaved) {
+      await saveScore({
+        score: {
+          accuracy: score.accuracy,
+          points: score.points,
+          wpm: score.wpm,
+          end_time: score.endTime,
+          start_time: score.startTime,
+          typed_words: typedWords.length,
+        },
+        session: {
+          language: props.language,
+          mode: props.mode,
+          word_count: props.mode === TrainingMode.SPEED_CHALLENGE ? props.wordCount : undefined,
+          count_down: props.mode === TrainingMode.TIME_TRIAL ? props.countDown : undefined,
+          type: SessionType.TRAINING as unknown as string,
+          zen_mode: props.isZenModeOn,
+        }
+      })
+    }
+  }
   // TODO Display Compare current score with your best score of the day, your previous score, the best score every of SQRIB and best score of the world
   return (
     <div className='stats--wrapper'>
@@ -111,13 +140,14 @@ function Stats(props: StatsProps) {
         <Spacer y size={SpacerSize.MEDIUM} />
         <Button
           color={COLORS.WHITE}
-          onClick={() => {
+          onClick={async () => {
+            await saveTrainingScore()
             nextStep()
           }}
-          label={isAuthenticated ? 'SAVE' : 'CONTINUE'}
+          label={!isAuthenticated || hasScoreBeenSaved ? 'CONTINUE' : 'SAVE'}
         />
         <Spacer y size={SpacerSize.SMALL} />
-        {isAuthenticated && (
+        {isAuthenticated && !hasScoreBeenSaved && (
           <Button
             onClick={() => nextStep()}
             link

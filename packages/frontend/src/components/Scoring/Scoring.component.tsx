@@ -15,14 +15,15 @@ import './Scoring.style.scss';
 import { IoLanguageOutline } from 'react-icons/io5';
 import { OptionIcon } from '../../modules/Training/components/SettingsModal/SubComponents/OptionGroup';
 import { useAuthContext } from '../../contexts/AuthContext';
+import { Languages } from '@sqrib/shared';
 
 const SETTINGS_CONVERTER: Record<string, string> = {
-  speedChallenge: 'Speed Challenge',
-  timeTrial: 'Time Trial',
-  fr: 'French',
-  en: 'English',
-  de: 'German',
-  es: 'Spanish'
+  [TrainingMode.SPEED_CHALLENGE]: 'Speed Challenge',
+  [TrainingMode.TIME_TRIAL]: 'Time Trial',
+  [Languages.FR]: 'French',
+  [Languages.EN]: 'English',
+  [Languages.DE]: 'German',
+  [Languages.ES]: 'Spanish'
 }
 
 function Scoring({ score, timer, setShouldDisplayOption, isRunning, mode, wordCount, language, countDown, typedWords }: SettingsModalProps) {

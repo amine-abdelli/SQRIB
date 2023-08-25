@@ -1,3 +1,3 @@
-export * from './user';
-export * from './language';
-export * from './game';
+export * from './user.type';
+export * from './languages.type';
+export * from './game.type';

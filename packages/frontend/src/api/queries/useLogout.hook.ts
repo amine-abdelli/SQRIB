@@ -1,6 +1,6 @@
 import { UseMutationOptions, UseMutationResult, useMutation } from "react-query";
 import { apiService } from "../api";
-import { endpoints } from "../endpoints";
+import { ENDPOINTS, ROUTES } from "@sqrib/shared";
 
 export const LOGOUT_USER = 'LOGOUT_USER';
 
@@ -9,7 +9,7 @@ export function useLogout(
 ): UseMutationResult<void, unknown, void, unknown> {
   return useMutation(
     [LOGOUT_USER],
-    async () => { await apiService.post(endpoints.logout); },
+    async () => { await apiService.post(ROUTES.auth + ENDPOINTS.auth.logout); },
     { onSuccess: () => { window.location.reload(); }, ...mutationOptions }
   );
 }

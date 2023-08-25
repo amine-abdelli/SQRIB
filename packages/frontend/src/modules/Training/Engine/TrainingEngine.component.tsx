@@ -1,24 +1,24 @@
 /* eslint-disable max-len */
 import React, { useEffect, useState } from 'react';
-import { Languages, TLanguage } from '@sqrib/shared';
+import { Languages, TLanguages } from '@sqrib/shared';
 import { useTimestamp } from '../../../hooks/useTimestamp.hook';
 import { calculateZenModeAccuracy, calculatePoints, calculateWPM } from '../../../utils';
 import { useTimer } from '../../../hooks/useTimer.hook';
 import { FontSize } from '../../../utils/fontsize.enum';
 import { TTrainingMode, TrainingMode, WordsCollectionLayout } from '../../../components/Options/Options.props';
-import { useGetTrainingWordChain } from '../../../api/queries/useGetTraining.hook';
+import { useGetTrainingWordChain, useSaveTrainingScore } from '../../../api/queries';
 import { EngineChildren, IScore } from './Engine.props';
 
 // World's wpm record held by Sean Wrona since 2010
 const WORLD_WPM_RECORD = 256;
 
-function Engine({ children }: EngineChildren) {
+function TrainingEngine({ children }: EngineChildren) {
   const [typedWords, setTypedWords] = useState<string[]>([]);
   const [input, setInput] = React.useState<string>('');
   const [indexOfProgression, setIndexOfProgression] = React.useState<number>(0);
   const [wordChain, setWordChain] = React.useState<string[]>([]);
   const [fontSize, setFontSize] = React.useState<FontSize>(FontSize.SMALL);
-  const [language, setLanguage] = React.useState<TLanguage>(Languages.FR);
+  const [language, setLanguage] = React.useState<TLanguages>(Languages.FR);
   const [mode, setMode] = useState<TTrainingMode>(TrainingMode.TIME_TRIAL);
   const [countDown, setCountDown] = useState(60);
   const [wordCount, setWordCount] = useState(75);
@@ -39,6 +39,7 @@ function Engine({ children }: EngineChildren) {
   const isTimeTrialMode = mode === TrainingMode.TIME_TRIAL;
 
   const { data, refetch } = useGetTrainingWordChain({ count: isTimeTrialMode ? ((WORLD_WPM_RECORD * 1.1) / 60) * countDown : wordCount, language });
+
   function onFinish() {
     setIsRunning(false);
     setIsUserAllowToType(false);
@@ -194,4 +195,4 @@ function Engine({ children }: EngineChildren) {
   );
 }
 
-export { Engine };
+export { TrainingEngine };

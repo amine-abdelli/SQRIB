@@ -10,3 +10,7 @@ function objectToQueryString(data: Record<string, unknown>) {
 }
 
 export { objectToQueryString };
+
+export function serializeBigInt(data: any) {
+  return JSON.parse(JSON.stringify(data, (key, value) => (typeof value === 'bigint' ? value.toString() : value)));
+}

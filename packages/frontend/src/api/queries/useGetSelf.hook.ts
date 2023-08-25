@@ -1,9 +1,8 @@
 import React from 'react';
 import Cookies from 'js-cookie';
-import { UseMutationOptions, UseQueryOptions, UseQueryResult, useQuery } from 'react-query';
+import { UseQueryResult, useQuery } from 'react-query';
 import { apiService } from '../api';
-import { endpoints } from '../endpoints';
-import { GetSelfResponseBody } from '@sqrib/shared';
+import { ENDPOINTS, GetSelfResponseBody, ROUTES } from '@sqrib/shared';
 
 const GET_SELF = 'GET_SELF';
 
@@ -17,7 +16,7 @@ export function useGetSelf(mutationOptions: mutationOptions = {}) {
 
   const { data: userData, isLoading }: UseQueryResult<GetSelfResponseBody, unknown> = useQuery(
     [GET_SELF, session_id],
-    () => apiService.get(endpoints.getSelf),
+    () => apiService.get(ROUTES.user + ENDPOINTS.user.me),
     {
       onSuccess: mutationOptions.onSuccess,
       onError: mutationOptions.onError

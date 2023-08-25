@@ -14,18 +14,21 @@ const ReplayOptions = ({ closeModal, resetTraining, resetTrainingAndRefetch, set
     <div className='replay-option--wrapper'>
       <Spacer y size={SpacerSize.SMALL} />
       <CardButton
+        shadowed
         label='Replay'
         subLabel='Replay the same words collection'
         onClick={replay}
       />
       <Spacer y size={SpacerSize.SMALL} />
       <CardButton
+        shadowed
         label='New words'
         subLabel='New words based on current settings'
         onClick={generateNewWordSet}
       />
       <Spacer y size={SpacerSize.SMALL} />
       <CardButton
+        shadowed
         onClick={openSettings}
         label="Settings"
         subLabel="Change session settings"

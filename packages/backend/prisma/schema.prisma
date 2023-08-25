@@ -61,34 +61,36 @@ model Palmares {
 }
 
 model Session {
-  id             String      @id @default(uuid())
-  type           SessionType // "training", "multiplayer" ,"learning"
-  mode           SessionMode // "timeTrial", "speedChallenge"
+  id             String   @id @default(uuid())
+  type           String // "training", "multiplayer" ,"learning"
+  mode           String // "timeTrial", "speedChallenge"
   name           String?
   zen_mode       Boolean? // for training mode only
-  language       Language
-  word_count     Int // Number of words
+  language       String // "fr", "en", "es", "de"
+  word_count     Int? // for speedChallenge Number of words to type
+  count_down     Int? // for TimeTrial - If word_count equal zero, check total_duration to get the count down
   total_duration Int // Total time available for the session in seconds
   word_set_id    String?
   scores         Score[] // Many for multiplayer mode
-  created_at     DateTime    @default(now())
-  User           User        @relation(fields: [userId], references: [id])
-  userId         String
+  created_at     DateTime @default(now())
+  User           User?    @relation(fields: [created_by], references: [id]) // Relevant for multiplayer mode only
+  created_by     String?
 }
 
 model Score {
-  id         String   @id @default(uuid())
-  wpm        Int      @default(0)
-  accuracy   Float    @default(0)
-  points     Int      @default(0)
-  xp         Int      @default(0)
-  start_time DateTime // When the user began typing
-  end_time   DateTime // When the user finished typing or the session ended
-  User       User?    @relation(fields: [user_id], references: [id])
-  user_id    String?
-  Session    Session? @relation(fields: [session_id], references: [id])
-  session_id String?
-  created_at DateTime @default(now())
+  id          String   @id @default(uuid())
+  wpm         Int      @default(0)
+  accuracy    Float    @default(0) 
+  points      Int      @default(0)
+  xp          Int      @default(0)
+  typed_words Int      @default(0)
+  start_time  BigInt // When the user began typing
+  end_time    BigInt // When the user finished typing or the session ended
+  User        User?    @relation(fields: [user_id], references: [id])
+  user_id     String?
+  Session     Session? @relation(fields: [session_id], references: [id])
+  session_id  String?
+  created_at  DateTime @default(now())
 }
 
 model GlobalMetrics {

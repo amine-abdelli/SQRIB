@@ -1,7 +1,6 @@
 @import '../../theme/index.scss';
 
 .card-button {
-  @include thinBorder();
   cursor: pointer;
   padding: 0.5rem 1rem;
   background-color: $primary;
@@ -9,6 +8,7 @@
   word-break: break-word;
   width: 20rem;
   transition: scale 0.1s ease-in-out;
+  margin: 0 !important;
  
   &:active {
     transition: scale 0.1s ease-in-out;
@@ -34,5 +34,9 @@
     &:hover {
       background-color: fade-out($outline, 0.95);
     }
+  }
+
+  &--shadowed {
+    @include thinBorder();
   }
 }

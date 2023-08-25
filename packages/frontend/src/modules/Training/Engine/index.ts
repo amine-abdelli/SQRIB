@@ -1,2 +1,2 @@
-export * from './Engine.component';
+export * from './TrainingEngine.component';
 export * from './Engine.props';

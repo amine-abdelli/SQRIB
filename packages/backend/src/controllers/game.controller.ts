@@ -1,6 +1,7 @@
 import express, { Request, Response, NextFunction } from 'express';
 import { TrainingGamesRequestBody } from '@sqrib/shared';
-import { generateTrainingWordChainService, generateLearningWordChainService } from '../services';
+import { serializeBigInt } from '../utils';
+import { generateTrainingWordChainService, generateLearningWordChainService, saveTrainingScoringService } from '../services';
 
 const router = express.Router();
 const MIN_WORDS_LENGTH = 3;
@@ -36,6 +37,25 @@ export function getLearningWordChain({ body }: Request, res: Response, next: Nex
       body.language,
     );
     res.status(200).json(wordChain);
+  } catch (error) {
+    next(error);
+  }
+}
+
+/**
+ * Save user scoring
+ * @body {ScoreRequestBody} score
+ * @route /save-scoring
+ * @method POST
+ */
+export async function saveLearningScoring(
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) {
+  try {
+    const savedScore = await saveTrainingScoringService(req);
+    res.status(200).json(serializeBigInt(savedScore));
   } catch (error) {
     next(error);
   }

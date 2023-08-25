@@ -1,7 +1,7 @@
 import React from 'react'
-import { useGetSelf } from '../api/queries/useGetSelf.hook';
+import { useGetSelf } from '../api/queries';
 import { UserBase } from '@sqrib/shared';
-import { useLogout } from '../api/queries/useLogout.hook';
+import { useLogout } from '../api/queries';
 
 export type JWTContextType = {
   isAuthenticated: boolean;
@@ -31,9 +31,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     await mutateAsync();
   }, []);
 
-  const { isAuthenticated, user, loading } = useGetSelf({
-    onError: () => { logout() }
-  });
+  const { isAuthenticated, user, loading } = useGetSelf();
 
   const memoizedValue = React.useMemo(
     () => ({

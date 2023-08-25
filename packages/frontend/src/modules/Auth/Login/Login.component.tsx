@@ -4,7 +4,7 @@ import Modal from '../../../components/Modal/Modal.component';
 import { Logo, Spacer, SpacerSize } from '../../../components';
 import { Button } from '../../../components/Button/Button.component';
 import { Input } from '../components/Input/Input.component';
-import { useLogin } from '../../../api/queries/useLogin.hook';
+import { useLogin } from '../../../api/queries';
 import { alertService } from '../../Alert/Alert.service';
 import { formatErrorMessage } from '../../../utils';
 import { MODAL_ID } from '../../../components/Modals/modals.constants';
@@ -16,7 +16,6 @@ function Login() {
     email: '',
     password: ''
   });
-  const [isAuthWrong, setIsAuthWrong] = useState(false);
   const [triggerLoginChecking, setTriggerLoginChecking] = useState(false);
   const { closeModal } = useModal()
   const { mutateAsync: loginUser } = useLogin({

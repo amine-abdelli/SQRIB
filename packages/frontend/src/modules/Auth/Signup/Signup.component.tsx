@@ -6,7 +6,7 @@ import { onFormChange } from '../../../utils/form.utils';
 import { Input } from '../components';
 import { Button } from '../../../components/Button/Button.component';
 import { Text } from '../../../components/Text/Text.component';
-import { useCreateUser } from '../../../api/queries/userCreateAccount.hooks';
+import { useCreateUser } from '../../../api/queries';
 import { useModal } from '../../../contexts/ModalContext';
 import { MODAL_ID } from '../../../components/Modals/modals.constants';
 import { AxiosError } from 'axios';

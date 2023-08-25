@@ -16,7 +16,7 @@ function Select({
       {data.map(({ value: currentValue, label }) => (
         <option
           key={currentValue}
-          value={typeof currentValue === 'string' ? currentValue.toLowerCase() : currentValue}
+          value={currentValue}
         >
           {label}
         </option>

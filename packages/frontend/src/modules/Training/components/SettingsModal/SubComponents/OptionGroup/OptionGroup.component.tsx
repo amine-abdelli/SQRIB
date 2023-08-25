@@ -1,5 +1,6 @@
 import { Spacer, SpacerSize } from "../../../../../../components";
 import { Button } from "../../../../../../components/Button/Button.component";
+import { CardButton } from "../../../../../../components/CardButton/CardButton.component";
 import { WordsCollectionLayout, WordsType } from "../../../../../../components/Options/Options.props";
 import Select from "../../../../../../components/Select/Select.component";
 import { Text } from "../../../../../../components/Text/Text.component";
@@ -16,28 +17,30 @@ export function OptionIcon({ icon }: any) {
 }
 
 export function ModeOptionGroup({
-  icon, label, options, selected, setSelected, subLabel
+  icon, options, selected, setSelected, subLabel
 }: OptionProps) {
   return (
     <div className="button-group-container">
       <Spacer x size='small' />
       <div>
         <div>
-          <Text p className='button-group--label icon'>{icon}<Spacer x size={SpacerSize.SMALL} />{label}</Text>
-          <Text p centered className="mode">Select a game mode</Text>
+          <Text p className='button-group--label icon'>{icon}<Spacer x size={SpacerSize.SMALL} />mode selection</Text>
           <Text p className="sublabel">{subLabel}</Text>
         </div>
         <Spacer y size={SpacerSize.SMALL} />
         <div className="button-group mode-button-container">
-          {options.map(({ label, value }) => (
-            <Button
-              style={{ background: selected === value ? COLORS.WHITE : 'lightgrey', border: `${selected === value ? 3 : 1}px solid black` }}
-              className="mode-button"
-              color={selected === value ? COLORS.GOLD : ''}
-              onClick={() => setSelected(value)}
-              light
-              label={label}
-            />
+          {options.map(({ label, value, subLabel }, i) => (
+            <>
+              <CardButton
+                style={{ background: selected === value ? COLORS.WHITE : 'lightgrey', border: `${selected === value ? 3 : 1}px solid black`, marginRight: '1rem' }}
+                classNames="mode-button"
+                color={selected === value ? COLORS.GOLD : ''}
+                onClick={() => setSelected(value)}
+                subLabel={subLabel}
+                label={label}
+              />
+              {i === 0 ? <Spacer x size={SpacerSize.SMALL} /> : null}
+            </>
           ))}
         </div>
       </div>

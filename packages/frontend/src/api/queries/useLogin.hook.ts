@@ -1,7 +1,6 @@
 import { useMutation, UseMutationOptions, UseMutationResult } from 'react-query';
-import { LoginUserResponseBody, UserCredential } from '@sqrib/shared';
+import { ENDPOINTS, LoginUserResponseBody, ROUTES, UserCredential } from '@sqrib/shared';
 import { apiService } from '../api';
-import { endpoints } from '..';
 
 export const LOGIN_USER = 'LOGIN_USER';
 
@@ -11,7 +10,7 @@ export function useLogin(
   return useMutation(
     [LOGIN_USER],
     async (requestBody: UserCredential) => {
-      const response = await apiService.post<LoginUserResponseBody>(endpoints.login, requestBody);
+      const response = await apiService.post<LoginUserResponseBody>(ROUTES.auth + ENDPOINTS.auth.login, requestBody);
       return response.data;
     },
     mutationOptions,

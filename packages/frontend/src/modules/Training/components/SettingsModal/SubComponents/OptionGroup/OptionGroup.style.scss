@@ -10,6 +10,7 @@
 
 .button-group-container {
   padding: 0.5rem;
+  width: 100%;
 
   p.icon {
     font-size: 42px;
@@ -30,12 +31,19 @@
   }
 
   .mode-button-container {
+    display: flex;
+    justify-content: space-between;
     height: 100%;
+    width: 100%;
     padding: 0.1rem 0;
     border-radius: 5px;
+    &:nth-child(1) {
+      margin-right: 0.5rem;
+    }
   }
   
   .mode-button {
+    flex-grow: 1;
     font-weight: 800;
     margin: 0 0.5rem;
     padding: 1rem;

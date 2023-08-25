@@ -1,4 +1,4 @@
-import { TLanguage } from "@sqrib/shared";
+import { TLanguages } from "@sqrib/shared";
 import { FontSize } from "../../../utils";
 import { TTrainingMode, WordsCollectionLayout } from "../../../components/Options/Options.props";
 import { ReactElement } from "react";
@@ -28,8 +28,8 @@ export interface EngineProps {
   setIsRunning: React.Dispatch<React.SetStateAction<boolean>>,
   fontSize: FontSize,
   setFontSize: React.Dispatch<React.SetStateAction<FontSize>>,
-  language: TLanguage,
-  setLanguage: React.Dispatch<React.SetStateAction<TLanguage>>,
+  language: TLanguages,
+  setLanguage: React.Dispatch<React.SetStateAction<TLanguages>>,
   mode: TTrainingMode,
   setMode: React.Dispatch<React.SetStateAction<TTrainingMode>>,
   countDown: number,

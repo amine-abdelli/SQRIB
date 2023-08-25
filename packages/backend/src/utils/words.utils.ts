@@ -1,4 +1,4 @@
-import { TLanguage, dictionaries } from '@sqrib/shared';
+import { TLanguages, dictionaries } from '@sqrib/shared';
 import _ from 'lodash';
 
 export const specialCharacterRegex: RegExp = /[^\w\s]/gi;
@@ -45,6 +45,6 @@ function generateWordChain(array: string[], wordCount: number): string[] {
  * @param wordCount The number of word in one set of word
  * @returns An array of words of the specified length in the specified language
  */
-export function generateWordSet(lang: TLanguage, wordCount: number) {
+export function generateWordSet(lang: TLanguages, wordCount: number) {
   return shuffle(generateWordChain(dictionaries[lang], wordCount), wordCount);
 }

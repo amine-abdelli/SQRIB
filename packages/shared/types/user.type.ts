@@ -39,6 +39,7 @@ export type CreateUserRequestBody = Register
 export type CreateUserResponseBody = UserBase;
 
 export type LoginUserResponseBody = UserBase;
+
 export interface GetSelfResponseBody {
   data: UserBase
 }

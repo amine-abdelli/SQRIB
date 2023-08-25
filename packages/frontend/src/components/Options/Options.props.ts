@@ -10,8 +10,8 @@ export enum WordsCollectionLayout {
 }
 
 export enum TrainingMode {
-  SPEED_CHALLENGE = 'speedChallenge',
-  TIME_TRIAL = 'timeTrial',
+  SPEED_CHALLENGE = 'SPEED_CHALLENGE',
+  TIME_TRIAL = 'TIME_TRIAL',
 }
 
 export enum WordsType {

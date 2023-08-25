@@ -1,4 +1,4 @@
-import { Languages } from '..';
+import { Languages } from '../../types';
 
 export type ClientType = {
   id: string;

@@ -48,7 +48,7 @@ export function getLearningWordChain({ body }: Request, res: Response, next: Nex
  * @route /save-scoring
  * @method POST
  */
-export async function saveLearningScoring(
+export async function saveTrainingScoring(
   req: Request,
   res: Response,
   next: NextFunction,

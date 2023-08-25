@@ -7,6 +7,6 @@ const router = express.Router();
 
 router.get(ENDPOINTS.game.training, GameController.getTrainingWordChain);
 router.get(ENDPOINTS.game.learning, GameController.getLearningWordChain);
-router.post(ENDPOINTS.game.save_scoring, ...withAuth(GameController.saveLearningScoring));
+router.post(ENDPOINTS.game.save_scoring, ...withAuth(GameController.saveTrainingScoring));
 
 export default router;

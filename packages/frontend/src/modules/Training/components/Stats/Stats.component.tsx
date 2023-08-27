@@ -30,7 +30,7 @@ function Stats(props: StatsProps) {
   const wrongLetters = misspellings.length;
 
   const { mutateAsync: saveScore } = useSaveTrainingScore({ onSuccess: () => { 
-    alertService.success('Score saved successfully !', {});
+    alertService.success('Score saved successfully.', {});
     setHasScoreBeenSaved(true)
   } });
   async function saveTrainingScore() {

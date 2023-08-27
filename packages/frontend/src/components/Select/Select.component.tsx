@@ -3,7 +3,7 @@ import './Select.style.scss';
 import { SelectProps } from './Select.props';
 
 function Select({
-  onChange, value, data, disabled = false, stretch
+  onChange, value, data, disabled = false
 }: SelectProps) {
   return (
     <select

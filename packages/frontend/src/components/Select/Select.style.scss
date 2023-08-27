@@ -1,11 +1,15 @@
-@import '../../theme/abstracts/index.scss';
+@import "../../theme/abstracts/index.scss";
 
 .select {
   @include thinBorder();
   font-weight: 800;
   height: 2rem;
-  
+  border-radius: 5px;
+  box-shadow: none;
+  font-family: $FiraCodefontFamily;
+
   option {
+    font-family: $FiraCodefontFamily;
     font-weight: 800;
   }
 

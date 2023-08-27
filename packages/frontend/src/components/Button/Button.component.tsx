@@ -7,7 +7,6 @@ function Button({
   color, light, style, children, link
 }: ButtonProps) {
   const buttonStyle = {
-    background: secondary ? '#FFFFFF' : '',
     width: stretch ? '' : '100%',
     color,
     padding: stretch ? '5px 10px' : '',
@@ -18,7 +17,7 @@ function Button({
       disabled={disabled}
       onClick={onClick}
       style={buttonStyle}
-      className={`button--primary ${light ? 'button--light' : ''} ${link ? 'button--link button--light' : ''} ${className}`}
+      className={`button--primary ${light ? 'button--light' : ''} ${link ? 'button--link button--light' : ''} ${secondary ? 'button--secondary' : ''} ${className}`}
       type='submit'
     >
       {children ? children : label}

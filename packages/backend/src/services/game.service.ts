@@ -14,9 +14,10 @@ import { generateRandomWordsWithPriority } from '../utils/markov.utils';
 
 // Validation util
 function saveTrainingScoringValidator(session: SessionRequestBody, score: ScoreRequestBody) {
-  if (!session.language || session.word_count === undefined || !session.type || !session.mode
-    || score.accuracy === undefined || score.wpm === undefined || score.points === undefined
-    || !score.start_time || !score.end_time || !score.typed_words) {
+  if (!session.language || (session.word_count === undefined && session.count_down === undefined)
+    || !session.type || !session.mode || score.accuracy === undefined
+    || score.wpm === undefined || score.points === undefined
+    || !score.start_time || !score.end_time || score.typed_words === undefined) {
     throw new HttpError(400, 'Missing mandatory fields in request body');
   }
 }

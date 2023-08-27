@@ -1,6 +1,6 @@
 import React from 'react';
-import styles from './CountDown.module.scss';
 import { convertSecondsToTimerFormat } from '../../utils';
+import './CountDown.style.scss';
 
 interface CountDownProps {
   timer: number;
@@ -8,7 +8,7 @@ interface CountDownProps {
 
 function CountDown({ timer }: CountDownProps) {
   return (
-    <span className={styles.container}>
+    <span className='container'>
       {convertSecondsToTimerFormat(timer)}
     </span>
   );

@@ -1,7 +1,7 @@
 @import '../../theme/index.scss';
 
 .keyBoardWrapper {
-  padding: 5px;
+  padding-top: 10px;
   width: 100%;
   height: auto;
   border-radius: 5px;
@@ -29,6 +29,12 @@
   margin: 1px;
   flex-grow: 1;
   border-radius: 5px;
+  box-shadow: 2px 2px 0px $outline;
+
+  &--pressed {
+    color: #FFFFFF;
+    box-shadow: 1px 1px 0px $outline;
+  }
 }
 
 .stretch {

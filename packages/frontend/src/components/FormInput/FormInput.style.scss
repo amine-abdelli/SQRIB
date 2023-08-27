@@ -1,4 +1,4 @@
-@import '../../theme/abstracts';
+@import '../../theme/index.scss';
 
 .input {
   @include thinBorder(); 
@@ -7,14 +7,24 @@
   height: 45px;
   transition: all 1px ease-in-out;
   font-weight: 700;
+  border-radius: 5px;
+  box-shadow: none !important;
+  background-color: $light-grey;
+  font-family: $FiraCodefontFamily;
   
   &::placeholder {
     font-style: italic;
     font-weight: 400;
+    font-family: $FiraCodefontFamily;
   }
 
   &:focus {
-    box-shadow: $shadow-button-hovered;
     transition: all 1px ease-in-out;
+    background-color: white;
+    box-shadow: $shadow-button-hovered;
+  }
+
+  &:active {
+    background-color: white;
   }
 }

@@ -8,6 +8,7 @@ $zIndex: 2;
   background-color: $tertiary;
   @include thickBorder();
   @include absoluteCenter();
+  border-radius: 10px;
 }
 
 .sqrib-background {

@@ -22,27 +22,28 @@ export function ModeOptionGroup({
   return (
     <div className="button-group-container">
       <Spacer x size='small' />
-      <div>
-        <div>
-          <Text p className='button-group--label icon'>{icon}<Spacer x size={SpacerSize.SMALL} />mode selection</Text>
-          <Text p className="sublabel">{subLabel}</Text>
-        </div>
-        <Spacer y size={SpacerSize.SMALL} />
-        <div className="button-group mode-button-container">
-          {options.map(({ label, value, subLabel }, i) => (
-            <>
-              <CardButton
-                style={{ background: selected === value ? COLORS.WHITE : 'lightgrey', border: `${selected === value ? 3 : 1}px solid black`, marginRight: '1rem' }}
-                classNames="mode-button"
-                color={selected === value ? COLORS.GOLD : ''}
-                onClick={() => setSelected(value)}
-                subLabel={subLabel}
-                label={label}
-              />
-              {i === 0 ? <Spacer x size={SpacerSize.SMALL} /> : null}
-            </>
-          ))}
-        </div>
+      <div style={{ display: 'flex', alignItems: 'center' }}>
+        <span style={{ width: '2rem', display: 'flex', justifyContent: 'center', background: COLORS.WHITE, height: '2rem', alignItems: 'center', borderRadius: '50px' }}>
+          {icon}
+        </span>
+        <Spacer x size='small' />
+        <Text size={24}>Mode Selection</Text>
+      </div>
+      <Spacer y size={SpacerSize.SMALL} />
+      <div className="button-group mode-button-container">
+        {options.map(({ label, value, subLabel }, i) => (
+          <>
+            <CardButton
+              style={{ background: selected === value ? COLORS.WHITE : 'lightgrey', border: `${selected === value ? 3 : 1}px solid black`, marginRight: '1rem' }}
+              classNames="mode-button"
+              color={selected === value ? COLORS.GOLD : ''}
+              onClick={() => setSelected(value)}
+              subLabel={subLabel}
+              label={label}
+            />
+            {i === 0 ? <Spacer x size={SpacerSize.SMALL} /> : null}
+          </>
+        ))}
       </div>
     </div>
   );
@@ -67,7 +68,7 @@ export function OptionGroup({
           {select ? <Select data={options} onChange={setSelected} value={selected} stretch />
             : options.map(({ label, value }) => (
               <Button
-                style={{ background: selected === value ? COLORS.WHITE : '', padding: '0.8rem', borderRadius: '5px' }}
+                style={{ background: selected === value ? COLORS.WHITE : '', border: selected === value ? '1px solid black' : '',padding: '0.8rem', borderRadius: '5px' }}
                 color={selected === value ? COLORS.GOLD : ''}
                 onClick={() => setSelected(value)}
                 light

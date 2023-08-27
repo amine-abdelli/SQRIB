@@ -7,6 +7,7 @@ export interface ScoringProps {
 }
 
 export interface ScoreItemProps {
-  content?: string | number,
+  label?: string | number,
+  value?: string | number,
   color?: string,
 }

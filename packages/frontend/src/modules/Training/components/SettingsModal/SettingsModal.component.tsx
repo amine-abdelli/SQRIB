@@ -28,7 +28,7 @@ function ModeOptions({ mode, setMode, countDown, setCountDown, wordCount, setWor
   return (
     <div style={{ background: '#f5f5f5', borderRadius: '5px', marginBottom: '0.5rem', display: 'flex', flexDirection: 'column' }} className="button-group--wrapper">
       <ModeOptionGroup
-        icon={<Game set='light' size={32} />}
+        icon={<Game set='light' size={24} />}
         label='mode'
         options={modeOptions}
         selected={mode}
@@ -37,7 +37,7 @@ function ModeOptions({ mode, setMode, countDown, setCountDown, wordCount, setWor
       {/* TODO Should become HARD MODE*/}
       <CheckboxWithLabel
         icon={<PiFlowerLotusLight />}
-        label='Zen mode'
+        label='Zen Mode'
         subLabel="With this mode, you can hop to the next word without needing to fix it. A stress-free mode for those who prefer not to be interrupted in their typing flow."
         checked={isZenModeOn}
         onChange={() => setIsZenModeOn(!isZenModeOn)}
@@ -47,7 +47,7 @@ function ModeOptions({ mode, setMode, countDown, setCountDown, wordCount, setWor
       {mode === TrainingMode.TIME_TRIAL &&
         <OptionGroup
           icon={<TimeCircle set="light" />}
-          label='timer'
+          label='Timer'
           subLabel='Duration of the session in seconds'
           options={durationOptions}
           selected={countDown}
@@ -57,13 +57,13 @@ function ModeOptions({ mode, setMode, countDown, setCountDown, wordCount, setWor
       {mode === TrainingMode.SPEED_CHALLENGE &&
         <OptionGroup
           icon={<TbSortAscendingNumbers />}
-          subLabel='Number of words you want to type' label='word count' options={wordCountOptions}
+          subLabel='Number of words you want to type' label='Word Count' options={wordCountOptions}
           selected={wordCount}
           setSelected={setWordCount}
         />}
       <OptionGroup
         icon={<MdOutlineTypeSpecimen />}
-        label='words type'
+        label='Words Type'
         subLabel='Choose for quote, custom or random words'
         options={wordTypeOptions}
         selected={wordsType} setSelected={setWordsType}
@@ -108,7 +108,7 @@ function SettingsModal(props: SettingsModalProps) {
           {/* <span className="separator">|</span> */}
           <OptionGroup
             icon={<Category set="light" />}
-            label='layout'
+            label='Layout'
             subLabel='Display words horizontally or vertically'
             options={layoutOptions}
             selected={layout}
@@ -116,7 +116,7 @@ function SettingsModal(props: SettingsModalProps) {
           />
           <OptionGroup
             icon={<IoLanguageOutline />}
-            label='language'
+            label='Language'
             subLabel='Choose a language'
             options={languageOptions}
             selected={language}
@@ -125,13 +125,13 @@ function SettingsModal(props: SettingsModalProps) {
           />
           <OptionGroup
             icon={<RiFontSize />}
-            label='font size'
+            label='Font Size'
             subLabel='Font size in pixel'
             options={fontSizeOptions}
             selected={fontSize}
             setSelected={setFontSize}
           />
-          <Button label="Save" onClick={onSave} style={{ padding: '1rem' }} />
+          <Button label="Play" onClick={onSave} style={{ padding: '1rem' }} />
         </div>
       </Modal.Body>
     </Modal>

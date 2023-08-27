@@ -2,10 +2,10 @@ import React from 'react';
 import { ScoreItemProps } from '../Scoring.props';
 import '../Scoring.style.scss';
 
-function ScoringItem({ content, color }: ScoreItemProps) {
+function ScoringItem({ label, value, color }: ScoreItemProps) {
   return (
     <p className='scoring-item' style={{ color }}>
-      {content}
+      <span className='scoring-item--value'>{value}</span><span className='scoring-item--label'>{label}</span>
     </p>
   );
 }

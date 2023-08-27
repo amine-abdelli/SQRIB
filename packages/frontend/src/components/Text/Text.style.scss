@@ -1,3 +1,5 @@
+@import "../../theme/index.scss";
+
 @mixin BaseText {
   white-space: normal;
   overflow-wrap: break-word;
@@ -35,5 +37,8 @@
   }
   &.thin {
     font-weight: 300; // Generally, 300 is considered a "light" font-weight
+  }
+  &.fira {
+    font-family: $FiraCodefontFamily;
   }
 }

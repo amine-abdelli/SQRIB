@@ -30,7 +30,7 @@ function Stats(props: StatsProps) {
   const wrongLetters = misspellings.length;
 
   const { mutateAsync: saveScore } = useSaveTrainingScore({ onSuccess: () => { 
-    alertService.success('Score saved successfully !', {}); 
+    alertService.success('Score saved successfully !', {});
     setHasScoreBeenSaved(true)
   } });
   async function saveTrainingScore() {
@@ -60,71 +60,71 @@ function Stats(props: StatsProps) {
     <div className='stats--wrapper'>
       <div style={{ display: 'flex', alignItems: 'center', flexDirection: 'column' }}>
         <Logo label='SCOREBOARD' />
-        <Text centered>Summary</Text>
+        <Text fira size={24} centered>Summary</Text>
         <Spacer y size={SpacerSize.MEDIUM} />
       </div>
       <div className='stats--content'>
         <div className='score-card--wrapper'>
-          <Text centered>wpm
+          <Text fira centered>wpm
             <Tooltip size={30} content="WPM is often the primary metric people look at. It represents the number of words you can type in one minute. This metric gauges your typing speed. A word is considered as 5 characters, including spaces and punctuation. Both novice and seasoned typists use WPM as a benchmark to measure progress.">
               <IoInformationCircleOutline size={16} color='grey' />
             </Tooltip>
           </Text>
-          <Text h3 bold>{wpm}</Text>
+          <Text fira bold>{wpm}</Text>
         </div>
         <div className='score-card--wrapper'>
-          <Text centered>Accuracy
+          <Text fira centered>Accuracy
             <Tooltip size={30} content="Accuracy represents the percentage of letters you typed correctly against the total letters from the reference text. A higher accuracy often indicates better focus and fewer typos. It's essential to balance speed (WPM) with accuracy for effective typing.">
               <IoInformationCircleOutline size={16} color='grey' />
             </Tooltip>
           </Text>
-          <Text bold>{accuracy}%</Text>
+          <Text fira bold>{accuracy}%</Text>
         </div>
         <div className='score-card--wrapper'>
-          <Text centered>Points
+          <Text fira centered>Points
             <Tooltip size={30} content="Points are a cumulative score calculated based on your WPM, accuracy, and the number of correct letters. It's a comprehensive metric giving an overall sense of your performance in the session.">
               <IoInformationCircleOutline size={16} color='grey' />
             </Tooltip>
           </Text>
-          <Text bold>{points}</Text>
+          <Text fira bold>{points}</Text>
         </div>
         <div className='score-card--wrapper'>
-          <Text centered>Incorrect words
+          <Text fira centered>Incorrect words
             <Tooltip size={30} content="These are the words you typed that didn't match the reference text. Reflect on these to understand common mistakes or areas of improvement.">
               <IoInformationCircleOutline size={16} color='grey' />
             </Tooltip>
           </Text>
-          <Text bold>{incorrectlyTypedWords}</Text>
+          <Text fira bold>{incorrectlyTypedWords}</Text>
         </div>
         <div className='score-card--wrapper'>
-          <Text centered>Correct words
+          <Text fira centered>Correct words
             <Tooltip size={30} content="Words that you've typed perfectly, matching the reference text. These show your successes in the typing session. Well done!">
               <IoInformationCircleOutline size={16} color='grey' />
             </Tooltip>
           </Text>
-          <Text bold>{correctlyTypedWords}</Text>
+          <Text fira bold>{correctlyTypedWords}</Text>
         </div>
         <div className='score-card--wrapper'>
-          <Text centered>Keystrokes
+          <Text fira centered>Keystrokes
             <Tooltip size={30} content="Keystrokes represent every key press you made. This metric breaks down into three parts: the total expected keystrokes (from the reference), the number you got right, and any extra or incorrect keypresses (typos). Remember, even if you corrected a typo before moving on, it still counts here.">
               <IoInformationCircleOutline size={16} color='grey' />
             </Tooltip>
           </Text>
           <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-            <Text bold>{totalLetters}</Text>
+            <Text fira bold>{totalLetters}</Text>
             <Spacer x size={SpacerSize.SMALL} />
-            <Text thin size={14} color={COLORS.SUCCESS}>{correctLetters}</Text>
-            <Text thin color={COLORS.GREY}>|</Text>
-            <Text thin size={14} color={COLORS.ERROR}>{wrongLetters}</Text>
+            <Text fira thin size={14} color={COLORS.SUCCESS}>{correctLetters}</Text>
+            <Text fira thin color={COLORS.GREY}>|</Text>
+            <Text fira thin size={14} color={COLORS.ERROR}>{wrongLetters}</Text>
           </div>
         </div>
         <div className='score-card--wrapper'>
-          <Text centered>Typed words
+          <Text fira centered>Typed words
             <Tooltip size={30} content="This reflects the total number of words you've typed during the session. It provides insight into your engagement and stamina during the typing exercise.">
               <IoInformationCircleOutline size={16} color='grey' />
             </Tooltip>
           </Text>
-          <Text bold>{totalTypedWords}</Text>
+          <Text fira bold>{totalTypedWords}</Text>
         </div>
         <TipGenerator />
         <div style={{ width: '100%', display: misspellings?.length ? '' : 'none' }}>
@@ -137,7 +137,7 @@ function Stats(props: StatsProps) {
           <Spacer y size={SpacerSize.SMALL} />
           <FocusArea misspellings={misspellings} />
         </div>
-        <Spacer y size={SpacerSize.MEDIUM} />
+        <Spacer y size={SpacerSize.SMALL} />
         <Button
           color={COLORS.WHITE}
           onClick={async () => {

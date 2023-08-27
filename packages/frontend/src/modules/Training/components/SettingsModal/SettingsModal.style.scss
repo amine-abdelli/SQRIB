@@ -1,4 +1,4 @@
-@import "../../../../theme/abstracts";
+@import "../../../../theme/index.scss";
 
 .options--wrapper {
   position: relative;
@@ -8,8 +8,8 @@
   display: flex;
   align-items: flex-start;
   flex-direction: column;
-  // TODO Uncomment this line to space option button group evenly
   justify-content: space-evenly;
+  font-family: $FiraCodefontFamily;
 
   .button-group {
     display: flex;
@@ -24,6 +24,7 @@
 
     &--label {
       font-weight: 800;
+      font-family: $FiraCodefontFamily;
     }
 
     .option-language--button {

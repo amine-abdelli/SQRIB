@@ -13,4 +13,5 @@ export interface TextProps extends HTMLProps<HTMLParagraphElement | HTMLHeadingE
   thin?: boolean;
   size?: number;
   background?: string;
+  fira?: boolean
 }

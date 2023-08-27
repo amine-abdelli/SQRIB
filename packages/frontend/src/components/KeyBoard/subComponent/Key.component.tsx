@@ -15,7 +15,7 @@ const Key = ({ letter, isKeyPressedAndEnable, keyPressed, misspellings, enable, 
   return (
     <span
       key={letter}
-      className={`key ${showCase ? 'stretch' : ''}`}
+      className={`key ${showCase ? 'stretch' : ''} ${isKeyPressedAndEnable ? 'key--pressed' : ''}`}
       style={{
         transform: isKeyPressedAndEnable ? 'scale(0.95)' : 'scale(0.99)',
         backgroundColor: expressKeyStyleProperty(letter, keyPressed, misspellings, enable),

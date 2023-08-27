@@ -9,6 +9,7 @@ import { alertService } from '../../Alert/Alert.service';
 import { formatErrorMessage } from '../../../utils';
 import { MODAL_ID } from '../../../components/Modals/modals.constants';
 import { useModal } from '../../../contexts/ModalContext';
+import { Text } from '../../../components/Text/Text.component';
 
 function Login() {
   const [login, setLogin] = useState({
@@ -17,7 +18,7 @@ function Login() {
     password: ''
   });
   const [triggerLoginChecking, setTriggerLoginChecking] = useState(false);
-  const { closeModal } = useModal()
+  const { closeModal, openModal } = useModal()
   const { mutateAsync: loginUser } = useLogin({
     onSuccess(data, variables, context) {
       setLogin({ email: '', password: '' });
@@ -31,6 +32,11 @@ function Login() {
       alertService.error(formatErrorMessage(error), {});
     }
   })
+
+  const handleSignupClick = () => {
+    openModal(MODAL_ID.SIGNUP)
+    closeModal(MODAL_ID.LOGIN)
+  }
 
   const onFinish = async () => {
     setTriggerLoginChecking(true);
@@ -73,7 +79,9 @@ function Login() {
       <Modal.Footer style={{ width: '20rem' }}>
         <Button label="Login" onClick={onFinish} />
         <Spacer y size={SpacerSize.SMALL} />
-        {/* <Button light label="Forgotten password ?" color='blue' secondary onClick={() => null} /> */}
+        <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+          <Text italic size={14}>New to</Text><Spacer x size={SpacerSize.SMALL} /><Text italic size={14} bold>sqrib.io</Text><Text size={14}>?</Text><Button stretch link onClick={handleSignupClick}>Sign Up</Button>
+        </div>
       </Modal.Footer>
     </>
   );

@@ -3,6 +3,8 @@
 .stats--wrapper {
   padding: 1rem;
   width: 22.5rem;
+  background: no-repeat url('../../../src/assets/images/light_background.svg');
+  background-size: cover;
   .stats--content {
     display: flex;
     justify-content: center;
@@ -13,6 +15,9 @@
       display: flex;
       justify-content: space-between;
       padding: 0.1rem 0.5rem;
+      border: 3px solid black;
+      border-radius: 5px;
+      margin-bottom: 2px;
     }
     .score-card--wrapper:nth-child(odd) {
       background-color: fade-out($secondary, 0.85);

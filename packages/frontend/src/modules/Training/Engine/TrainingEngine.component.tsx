@@ -8,6 +8,8 @@ import { FontSize } from '../../../utils/fontsize.enum';
 import { TTrainingMode, TrainingMode, WordsCollectionLayout } from '../../../components/Options/Options.props';
 import { useGetTrainingWordChain, useSaveTrainingScore } from '../../../api/queries';
 import { EngineChildren, IScore } from './Engine.props';
+import { useAFKChecker } from '../../../hooks';
+import { useModal } from '../../../contexts';
 
 // World's wpm record held by Sean Wrona since 2010
 const WORLD_WPM_RECORD = 256;
@@ -128,6 +130,16 @@ function TrainingEngine({ children }: EngineChildren) {
   }, [typedWords]);
 
   const currentTime = useTimestamp(isRunning);
+
+  // Check if the user is AFK and reset the game when it's the case
+  useAFKChecker({
+    input, timestamp: currentTime, isRunning, afkMessage: 'Your session has been reset for being AFK for too long.', callback: () => {
+      setIsRunning(false);
+      setIsUserAllowToType(false);
+      resetTraining()
+    }
+  });
+
   // Update score every second or letter typed
   useEffect(() => {
     if (isRunning) {

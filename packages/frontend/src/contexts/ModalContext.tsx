@@ -29,13 +29,12 @@ export const ModalProvider: React.FC<ModalProviderProps> = ({ children }) => {
 
 
   const openModal = (id: ModalIdType) => {
-    setActiveModalIds((prev) => [...prev, id]);
+    setActiveModalIds((prev) => [...prev.filter(anId => anId !== id), id]);
   };
 
   const closeModal = (id: string) => {
     setActiveModalIds((prev) => prev.filter((modalId) => modalId !== id));
   };
-  const { isAuthenticated } = useAuthContext()
 
   return (
     <ModalContext.Provider value={{ activeModalIds, modals, registerModal, openModal, closeModal }}>

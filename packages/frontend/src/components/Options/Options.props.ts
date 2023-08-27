@@ -26,4 +26,4 @@ export type TWordsCollectionLayout = WordsCollectionLayout;
 
 export type TDifficulty = Difficulty;
 
-export type TTrainingMode = TrainingMode;
+export type TTrainingMode = TrainingMode.SPEED_CHALLENGE | TrainingMode.TIME_TRIAL;

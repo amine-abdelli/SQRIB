@@ -2,6 +2,7 @@
 
 .button {
   &--primary {
+    font-family: $FiraCodefontFamily;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -13,6 +14,7 @@
     padding: 5px 15px;
     white-space: nowrap;
     @include thinBorder();
+    border-radius: 5px;
 
     &:active {
       transition: scale 0.1s ease-in-out;
@@ -31,6 +33,14 @@
 
     &:hover {
       background-color: fade-out($primary, 0.1);
+    }
+  }
+
+  &--secondary {
+    background-color: white;
+
+    &:hover {
+      background-color: $light-grey;
     }
   }
 

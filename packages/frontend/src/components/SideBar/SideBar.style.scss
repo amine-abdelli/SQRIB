@@ -9,6 +9,7 @@
   background-color: $secondary;
   width: 220px;
   @include thickBorder();
+  border-radius: 10px;
 
   .sidebar-header {
     display: flex;
@@ -45,7 +46,6 @@
     top: 0;
     left: 0;
     background: no-repeat url('../../assets/images/main-background.png');
-
     
     .nav-link--wrapper {
       .nav-link {

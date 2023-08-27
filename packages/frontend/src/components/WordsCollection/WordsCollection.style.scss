@@ -10,6 +10,7 @@
   // Make words collection to take vertically the space left
   flex: 1;
   overflow-y: hidden;
+  border-radius: 10px;
   div {
     span {
       font-family: $FiraCodefontFamily;

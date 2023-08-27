@@ -30,7 +30,8 @@ export const useAFKChecker = ({ input, timestamp, isRunning, callback, afkMessag
       if (timeSinceLastInput > AFK_TIMEOUT_MS) {
         callback();
         alertService.warn(afkMessage, {
-          autoClose: false
+          autoClose: false,
+          closingButton: true
         });
       } else {
         timeSinceLastInput = 0;

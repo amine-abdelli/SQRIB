@@ -3,6 +3,8 @@ import { useState, useEffect, useRef } from 'react';
 
 import { IAlert } from './Alert.props';
 import { AlertType, alertService } from './Alert.service';
+import { Button } from '../../components/Button/Button.component';
+import { Spacer, SpacerSize } from '../../components';
 
 export { Alert };
 
@@ -108,9 +110,14 @@ function Alert({ id, fade }: IAlert) {
     <div>
       {alerts.map((alert, i) => (
         <div key={`${alert.message + i}`} style={{ zIndex: 999999999999, transition: 'all 1s ease-in-out' }} className={cssClasses(alert)}>
-          <a className="close" onClick={() => removeAlert(alert)}>&times;</a>
-          {/* <span dangerouslySetInnerHTML={{ __html: alert.message }} /> */}
+          {!alert.closingButton && <a className="close" onClick={() => removeAlert(alert)}>&times;</a>}
           <p>{alert.message}</p>
+            {alert.closingButton &&
+              <>
+                <Spacer y size={SpacerSize.SMALL} />
+                <Button secondary onClick={() => removeAlert(alert)}>Got It</Button>
+              </>
+            }
         </div>
       ))}
     </div>

@@ -2,7 +2,7 @@ import React, { FC } from 'react';
 import { TextProps } from './Text.props';
 import './Text.style.scss';
 
-const Text: FC<TextProps> = ({ h1, h2, h3, p, bold, color, italic, background, centered, underline, thin, size, children, className = '', ...props }) => {
+const Text: FC<TextProps> = ({ h1, h2, h3, p, bold, color, italic, background, centered, underline, thin, size, children, className = '', fira,...props }) => {
   let Component: keyof JSX.IntrinsicElements = 'span'; // Default component type
   if (p) Component = 'p';
   if (h1) Component = 'h1';
@@ -20,6 +20,7 @@ const Text: FC<TextProps> = ({ h1, h2, h3, p, bold, color, italic, background, c
     underline ? 'underline' : '',
     centered ? 'centered' : '',
     thin ? 'thin' : '',
+    fira ? 'fira' : '',
     className
   ].join(' ').trim();
 

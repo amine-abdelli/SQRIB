@@ -27,12 +27,10 @@ const SETTINGS_CONVERTER: Record<string, string> = {
 }
 
 function Scoring({ score, timer, setShouldDisplayOption, isRunning, mode, wordCount, language, countDown, typedWords }: SettingsModalProps) {
-  const { user, isAuthenticated } = useAuthContext()
-  const { isSmallScreen, isLargeScreen, isVerySmallScreen } = useWindowSize();
   return (
     <>
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0 0.5rem', background: '#f5f5f5', height: '3rem', borderRadius: '5px', marginBottom: '0.5rem' }} >
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+      <div className='session-settings-info--wrapper' >
+        <div className='session-settings-info'>
           <span className='summary'>
             <OptionIcon icon={<Game set='light' size={16} />} />
             <Spacer x size={SpacerSize.SMALL} />
@@ -68,7 +66,6 @@ function Scoring({ score, timer, setShouldDisplayOption, isRunning, mode, wordCo
           </span>
           <Spacer x size={SpacerSize.MEDIUM} />
         </div>
-        {/* Add tool tip to explain why it can't be */}
         <Button
           disabled={isRunning}
           color={isRunning ? 'grey' : ''}
@@ -80,13 +77,11 @@ function Scoring({ score, timer, setShouldDisplayOption, isRunning, mode, wordCo
         />
       </div>
       <div className="scoring">
-        <div className="scoring--wrapper">
-          {/* TODO Show anonymous if not logged in */}
-          {isAuthenticated && user?.username ? <Avatar username={user?.username} size='small' /> : <Avatar username='?' size='small' />}
-          {!isSmallScreen && <ScoringItem content={`Typed words : ${typedWords.length}${mode === TrainingMode.TIME_TRIAL ? '' : '/' + wordCount}`} />}
-          {!isVerySmallScreen && <ScoringItem content={`Accuracy : ${score.accuracy}%`} />}
-          <ScoringItem content={`Mpm : ${score.wpm}`} />
-          {!isLargeScreen && <ScoringItem content={`Points : ${score.points}`} />}
+        <div className="scoring--wrapper" >
+          <ScoringItem label={mode === TrainingMode.TIME_TRIAL ? "Typed words" : '/' + wordCount} value={`${typedWords.length}`} />
+          <ScoringItem label="% Accuracy" value={`${score.accuracy}`} />
+          <ScoringItem label="wpm" value={score.wpm} />
+          <ScoringItem label="Points" value={score.points} />
         </div>
         <div style={{ display: 'flex', alignItems: 'center' }}>
           <CountDown timer={timer} />

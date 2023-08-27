@@ -15,6 +15,8 @@ export enum COLORS {
   LIGHT_GREEN = '#A7D1CE4D', // Quaternary
   BLACK = '#181818', // Outline
   GREY = '#778899', // Grey
+  LIGHT_GREY = '#E5E5E5',
+  VERY_LIGHT_GREY = '#F5F5F5', // Very light grey
   ERROR = '#F31260', // Error
   SUCCESS = '#13A452', // Success
   LINK = '#0070F0'

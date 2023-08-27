@@ -5,12 +5,12 @@
   width: 100%;
   background: #ffffff;
   border: 4px solid black;
-  box-shadow: 4px 4px 0px black;
   padding: 0.5rem;
   // Make words collection to take vertically the space left
   flex: 1;
   overflow-y: hidden;
-  border-radius: 10px;
+  border-radius: 5px;
+
   div {
     span {
       font-family: $FiraCodefontFamily;

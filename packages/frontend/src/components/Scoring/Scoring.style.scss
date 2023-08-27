@@ -1,3 +1,5 @@
+@import "../../theme/index.scss";
+
 .scoring {
   position: relative;
   display: flex;
@@ -15,7 +17,21 @@
     }
 
     .scoring-item {
+      padding: 0.2rem 0.6rem;
+      background-color: $very-light-grey;
       font-weight: 800;
+      font-family: $FiraCodefontFamily;
+      border-radius: 5px;
+      border: 3px solid $outline;
+
+      &--value {
+        font-size: 2rem;
+      }
+
+      &--label {
+        font-size: 0.8rem;
+        font-weight: 600;
+      }
     }
   }
 }
@@ -24,4 +40,23 @@
   display: flex;
   align-items: center;
   font-weight: 600;
+  font-family: $FiraCodefontFamily;
+}
+
+.session-settings-info {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  &--wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 0.5rem;
+    background: fade-out($primary, 0.15);
+    height: 3rem;
+    border-radius: 5px;
+    margin-bottom: 0.5rem;
+    border: 3px solid black;
+  }
 }

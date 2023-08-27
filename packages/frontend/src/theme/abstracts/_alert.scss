@@ -1,7 +1,18 @@
+@import "../../theme/abstracts/fonts.scss";
+
+@keyframes notificationTrigger {
+  0% {
+    transform: translateY(-10px);
+  }
+  100% {
+    transform: translateY(5px);
+  }
+}
+
 .alert {
   position: absolute;
   top: 0px;
-  left: 46%;
+  right: 5px;
   padding: 0.75rem 1.25rem;
   margin-bottom: 1rem;
   border: 1px solid transparent;
@@ -14,9 +25,10 @@
   animation-timing-function: cubic-bezier(0.175, 0.885, 0.32, 1.275);
   animation-fill-mode: forwards;
   border-radius: 5px;
-
+  font-family: $FiraCodefontFamily;
+  
   p {
-    font-weight: 300;
+    font-weight: 600;
   }
 
   &-success {
@@ -55,11 +67,3 @@
   cursor: pointer;
 }
 
-@keyframes notificationTrigger {
-  0% {
-    transform: translateY(-10px);
-  }
-  100% {
-    transform: translateY(5px);
-  }
-}

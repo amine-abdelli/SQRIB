@@ -1,7 +1,6 @@
 import React from 'react';
 import { TrainingEngine } from '../modules/Training/Engine/TrainingEngine.component';
 import { TrainingModule } from '../modules/Training/Training.module';
-import '../theme/pages/_Training.scss';
 import { EngineProps } from '../components';
 
 function Training() {

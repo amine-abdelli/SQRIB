@@ -11,7 +11,7 @@ function NavLinks() {
       <NavLink currentPath={pathname} to={MAIN_ROUTES.LEARNING} label='Learning' />
       <NavLink currentPath={pathname} to={MAIN_ROUTES.MULTIPLAYER} label='Multiplayer' />
       <NavLink currentPath={pathname} to={MAIN_ROUTES.LEADERBOARD} label='LeaderBoard' />
-      <NavLink withAuth currentPath={pathname} to={MAIN_ROUTES.SETTINGS} label='Profile' />
+      <NavLink withAuth currentPath={pathname} to={MAIN_ROUTES.PROFILE} label='Profile' />
     </ul>
   );
 }

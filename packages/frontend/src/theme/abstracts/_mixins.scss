@@ -34,3 +34,25 @@
   left: 50%;
   transform: translate(-50%, -50%)
 }
+
+@mixin lightBackground {
+  background: no-repeat url('../../assets/images/light_background.svg');
+  background-size: cover;  
+}
+
+@mixin darkBackground {
+  background: no-repeat url('../../assets/images/main-background.png');
+  background-size: cover;  
+}
+
+@mixin mainContainer {
+  @include lightBackground();
+  border: 4px solid black;
+  box-shadow: 4px 4px 0px black;
+  padding: 1rem 2rem 2rem 2rem;
+  margin: 0;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  border-radius: 5px;
+}

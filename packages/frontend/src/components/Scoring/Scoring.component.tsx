@@ -14,8 +14,8 @@ import { MdOutlineTypeSpecimen } from 'react-icons/md';
 import './Scoring.style.scss';
 import { IoLanguageOutline } from 'react-icons/io5';
 import { OptionIcon } from '../../modules/Training/components/SettingsModal/SubComponents/OptionGroup';
-import { useAuthContext } from '../../contexts/AuthContext';
 import { Languages } from '@sqrib/shared';
+import { PiFlowerLotusLight } from 'react-icons/pi';
 
 const SETTINGS_CONVERTER: Record<string, string> = {
   [TrainingMode.SPEED_CHALLENGE]: 'Speed Challenge',
@@ -26,7 +26,7 @@ const SETTINGS_CONVERTER: Record<string, string> = {
   [Languages.ES]: 'Spanish'
 }
 
-function Scoring({ score, timer, setShouldDisplayOption, isRunning, mode, wordCount, language, countDown, typedWords }: SettingsModalProps) {
+function Scoring({ score, timer, setShouldDisplayOption, isRunning, mode, wordCount, language, countDown, typedWords, isZenModeOn }: SettingsModalProps) {
   return (
     <>
       <div className='session-settings-info--wrapper' >
@@ -64,6 +64,12 @@ function Scoring({ score, timer, setShouldDisplayOption, isRunning, mode, wordCo
             <Spacer x size={SpacerSize.SMALL} />
             Random
           </span>
+          <Spacer x size={SpacerSize.MEDIUM} />
+          {isZenModeOn ? <span className='summary'>
+            <OptionIcon icon={<PiFlowerLotusLight size={16} />} />
+            <Spacer x size={SpacerSize.SMALL} />
+            Active
+          </span> : ''}
           <Spacer x size={SpacerSize.MEDIUM} />
         </div>
         <Button

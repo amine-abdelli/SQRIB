@@ -6,21 +6,14 @@ import { useAuthContext, useModal } from '../contexts';
 import '../theme/pages/_Home.scss';
 import { SvgLetters } from '../assets/images/letters';
 import { randomIntFromInterval } from '@sqrib/shared';
+import { parallax } from '../utils';
 
 function Home() {
   const { openModal } = useModal();
   const { isAuthenticated } = useAuthContext();
 
   document.addEventListener("mousemove", parallax);
-  function parallax(e: any) {
-    document.querySelectorAll(".letters").forEach((layer, i) => {
-      const speed = layer.getAttribute("data-speed");
-      if (!speed) return;
-      const x = (window.innerWidth - e.pageX * speed) / 110;
-      const y = (window.innerHeight - e.pageY * speed) / 110;
-      layer.style.transform = `translateX(${x}px) translateY(${y}px) rotate(${i % 2 === 0 ? 12 : -12}deg)`;
-    });
-  }
+
   // minus M
   const alphabets = 'abcdefghijklmnopqrstuvwxyz'.toUpperCase().split('');
   return (

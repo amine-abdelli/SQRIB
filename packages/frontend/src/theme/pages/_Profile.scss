@@ -1,0 +1,11 @@
+@import "../index.scss";
+
+.profile--main {
+  @include darkBackground();
+  .profile-container {
+    &--wrapper {
+      margin: 0 1rem;
+      min-height: 100%;
+    }
+  }
+}

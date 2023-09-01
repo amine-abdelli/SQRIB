@@ -4,3 +4,4 @@ export * from './typing.utils';
 export * from './fontsize.enum';
 export * from './words.utils';
 export * from './alert.utils';
+export * from './string.utils';

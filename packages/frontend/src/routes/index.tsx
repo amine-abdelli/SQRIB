@@ -6,16 +6,20 @@ import {
   LeaderBoard,
   Settings,
   NotFound,
+  Profile,
+  Home
 } from './elements';
+import { MAIN_ROUTES } from './paths';
 
 export default function Router() {
   return useRoutes([
-    { path: '/', element: <Training /> },
-    { path: '/training', element: <Training /> },
-    { path: '/learning', element: <Learning /> },
-    { path: '/multiplayer', element: <Multiplayer /> },
-    { path: '/leaderboard', element: <LeaderBoard /> },
-    { path: '/settings', element: <Settings /> },
+    { path: MAIN_ROUTES.HOME, element: <Home />,  },
+    { path: MAIN_ROUTES.TRAINING, element: <Training /> },
+    { path: MAIN_ROUTES.LEARNING, element: <Learning /> },
+    { path: MAIN_ROUTES.MULTIPLAYER, element: <Multiplayer /> },
+    { path: MAIN_ROUTES.LEADERBOARD, element: <LeaderBoard /> },
+    { path: MAIN_ROUTES.SETTINGS, element: <Settings /> },
+    { path: MAIN_ROUTES.PROFILE, element: <Profile /> },
     { path: '*', element: <NotFound /> },
     // {
     //   path: '/',

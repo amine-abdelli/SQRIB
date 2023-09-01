@@ -1,0 +1,27 @@
+@import '../../theme/index.scss';
+.card {
+  &--wrapper {
+    background-color: $tertiary;
+    border-radius: 5px;
+    border: 3px solid $outline;
+    padding: 0.5rem;
+    display: inline-block;
+    margin: 0.5rem;
+  }
+
+  &--shadowed {
+    @include thinBorder();
+  }
+
+  &--light {
+    @include lightBackground();
+  }
+
+  &--dark {
+    @include darkBackground();
+  }
+
+  &--centered {
+    text-align: center;
+  }
+}

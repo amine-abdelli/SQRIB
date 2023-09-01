@@ -1,4 +1,3 @@
-import { Header, NavLinks } from './SubComponent';
 import { Spacer, SpacerSize } from '../Spacer';
 import { Cross as ClosingCross } from './SubComponent/Cross/Cross.component';
 import './SideBar.style.scss';
@@ -15,24 +14,20 @@ function SideBar({ isMenuOpen, setIsMenuOpen }: SideBarProps) {
   const shouldBeVisible = isMenuOpen && isMediumScreen;
   const { openModal } = useModal()
   return (
-    !(!isMenuOpen && isMediumScreen) ? (
-      <nav className='sidebar'>
+    <nav className='sidebar'>
+      <span>
+        <ClosingCross isVisible={shouldBeVisible} onClick={() => setIsMenuOpen(false)} />
+        <Spacer size={SpacerSize.LARGE} />
+      </span>
+      {isAuthenticated ?
+        <Button onClick={() => logout()}>Logout</Button> :
         <span>
-          <ClosingCross isVisible={shouldBeVisible} onClick={() => setIsMenuOpen(false)} />
-          <Header />
-          <Spacer size={SpacerSize.LARGE} />
-          <NavLinks />
+          <Button onClick={() => openModal(MODAL_ID.LOGIN)}>Login</Button>
+          <Spacer y size={SpacerSize.SMALL} />
+          <Button secondary onClick={() => openModal(MODAL_ID.SIGNUP)}>Signup</Button>
         </span>
-        {isAuthenticated ?
-          <Button onClick={() => logout()}>Logout</Button> :
-          <span>
-            <Button onClick={() => openModal(MODAL_ID.LOGIN)}>Login</Button>
-            <Spacer y size={SpacerSize.SMALL} />
-            <Button secondary onClick={() => openModal(MODAL_ID.SIGNUP)}>Signup</Button>
-          </span>
-        }
-      </nav>
-    ) : <></>
+      }
+    </nav>
   );
 }
 

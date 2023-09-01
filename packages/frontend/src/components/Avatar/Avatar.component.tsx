@@ -2,25 +2,42 @@ import React from 'react';
 import { AvatarProps } from './Avatar.props';
 import { COLORS } from '../../theme/colors';
 import { colorGenerator } from '@sqrib/shared';
+import './Avatar.style.scss'
 
-function Avatar({ username, size }: AvatarProps) {
-  const edgeSize = size === 'small' ? '2.2rem' : '3rem';
+function Avatar({ username, size, avatarUrl }: AvatarProps) {
+  let edgeSize = '2.2rem';
+  let fontSize = '25px';
+  if (size === 'small') {
+    edgeSize = '2.2rem';
+    fontSize = '25px';
+  } else if (size === 'medium') {
+    edgeSize = '3rem';
+    fontSize = '30px';
+  } else if (size === 'large') {
+    edgeSize = '4rem';
+    fontSize = '36px';
+  } else if (size === 'xlarge') {
+    edgeSize = '5rem';
+    fontSize = '60px';
+  }
   const colorPicker = () => React.useMemo(() => colorGenerator(), [username])
+  // TODO in future, when user will be able to edit its own profile. Add react-image-crop library
   return (
-    <div style={{
-      display: 'inline-flex',
-      background: colorPicker(),
-      color: COLORS.WHITE,
-      border: `2px solid ${COLORS.WHITE}`,
-      borderRadius: '100%',
-      fontSize: size === 'small' ? '25px' : '30px',
-      fontWeight: 800,
-      width: edgeSize,
-      height: edgeSize,
-      justifyContent: 'center',
-      alignItems: 'center',
-      boxShadow: `2px 2px 0 ${COLORS.BLACK}`,
-    }}
+    avatarUrl ? <img src={avatarUrl} alt="User's Avatar" style={{ width: '5rem', height: 'auto', borderRadius: '100%', border: '3px solid black' }} /> : <div
+      className='avatar'
+      style={{
+        display: 'inline-flex',
+        background: colorPicker(),
+        color: COLORS.WHITE,
+        border: `3px solid ${COLORS.BLACK}`,
+        borderRadius: '100%',
+        fontSize,
+        fontWeight: 800,
+        width: edgeSize,
+        height: edgeSize,
+        justifyContent: 'center',
+        alignItems: 'center',
+      }}
     >
       {typeof username === 'string' ? username?.[0].toLocaleUpperCase() : username}
     </div>

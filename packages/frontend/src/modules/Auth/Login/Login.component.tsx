@@ -57,7 +57,7 @@ function Login() {
             flexDirection: 'column',
           }}
         >
-          <Logo label='SQRIB.IO' />
+          <Logo thin label='SQRIB.IO' />
         </h1>
       </Modal.Header>
       <Modal.Body style={{ width: '20rem' }}>

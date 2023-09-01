@@ -68,7 +68,7 @@ function Signup() {
   return (
     <div style={{ width: '20rem' }}>
       <Modal.Header>
-        <Logo centered label='SQRIB.IO' />
+        <Logo centered label='SQRIB.IO' thin />
         <Spacer y size={SpacerSize.SMALL} />
         <Text size={14} p thin italic>
           Level up your typing skills and signup to save your in-game triumphs, challenge the best, and unlock next-level experiences

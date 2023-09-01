@@ -1,0 +1,24 @@
+@import "../../../../theme/index.scss";
+@import url("https://fonts.googleapis.com/css2?family=Libre+Bodoni&display=swap");
+
+.header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.logo--text {
+  color: $primary;
+  font-style: normal;
+  font-weight: 800;
+  font-size: 38px;
+  @include stroke($outline, 4px);
+
+  &--centered {
+    text-align: center;
+  }
+
+  &--thin {
+    @include stroke($outline, 3px);
+  }
+}

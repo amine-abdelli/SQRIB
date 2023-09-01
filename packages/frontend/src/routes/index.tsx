@@ -7,12 +7,13 @@ import {
   Settings,
   NotFound,
   Profile,
+  Home
 } from './elements';
 import { MAIN_ROUTES } from './paths';
 
 export default function Router() {
   return useRoutes([
-    { path: MAIN_ROUTES.HOME, element: <Training />,  },
+    { path: MAIN_ROUTES.HOME, element: <Home />,  },
     { path: MAIN_ROUTES.TRAINING, element: <Training /> },
     { path: MAIN_ROUTES.LEARNING, element: <Learning /> },
     { path: MAIN_ROUTES.MULTIPLAYER, element: <Multiplayer /> },

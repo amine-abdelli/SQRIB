@@ -4,4 +4,6 @@ export interface CardProps {
   background?: 'dark' | 'light';
   width?: string | number;
   className?: string;
+  centered?: boolean;
+  style?: React.CSSProperties;
 }

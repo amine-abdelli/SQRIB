@@ -1,0 +1,10 @@
+@import "../index.scss";
+
+.training-page {
+  position: relative;
+  @include darkBackground();
+
+  .training-page--wrapper {
+    @include mainContainer();
+  }
+}

@@ -12,7 +12,7 @@
     font-size: 24px;
     margin: 0;
     transition: color 0.25s ease;
-    @include stroke($outline, 3px);
+    @include stroke($outline, 4px);
 
     &:hover {
       color: $primary;

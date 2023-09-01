@@ -1,14 +1,16 @@
 import { Suspense, lazy, ElementType } from 'react';
+import Loading from '../pages/Loading.page';
 
 // To replace will real loading screen
 const LoadingScreen = () => <p>Loading ...</p>;
 
 const Loadable = (Component: ElementType) => (props: any) => (
-    <Suspense fallback={<LoadingScreen />}>
+    <Suspense fallback={<Loading />}>
       <Component {...props} />
     </Suspense>
 );
 
+export const Home = Loadable(lazy(() => import('../pages/Home.page')));
 export const Training = Loadable(lazy(() => import('../pages/Training.page')));
 export const Learning = Loadable(lazy(() => import('../pages/Learning.page')));
 export const Multiplayer = Loadable(lazy(() => import('../pages/Multiplayer.page')));

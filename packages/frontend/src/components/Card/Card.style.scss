@@ -20,4 +20,8 @@
   &--dark {
     @include darkBackground();
   }
+
+  &--centered {
+    text-align: center;
+  }
 }

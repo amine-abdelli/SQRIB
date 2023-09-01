@@ -29,10 +29,12 @@ function Stats(props: StatsProps) {
   const { correctLetters, totalLetters } = countLetters(wordChain, typedWords);
   const wrongLetters = misspellings.length;
 
-  const { mutateAsync: saveScore } = useSaveTrainingScore({ onSuccess: () => { 
-    alertService.success('Score saved successfully.', {});
-    setHasScoreBeenSaved(true)
-  } });
+  const { mutateAsync: saveScore } = useSaveTrainingScore({
+    onSuccess: () => {
+      alertService.success('Score saved successfully.', {});
+      setHasScoreBeenSaved(true)
+    }
+  });
   async function saveTrainingScore() {
     if (isAuthenticated && !hasScoreBeenSaved) {
       await saveScore({
@@ -59,7 +61,7 @@ function Stats(props: StatsProps) {
   return (
     <div className='stats--wrapper'>
       <div style={{ display: 'flex', alignItems: 'center', flexDirection: 'column' }}>
-        <Logo label='SCOREBOARD' />
+        <Logo thin label='SCOREBOARD' />
         <Text fira size={24} centered>Summary</Text>
         <Spacer y size={SpacerSize.MEDIUM} />
       </div>

@@ -16,6 +16,7 @@ import { IoLanguageOutline } from 'react-icons/io5';
 import { OptionIcon } from '../../modules/Training/components/SettingsModal/SubComponents/OptionGroup';
 import { Languages } from '@sqrib/shared';
 import { PiFlowerLotusLight } from 'react-icons/pi';
+import { HomeButton } from '../HomeButton/HomeButton.component';
 
 const SETTINGS_CONVERTER: Record<string, string> = {
   [TrainingMode.SPEED_CHALLENGE]: 'Speed Challenge',
@@ -29,59 +30,64 @@ const SETTINGS_CONVERTER: Record<string, string> = {
 function Scoring({ score, timer, setShouldDisplayOption, isRunning, mode, wordCount, language, countDown, typedWords, isZenModeOn }: SettingsModalProps) {
   return (
     <>
-      <div className='session-settings-info--wrapper' >
-        <div className='session-settings-info'>
-          <span className='summary'>
-            <OptionIcon icon={<Game set='light' size={16} />} />
+      <div style={{ display: 'flex', alignItems: 'center' }}>
+        <HomeButton />
+        <Spacer x size={SpacerSize.SMALL} />
+        <div className='session-settings-info--wrapper' >
+          <div className='session-settings-info'>
+            <Spacer x size={SpacerSize.MEDIUM} />
+            <span className='summary'>
+              <OptionIcon icon={<Game set='light' size={16} />} />
+              <Spacer x size={SpacerSize.SMALL} />
+              {SETTINGS_CONVERTER[mode]} mode
+            </span>
             <Spacer x size={SpacerSize.SMALL} />
-            {SETTINGS_CONVERTER[mode]} mode
-          </span>
-          <Spacer x size={SpacerSize.SMALL} />
-          <span className='summary'>
-            {mode === TrainingMode.SPEED_CHALLENGE
-              ?
-              <>
-                <OptionIcon icon={<TbSortAscendingNumbers size={16} />} />
-                <Spacer x size={SpacerSize.SMALL} />
-                {wordCount}
-              </>
-              : <>
-                <OptionIcon icon={<TimeCircle set="light" size={16} />} />
-                <Spacer x size={SpacerSize.SMALL} />
-                {countDown}s
-              </>
-            }
-          </span>
-          <Spacer x size={SpacerSize.MEDIUM} />
-          <span className='summary'>
-            <OptionIcon icon={<OptionIcon icon={<IoLanguageOutline size={16} />} />} />
-            <Spacer x size={SpacerSize.SMALL} />
-            {SETTINGS_CONVERTER[language]}
-          </span>
-          <Spacer x size={SpacerSize.MEDIUM} />
-          <span className='summary'>
-            <OptionIcon icon={<MdOutlineTypeSpecimen size={16} />} />
-            <Spacer x size={SpacerSize.SMALL} />
-            Random
-          </span>
-          <Spacer x size={SpacerSize.MEDIUM} />
-          {isZenModeOn ? <span className='summary'>
-            <OptionIcon icon={<PiFlowerLotusLight size={16} />} />
-            <Spacer x size={SpacerSize.SMALL} />
-            Active
-          </span> : ''}
-          <Spacer x size={SpacerSize.MEDIUM} />
+            <span className='summary'>
+              {mode === TrainingMode.SPEED_CHALLENGE
+                ?
+                <>
+                  <OptionIcon icon={<TbSortAscendingNumbers size={16} />} />
+                  <Spacer x size={SpacerSize.SMALL} />
+                  {wordCount}
+                </>
+                : <>
+                  <OptionIcon icon={<TimeCircle set="light" size={16} />} />
+                  <Spacer x size={SpacerSize.SMALL} />
+                  {countDown}s
+                </>
+              }
+            </span>
+            <Spacer x size={SpacerSize.MEDIUM} />
+            <span className='summary'>
+              <OptionIcon icon={<OptionIcon icon={<IoLanguageOutline size={16} />} />} />
+              <Spacer x size={SpacerSize.SMALL} />
+              {SETTINGS_CONVERTER[language]}
+            </span>
+            <Spacer x size={SpacerSize.MEDIUM} />
+            <span className='summary'>
+              <OptionIcon icon={<MdOutlineTypeSpecimen size={16} />} />
+              <Spacer x size={SpacerSize.SMALL} />
+              Random
+            </span>
+            <Spacer x size={SpacerSize.MEDIUM} />
+            {isZenModeOn ? <span className='summary'>
+              <OptionIcon icon={<PiFlowerLotusLight size={16} />} />
+              <Spacer x size={SpacerSize.SMALL} />
+              Active
+            </span> : ''}
+          </div>
+          <Button
+            disabled={isRunning}
+            color={isRunning ? 'grey' : ''}
+            label={<>{<AiOutlineEdit color={isRunning ? 'grey' : ''} size={22} />}Settings</>}
+            style={{ fontSize: '16px', margin: '10px', padding: '2px 5px' }}
+            onClick={() => setShouldDisplayOption((prev) => !prev)}
+            secondary
+            stretch
+          />
         </div>
-        <Button
-          disabled={isRunning}
-          color={isRunning ? 'grey' : ''}
-          label={<>{<AiOutlineEdit color={isRunning ? 'grey' : ''} size={22} />}Settings</>}
-          style={{ fontSize: '16px', margin: '10px', padding: '2px 5px' }}
-          onClick={() => setShouldDisplayOption((prev) => !prev)}
-          secondary
-          stretch
-        />
       </div>
+      <Spacer y size={SpacerSize.SMALL} />
       <div className="scoring">
         <div className="scoring--wrapper" >
           <ScoringItem label={mode === TrainingMode.TIME_TRIAL ? "Typed words" : '/' + wordCount} value={`${typedWords.length}`} />

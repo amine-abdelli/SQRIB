@@ -48,19 +48,15 @@
 @mixin mainContainer {
   border: 4px solid black;
   box-shadow: 4px 4px 0px black;
-  padding: 1rem 2rem 2rem 2rem;
+  padding: 1rem 2rem 1rem 2rem;
   margin: 0;
   display: flex;
   flex-direction: column;
   border-radius: 5px;
+  width: 80%;
+  height: calc(100% - 1rem);
   @include lightBackground();
 
-  // Vignetage
-  position: fixed;
-  top: 1rem;
-  bottom: 1rem;
-  right: 7rem;
-  left: 7rem;
   box-shadow: 0 0 200px rgba(0, 0, 0, 0.2) inset;
 }
 

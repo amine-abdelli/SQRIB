@@ -1,8 +1,11 @@
 import React from 'react';
+import { KeyBoard_V2 } from '../components/KeyBoard_V2/KeyBoard.component';
 
 function Multiplayer() {
   return (
-    <main className='layout--main'>Multiplayer</main>
+    <>
+      <KeyBoard_V2 input='AZERTY' setInput={() => null} enable misspellings={[]} />
+    </>
   );
 }
 

@@ -14,6 +14,7 @@ import { FaPlay, FaStop } from 'react-icons/fa';
 import { COLORS } from '../../theme/colors';
 import { ScoreBoardModal } from './components/ScoreBoardModal/ScoreBoardModal.component';
 import '../../theme/pages/_Training.scss';
+import { KeyBoard_V2 } from '../../components/KeyBoard_V2/KeyBoard.component';
 
 function TrainingModule(props: EngineProps) {
   const [shouldDisplayOption, setShouldDisplayOption] = React.useState<boolean>(true);
@@ -44,7 +45,10 @@ function TrainingModule(props: EngineProps) {
       </div>
       {props.layout === WordsCollectionLayout.HORIZONTAL
         ? <WordsCollection {...props} /> : <WordsCollection {...props} />}
-      <KeyBoard enable={isUserAllowToType} misspellings={misspellings} setInput={setInput} input={input} />
+      <Spacer y size={SpacerSize.MEDIUM} />
+      <div className='keyboard--layout'>
+        <KeyBoard_V2 enable={isUserAllowToType} misspellings={misspellings} setInput={setInput} input={input} />
+      </div>
       <ScoreBoardModal {...replayProps} />
       <SettingsModal {...optionProps} />
       <ReplayModal {...replayProps} />

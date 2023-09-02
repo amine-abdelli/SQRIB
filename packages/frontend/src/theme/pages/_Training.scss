@@ -2,9 +2,18 @@
 
 .training-page {
   position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   @include darkBackground();
 
   .training-page--wrapper {
     @include mainContainer();
+
+    .keyboard--layout {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
   }
 }

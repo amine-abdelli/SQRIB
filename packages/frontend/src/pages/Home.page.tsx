@@ -10,11 +10,11 @@ import { parallax } from '../utils';
 
 function Home() {
   const { openModal } = useModal();
-  const { isAuthenticated } = useAuthContext();
+  const { isAuthenticated, logout } = useAuthContext();
 
+  // Handle moving background
   document.addEventListener("mousemove", parallax);
 
-  // minus M
   const alphabets = 'abcdefghijklmnopqrstuvwxyz'.toUpperCase().split('');
   return (
     <main className='layout--main home-main'>
@@ -29,7 +29,10 @@ function Home() {
       <Spacer y size={SpacerSize.LARGE} />
       <NavLinks />
       <Spacer y size={SpacerSize.LARGE} />
-      {!isAuthenticated && <Button style={{ zIndex: 0 }} stretch onClick={() => openModal(MODAL_ID.LOGIN)}>Login</Button>}
+      {isAuthenticated
+        ? <Button style={{ zIndex: 0 }} stretch onClick={() => logout()}>Logout</Button>
+        : <Button style={{ zIndex: 0 }} stretch onClick={() => openModal(MODAL_ID.LOGIN)}>Login</Button>
+      }
     </main>
   );
 }

@@ -4,7 +4,7 @@ import { KeyBoard_V2 } from '../components/KeyBoard_V2/KeyBoard.component';
 function Multiplayer() {
   return (
     <>
-      <KeyBoard_V2 input='AZERTY' setInput={() => null} enable misspellings={[]} />
+      {/* <KeyBoard_V2 input='AZERTY' setInput={() => null} enable misspellings={[]} /> */}
     </>
   );
 }

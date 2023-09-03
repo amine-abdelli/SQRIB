@@ -4,13 +4,23 @@ import { NavLinkProps } from './NavLink.props';
 import './NavLink.style.scss';
 import { AuthGuard } from '../../../../modules/Auth/AuthGuard/AuthGuard.component';
 
-function NavLink({ to, label, currentPath, withAuth }: NavLinkProps) {
+function NavLink({ to, label, currentPath, withAuth, disabled }: NavLinkProps) {
+  const handleLinkClick = React.useCallback((e: React.MouseEvent<HTMLAnchorElement>) => {
+    if (disabled) {
+      e.preventDefault();
+    }
+  }, []);
+
   return (
-    withAuth ?
-      <AuthGuard>
-        <li className={`nav-link ${currentPath === to ? 'focused' : ''}`}><Link to={to}>{label}</Link></li>
-      </AuthGuard>
-      : <li className={`nav-link ${currentPath === to ? 'focused' : ''}`}><Link to={to}>{label}</Link></li>
+    withAuth
+      ? (<AuthGuard>
+        <li className={`nav-link ${currentPath === to ? 'focused' : ''} ${disabled ? 'disabled' : ''}`}>
+          <Link to={to} onClick={handleLinkClick}>{label}</Link>
+        </li>
+      </AuthGuard>)
+      : (<li className={`nav-link ${currentPath === to ? 'focused' : ''} ${disabled ? 'disabled' : ''}`}>
+        <Link to={to} onClick={handleLinkClick}>{label}</Link>
+      </li>)
   );
 }
 

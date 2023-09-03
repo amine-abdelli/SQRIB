@@ -59,6 +59,9 @@ function expressKeyStyleProperty(e: string, pressedKey: string, misspellings: st
   if (pressedKey === e && enable) {
     return '#D69C5D';
   }
+  if(e === 'sqrib') {
+    return COLORS.GOLD;
+  }
   return getRGBA(e, misspellings);
 }
 

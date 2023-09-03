@@ -3,4 +3,5 @@ export interface NavLinkProps {
   label: string,
   currentPath?: string
   withAuth?: boolean
+  disabled?: boolean
 }

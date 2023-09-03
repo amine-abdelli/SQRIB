@@ -1,4 +1,4 @@
-@import '../../../../theme/globals.scss';
+@import "../../../../theme/globals.scss";
 
 .nav-link {
   position: relative;
@@ -21,8 +21,21 @@
   }
 }
 
+.disabled {
+  a {
+    cursor: auto;
+    color: fade-out($light-grey, 0.5);
+    @include stroke(fade-out($outline, 0.7), 4px);
+
+    &:hover {
+      color: fade-out($light-grey, 0.5);
+      @include stroke(fade-out($outline, 0.7), 4px);
+    }
+  }
+}
+
 .focused {
   a {
-    color: $primary
+    color: $primary;
   }
 }

@@ -13,17 +13,20 @@ import { ReplayModal } from './components/ReplayModal/ReplayModal.component';
 import { FaPlay, FaStop } from 'react-icons/fa';
 import { COLORS } from '../../theme/colors';
 import { ScoreBoardModal } from './components/ScoreBoardModal/ScoreBoardModal.component';
+import { useIsInputFocused } from '../../hooks/useIsInputFocused.hook';
 import '../../theme/pages/_Training.scss';
-import { KeyBoard_V2 } from '../../components/KeyBoard_V2/KeyBoard.component';
 
 function TrainingModule(props: EngineProps) {
   const [shouldDisplayOption, setShouldDisplayOption] = React.useState<boolean>(true);
   const [shouldDisplayReplayModal, setShouldDisplayReplayModal] = React.useState<boolean>(false);
+  const [isFocused, inputRef] = useIsInputFocused();
+
   const closeModal = React.useCallback(() => setShouldDisplayReplayModal(false), [setShouldDisplayReplayModal]);
   const openModal = React.useCallback(() => setShouldDisplayReplayModal(true), [setShouldDisplayReplayModal]);
-  const { isUserAllowToType, misspellings, setInput, input } = props;
+  const { isUserAllowToType, misspellings } = props;
   const optionProps = { ...props, shouldDisplayOption, setShouldDisplayOption, closeModal }
   const replayProps = { ...props, shouldDisplayReplayModal, setShouldDisplayReplayModal, setShouldDisplayOption, closeModal }
+  const inputProps = { ...props, inputRef }
   return (
     <section className='training-page--wrapper'>
       <Scoring {...optionProps} />
@@ -41,13 +44,13 @@ function TrainingModule(props: EngineProps) {
           label={<FaPlay />}
           stretch
         />}
-        <TypingInput {...props} />
+        <TypingInput {...inputProps} />
       </div>
       {props.layout === WordsCollectionLayout.HORIZONTAL
         ? <WordsCollection {...props} /> : <WordsCollection {...props} />}
       <Spacer y size={SpacerSize.MEDIUM} />
       <div className='keyboard--layout'>
-        <KeyBoard_V2 enable={isUserAllowToType} misspellings={misspellings} setInput={setInput} input={input} />
+        <KeyBoard enable={isUserAllowToType} misspellings={misspellings} isFocused={isFocused} />
       </div>
       <ScoreBoardModal {...replayProps} />
       <SettingsModal {...optionProps} />

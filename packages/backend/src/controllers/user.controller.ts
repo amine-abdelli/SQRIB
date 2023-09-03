@@ -1,6 +1,7 @@
 import express, { Request, Response, NextFunction } from 'express';
 import {
-  createUserService, deleteUserService, getUserByIdService, updateUserByIdService,
+  createUserService, deleteUserService, getUserByIdService, getUserWeeklyTrackerService,
+  updateUserByIdService,
 } from '../services';
 
 const router = express.Router();
@@ -60,6 +61,20 @@ export async function deleteOneUser({ body }: Request, res: Response, next: Next
     return res.status(200).json({ message: `User ${email} deleted successfully` });
   } catch (error) {
     return next(error);
+  }
+}
+
+/**
+ * Get user's weekly tracker
+ * @route /weekly-tracker
+ * @method GET
+ */
+export async function getUserWeeklyTracker(req: Request, res: Response, next: NextFunction) {
+  try {
+    const weeklyTracker = await getUserWeeklyTrackerService(req);
+    res.status(200).json(weeklyTracker);
+  } catch (error) {
+    next(error);
   }
 }
 

@@ -4,6 +4,7 @@ export const ENDPOINTS = Object.freeze({
     create: '/create',
     update: '/update',
     delete: '/delete',
+    weekly_tracker: '/weekly-tracker',
   },
   auth: {
     login: '/login',

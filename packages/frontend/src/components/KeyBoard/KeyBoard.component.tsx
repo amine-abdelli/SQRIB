@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { keyBoardLayout } from './keyBoardLayout';
 import { KeyBoardEnum } from './KeyBoard.enum';
-import './KeyBoard.style.scss';
 import { Key } from './subComponent/Key.component';
 import { useWindowSize } from '../../hooks';
+import './KeyBoard.style.scss';
 
 function KeyBoard({ enable, misspellings, isFocused: isInputFocused }: { enable: boolean, misspellings: string[], isFocused?: boolean }) {
   const [isMajPressed, setIsMajPressed] = useState<boolean>(false);
@@ -25,7 +25,7 @@ function KeyBoard({ enable, misspellings, isFocused: isInputFocused }: { enable:
           event.preventDefault();
         }
         setKeyPressed(event.key);
-        // 1137px
+
         if (event.key === ' ') {
           setKeyPressed('Space');
         }

@@ -16,8 +16,21 @@ const io = new Server(server);
 dotenv.config();
 app.use(express.json());
 
+const whitelist = [
+  'http://localhost:5173',
+  'http://127.0.0.1:5173',
+  process.env.FRONTEND_URL,
+  process.env.FRONTEND_RENDER_URL,
+];
+
 const corsOptions = {
-  origin: process.env.FRONTEND_URL || 'http://localhost:5173' || 'http://127.0.0.1:5173',
+  origin(origin: string | undefined, callback: (err: Error | null, allow?: boolean) => void) {
+    if (whitelist.includes(origin || '') || !origin) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
   credentials: true,
   allowedHeaders: ['Authorization', 'Content-Type'],
 };

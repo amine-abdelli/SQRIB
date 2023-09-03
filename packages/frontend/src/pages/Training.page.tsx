@@ -5,6 +5,7 @@ import { EngineProps } from '../components';
 import '../theme/pages/_Training.scss';
 
 function Training() {
+  document.title = 'Training Session';
   return (
     <main className='layout--main training-page'>
       <TrainingEngine>

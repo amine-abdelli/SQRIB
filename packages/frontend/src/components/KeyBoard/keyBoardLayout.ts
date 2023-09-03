@@ -15,6 +15,8 @@ export const keyBoardLayout = {
   ],
 };
 
+export const notRandomKey = ['Backspace', 'Tab', 'CapsLock', 'Enter', 'Shift', 'Ctrl', 'Space']
+
 // export const keyBoardLayout = {
 //   'default-qwerty': {
 //     'normal': [

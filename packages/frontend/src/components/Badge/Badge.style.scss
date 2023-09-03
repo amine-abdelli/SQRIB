@@ -1,19 +1,22 @@
+@import '../../theme/index.scss';
+
 .badge-container {
   position: relative;
-  display: inline-block;
 }
 
 .badge {
   position: absolute;
   top: -0.35rem;  /* adjust as needed */
   right: -0.35rem;  /* adjust as needed */
-  width: 16px;
+  padding: 0.3rem;
+  min-width: 16px;
   height: 16px;
-  border-radius: 50%; /* Makes it a circle */
-  background-color: red; /* Any desired background color for the circle */
+  border-radius: 50px; /* Makes it a circle */
+  background-color: $error; /* Any desired background color for the circle */
   color: #FFF;
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 8px; /* Sets the font size to 8 */
+  font-size: 10px; /* Sets the font size to 8 */
+  font-weight: 800;
 }

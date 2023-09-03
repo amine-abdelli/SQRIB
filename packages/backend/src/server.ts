@@ -9,6 +9,7 @@ import path from 'path';
 import { handleSocketConnection } from './sockets/socket';
 import Routers from './routers';
 import { errorHandler } from './middlewares/error.middleware';
+import { HttpError } from './utils';
 
 const app = express();
 const server = http.createServer(app);
@@ -29,7 +30,7 @@ const corsOptions = {
     if (whitelist.includes(origin || '') || !origin) {
       callback(null, true);
     } else {
-      callback(new Error('Not allowed by CORS'));
+      callback(new HttpError(403, 'Not allowed by CORS'));
     }
   },
   credentials: true,

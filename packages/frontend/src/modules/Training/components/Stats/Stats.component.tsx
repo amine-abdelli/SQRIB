@@ -115,9 +115,9 @@ function Stats(props: StatsProps) {
           <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
             <Text fira bold>{totalLetters}</Text>
             <Spacer x size={SpacerSize.SMALL} />
-            <Text fira thin size={14} color={COLORS.SUCCESS}>{correctLetters}</Text>
+            <Text fira bold size={14} color={COLORS.SUCCESS}>{correctLetters}</Text>
             <Text fira thin color={COLORS.GREY}>|</Text>
-            <Text fira thin size={14} color={COLORS.ERROR}>{wrongLetters}</Text>
+            <Text fira bold size={14} color={COLORS.ERROR}>{wrongLetters}</Text>
           </div>
         </div>
         <div className='score-card--wrapper'>

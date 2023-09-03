@@ -1,11 +1,12 @@
 import React from 'react';
-import { KeyBoard_V2 } from '../components/KeyBoard_V2/KeyBoard.component';
+import { MovingBackground } from '../components/MovingBackground/MovingBackground.component';
+import '../theme/pages/_Multiplayer.scss';
 
 function Multiplayer() {
   return (
-    <>
-      {/* <KeyBoard_V2 input='AZERTY' setInput={() => null} enable misspellings={[]} /> */}
-    </>
+    <main className='layout--main multiplayer-page'>
+      <MovingBackground />
+    </main>
   );
 }
 

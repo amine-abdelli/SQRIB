@@ -6,10 +6,9 @@ import { COLORS } from '../../theme/colors';
 
 function TypingInput({
   input, setInput, setTypedWords, setIndexOfProgression, isRunning,
-  isUserAllowToType, wordChain, indexOfProgression, isZenModeOn, setMisspellings
-}: EngineProps) {
+  isUserAllowToType, wordChain, indexOfProgression, isZenModeOn, setMisspellings, inputRef
+}: EngineProps & { inputRef: React.RefObject<HTMLInputElement> }) {
   const { isMediumScreen } = useWindowSize();
-  const mainInputRef = createRef<HTMLInputElement>();
   const isDisabled = !isRunning && !isUserAllowToType;
   const wordCurrentlyTyping = wordChain[indexOfProgression];
   const isCorrect = wordCurrentlyTyping?.slice(0, input.length) === input;
@@ -18,7 +17,7 @@ function TypingInput({
     <div className='main-input--wrapper'>
       <input
         style={{ width: isMediumScreen ? '200px' : '', borderBottom: isCorrect ? '' : '2px solid red', color: isCorrect ? '' : COLORS.ERROR }}
-        ref={mainInputRef}
+        ref={inputRef}
         aria-label='formulaire de saisie principal'
         className="main-input"
         onChange={(event) => setInput(event.target.value.trim())}

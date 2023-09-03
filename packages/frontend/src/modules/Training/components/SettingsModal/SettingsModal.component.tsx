@@ -95,7 +95,7 @@ function SettingsModal(props: SettingsModalProps) {
       closeable
     >
       <Modal.Header>
-        <Logo centered label='TRAINING SETTINGS' />
+        <Logo centered thin label='TRAINING SETTINGS' />
       </Modal.Header>
       <Modal.Body>
         <div className="options--wrapper main-options--wrapper">

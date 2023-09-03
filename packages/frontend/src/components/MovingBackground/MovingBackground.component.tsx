@@ -15,7 +15,7 @@ const MovingBackground = () => {
           style={{ transform: `rotate(${index % 2 === 0 ? 12 : -12}deg)` }}
           key={index}
           src={image}
-          data-speed={randomIntFromInterval(-3, 3)}
+          data-speed={randomIntFromInterval(-2, 4)}
         />)}
     </>
   )

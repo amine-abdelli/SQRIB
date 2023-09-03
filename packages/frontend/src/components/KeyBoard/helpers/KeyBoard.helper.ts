@@ -10,6 +10,10 @@ function translateKeyBoardCode(word: string) {
       return 'Alt';
     case 'AltLeft':
       return 'Alt';
+    case 'ControlLeft':
+      return 'Ctrl';
+    case 'ControlRight':
+      return 'Ctrl';
     default: console.log();
   }
   if (word.charAt(0) === 'K') {

@@ -2,7 +2,7 @@
 
 .keyBoardWrapper {
   background-color: #ffffff;
-  width: 55rem;
+  width: 50rem;
   height: auto;
   border-radius: 10px;
   overflow: hidden;
@@ -46,7 +46,7 @@
   }
 
   &--backspace {
-    width: 10rem;
+    flex-grow: 1;
   }
 
   &--shift {
@@ -63,6 +63,14 @@
   }
 
   &--enter {
+    flex-grow: 1;
+  }
+
+  &--ctrl {
+    width: 5rem;
+  }
+
+  &--sqrib {
     flex-grow: 1;
   }
 }

@@ -3,9 +3,12 @@ import { keyBoardLayout } from './keyBoardLayout';
 import { KeyBoardEnum } from './KeyBoard.enum';
 import './KeyBoard.style.scss';
 import { Key } from './subComponent/Key.component';
+import { useWindowSize } from '../../hooks';
 
 function KeyBoard({ enable, misspellings, isFocused: isInputFocused }: { enable: boolean, misspellings: string[], isFocused?: boolean }) {
   const [isMajPressed, setIsMajPressed] = useState<boolean>(false);
+  const { isExtraLarge } = useWindowSize();
+  console.log('isExtraLarge : ', isExtraLarge)
   // TODO add to settings
   const [isQwerty] = useState<boolean>(false);
   const [keyPressed, setKeyPressed] = useState<string>('');
@@ -14,8 +17,7 @@ function KeyBoard({ enable, misspellings, isFocused: isInputFocused }: { enable:
   useEffect(() => {
     if (enable && isInputFocused) {
       function handleKeyDown(event: KeyboardEvent) {
-        console.log('event : ', event.code)
-        if (event.key === 'Shift') {
+        if (event.key === 'Shift' || event.shiftKey) {
           setIsMajPressed(true)
         }
         // Prevent user from pasting text
@@ -23,13 +25,17 @@ function KeyBoard({ enable, misspellings, isFocused: isInputFocused }: { enable:
           event.preventDefault();
         }
         setKeyPressed(event.key);
-
+        // 1137px
         if (event.key === ' ') {
           setKeyPressed('Space');
         }
       }
-      function handleKeyUp() {
-        setIsMajPressed(false)
+      function handleKeyUp(event: KeyboardEvent) {
+        if (event.shiftKey) {
+          setIsMajPressed(true)
+        } else {
+          setIsMajPressed(false)
+        }
         setKeyPressed('');
       }
       document.addEventListener('keydown', handleKeyDown);
@@ -39,11 +45,11 @@ function KeyBoard({ enable, misspellings, isFocused: isInputFocused }: { enable:
         document.removeEventListener('keyup', handleKeyUp);
       };
     }
-  }, [isInputFocused]);
+  }, [isInputFocused, isMajPressed]);
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column' }}>
-      <div className='keyBoardWrapper'>
+      <div className={`keyBoardWrapper ${isExtraLarge ? 'keyboard--small' : ''}`}>
         {keyBoardKeys.map((row: string, i: number) => (
           <div key={row[i]}>
             <div className='keyBoardRow' style={{ cursor: enable ? '' : 'not-allowed' }}>

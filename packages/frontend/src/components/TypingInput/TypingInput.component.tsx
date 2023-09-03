@@ -6,13 +6,17 @@ import { COLORS } from '../../theme/colors';
 
 function TypingInput({
   input, setInput, setTypedWords, setIndexOfProgression, isRunning,
-  isUserAllowToType, wordChain, indexOfProgression, isZenModeOn, setMisspellings, inputRef
+  isUserAllowToType, wordChain, indexOfProgression, isZenModeOn, setMisspellings, inputRef, resetTraining
 }: EngineProps & { inputRef: React.RefObject<HTMLInputElement> }) {
   const { isMediumScreen } = useWindowSize();
   const isDisabled = !isRunning && !isUserAllowToType;
   const wordCurrentlyTyping = wordChain[indexOfProgression];
   const isCorrect = wordCurrentlyTyping?.slice(0, input.length) === input;
-
+  React.useEffect(() => {
+    if (inputRef && inputRef.current) {
+      inputRef.current.focus();
+    }
+  }, [resetTraining]);
   return (
     <div className='main-input--wrapper'>
       <input

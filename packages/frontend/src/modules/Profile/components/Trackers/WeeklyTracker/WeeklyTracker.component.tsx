@@ -3,6 +3,7 @@ import { Card } from '../../../../../components/Card/Card.component';
 import './WeeklyTracker.style.scss';
 import { Activity } from './subComponents';
 import { useGetUserWeeklyTracker } from '../../../../../api/queries/useGetWeeklyTracker.hooks';
+import { weeklyDays } from './constants';
 
 const WeeklyTracker = () => {
   const { data: response } = useGetUserWeeklyTracker();
@@ -11,13 +12,7 @@ const WeeklyTracker = () => {
   return (
     <Card className='weekly-tracker--wrapper'>
       <div className='weekly-tracker--activity'>
-        <Activity hasPlayed />
-        <Activity />
-        <Activity />
-        <Activity hasPlayed />
-        <Activity today />
-        <Activity toCome />
-        <Activity toCome />
+        {weeklyDays.map(d => <Activity today label={d.charAt(0)} />)}
       </div>
     </Card>
   )

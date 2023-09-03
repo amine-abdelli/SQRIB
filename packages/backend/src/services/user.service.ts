@@ -112,5 +112,5 @@ export async function getUserWeeklyTrackerService(req: Request) {
   }
   const weeklyTracker = await getUserWeeklyTrackerRepository(req.userId) ?? [];
   log.info('User weekly tracker retrieved successfully:', { email: user.email });
-  return uniqueDays(weeklyTracker?.sessions.map((s: Session) => s.created_at));
+  return uniqueDays((weeklyTracker as any)?.sessions.map((s: Session) => s.created_at));
 }

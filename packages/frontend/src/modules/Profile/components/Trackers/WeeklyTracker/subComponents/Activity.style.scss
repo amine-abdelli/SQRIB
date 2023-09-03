@@ -2,9 +2,17 @@
 
 .activity {
   &--wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: $FiraCodefontFamily;
     rotate: 45deg;
     width: 2rem;
     height: 2rem;
+
+    span {
+      rotate: -45deg;
+    }
   }
 
   &--today {
@@ -12,6 +20,10 @@
     box-shadow: 5.5px 5.5px 0px fade-out($grey, 0.9);
     animation: float 3s infinite ease-in;
     rotate: 45deg;
+
+    span {
+      color: $primary;
+    }
   }
 
   &--played {

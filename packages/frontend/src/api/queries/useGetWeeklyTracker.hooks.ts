@@ -1,0 +1,12 @@
+import { UseQueryResult, useQuery } from "react-query";
+import { apiService } from "../api";
+import { ENDPOINTS, ROUTES } from "@sqrib/shared";
+
+export const GET_USER_WEEKLY_TRACKER = 'GET_USER_WEEKLY_TRACKER';
+
+export function useGetUserWeeklyTracker<T>(): UseQueryResult<any> {
+  return useQuery(
+    [GET_USER_WEEKLY_TRACKER],
+    () => apiService.get<T>(ROUTES.user + ENDPOINTS.user.weekly_tracker),
+  );
+}

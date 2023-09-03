@@ -1,13 +1,15 @@
 import React from 'react'
 import { ProfileEngineProps } from './Engine/ProfileEngine.props';
 import '../../theme/pages/_Profile.scss'
-import { Card } from '../../components/Card/Card.component';
-import { PlayerDetail } from './components/PlayerDetail/PlayerDetail.component';
+import { PlayerDetail, WeeklyTracker } from './components';
 
 const ProfileModule = (props: ProfileEngineProps) => {
   return (
     <div className="profile-container--wrapper">
-      <PlayerDetail {...props} />
+      <section className='profile-container--top-section'>
+        <PlayerDetail {...props} />
+        <WeeklyTracker />
+      </section>
     </div>
   )
 }

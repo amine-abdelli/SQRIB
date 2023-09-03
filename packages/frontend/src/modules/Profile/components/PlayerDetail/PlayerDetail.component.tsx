@@ -3,12 +3,12 @@ import { Card } from '../../../../components/Card/Card.component';
 import { Text } from '../../../../components/Text/Text.component';
 import { Spacer, SpacerSize } from '../../../../components';
 import Avatar from '../../../../components/Avatar/Avatar.component';
-import './PlayerDetail.style.scss';
 import { ProfileEngineProps } from '../../Engine/ProfileEngine.props';
 import { useAuthContext } from '../../../../contexts';
 import { UserBase, memberSinceDate } from '@sqrib/shared';
 import { COLORS } from '../../../../theme/colors';
 import { capitalizeFirstLetter } from '../../../../utils';
+import './PlayerDetail.style.scss';
 
 
 const PlayerDetail = ({ userDetail }: ProfileEngineProps) => {
@@ -16,7 +16,7 @@ const PlayerDetail = ({ userDetail }: ProfileEngineProps) => {
   const { username, description, created_at, avatar } = user as UserBase;
 
   return (
-    <Card width='30rem' className='player-detail'>
+    <Card className='player-detail--wrapper'>
       <div>
         <Text h1>{capitalizeFirstLetter(username)}</Text>
         <Spacer size={SpacerSize.SMALL} y />

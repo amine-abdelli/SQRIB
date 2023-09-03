@@ -1,7 +1,7 @@
 @import "../../theme/index.scss";
 
 .keyBoardWrapper {
-  background-color: #ffffff;
+  background-color: $quaternary;
   width: 50rem;
   height: auto;
   border-radius: 10px;
@@ -42,7 +42,7 @@
   }
 
   &--key {
-    width: 2.5rem;
+    width: 2.6rem;
   }
 
   &--grow {

@@ -1,0 +1,46 @@
+@import '../../../../../../theme/index.scss';
+
+.activity {
+  &--wrapper {
+    rotate: 45deg;
+    width: 2rem;
+    height: 2rem;
+  }
+
+  &--today {
+    border: 2px solid $primary;
+    box-shadow: 5.5px 5.5px 0px fade-out($grey, 0.9);
+    animation: float 3s infinite ease-in;
+    rotate: 45deg;
+  }
+
+  &--played {
+    background-color: $primary;
+  }
+
+  &--missed {
+    border: 1px dashed grey;
+  }
+
+  &--to-come {
+    border: 1px dashed $primary;
+  }
+}
+
+@keyframes float {
+  0% {
+    transform: translate(0);
+    rotate: 45deg;
+    box-shadow: 5.5px 5.5px 0px fade-out($grey, 0.9);
+  }
+  50% {
+    transform: translate(-2px, -2px);
+    box-shadow: 8px 8px 0px fade-out($grey, 0.9);
+    rotate: 45deg;
+  }
+  100% {
+    transform: translate(0);
+    box-shadow: 5.5px 5.5px 0px fade-out($grey, 0.9);
+    rotate: 45deg;
+  }
+}

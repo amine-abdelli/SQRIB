@@ -60,6 +60,43 @@ function memberSinceDate(created_at: Date): string {
   return `Member since ${month} ${year}`;
 }
 
+/**
+ * Get the number of days between today and the most recent Monday.
+ * @returns {number} Number of days between today and the most recent Monday.
+ */
+function daysFromLastMonday(): number {
+  const today = new Date();
+  const dayOfWeek = today.getDay(); // Sunday is 0, Monday is 1, etc.
+  // If today is Monday, the number of days is 0
+  if (dayOfWeek === 1) return 0;
+
+  // If today is Sunday, the number of days is 6 (yesterday was Monday)
+  if (dayOfWeek === 0) return 6;
+
+  // Otherwise, calculate the number of days from last Monday
+  return dayOfWeek + 1;
+}
+
+/**
+ * Filter an array of date strings to keep only one date per day, selecting the earliest.
+ * @param dateStrings Array of date strings to filter.
+ * @returns {string[]} Filtered array of date strings, one per day.
+ */
+function uniqueDays(dateStrings: string[]): string[] {
+  const uniqueDates: { [key: string]: string } = {};
+
+  for (const dateString of dateStrings) {
+    const date = new Date(dateString);
+    const dayKey = `${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`;
+
+    if (!uniqueDates[dayKey]) {
+      uniqueDates[dayKey] = dateString;
+    }
+  }
+
+  return Object.values(uniqueDates);
+}
+
 export {
-  formatDateToCalendar, formatDate, formatDateToLeaderboard, memberSinceDate,
+  formatDateToCalendar, formatDate, formatDateToLeaderboard, memberSinceDate, daysFromLastMonday, uniqueDays,
 };

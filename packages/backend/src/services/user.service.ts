@@ -1,13 +1,15 @@
 /* eslint-disable consistent-return */
-import { Prisma, User } from '@prisma/client';
+import { Prisma, Session, User } from '@prisma/client';
+import { Request } from 'express';
 import {
-  emailPolicy, log, passwordPolicy, usernamePolicy, formatEmail, CreateUserRequestBody,
+  emailPolicy, log, passwordPolicy, usernamePolicy, formatEmail, CreateUserRequestBody, uniqueDays,
 } from '@sqrib/shared';
 import bcrypt from 'bcryptjs';
 import { HttpError } from '../utils';
 import {
   createUserRepository, deleteUserRepository, getUserByEmailRepository, getUserByIdRepository,
   getUserByUsernameRepository,
+  getUserWeeklyTrackerRepository,
   updateUserByIdRepository,
 } from '../repositories/user.repository';
 
@@ -100,4 +102,15 @@ export async function updateUserByIdService(userId: string, data: Partial<User>)
   const updatedUser = await updateUserByIdRepository(user.id, data);
   log.info('User updated successfully:', { email: updatedUser?.email });
   return updatedUser;
+}
+
+export async function getUserWeeklyTrackerService(req: Request) {
+  log.info('Getting user weekly tracker');
+  const user = await getUserByIdService(req.userId);
+  if (!user) {
+    throw new HttpError(404, 'User not found');
+  }
+  const weeklyTracker = await getUserWeeklyTrackerRepository(req.userId) ?? [];
+  log.info('User weekly tracker retrieved successfully:', { email: user.email });
+  return uniqueDays(weeklyTracker?.sessions.map((s: Session) => s.created_at));
 }

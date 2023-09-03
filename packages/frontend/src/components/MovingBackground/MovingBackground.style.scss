@@ -2,6 +2,7 @@ main {
   overflow: hidden;
   
   .letters {
+    z-index: -1;
     position: absolute;
     transform: rotate(20deg);
     

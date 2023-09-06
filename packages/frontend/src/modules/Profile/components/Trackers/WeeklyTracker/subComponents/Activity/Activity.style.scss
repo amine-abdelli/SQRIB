@@ -1,4 +1,4 @@
-@import '../../../../../../theme/index.scss';
+@import "../../../../../../../theme/index.scss";
 
 .activity {
   &--wrapper {
@@ -7,35 +7,36 @@
     align-items: center;
     font-family: $FiraCodefontFamily;
     rotate: 45deg;
-    width: 2rem;
-    height: 2rem;
+    width: 2rem !important;
+    height: 2rem !important;
+    margin: 0 0.5rem;
 
     span {
       rotate: -45deg;
     }
   }
 
+  &--missed {
+    border: 1px dashed $light-grey;
+    color: $light-grey;
+  }
+
   &--today {
-    border: 2px solid $primary;
+    border: 1px dashed $primary;
     box-shadow: 5.5px 5.5px 0px fade-out($grey, 0.9);
     animation: float 3s infinite ease-in;
     rotate: 45deg;
-
-    span {
-      color: $primary;
-    }
+    color: $primary;
   }
 
   &--played {
-    background-color: $primary;
-  }
-
-  &--missed {
-    border: 1px dashed grey;
+    border: 1px solid $primary;
+    color: $primary;
   }
 
   &--to-come {
-    border: 1px dashed $primary;
+    border: 1px dashed grey;
+    color: grey;
   }
 }
 

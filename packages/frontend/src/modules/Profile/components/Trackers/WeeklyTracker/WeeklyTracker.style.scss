@@ -1,12 +1,16 @@
+@import '../../../../../theme/index.scss';
 .weekly-tracker {
-  &--wrapper {
-    flex-basis: 50%;
+  &--card {
+    flex-basis: 30%;
     padding: 1rem;
   }
 
-  &--activity {
+  &--wrapper {
     display: flex;
-    width: 70%;
-    justify-content: space-evenly;
+  }
+
+  &--session-count {
+    display: flex;
+    flex-direction: column;
   }
 }

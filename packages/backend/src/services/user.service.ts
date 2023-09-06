@@ -1,10 +1,12 @@
 /* eslint-disable consistent-return */
-import { Prisma, Session, User } from '@prisma/client';
+import { Prisma, Score, User } from '@prisma/client';
 import { Request } from 'express';
 import {
-  emailPolicy, log, passwordPolicy, usernamePolicy, formatEmail, CreateUserRequestBody, uniqueDays,
+  emailPolicy, log, passwordPolicy, usernamePolicy, formatEmail, CreateUserRequestBody,
+  uniqueDays, weeklyDaysInTechnicalOrder,
 } from '@sqrib/shared';
 import bcrypt from 'bcryptjs';
+import { subDays } from 'date-fns';
 import { HttpError } from '../utils';
 import {
   createUserRepository, deleteUserRepository, getUserByEmailRepository, getUserByIdRepository,
@@ -110,7 +112,23 @@ export async function getUserWeeklyTrackerService(req: Request) {
   if (!user) {
     throw new HttpError(404, 'User not found');
   }
-  const weeklyTracker = await getUserWeeklyTrackerRepository(req.userId) ?? [];
+
+  const daysAgo = subDays(new Date(), (new Date().getDay() || 7));
+
+  const weeklyTracker = await getUserWeeklyTrackerRepository(req.userId, daysAgo) ?? [];
+
+  const uniqueDates = uniqueDays(weeklyTracker.map((s: Score) => s.created_at.toString()));
+
+  const daysOfActivity = Array.from(new Set(uniqueDates.map(
+    (date) => weeklyDaysInTechnicalOrder[new Date(date).getDay()],
+  )));
+
+  const totalTypedWords = weeklyTracker.reduce((total, score) => total + score.typed_words, 0);
+
   log.info('User weekly tracker retrieved successfully:', { email: user.email });
-  return uniqueDays((weeklyTracker as any)?.sessions.map((s: Session) => s.created_at));
+  return {
+    daysOfActivity,
+    sessionCount: weeklyTracker.length ?? 0,
+    typedWordsCount: totalTypedWords,
+  };
 }

@@ -12,20 +12,25 @@ import './PlayerDetail.style.scss';
 
 
 const PlayerDetail = ({ userDetail }: ProfileEngineProps) => {
-  const { user } = useAuthContext()
-  const { username, description, created_at, avatar } = user as UserBase;
+  const { user, loading } = useAuthContext()
+
+  const username = user?.username;
+  const description = user?.description;
+  const created_at = user?.created_at;
+  const avatar = user?.avatar;
+
 
   return (
     <Card className='player-detail--wrapper'>
       <div>
-        <Text h1>{capitalizeFirstLetter(username)}</Text>
+        {username && <Text h1>{capitalizeFirstLetter(username)}</Text>}
         <Spacer size={SpacerSize.SMALL} y />
         {description ? <Text p>{description}</Text> : <Text p thin italic color={COLORS.GREY}>No description</Text>}
         <Spacer size={SpacerSize.SMALL} y />
-        <Text thin italic>{memberSinceDate(created_at)}</Text>
+        {created_at && <Text thin italic>{memberSinceDate(created_at)}</Text>}
       </div>
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-        <Avatar username={username} avatarUrl={avatar} size={'xlarge'} />
+        {username && <Avatar username={username} avatarUrl={avatar} size={'xlarge'} />}
       </div>
     </Card>
   )

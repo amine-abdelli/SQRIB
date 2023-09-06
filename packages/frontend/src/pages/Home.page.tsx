@@ -5,6 +5,7 @@ import { MODAL_ID } from '../components/Modals/modals.constants';
 import { useAuthContext, useModal } from '../contexts';
 import '../theme/pages/_Home.scss';
 import { MovingBackground } from '../components/MovingBackground/MovingBackground.component';
+import { Version } from '../modules/Home/components';
 
 function Home() {
   document.title = 'SQRIB.IO';
@@ -22,6 +23,7 @@ function Home() {
         ? <Button style={{ zIndex: 0 }} stretch onClick={() => logout()}>Logout</Button>
         : <Button style={{ zIndex: 0 }} stretch onClick={() => openModal(MODAL_ID.LOGIN)}>Login</Button>
       }
+      <Version />
     </main>
   );
 }

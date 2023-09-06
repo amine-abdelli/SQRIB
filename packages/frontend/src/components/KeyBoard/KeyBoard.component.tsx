@@ -8,7 +8,6 @@ import './KeyBoard.style.scss';
 function KeyBoard({ enable, misspellings, isFocused: isInputFocused }: { enable: boolean, misspellings: string[], isFocused?: boolean }) {
   const [isMajPressed, setIsMajPressed] = useState<boolean>(false);
   const { isExtraLarge } = useWindowSize();
-  console.log('isExtraLarge : ', isExtraLarge)
   // TODO add to settings
   const [isQwerty] = useState<boolean>(false);
   const [keyPressed, setKeyPressed] = useState<string>('');

@@ -1,7 +1,6 @@
-import { User } from '@prisma/client';
+import { Score, User } from '@prisma/client';
 
 import { CreateUserRequestBody } from '@sqrib/shared';
-import { subDays } from 'date-fns';
 import { prisma } from '../client';
 
 /**
@@ -81,20 +80,13 @@ export function getUserByUsernameRepository(username: string): Promise<User | nu
   });
 }
 
-export function getUserWeeklyTrackerRepository(userId: string) {
-  const daysAgo = subDays(new Date(), 7);
-  return prisma.user.findUnique({
+export function getUserWeeklyTrackerRepository(userId: string, daysAgo: Date): Promise<Score[]> {
+  return prisma.score.findMany({
     where: {
-      id: userId,
-    },
-    include: {
-      sessions: {
-        where: {
-          created_at: {
-            gte: daysAgo,
-          },
-        },
-      },
+      AND: [
+        { user_id: userId },
+        { created_at: { gte: daysAgo } },
+      ],
     },
   });
 }

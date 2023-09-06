@@ -1,6 +1,7 @@
 {
   "name": "sqrib",
   "private": true,
+  "version": "1.0.0",
   "scripts": {
     "dev": "yarn workspace @sqrib/server dev",
     "start": "yarn workspaces run start",
@@ -20,7 +21,6 @@
   "workspaces": [
     "packages/*"
   ],
-  "version": "1.0.0",
   "main": "index.js",
   "repository": "https://github.com/amine-abdelli/SQRIB.git",
   "author": "Amine Abdelli <amine.abdelli@outlook.fr>",

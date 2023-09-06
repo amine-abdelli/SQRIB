@@ -43,7 +43,7 @@ const Key = ({ letter, isKeyPressedAndEnable, keyPressed, misspellings, enable, 
   return (
     <span
       key={letter}
-      className={`key 
+      className={`key
       ${showCase ? 'stretch' : ''} 
       ${isKeyPressedAndEnable ? 'key--pressed' : ''} 
       ${isNotRandomKey ? '' : 'key--key'} 
@@ -56,13 +56,20 @@ const Key = ({ letter, isKeyPressedAndEnable, keyPressed, misspellings, enable, 
       ${isCtrl ? 'key--ctrl' : ''}
       ${isSqrib ? 'key--sqrib' : ''}
       `}
-      style={{
-        transform: isKeyPressedAndEnable ? 'scale(0.95)' : 'scale(0.99)',
-        backgroundColor: expressKeyStyleProperty(letter, keyPressed, misspellings, enable),
-        color: isSqrib ? COLORS.GOLD : 'black'
-      }}
     >
-      {whitelist.includes(letter) ? icon : translateKeyBoardCode(letter)}
+      <span
+        style={{
+          transform: isKeyPressedAndEnable ? 'scale(0.95)' : 'scale(0.99)',
+          backgroundColor: expressKeyStyleProperty(letter, keyPressed, misspellings, enable),
+          color: isSqrib ? COLORS.GOLD : 'black',
+          width: '100%',
+          height: '100%',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}>
+        {whitelist.includes(letter) ? icon : translateKeyBoardCode(letter)}
+      </span>
     </span>
   )
 }

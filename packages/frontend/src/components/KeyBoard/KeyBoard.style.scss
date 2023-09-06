@@ -27,14 +27,12 @@
   box-sizing: border-box;
   font-family: $FiraCodefontFamily;
   font-weight: 800;
-  display: flex;
-  justify-content: center;
-  align-items: center;
   height: 2.5rem;
   width: 2.5rem;
   margin: 2px 3px;
   border-radius: 5px;
   box-shadow: 2px 2px 0px $outline;
+  background-color: white;
 
   &--pressed {
     color: #ffffff;

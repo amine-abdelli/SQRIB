@@ -97,6 +97,17 @@ function uniqueDays(dateStrings: string[]): string[] {
   return Object.values(uniqueDates);
 }
 
+function areTimestampsFromSameDay(timestamp1: Date | null, timestamp2: Date | null): boolean {
+  if (timestamp1 === null || timestamp2 === null) return false;
+  const date1 = new Date(timestamp1);
+  const date2 = new Date(timestamp2);
+
+  return date1.getUTCFullYear() === date2.getUTCFullYear()
+         && date1.getUTCMonth() === date2.getUTCMonth()
+         && date1.getUTCDate() === date2.getUTCDate();
+}
+
 export {
   formatDateToCalendar, formatDate, formatDateToLeaderboard, memberSinceDate, daysFromLastMonday, uniqueDays,
+  areTimestampsFromSameDay,
 };

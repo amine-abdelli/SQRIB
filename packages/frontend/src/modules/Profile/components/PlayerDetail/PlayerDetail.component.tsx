@@ -25,7 +25,7 @@ const PlayerDetail = ({ userDetail }: ProfileEngineProps) => {
       <div>
         {username && <Text h1>{capitalizeFirstLetter(username)}</Text>}
         <Spacer size={SpacerSize.SMALL} y />
-        {description ? <Text p>{description}</Text> : <Text p thin italic color={COLORS.GREY}>No description</Text>}
+        {description ? <Text p>{description}</Text> : <Text p thin italic color={COLORS.GREY}>No bio</Text>}
         <Spacer size={SpacerSize.SMALL} y />
         {created_at && <Text thin italic>{memberSinceDate(created_at)}</Text>}
       </div>

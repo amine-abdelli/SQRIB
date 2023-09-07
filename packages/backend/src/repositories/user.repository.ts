@@ -1,6 +1,6 @@
-import { Score, User } from '@prisma/client';
+import { Palmares, Score, User } from '@prisma/client';
 
-import { CreateUserRequestBody } from '@sqrib/shared';
+import { CreateUserRequestBody, colorGenerator } from '@sqrib/shared';
 import { prisma } from '../client';
 
 /**
@@ -13,6 +13,7 @@ export function createUserRepository(data: CreateUserRequestBody): Promise<User>
       email: data.email,
       username: data.username,
       password: data.password,
+      color: colorGenerator(),
       Palmares: {
         create: {},
       },
@@ -72,6 +73,11 @@ export function updateUserByIdRepository(userId: string, data: Partial<User>) {
   });
 }
 
+/**
+ * Get one user by its username.
+ * @param username string
+ * @returns one user
+ */
 export function getUserByUsernameRepository(username: string): Promise<User | null> {
   return prisma.user.findUnique({
     where: {
@@ -80,6 +86,12 @@ export function getUserByUsernameRepository(username: string): Promise<User | nu
   });
 }
 
+/**
+ * Get user's weekly tracker.
+ * @param userId string
+ * @param daysAgo Date
+ * @returns a list of scores
+ */
 export function getUserWeeklyTrackerRepository(userId: string, daysAgo: Date): Promise<Score[]> {
   return prisma.score.findMany({
     where: {
@@ -87,6 +99,33 @@ export function getUserWeeklyTrackerRepository(userId: string, daysAgo: Date): P
         { user_id: userId },
         { created_at: { gte: daysAgo } },
       ],
+    },
+  });
+}
+
+/**
+ * Get user's palmares.
+ * @param userId string
+ * @returns a palmares
+ */
+export function getUserPalmares(userId: string): Promise<Palmares | null> {
+  return prisma.palmares.findUnique({
+    where: {
+      user_id: userId,
+    },
+  });
+}
+
+/**
+ * Get user's palmares.
+ * @param userId string
+ * @returns a palmares
+ */
+export function updatePalmaresRepository(userId: string, data: any): Promise<Palmares | null> {
+  return prisma.palmares.update({
+    data,
+    where: {
+      user_id: userId,
     },
   });
 }

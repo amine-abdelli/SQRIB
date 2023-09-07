@@ -1,7 +1,7 @@
 import React from 'react'
 import { ProfileEngineProps } from './Engine/ProfileEngine.props';
-import '../../theme/pages/_Profile.scss'
-import { PlayerDetail, WeeklyTracker } from './components';
+import { PlayerDetail, UserStats, WeeklyTracker } from './components';
+import '../../theme/pages/_Profile.scss';
 
 const ProfileModule = (props: ProfileEngineProps) => {
   return (
@@ -9,6 +9,9 @@ const ProfileModule = (props: ProfileEngineProps) => {
       <section className='profile-container--top-section'>
         <PlayerDetail {...props} />
         <WeeklyTracker />
+      </section>
+      <section className='profile-container--palmares-summary'>
+        <UserStats />
       </section>
     </div>
   )

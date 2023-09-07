@@ -8,6 +8,10 @@ function roundNumber(number: number, decimal: number): number {
   return Math.round(number * 10 ** decimal) / 10 ** decimal;
 }
 
+function roundToDecimal(value: number): number {
+  return Math.round(value * 10) / 10;
+}
+
 /**
  * Returns a random number in a defined range.
  * @param range Area of variations between 0 and a defined +limit
@@ -27,4 +31,6 @@ function randomIntFromInterval(min: number, max: number) { // min and max includ
   return Math.floor(Math.random() * (max - min + 1) + min);
 }
 
-export { roundNumber, getRandomWordIndex, randomIntFromInterval };
+export {
+  roundNumber, getRandomWordIndex, randomIntFromInterval, roundToDecimal,
+};

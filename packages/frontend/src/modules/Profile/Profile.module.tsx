@@ -1,6 +1,6 @@
 import React from 'react'
 import { ProfileEngineProps } from './Engine/ProfileEngine.props';
-import { PlayerDetail, UserStats, WeeklyTracker } from './components';
+import { PlayerDetail, UserRank, UserStats, WeeklyTracker } from './components';
 import '../../theme/pages/_Profile.scss';
 
 const ProfileModule = (props: ProfileEngineProps) => {
@@ -10,8 +10,9 @@ const ProfileModule = (props: ProfileEngineProps) => {
         <PlayerDetail {...props} />
         <WeeklyTracker />
       </section>
-      <section className='profile-container--palmares-summary'>
+      <section className='profile-container--user-stats'>
         <UserStats />
+        <UserRank />
       </section>
     </div>
   )

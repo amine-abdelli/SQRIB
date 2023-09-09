@@ -1,6 +1,6 @@
 import express, { Request, Response, NextFunction } from 'express';
 import {
-  createUserService, deleteUserService, getUserByIdService, getUserStatsService,
+  createUserService, deleteUserService, getUserByIdService, getUserRankService, getUserStatsService,
   getUserWeeklyTrackerService, updateUserByIdService,
 } from '../services';
 
@@ -87,6 +87,19 @@ export async function getUserStats(req: Request, res: Response, next: NextFuncti
   try {
     const userStats = await getUserStatsService(req);
     res.status(200).json(userStats);
+  } catch (error) {
+    next(error);
+  }
+}
+
+export async function getUserRank(
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) {
+  try {
+    const userRank = await getUserRankService(req);
+    res.status(200).json(userRank);
   } catch (error) {
     next(error);
   }

@@ -116,6 +116,14 @@ export function getUserPalmares(userId: string): Promise<Palmares | null> {
   });
 }
 
+export function getAllPalmares() {
+  return prisma.palmares.findMany({
+    include: {
+      user: true,
+    },
+  });
+}
+
 /**
  * Get user's palmares.
  * @param userId string

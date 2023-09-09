@@ -68,42 +68,44 @@ function Signup() {
   return (
     <div style={{ width: '20rem' }}>
       <Modal.Header>
-        <Logo centered label='SQRIB.IO' thin />
+        <Text h3 bold>Unleash Your Typing Potential</Text>
         <Spacer y size={SpacerSize.SMALL} />
         <Text size={14} p thin italic>
-          Level up your typing skills and signup to save your in-game triumphs, challenge the best, and unlock next-level experiences
+        Level up your typing skills and signup to save your in-game triumphs, challenge the best, and unlock next-level experiences.
         </Text>
       </Modal.Header>
       <Modal.Body>
         <form>
           <Input
             name="username"
+            label="Username"
             onChange={(event) => onFormChange(event, setSignupForm, signupForm)}
-            placeholder="Choose a username"
+            placeholder="e.g john_doe"
             helperColor={(triggerLoginChecking && (!isValid.username ? 'error' : 'success')) as string}
             helperText={triggerLoginChecking && (!isValid.username ? 'Lettres, chiffres, tirets et tirets du bas uniquement.' : '')}
           />
           <Input
             type="email"
             name="email"
+            label='Email Address'
             onChange={(event) => onFormChange(event, setSignupForm, signupForm)}
-            placeholder="Enter a valid email address"
+            placeholder="e.g john_doe@sqrib.io"
             helperColor={(triggerLoginChecking && (!isValid.email ? 'error' : 'success')) as string}
             helperText={triggerLoginChecking && (!isValid.email ? 'Veuillez saisir une adresse e-mail valide.' : '')}
           />
           <Input
+            label='Password'
             onChange={(event) => onFormChange(event, setSignupForm, signupForm)}
             type="password"
             name="password"
-            placeholder="Password"
             helperColor={(triggerLoginChecking && (!isValid.password ? 'error' : 'success')) as string}
             helperText={triggerLoginChecking && (!isValid.password ? 'Votre mot de passe doit contenir au moins 8 caractères, une majuscule, une minuscule, un caractère spécial et un chiffre.' : '') as string}
           />
           <Input
+            label='Confirm Password'
             onChange={(event) => onFormChange(event, setSignupForm, signupForm)}
             type="password"
             name="retypedPassword"
-            placeholder="Confirm password"
             helperColor={(triggerLoginChecking && (!isValid.retypedPassword ? 'error' : 'success')) as string}
             helperText={triggerLoginChecking && (!isValid.retypedPassword ? 'Vos deux mots de passe doivent être identiques.' : '') as string}
           />

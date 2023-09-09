@@ -16,5 +16,19 @@
     &--top-section {
       display: flex;
     }
+
+    &--user-stats {
+      display: flex;
+      
+      .user-stats {
+        display: flex;
+        flex-wrap: wrap;
+        flex-basis: 55%;
+      }
+
+      .user--rank {
+        flex: 1;
+      }
+    }
   }
 }

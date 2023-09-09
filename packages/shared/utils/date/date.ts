@@ -107,7 +107,27 @@ function areTimestampsFromSameDay(timestamp1: Date | null, timestamp2: Date | nu
          && date1.getUTCDate() === date2.getUTCDate();
 }
 
+function customDateFormat(isoDateStr?: Date): string {
+  if (!isoDateStr) return '-';
+  const dtObj = new Date(isoDateStr);
+
+  const day = dtObj.getDate();
+  const month = dtObj.toLocaleString('default', { month: 'short' });
+  const year = dtObj.getFullYear();
+
+  let suffix = 'th';
+  if (day === 1 || day === 21 || day === 31) {
+    suffix = 'st';
+  } else if (day === 2 || day === 22) {
+    suffix = 'nd';
+  } else if (day === 3 || day === 23) {
+    suffix = 'rd';
+  }
+
+  return `${day}${suffix}, ${month} ${year}`;
+}
+
 export {
   formatDateToCalendar, formatDate, formatDateToLeaderboard, memberSinceDate, daysFromLastMonday, uniqueDays,
-  areTimestampsFromSameDay,
+  areTimestampsFromSameDay, customDateFormat,
 };

@@ -84,3 +84,15 @@ function convertSecondsToTimerFormat(timer: number): string {
 export {
   calculateWPM, calculateZenModeAccuracy, calculatePoints, convertSecondsToTimerFormat,
 };
+
+export function orderSuffix(rank: number) {
+  let suffix = 'th';
+  if (rank === 1 || rank === 21 || rank === 31) {
+    suffix = 'st';
+  } else if (rank === 2 || rank === 22) {
+    suffix = 'nd';
+  } else if (rank === 3 || rank === 23) {
+    suffix = 'rd';
+  }
+  return suffix
+}

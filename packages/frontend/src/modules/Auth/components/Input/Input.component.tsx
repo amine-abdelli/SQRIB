@@ -2,8 +2,8 @@
 import React, { ChangeEvent, CSSProperties, useState } from 'react';
 import { InfoCircle } from 'react-iconly';
 import { Popover } from 'react-tiny-popover';
-import './Input.style.scss';
 import { COLORS } from '../../../../theme/colors';
+import './Input.style.scss';
 
 export interface InputProps {
   onChange?: (event: ChangeEvent<HTMLInputElement>) => void,
@@ -14,16 +14,17 @@ export interface InputProps {
   state?: 'error' | 'success',
   helperColor?: string,
   helperText?: string | boolean,
-  name?: string,
+  name: string,
   disabled?: boolean,
   fullWidth?: boolean,
   rightContent?: JSX.Element,
-  style?: CSSProperties
+  style?: CSSProperties,
+  label?: string,
 }
 
 function Input({
-  onChange, placeholder, value, type, stretch, helperColor, helperText, name, disabled, fullWidth,
-  rightContent, style,
+  onChange, placeholder, value, type, stretch, helperColor, helperText, name, disabled, fullWidth, label,
+  rightContent, style
 }: InputProps) {
   const [isPopoverOpen, setIsPopoverOpen] = useState(false);
   const rightContentStyle: CSSProperties = rightContent ? { display: 'flex', flexDirection: 'row' } : {};
@@ -73,6 +74,7 @@ function Input({
           <InfoCircle set="bold" primaryColor={helperColor === 'error' ? COLORS.ERROR : COLORS.SUCCESS} />
         </span>
       )}
+      <label className='input-label' htmlFor={name}>{label}</label>
       <input
         placeholder={placeholder}
         style={{ width: stretch ? '' : '100%', border: rightContent ? 'none' : '' }}

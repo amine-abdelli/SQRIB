@@ -6,6 +6,7 @@ export const ENDPOINTS = Object.freeze({
     delete: '/delete',
     weekly_tracker: '/weekly-tracker',
     user_stats: '/user-stats',
+    get_user_rank: '/get-user-rank',
   },
   auth: {
     login: '/login',

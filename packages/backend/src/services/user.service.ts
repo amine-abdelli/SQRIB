@@ -11,9 +11,9 @@ import bcrypt from 'bcryptjs';
 import { subDays } from 'date-fns';
 import { HttpError, calculateDuration } from '../utils';
 import {
-  createUserRepository, deleteUserRepository, getUserByEmailRepository, getUserByIdRepository,
-  getUserByUsernameRepository, getUserPalmares, getUserWeeklyTrackerRepository,
-  updatePalmaresRepository, updateUserByIdRepository,
+  createUserRepository, deleteUserRepository, getAllPalmares, getUserByEmailRepository,
+  getUserByIdRepository, getUserByUsernameRepository, getUserPalmares,
+  getUserWeeklyTrackerRepository, updatePalmaresRepository, updateUserByIdRepository,
 } from '../repositories/user.repository';
 
 export async function createUserService(
@@ -175,4 +175,53 @@ export async function updatePalmaresService(userId: string, score: Score) {
   if (!updatedPalmares) {
     throw new HttpError(500, 'An error occurred while updating palmares');
   }
+}
+
+export function setRankingOrder(sortedUsers: (Palmares & { user: User })[], userRankIndex: number) {
+  let count = [];
+  for (let i = userRankIndex - 2; i < userRankIndex + 3; i += 1) {
+    count.push(i);
+  }
+  if (userRankIndex === 0 || userRankIndex === 1) {
+    count = [0, 1, 2, 3, 4];
+  } else if (userRankIndex === sortedUsers.length - 1 || userRankIndex === sortedUsers.length - 2) {
+    count = [sortedUsers.length - 5, sortedUsers.length - 4, sortedUsers.length - 3,
+      sortedUsers.length - 2, sortedUsers.length - 1];
+  } else {
+    count = [userRankIndex - 2, userRankIndex - 1, userRankIndex, userRankIndex + 1,
+      userRankIndex + 2];
+  }
+  return count;
+}
+
+export async function getUserRankService(req: Request) {
+  const user = await getUserByIdService(req.userId);
+  if (!user) { throw new HttpError(404, 'User not found'); }
+  const palmares = await getUserPalmares(req.userId);
+  if (!palmares) { throw new HttpError(404, 'Palmares not found'); }
+
+  const users = await getAllPalmares();
+  const sortedUsers = users.sort((a, b) => b.best_wpm - a.best_wpm);
+  const userRankIndex = sortedUsers.findIndex((p) => p.user_id === user.id);
+  const userRank = userRankIndex + 1;
+
+  const range = setRankingOrder(sortedUsers, userRankIndex).map((i) => ({
+    best_wpm: sortedUsers[i]?.best_wpm,
+    username: sortedUsers[i]?.user.username,
+    average_accuracy: sortedUsers[i]?.average_accuracy,
+    avatar: sortedUsers[i]?.user.avatar,
+    color: sortedUsers[i]?.user.color,
+    rank: i + 1,
+    current: i === userRankIndex,
+  }));
+
+  return {
+    user_rank: userRank,
+    range,
+    username: user.username,
+    total_users: sortedUsers?.length ?? 0,
+    user_total_points: palmares.total_points ?? 0,
+    user_best_wpm: palmares.best_wpm ?? 0,
+    uer_average_accuracy: palmares.average_accuracy ?? 0,
+  };
 }

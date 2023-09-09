@@ -1,7 +1,9 @@
 import express, { Request, Response, NextFunction } from 'express';
 import { TrainingGamesRequestBody } from '@sqrib/shared';
 import { serializeBigInt } from '../utils';
-import { generateTrainingWordChainService, generateLearningWordChainService, saveTrainingScoringService } from '../services';
+import {
+  generateTrainingWordChainService, generateLearningWordChainService, saveTrainingScoringService,
+} from '../services';
 
 const router = express.Router();
 const MIN_WORDS_LENGTH = 3;

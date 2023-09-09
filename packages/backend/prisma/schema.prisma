@@ -14,7 +14,7 @@ model User {
   password             String
   description          String?
   avatar               String?
-  color                String?
+  color                String
   created_at           DateTime          @default(now())
   is_confirmed         Boolean           @default(false)
   is_locked            Boolean           @default(false)

@@ -4,7 +4,7 @@ import { COLORS } from '../../theme/colors';
 import { colorGenerator } from '@sqrib/shared';
 import './Avatar.style.scss'
 
-function Avatar({ username, size, avatarUrl }: AvatarProps) {
+function Avatar({ username, size, avatarUrl, color }: AvatarProps) {
   let edgeSize = '2.2rem';
   let fontSize = '25px';
   if (size === 'small') {
@@ -27,7 +27,7 @@ function Avatar({ username, size, avatarUrl }: AvatarProps) {
       className='avatar'
       style={{
         display: 'inline-flex',
-        background: colorPicker(),
+        background: color ?? colorPicker(),
         color: COLORS.WHITE,
         border: `3px solid ${COLORS.BLACK}`,
         borderRadius: '100%',

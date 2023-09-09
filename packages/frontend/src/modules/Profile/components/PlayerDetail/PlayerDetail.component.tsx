@@ -23,14 +23,14 @@ const PlayerDetail = ({ userDetail }: ProfileEngineProps) => {
   return (
     <Card className='player-detail--wrapper'>
       <div>
-        {username && <Text h1>{capitalizeFirstLetter(username)}</Text>}
+        {username && <Text bold fira h1>{capitalizeFirstLetter(username)}</Text>}
         <Spacer size={SpacerSize.SMALL} y />
-        {description ? <Text p>{description}</Text> : <Text p thin italic color={COLORS.GREY}>No description</Text>}
+        {description ? <Text p>{description}</Text> : <Text p thin italic color={COLORS.GREY}>No bio</Text>}
         <Spacer size={SpacerSize.SMALL} y />
         {created_at && <Text thin italic>{memberSinceDate(created_at)}</Text>}
       </div>
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-        {username && <Avatar username={username} avatarUrl={avatar} size={'xlarge'} />}
+        {username && <Avatar username={username} avatarUrl={avatar} size={'xlarge'} color={user.color} />}
       </div>
     </Card>
   )

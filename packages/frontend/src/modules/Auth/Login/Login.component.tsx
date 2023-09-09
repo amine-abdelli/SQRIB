@@ -10,6 +10,7 @@ import { formatErrorMessage } from '../../../utils';
 import { MODAL_ID } from '../../../components/Modals/modals.constants';
 import { useModal } from '../../../contexts/ModalContext';
 import { Text } from '../../../components/Text/Text.component';
+import { COLORS } from '../../../theme/colors';
 
 function Login() {
   const [login, setLogin] = useState({
@@ -48,39 +49,38 @@ function Login() {
   return (
     <>
       <Modal.Header>
-        <h1
-          style={{
-            fontSize: '30px',
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            flexDirection: 'column',
-          }}
-        >
-          <Logo thin label='SQRIB.IO' />
-        </h1>
+        <Text h1 bold centered color={COLORS.GOLD}>
+          WELCOME BACK
+        </Text>
+        <Text thin centered>
+          Let's get you signed in.
+        </Text>
       </Modal.Header>
       <Modal.Body style={{ width: '20rem' }}>
         {/* Can be email or username */}
         <Input
+          label='Email Address or Username'
+          name="email"
           type='email'
-          placeholder='Your email or username'
+          placeholder='e.g. john_doe@sqrib.io or john_doe'
           onChange={(e) => setLogin({ ...login, email: e.target.value })}
           value={login.email}
           helperText={triggerLoginChecking ? 'Veuillez saisir une adresse e-mail valide' : ''}
         />
         <Input
+          label='Password'
+          name='password'
           type='password'
-          placeholder='Password'
+          // placeholder='password' // TODO ADD A PADLOCK IN PASSWORD PLACEHOLDER ON THE LEFT
           onChange={(e) => setLogin({ ...login, password: e.target.value })}
           value={login.password}
         />
       </Modal.Body>
       <Modal.Footer style={{ width: '20rem' }}>
         <Button label="Login" onClick={onFinish} />
-        <Spacer y size={SpacerSize.SMALL} />
-        <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
-          <Text italic size={14}>New to</Text><Spacer x size={SpacerSize.SMALL} /><Text italic size={14} bold>sqrib.io</Text><Text size={14}>?</Text><Button stretch link onClick={handleSignupClick}>Sign Up</Button>
+        <Spacer y size={SpacerSize.LARGE} />
+        <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
+          <Text italic size={14}>Don't have an account?</Text><Button stretch link onClick={handleSignupClick}>Sign Up!</Button>
         </div>
       </Modal.Footer>
     </>

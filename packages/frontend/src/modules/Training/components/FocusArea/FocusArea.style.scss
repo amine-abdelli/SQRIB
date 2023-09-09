@@ -1,5 +1,9 @@
 .focus-area {
+  display: flex;
+  flex-wrap: wrap;
   .badge-container {
-    display: inline-block;
+    .key {
+      display: block;
+    }
   }
 }

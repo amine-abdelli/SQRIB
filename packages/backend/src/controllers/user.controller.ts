@@ -1,7 +1,7 @@
 import express, { Request, Response, NextFunction } from 'express';
 import {
-  createUserService, deleteUserService, getUserByIdService, getUserWeeklyTrackerService,
-  updateUserByIdService,
+  createUserService, deleteUserService, getUserByIdService, getUserRankService, getUserStatsService,
+  getUserWeeklyTrackerService, updateUserByIdService,
 } from '../services';
 
 const router = express.Router();
@@ -73,6 +73,33 @@ export async function getUserWeeklyTracker(req: Request, res: Response, next: Ne
   try {
     const weeklyTracker = await getUserWeeklyTrackerService(req);
     res.status(200).json(weeklyTracker);
+  } catch (error) {
+    next(error);
+  }
+}
+
+/**
+ * Get user's stats
+ * @route /user-stats
+ * @method GET
+ */
+export async function getUserStats(req: Request, res: Response, next: NextFunction) {
+  try {
+    const userStats = await getUserStatsService(req);
+    res.status(200).json(userStats);
+  } catch (error) {
+    next(error);
+  }
+}
+
+export async function getUserRank(
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) {
+  try {
+    const userRank = await getUserRankService(req);
+    res.status(200).json(userRank);
   } catch (error) {
     next(error);
   }

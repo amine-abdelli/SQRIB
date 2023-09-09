@@ -20,7 +20,7 @@ const WeeklyTracker = () => {
   return (
     <Card className='weekly-tracker--card'>
       <div className='weekly-tracker--header'>
-        <Text h1 centered>Weekly Tracker</Text>
+        <Text h1 bold centered>Weekly Tracker</Text>
       </div>
       <Spacer y size={SpacerSize.SMALL} />
       <div style={{ display: 'flex', justifyContent: 'space-evenly'}}>

@@ -11,6 +11,7 @@ import {
 import { generateWordSet } from '../utils/words.utils';
 import { HttpError, calculateDuration } from '../utils';
 import { generateRandomWordsWithPriority } from '../utils/markov.utils';
+import { updatePalmaresService } from './user.service';
 
 // Validation util
 function saveTrainingScoringValidator(session: SessionRequestBody, score: ScoreRequestBody) {
@@ -85,6 +86,7 @@ export async function saveTrainingScoringService(req: Request) {
     await deleteSession(createdSession.id);
     throw new HttpError(500, 'Could not create score');
   }
+  await updatePalmaresService(userId, createdScore);
   log.info('[learning] Score saved successfully', { user: userId });
   return createdScore;
 }

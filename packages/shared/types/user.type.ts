@@ -30,6 +30,7 @@ export type UserBase = {
   is_locked: boolean
   last_password_update: Date | null
   last_activity: Date
+  color: string | null
 }
 
 export type UserCredential = UserCredentialWithEmail | IUserCredentialWithUsername;
@@ -42,4 +43,46 @@ export type LoginUserResponseBody = UserBase;
 
 export interface GetSelfResponseBody {
   data: UserBase
+}
+
+export interface UserStats {
+  session_count: number;
+  best_wpm: number;
+  average_wpm: number;
+  average_accuracy: number;
+  best_points: number;
+  total_points: number;
+  total_xp: number;
+  total_time_in_seconds: number;
+  total_words_typed: number;
+  last_activity: Date;
+  days_of_activity: number;
+}
+
+export interface GetUserStatsResponseBody {
+  data: UserStats
+}
+
+export interface UserRankRange {
+  best_wpm: number;
+  username: string;
+  average_accuracy: number;
+  avatar?: string;
+  color: string;
+  rank: number;
+  current?: boolean;
+}
+
+export interface UserRank {
+  user_rank: number;
+  range: UserRankRange[];
+  username: string;
+  total_users: number;
+  user_total_points: number;
+  user_best_wpm: number;
+  uer_average_accuracy: number;
+}
+
+export interface GetUserRankResponseBody {
+  data: UserRank
 }

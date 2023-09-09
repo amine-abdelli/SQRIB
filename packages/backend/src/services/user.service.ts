@@ -1,18 +1,19 @@
 /* eslint-disable consistent-return */
-import { Prisma, Score, User } from '@prisma/client';
+import {
+  Palmares, Prisma, Score, User,
+} from '@prisma/client';
 import { Request } from 'express';
 import {
   emailPolicy, log, passwordPolicy, usernamePolicy, formatEmail, CreateUserRequestBody,
-  uniqueDays, weeklyDaysInTechnicalOrder,
+  uniqueDays, weeklyDaysInTechnicalOrder, roundToDecimal, areTimestampsFromSameDay,
 } from '@sqrib/shared';
 import bcrypt from 'bcryptjs';
 import { subDays } from 'date-fns';
-import { HttpError } from '../utils';
+import { HttpError, calculateDuration } from '../utils';
 import {
-  createUserRepository, deleteUserRepository, getUserByEmailRepository, getUserByIdRepository,
-  getUserByUsernameRepository,
-  getUserWeeklyTrackerRepository,
-  updateUserByIdRepository,
+  createUserRepository, deleteUserRepository, getAllPalmares, getUserByEmailRepository,
+  getUserByIdRepository, getUserByUsernameRepository, getUserPalmares,
+  getUserWeeklyTrackerRepository, updatePalmaresRepository, updateUserByIdRepository,
 } from '../repositories/user.repository';
 
 export async function createUserService(
@@ -130,5 +131,97 @@ export async function getUserWeeklyTrackerService(req: Request) {
     daysOfActivity,
     sessionCount: weeklyTracker.length ?? 0,
     typedWordsCount: totalTypedWords,
+  };
+}
+
+export async function getUserStatsService(req: Request) {
+  log.info('Getting user stats');
+  const user = await getUserByIdService(req.userId);
+  if (!user) {
+    throw new HttpError(404, 'User not found');
+  }
+
+  const palmares = await getUserPalmares(req.userId);
+  log.info('User stats retrieved successfully:', { email: user.email });
+  return palmares;
+}
+
+export async function updatePalmaresService(userId: string, score: Score) {
+  const palmares = await getUserPalmares(userId);
+  if (!palmares) {
+    throw new HttpError(404, 'Palmares not found');
+  }
+
+  const newPalmares: Partial<Palmares> = {
+    session_count: palmares.session_count + 1,
+    best_wpm: score.wpm > palmares.best_wpm ? score.wpm : palmares.best_wpm,
+    total_points: palmares.total_points + score.points,
+    total_words_typed: palmares.total_words_typed + (score.typed_words || 0),
+    total_time_in_seconds: palmares
+      .total_time_in_seconds + calculateDuration(Number(score.start_time), Number(score.end_time)),
+    best_points: score.points > palmares.best_points ? score.points : palmares.best_points,
+    average_wpm: Math.round(((
+      palmares.average_wpm * palmares.session_count) + score.wpm) / (palmares.session_count + 1)),
+    average_accuracy: roundToDecimal(((
+      palmares.average_accuracy * palmares.session_count) + score.accuracy) / (palmares
+      .session_count + 1)),
+    last_activity: new Date(),
+    days_of_activity: areTimestampsFromSameDay(palmares?.last_activity, new Date())
+      ? palmares.days_of_activity : palmares.days_of_activity + 1,
+  };
+
+  const updatedPalmares = await updatePalmaresRepository(userId, newPalmares);
+
+  if (!updatedPalmares) {
+    throw new HttpError(500, 'An error occurred while updating palmares');
+  }
+}
+
+export function setRankingOrder(sortedUsers: (Palmares & { user: User })[], userRankIndex: number) {
+  let count = [];
+  for (let i = userRankIndex - 2; i < userRankIndex + 3; i += 1) {
+    count.push(i);
+  }
+  if (userRankIndex === 0 || userRankIndex === 1) {
+    count = [0, 1, 2, 3, 4];
+  } else if (userRankIndex === sortedUsers.length - 1 || userRankIndex === sortedUsers.length - 2) {
+    count = [sortedUsers.length - 5, sortedUsers.length - 4, sortedUsers.length - 3,
+      sortedUsers.length - 2, sortedUsers.length - 1];
+  } else {
+    count = [userRankIndex - 2, userRankIndex - 1, userRankIndex, userRankIndex + 1,
+      userRankIndex + 2];
+  }
+  return count;
+}
+
+export async function getUserRankService(req: Request) {
+  const user = await getUserByIdService(req.userId);
+  if (!user) { throw new HttpError(404, 'User not found'); }
+  const palmares = await getUserPalmares(req.userId);
+  if (!palmares) { throw new HttpError(404, 'Palmares not found'); }
+
+  const users = await getAllPalmares();
+  const sortedUsers = users.sort((a, b) => b.best_wpm - a.best_wpm);
+  const userRankIndex = sortedUsers.findIndex((p) => p.user_id === user.id);
+  const userRank = userRankIndex + 1;
+
+  const range = setRankingOrder(sortedUsers, userRankIndex).map((i) => ({
+    best_wpm: sortedUsers[i]?.best_wpm,
+    username: sortedUsers[i]?.user.username,
+    average_accuracy: sortedUsers[i]?.average_accuracy,
+    avatar: sortedUsers[i]?.user.avatar,
+    color: sortedUsers[i]?.user.color,
+    rank: i + 1,
+    current: i === userRankIndex,
+  }));
+
+  return {
+    user_rank: userRank,
+    range,
+    username: user.username,
+    total_users: sortedUsers?.length ?? 0,
+    user_total_points: palmares.total_points ?? 0,
+    user_best_wpm: palmares.best_wpm ?? 0,
+    uer_average_accuracy: palmares.average_accuracy ?? 0,
   };
 }

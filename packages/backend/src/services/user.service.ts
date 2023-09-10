@@ -11,8 +11,9 @@ import bcrypt from 'bcryptjs';
 import { subDays } from 'date-fns';
 import { HttpError, calculateDuration } from '../utils';
 import {
-  createUserRepository, deleteUserRepository, getAllPalmares, getUserByEmailRepository,
+  createUserRepository, deleteUserRepository, getAllPalmaresRepository, getUserByEmailRepository,
   getUserByIdRepository, getUserByUsernameRepository, getUserPalmares,
+  getUserScoreRepository,
   getUserWeeklyTrackerRepository, updatePalmaresRepository, updateUserByIdRepository,
 } from '../repositories/user.repository';
 
@@ -200,7 +201,7 @@ export async function getUserRankService(req: Request) {
   const palmares = await getUserPalmares(req.userId);
   if (!palmares) { throw new HttpError(404, 'Palmares not found'); }
 
-  const users = await getAllPalmares();
+  const users = await getAllPalmaresRepository();
   const sortedUsers = users.sort((a, b) => b.best_wpm - a.best_wpm);
   const userRankIndex = sortedUsers.findIndex((p) => p.user_id === user.id);
   const userRank = userRankIndex + 1;
@@ -224,4 +225,18 @@ export async function getUserRankService(req: Request) {
     user_best_wpm: palmares.best_wpm ?? 0,
     uer_average_accuracy: palmares.average_accuracy ?? 0,
   };
+}
+
+export async function getUserScoresService(req: Request) {
+  log.info('Getting user scores');
+  if (!req.userId) {
+    throw new HttpError(400, 'Missing user ID');
+  }
+  const user = await getUserByIdRepository(req.userId);
+  if (!user) {
+    throw new HttpError(404, 'User not found');
+  }
+  const userScore = await getUserScoreRepository(req.userId);
+  log.info('User scores retrieved successfully:', { email: user?.email });
+  return userScore ?? [];
 }

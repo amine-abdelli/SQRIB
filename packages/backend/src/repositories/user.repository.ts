@@ -116,7 +116,7 @@ export function getUserPalmares(userId: string): Promise<Palmares | null> {
   });
 }
 
-export function getAllPalmares() {
+export function getAllPalmaresRepository() {
   return prisma.palmares.findMany({
     include: {
       user: true,
@@ -132,6 +132,14 @@ export function getAllPalmares() {
 export function updatePalmaresRepository(userId: string, data: any): Promise<Palmares | null> {
   return prisma.palmares.update({
     data,
+    where: {
+      user_id: userId,
+    },
+  });
+}
+
+export function getUserScoreRepository(userId: string): Promise<Score[]> {
+  return prisma.score.findMany({
     where: {
       user_id: userId,
     },

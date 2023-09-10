@@ -4,31 +4,47 @@
   display: flex;
   justify-content: center;
   padding: 1rem;
+  overflow-y: scroll;
 
   .profile-container {
     &--wrapper {
       width: 80%;
       padding: 1rem;
       margin: 0 1rem;
-      min-height: 100%;
     }
-    
+    // First profile section
     &--top-section {
       display: flex;
     }
 
+    // Second profile section
     &--user-stats {
       display: flex;
-      
+
       .user-stats {
-        display: flex;
+        width: 39rem;
+        height: 100%;
         flex-wrap: wrap;
         flex-basis: 55%;
+      }
+
+      .custom-quote {
+        flex: 1;
+        background: rgb(213, 230, 228);
       }
 
       .user--rank {
         flex: 1;
       }
+    }
+    // Third section
+    &--progress-chart {
+      flex: 1;
+    }
+
+    // Fourth section
+    &--activity-tracker {
+      flex: 1;
     }
   }
 }

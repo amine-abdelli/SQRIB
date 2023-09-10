@@ -8,6 +8,7 @@ import '../../../../../components/Scoring/Scoring.style.scss';
 import { CountTracker } from './subComponents/SessionCount';
 import { Spacer, SpacerSize } from '../../../../../components';
 import './WeeklyTracker.style.scss';
+import { COLORS } from '../../../../../theme/colors';
 
 const WeeklyTracker = () => {
   const { data: response } = useGetUserWeeklyTracker();
@@ -16,14 +17,14 @@ const WeeklyTracker = () => {
   const sessionCount = data?.sessionCount;
   const typedWordsCount = data?.typedWordsCount
   const todayIndex = new Date().getDay();
-  const today = weeklyDays[todayIndex === 0 ? 7 : todayIndex - 1];
+  const today = weeklyDays[todayIndex === 0 ? 6 : todayIndex - 1];
   return (
     <Card className='weekly-tracker--card'>
       <div className='weekly-tracker--header'>
         <Text h1 bold centered>Weekly Tracker</Text>
       </div>
       <Spacer y size={SpacerSize.SMALL} />
-      <div style={{ display: 'flex', justifyContent: 'space-evenly'}}>
+      <div style={{ display: 'flex', justifyContent: 'space-evenly' }}>
         <CountTracker count={sessionCount} label={`Session${sessionCount > 1 ? 's' : ''}`} />
         <CountTracker count={typedWordsCount} label='Typed words' />
       </div>

@@ -6,4 +6,5 @@ export interface CardProps {
   className?: string;
   centered?: boolean;
   style?: React.CSSProperties;
+  fullWidth?: boolean;
 }

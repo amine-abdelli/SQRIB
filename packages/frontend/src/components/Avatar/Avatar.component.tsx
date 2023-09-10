@@ -4,7 +4,7 @@ import { COLORS } from '../../theme/colors';
 import { colorGenerator } from '@sqrib/shared';
 import './Avatar.style.scss'
 
-function Avatar({ username, size, avatarUrl, color }: AvatarProps) {
+function Avatar({ username, size, avatarUrl, color, style }: AvatarProps) {
   let edgeSize = '2.2rem';
   let fontSize = '25px';
   if (size === 'small') {
@@ -30,13 +30,14 @@ function Avatar({ username, size, avatarUrl, color }: AvatarProps) {
         background: color ?? colorPicker(),
         color: COLORS.WHITE,
         border: `3px solid ${COLORS.BLACK}`,
-        borderRadius: '100%',
+        borderRadius: '50%',
         fontSize,
         fontWeight: 800,
         width: edgeSize,
         height: edgeSize,
         justifyContent: 'center',
         alignItems: 'center',
+        ...style
       }}
     >
       {typeof username === 'string' ? username?.[0].toLocaleUpperCase() : username}

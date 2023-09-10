@@ -1,1 +1,2 @@
-export * from './UserRankCard.component';
+export * from './UserRankCard';
+export * from './UserRankHeader';

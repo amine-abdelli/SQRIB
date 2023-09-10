@@ -1,7 +1,8 @@
 import express, { Request, Response, NextFunction } from 'express';
+import { serializeBigInt } from '../utils';
 import {
-  createUserService, deleteUserService, getUserByIdService, getUserRankService, getUserStatsService,
-  getUserWeeklyTrackerService, updateUserByIdService,
+  createUserService, deleteUserService, getUserByIdService, getUserRankService,
+  getUserScoresService, getUserStatsService, getUserWeeklyTrackerService, updateUserByIdService,
 } from '../services';
 
 const router = express.Router();
@@ -100,6 +101,19 @@ export async function getUserRank(
   try {
     const userRank = await getUserRankService(req);
     res.status(200).json(userRank);
+  } catch (error) {
+    next(error);
+  }
+}
+
+export async function getUserScores(
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) {
+  try {
+    const userScores = await getUserScoresService(req);
+    res.status(200).json(serializeBigInt(userScores));
   } catch (error) {
     next(error);
   }

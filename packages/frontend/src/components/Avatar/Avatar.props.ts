@@ -3,4 +3,5 @@ export interface AvatarProps {
   size?: 'small' | 'medium' | 'large' | 'xlarge';
   avatarUrl?: string | null;
   color?: string | null;
+  style?: React.CSSProperties;
 }

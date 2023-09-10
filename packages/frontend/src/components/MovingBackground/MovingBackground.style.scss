@@ -23,13 +23,13 @@ main {
     &--O { left: 90%; top: 50%; transition: all #{random(1)+0.2}s linear; }
     &--P { left: 20%; top: 75%; transition: all #{random(1)+0.2}s linear; }
     &--Q { left: 40%; top: 70%; transition: all #{random(1)+0.2}s linear; }
-    &--R { left: 60%; top: 75%; transition: all #{random(1)+0.2}s linear; }
+    &--R { left: 60%; top: 90%; transition: all #{random(1)+0.2}s linear; }
     &--S { left: 80%; top: 79%; transition: all #{random(1)+0.2}s linear; }
     &--T { left: 5%; top: 100%; transition: all #{random(1)+0.2}s linear; }
-    &--U { left: 25%; top: 85%; transition: all #{random(1)+0.2}s linear; }
-    &--V { left: 45%; top: 90%; transition: all #{random(1)+0.2}s linear; }
-    &--W { left: 65%; top: 85%; transition: all #{random(1)+0.2}s linear; }
-    &--X { left: 85%; top: 90%; transition: all #{random(1)+0.2}s linear; }
+    &--U { left: 25%; top: 100%; transition: all #{random(1)+0.2}s linear; }
+    &--V { left: 45%; top: 110%; transition: all #{random(1)+0.2}s linear; }
+    &--W { left: 65%; top: 135%; transition: all #{random(1)+0.2}s linear; }
+    &--X { left: 85%; top: 110%; transition: all #{random(1)+0.2}s linear; }
     &--Y { left: 0%; top: 12%; transition: all #{random(1)+0.2}s linear; }
     &--Z { left: -8%; top: 40%; transition: all #{random(1)+0.2}s linear; } 
   } 

@@ -1,6 +1,6 @@
 import React from 'react';
-import './Card.style.scss';
 import { CardProps } from './Card.props';
+import './Card.style.scss';
 
 const Card = ({ children, shadowed, background, width, className, centered, style }: CardProps) => {
   const hasBackground = background ? `card--${background}` : '';

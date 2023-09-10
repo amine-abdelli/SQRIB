@@ -19,7 +19,9 @@ function Alert({ id, fade }: IAlert) {
   const [alerts, setAlerts] = useState<any[]>([]);
 
   useEffect(() => {
-    mounted.current = true;
+    if(mounted?.current) {
+      mounted.current = true;
+    }
 
     // subscribe to new alert notifications
     const subscription = alertService.onAlert(id)

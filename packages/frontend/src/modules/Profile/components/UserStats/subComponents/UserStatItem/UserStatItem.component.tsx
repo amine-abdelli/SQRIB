@@ -16,7 +16,7 @@ const UserStatItem = ({ label, value, isLoading, best }: UserStatItemProps) => {
   return (
     <div className='user-stat-item' style={{ background: best ? COLORS.LIGHT_GREEN : '' }}>
       <Text bold fira>{label}</Text>
-      {isLoading ? <Loader /> : <Text h1 fira>{value}</Text>}
+      <Text h1 fira>{value}</Text>
     </div>
   )
 }

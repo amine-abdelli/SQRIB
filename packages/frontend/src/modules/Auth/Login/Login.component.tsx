@@ -78,7 +78,7 @@ function Login() {
       </Modal.Body>
       <Modal.Footer style={{ width: '20rem' }}>
         <Button label="Login" onClick={onFinish} />
-        <Spacer y size={SpacerSize.LARGE} />
+        <Spacer y size={SpacerSize.MEDIUM} />
         <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
           <Text italic size={14}>Don't have an account?</Text><Button stretch link onClick={handleSignupClick}>Sign Up!</Button>
         </div>

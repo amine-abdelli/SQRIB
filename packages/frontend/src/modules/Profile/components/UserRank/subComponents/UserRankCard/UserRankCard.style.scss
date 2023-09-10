@@ -36,4 +36,9 @@
     background: $primary;
   }
 
+  &__see-more--button {
+    &:focus {
+      outline: none;
+    }
+  }
 }

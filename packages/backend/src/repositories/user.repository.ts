@@ -1,4 +1,6 @@
-import { Palmares, Score, User } from '@prisma/client';
+import {
+  GlobalMetrics, Palmares, Score, User,
+} from '@prisma/client';
 
 import { CreateUserRequestBody, colorGenerator } from '@sqrib/shared';
 import { prisma } from '../client';
@@ -143,5 +145,18 @@ export function getUserScoreRepository(userId: string): Promise<Score[]> {
     where: {
       user_id: userId,
     },
+  });
+}
+
+export function getGlobalMetricsRepository() {
+  return prisma.globalMetrics.findFirst();
+}
+
+export function updateGlobalMetricsRepository(id: string, globalMetrics: Partial<GlobalMetrics>) {
+  return prisma.globalMetrics.update({
+    where: {
+      id,
+    },
+    data: globalMetrics,
   });
 }

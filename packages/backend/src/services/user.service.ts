@@ -11,11 +11,23 @@ import {
 import bcrypt from 'bcryptjs';
 import { HttpError, calculateDuration } from '../utils';
 import {
-  createUserRepository, deleteUserRepository, getAllPalmaresRepository, getUserByEmailRepository,
+  createUserRepository, deleteUserRepository, getAllPalmaresRepository, getGlobalMetricsRepository,
+  getUserByEmailRepository,
   getUserByIdRepository, getUserByUsernameRepository, getUserPalmares,
   getUserScoreRepository,
-  getUserWeeklyTrackerRepository, updatePalmaresRepository, updateUserByIdRepository,
+  getUserWeeklyTrackerRepository, updateGlobalMetricsRepository, updatePalmaresRepository,
+  updateUserByIdRepository,
 } from '../repositories/user.repository';
+
+async function updateUserCountMetric() {
+  const globalMetrics = await getGlobalMetricsRepository();
+  if (globalMetrics) {
+    await updateGlobalMetricsRepository(globalMetrics.id, {
+      ...globalMetrics,
+      account_count: globalMetrics.account_count + 1,
+    });
+  }
+}
 
 export async function createUserService(
   { username, email, password }: CreateUserRequestBody,
@@ -44,6 +56,7 @@ export async function createUserService(
   if (!createdUser) {
     throw new HttpError(500, 'An error occurred while creating a user');
   }
+  await updateUserCountMetric();
   log.info('User created successfully:', { email: createdUser.email });
   return createdUser;
 }
@@ -173,10 +186,47 @@ export async function updatePalmaresService(userId: string, score: Score) {
   };
 
   const updatedPalmares = await updatePalmaresRepository(userId, newPalmares);
-
   if (!updatedPalmares) {
     throw new HttpError(500, 'An error occurred while updating palmares');
   }
+}
+
+export async function updateGlobalMetricsService(score: Score) {
+  log.info('Updating global metrics');
+  const globalMetrics = await getGlobalMetricsRepository();
+
+  if (!globalMetrics) {
+    throw new HttpError(404, 'An error occured while updating global metrics');
+  }
+
+  const newGlobalMetrics = {
+    ...globalMetrics,
+    game_count: globalMetrics.game_count + 1,
+    best_wpm: score.wpm > globalMetrics.best_wpm ? score.wpm : globalMetrics.best_wpm,
+    average_wpm: Math.round(((
+      globalMetrics.average_wpm * globalMetrics.game_count)
+       + score.wpm) / (globalMetrics.game_count + 1)),
+    average_accuracy: roundToDecimal(((
+      globalMetrics.average_accuracy * globalMetrics.game_count) + score.accuracy) / (globalMetrics
+      .game_count + 1)),
+    best_accuracy: score.accuracy > globalMetrics.best_accuracy
+      ? score.accuracy
+      : globalMetrics.best_accuracy,
+    best_points: score.points > globalMetrics.best_points
+      ? score.points
+      : globalMetrics.best_points,
+    average_points: Math.round(((
+      globalMetrics.average_points * globalMetrics.game_count)
+        + score.points) / (globalMetrics.game_count + 1)),
+    total_points: globalMetrics.total_points + score.points,
+    total_time_in_seconds: globalMetrics.total_time_in_seconds + calculateDuration(
+      Number(score.start_time),
+      Number(score.end_time),
+    ),
+  };
+
+  await updateGlobalMetricsRepository(globalMetrics.id, newGlobalMetrics);
+  log.info('Global metrics updated successfully');
 }
 
 export function setRankingOrder(sortedUsers: (Palmares & { user: User })[], userRankIndex: number) {

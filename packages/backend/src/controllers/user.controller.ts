@@ -2,7 +2,8 @@ import express, { Request, Response, NextFunction } from 'express';
 import { serializeBigInt } from '../utils';
 import {
   createUserService, deleteUserService, getUserByIdService, getUserRankService,
-  getUserScoresService, getUserStatsService, getUserWeeklyTrackerService, updateUserByIdService,
+  getUserScoresService, getUserStatsService, getUserWeeklyTrackerService,
+  updateUserByIdService,
 } from '../services';
 
 const router = express.Router();
@@ -93,6 +94,11 @@ export async function getUserStats(req: Request, res: Response, next: NextFuncti
   }
 }
 
+/**
+ * Get user's rank
+ * @route /user-rank
+ * @method GET
+ */
 export async function getUserRank(
   req: Request,
   res: Response,
@@ -106,6 +112,11 @@ export async function getUserRank(
   }
 }
 
+/**
+ * Get user's scores
+ * @route /user-scores
+ * @method GET
+ */
 export async function getUserScores(
   req: Request,
   res: Response,

@@ -15,7 +15,7 @@ const ProfileModule = (props: ProfileEngineProps) => {
   return (
     <div className="profile-container--wrapper">
       <section className='profile-container--top-section'>
-        <Button style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', background: COLORS.GOLD, width: '3rem', margin: '0.5rem 0' }} onClick={() => null}>
+        <Button style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', background: COLORS.GOLD, width: '3rem', margin: '0.5rem 0 0.5rem 0.5rem' }} onClick={() => null}>
           <>
             <Text fira bold>E</Text>
             <Text fira bold>D</Text>

@@ -6,9 +6,9 @@ import { Request } from 'express';
 import {
   emailPolicy, log, passwordPolicy, usernamePolicy, formatEmail, CreateUserRequestBody,
   uniqueDays, weeklyDaysInTechnicalOrder, roundToDecimal, areTimestampsFromSameDay,
+  calculateDaysAgoDate,
 } from '@sqrib/shared';
 import bcrypt from 'bcryptjs';
-import { subDays } from 'date-fns';
 import { HttpError, calculateDuration } from '../utils';
 import {
   createUserRepository, deleteUserRepository, getAllPalmaresRepository, getUserByEmailRepository,
@@ -115,7 +115,8 @@ export async function getUserWeeklyTrackerService(req: Request) {
     throw new HttpError(404, 'User not found');
   }
 
-  const daysAgo = subDays(new Date(), (new Date().getDay() || 7));
+  const today = new Date();
+  const daysAgo = calculateDaysAgoDate(today);
 
   const weeklyTracker = await getUserWeeklyTrackerRepository(req.userId, daysAgo) ?? [];
 

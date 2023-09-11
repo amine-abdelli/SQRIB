@@ -23,6 +23,7 @@
   },
   "dependencies": {
     "babel-preset-es2015": "^6.24.1",
+    "date-fns": "^2.30.0",
     "jest": "^28.1.0",
     "lodash": "^4.17.21",
     "make-word": "^1.0.0",

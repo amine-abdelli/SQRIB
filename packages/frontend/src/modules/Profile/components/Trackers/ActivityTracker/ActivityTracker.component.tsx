@@ -15,7 +15,7 @@ const ActivityTracker = ({ data: userScoresData }: any) => {
     <Card style={{ display: 'flex', flexDirection: 'column',flex: 1, padding: '1rem' }}>
       <Text h1 bold>Track Your Activity </Text>
       <Spacer y size={SpacerSize.MEDIUM} />
-      <Text p thin fira>Track your typing activity over the past year. The calendar below shows your typing speed (WPM) for each day. The darker the color, the higher your WPM.</Text>
+      <Text p thin fira>Track your typing activity over the past year. The calendar below shows your typing activity for each day. The darker the color, the higher your session count.</Text>
       <Spacer y size={SpacerSize.MEDIUM} />
       <div style={{ width: '60rem'}}>
         <CalendarHeatmap

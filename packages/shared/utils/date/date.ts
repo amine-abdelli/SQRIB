@@ -1,3 +1,5 @@
+import { subDays } from 'date-fns';
+
 /* eslint-disable max-len */
 /**
  * Format date object to nivo calendar format:
@@ -127,7 +129,34 @@ function customDateFormat(isoDateStr?: Date): string {
   return `${day}${suffix}, ${month} ${year}`;
 }
 
+/**
+ * Calculates the date of the most recent Monday based on the given date.
+ *
+ * @param {Date} currentDate - The current date to be used as a reference.
+ * @returns {Date} A new Date object representing the most recent Monday, with the time set to midnight.
+ *
+ * @example
+ * const today = new Date();
+ * const lastMonday = calculateDaysAgoDate(today);
+ */
+const calculateDaysAgoDate = (currentDate: Date) => {
+  const daysAgo = new Date(currentDate);
+  const dayOfWeek = currentDate.getDay();
+  if (dayOfWeek === 1) {
+    // Do nothing, keep the date as is
+  } else if (dayOfWeek === 0) {
+    daysAgo.setDate(currentDate.getDate() - 7);
+  } else {
+    const adjustedDate = subDays(currentDate, dayOfWeek || 7);
+    daysAgo.setDate(adjustedDate.getDate() + 1);
+  }
+
+  // Set time to midnight
+  daysAgo.setHours(0, 0, 0, 0);
+  return daysAgo;
+};
+
 export {
   formatDateToCalendar, formatDate, formatDateToLeaderboard, memberSinceDate, daysFromLastMonday, uniqueDays,
-  areTimestampsFromSameDay, customDateFormat,
+  areTimestampsFromSameDay, customDateFormat, calculateDaysAgoDate,
 };

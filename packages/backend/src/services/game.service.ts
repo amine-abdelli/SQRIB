@@ -11,7 +11,7 @@ import {
 import { generateWordSet } from '../utils/words.utils';
 import { HttpError, calculateDuration } from '../utils';
 import { generateRandomWordsWithPriority } from '../utils/markov.utils';
-import { updatePalmaresService } from './user.service';
+import { updateGlobalMetricsService, updatePalmaresService } from './user.service';
 
 // Validation util
 function saveTrainingScoringValidator(session: SessionRequestBody, score: ScoreRequestBody) {
@@ -60,7 +60,7 @@ export function generateTrainingWordChainService(count: number, language: TLangu
 export async function saveTrainingScoringService(req: Request) {
   const requestBody: SaveTrainingScoringRequestBody = req.body;
   const { userId } = req;
-  log.info('[learning] Saving score', { user: userId });
+  log.info('[Training] Saving score', { user: userId });
   if (!userId) { throw new HttpError(401, 'Unauthorized'); }
   const user = await getUserByIdRepository(userId || '');
   if (!user) { throw new HttpError(404, 'User not found'); }
@@ -86,7 +86,10 @@ export async function saveTrainingScoringService(req: Request) {
     await deleteSession(createdSession.id);
     throw new HttpError(500, 'Could not create score');
   }
+
+  /** Update Metrics */
   await updatePalmaresService(userId, createdScore);
-  log.info('[learning] Score saved successfully', { user: userId });
+  await updateGlobalMetricsService(createdScore);
+  log.info('[Training] Score saved successfully', { user: userId });
   return createdScore;
 }

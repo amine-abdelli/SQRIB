@@ -6,6 +6,7 @@ import dotenv from 'dotenv';
 import { log } from '@sqrib/shared';
 import serveStatic from 'serve-static';
 import path from 'path';
+import rateLimit from 'express-rate-limit';
 import { handleSocketConnection } from './sockets/socket';
 import Routers from './routers';
 import { errorHandler } from './middlewares/error.middleware';
@@ -36,6 +37,19 @@ const corsOptions = {
   credentials: true,
   allowedHeaders: ['Authorization', 'Content-Type'],
 };
+
+// This is a very basic rate limiter to avoid extreme attack usecases
+// In the future, setup a rate limit depending on query complexity
+const limiter = rateLimit({
+  windowMs: 10 * 1000, // ten seconds
+  max: 20, // limit each IP to 50 req / 10sec
+  onLimitReached: (req: express.Request) => {
+    log.warn('Rate limit exceeded', { ip: req.ip || 'unknown' });
+  },
+  message: { message: 'Too many requests, please try again later.', status: 429 },
+});
+app.use(limiter);
+
 app.use(cors(corsOptions));
 
 // Routers

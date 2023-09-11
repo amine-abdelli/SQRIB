@@ -42,7 +42,7 @@ const corsOptions = {
 // In the future, setup a rate limit depending on query complexity
 const limiter = rateLimit({
   windowMs: 10 * 1000, // ten seconds
-  max: 20, // limit each IP to 50 req / 10sec
+  max: 100, // limit each IP to 50 req / 10sec
   onLimitReached: (req: express.Request) => {
     log.warn('Rate limit exceeded', { ip: req.ip || 'unknown' });
   },

@@ -1,7 +1,7 @@
 import express from 'express';
+import { ENDPOINTS } from '@sqrib/shared';
 import { withAuth } from '../middlewares/auth.middleware';
 import * as UserController from '../controllers/user.controller';
-import { ENDPOINTS } from '../routes';
 
 const router = express.Router();
 

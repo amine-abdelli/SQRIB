@@ -1,4 +1,4 @@
-import { ROUTES } from '../routes';
+import { ROUTES } from '@sqrib/shared';
 import AuthRouter from './auth.router';
 import SettingsRouter from './settings.router';
 import UserRouter from './user.router';

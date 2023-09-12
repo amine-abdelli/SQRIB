@@ -12,12 +12,10 @@ import bcrypt from 'bcryptjs';
 import { HttpError, calculateDuration } from '../utils';
 import {
   createUserRepository, deleteUserRepository, getAllPalmaresRepository, getGlobalMetricsRepository,
-  getUserByEmailRepository,
-  getUserByIdRepository, getUserByUsernameRepository, getUserPalmares,
-  getUserScoreRepository,
-  getUserWeeklyTrackerRepository, updateGlobalMetricsRepository, updatePalmaresRepository,
-  updateUserByIdRepository,
-} from '../repositories/user.repository';
+  getUserByEmailRepository, getUserByIdRepository, getUserByUsernameRepository, getUserPalmares,
+  getUserScoreRepository, getUserWeeklyTrackerRepository, updateGlobalMetricsRepository,
+  updatePalmaresRepository, updateUserByIdRepository,
+} from '../repositories';
 
 async function updateUserCountMetric() {
   const globalMetrics = await getGlobalMetricsRepository();
@@ -179,7 +177,7 @@ export async function updatePalmaresService(userId: string, score: Score) {
       palmares.average_wpm * palmares.session_count) + score.wpm) / (palmares.session_count + 1)),
     average_accuracy: roundToDecimal(((
       palmares.average_accuracy * palmares.session_count) + score.accuracy) / (palmares
-      .session_count + 1)),
+        .session_count + 1)),
     last_activity: new Date(),
     days_of_activity: areTimestampsFromSameDay(palmares?.last_activity, new Date())
       ? palmares.days_of_activity : palmares.days_of_activity + 1,
@@ -205,10 +203,10 @@ export async function updateGlobalMetricsService(score: Score) {
     best_wpm: score.wpm > globalMetrics.best_wpm ? score.wpm : globalMetrics.best_wpm,
     average_wpm: Math.round(((
       globalMetrics.average_wpm * globalMetrics.game_count)
-       + score.wpm) / (globalMetrics.game_count + 1)),
+      + score.wpm) / (globalMetrics.game_count + 1)),
     average_accuracy: roundToDecimal(((
       globalMetrics.average_accuracy * globalMetrics.game_count) + score.accuracy) / (globalMetrics
-      .game_count + 1)),
+        .game_count + 1)),
     best_accuracy: score.accuracy > globalMetrics.best_accuracy
       ? score.accuracy
       : globalMetrics.best_accuracy,
@@ -217,7 +215,7 @@ export async function updateGlobalMetricsService(score: Score) {
       : globalMetrics.best_points,
     average_points: Math.round(((
       globalMetrics.average_points * globalMetrics.game_count)
-        + score.points) / (globalMetrics.game_count + 1)),
+      + score.points) / (globalMetrics.game_count + 1)),
     total_points: globalMetrics.total_points + score.points,
     total_time_in_seconds: globalMetrics.total_time_in_seconds + calculateDuration(
       Number(score.start_time),
@@ -238,10 +236,10 @@ export function setRankingOrder(sortedUsers: (Palmares & { user: User })[], user
     count = [0, 1, 2, 3, 4];
   } else if (userRankIndex === sortedUsers.length - 1 || userRankIndex === sortedUsers.length - 2) {
     count = [sortedUsers.length - 5, sortedUsers.length - 4, sortedUsers.length - 3,
-      sortedUsers.length - 2, sortedUsers.length - 1];
+    sortedUsers.length - 2, sortedUsers.length - 1];
   } else {
     count = [userRankIndex - 2, userRankIndex - 1, userRankIndex, userRankIndex + 1,
-      userRankIndex + 2];
+    userRankIndex + 2];
   }
   return count;
 }

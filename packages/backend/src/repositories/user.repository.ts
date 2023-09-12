@@ -148,10 +148,6 @@ export function getUserScoreRepository(userId: string): Promise<Score[]> {
   });
 }
 
-export function getGlobalMetricsRepository() {
-  return prisma.globalMetrics.findFirst();
-}
-
 export function updateGlobalMetricsRepository(id: string, globalMetrics: Partial<GlobalMetrics>) {
   return prisma.globalMetrics.update({
     where: {

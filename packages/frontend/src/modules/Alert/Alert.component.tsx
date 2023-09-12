@@ -19,9 +19,7 @@ function Alert({ id, fade }: IAlert) {
   const [alerts, setAlerts] = useState<any[]>([]);
 
   useEffect(() => {
-    if(mounted?.current) {
-      mounted.current = true;
-    }
+    mounted.current = true;
 
     // subscribe to new alert notifications
     const subscription = alertService.onAlert(id)
@@ -114,12 +112,12 @@ function Alert({ id, fade }: IAlert) {
         <div key={`${alert.message + i}`} style={{ zIndex: 999999999999, transition: 'all 1s ease-in-out' }} className={cssClasses(alert)}>
           {!alert.closingButton && <a className="close" onClick={() => removeAlert(alert)}>&times;</a>}
           <p>{alert.message}</p>
-            {alert.closingButton &&
-              <>
-                <Spacer y size={SpacerSize.SMALL} />
-                <Button secondary onClick={() => removeAlert(alert)}>Got It</Button>
-              </>
-            }
+          {alert.closingButton &&
+            <>
+              <Spacer y size={SpacerSize.SMALL} />
+              <Button secondary onClick={() => removeAlert(alert)}>Got It</Button>
+            </>
+          }
         </div>
       ))}
     </div>

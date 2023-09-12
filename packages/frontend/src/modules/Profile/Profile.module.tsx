@@ -33,7 +33,7 @@ const ProfileModule = (props: ProfileEngineProps) => {
         <UserRank />
       </section>
       <section className='profile-container--progress-chart'>
-        <ProgressChart data={userScoresData} averageSqribWpm={76} bestSqribWpm={112} />
+        <ProgressChart scores={userScoresData} />
       </section>
       <section className='profile-container--activity-tracker'>
         <ActivityTracker data={userScoresData} />

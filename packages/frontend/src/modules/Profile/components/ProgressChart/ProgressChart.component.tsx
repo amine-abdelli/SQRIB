@@ -4,18 +4,18 @@ import { Card } from '../../../../components/Card/Card.component';
 import { Text } from '../../../../components/Text/Text.component';
 import { COLORS } from '../../../../theme/colors';
 import { Spacer, SpacerSize } from '../../../../components';
+import { useGetGlobalMetrics } from '../../../../api/queries/useGetGlobalMetrics.hooks';
 
 interface ProgressChartProps {
-  averageSqribWpm: number;
-  bestSqribWpm: number;
-  data: any;
+  scores: any;
 }
 
-const ProgressChart = ({ averageSqribWpm, bestSqribWpm, data: userScoresData }: ProgressChartProps) => {
+const ProgressChart = ({ scores: userScoresData }: ProgressChartProps) => {
+  const { data: globalMetrics } = useGetGlobalMetrics();
   const userScores = userScoresData?.data ?? [];
   const formatedScoresForChart = userScores.map((score: any, index: string) => ({ x: index, y: score.wpm }));
-  const averageSqribUserScore = [{ x: 0, y: averageSqribWpm }, { x: userScores.length - 1, y: averageSqribWpm }]
-  const bestSqribScore = [{ x: 0, y: bestSqribWpm }, { x: userScores.length - 1, y: bestSqribWpm }]
+  const bestSqribScore = [{ x: 0, y: globalMetrics?.data?.best_wpm }, { x: userScores.length - 1, y: globalMetrics?.data?.best_wpm }]
+  const averageSqribUserScore = [{ x: 0, y: globalMetrics?.data?.average_accuracy }, { x: userScores.length - 1, y: globalMetrics?.data?.average_accuracy }]
   return (
     <Card style={{ display: 'flex', flex: 1, flexDirection: 'column', padding: '1rem' }}>
       <Text h1 bold>Track Your Progress </Text>

@@ -12,12 +12,10 @@ import bcrypt from 'bcryptjs';
 import { HttpError, calculateDuration } from '../utils';
 import {
   createUserRepository, deleteUserRepository, getAllPalmaresRepository, getGlobalMetricsRepository,
-  getUserByEmailRepository,
-  getUserByIdRepository, getUserByUsernameRepository, getUserPalmares,
-  getUserScoreRepository,
-  getUserWeeklyTrackerRepository, updateGlobalMetricsRepository, updatePalmaresRepository,
-  updateUserByIdRepository,
-} from '../repositories/user.repository';
+  getUserByEmailRepository, getUserByIdRepository, getUserByUsernameRepository, getUserPalmares,
+  getUserScoreRepository, getUserWeeklyTrackerRepository, updateGlobalMetricsRepository,
+  updatePalmaresRepository, updateUserByIdRepository,
+} from '../repositories';
 
 async function updateUserCountMetric() {
   const globalMetrics = await getGlobalMetricsRepository();
@@ -205,7 +203,7 @@ export async function updateGlobalMetricsService(score: Score) {
     best_wpm: score.wpm > globalMetrics.best_wpm ? score.wpm : globalMetrics.best_wpm,
     average_wpm: Math.round(((
       globalMetrics.average_wpm * globalMetrics.game_count)
-       + score.wpm) / (globalMetrics.game_count + 1)),
+      + score.wpm) / (globalMetrics.game_count + 1)),
     average_accuracy: roundToDecimal(((
       globalMetrics.average_accuracy * globalMetrics.game_count) + score.accuracy) / (globalMetrics
       .game_count + 1)),
@@ -217,7 +215,7 @@ export async function updateGlobalMetricsService(score: Score) {
       : globalMetrics.best_points,
     average_points: Math.round(((
       globalMetrics.average_points * globalMetrics.game_count)
-        + score.points) / (globalMetrics.game_count + 1)),
+      + score.points) / (globalMetrics.game_count + 1)),
     total_points: globalMetrics.total_points + score.points,
     total_time_in_seconds: globalMetrics.total_time_in_seconds + calculateDuration(
       Number(score.start_time),

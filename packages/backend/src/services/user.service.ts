@@ -221,6 +221,7 @@ export async function updateGlobalMetricsService(score: Score) {
       Number(score.start_time),
       Number(score.end_time),
     ),
+    // total_typed_words: globalMetrics.total_typed_words + (score.typed_words || 0),
   };
 
   await updateGlobalMetricsRepository(globalMetrics.id, newGlobalMetrics);

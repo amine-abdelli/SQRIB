@@ -109,6 +109,7 @@ model GlobalMetrics {
   average_points        Int      @default(0) // Average points of all games
   total_points          Int      @default(0) // Total points of all games
   total_time_in_seconds Int      @default(0) // Total time spent typing
+  // total_typed_words     Int      @default(0) // Total number of words typed
   created_at            DateTime @default(now())
 }
 

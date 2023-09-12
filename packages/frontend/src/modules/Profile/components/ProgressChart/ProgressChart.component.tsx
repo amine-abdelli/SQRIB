@@ -13,9 +13,11 @@ interface ProgressChartProps {
 const ProgressChart = ({ scores: userScoresData }: ProgressChartProps) => {
   const { data: globalMetrics } = useGetGlobalMetrics();
   const userScores = userScoresData?.data ?? [];
-  const formatedScoresForChart = userScores.map((score: any, index: string) => ({ x: index, y: score.wpm }));
-  const bestSqribScore = [{ x: 0, y: globalMetrics?.data?.best_wpm }, { x: userScores.length - 1, y: globalMetrics?.data?.best_wpm }]
-  const averageSqribUserScore = [{ x: 0, y: globalMetrics?.data?.average_accuracy }, { x: userScores.length - 1, y: globalMetrics?.data?.average_accuracy }]
+  const scoresToChartFormat = userScores.map((score: any, index: string) => ({ x: index, y: score.wpm }));
+  const bestSqribWpm = globalMetrics?.data?.best_wpm ?? 0;
+  const averageSqribAccuracy = globalMetrics?.data?.average_accuracy ?? 0;
+  const bestSqribWpmToChartFormat = [{ x: 0, y: bestSqribWpm }, { x: userScores.length - 1, y: bestSqribWpm }]
+  const averageSqribUserScore = [{ x: 0, y: averageSqribAccuracy }, { x: userScores.length - 1, y: averageSqribAccuracy }]
   return (
     <Card style={{ display: 'flex', flex: 1, flexDirection: 'column', padding: '1rem' }}>
       <Text h1 bold>Track Your Progress </Text>
@@ -100,13 +102,13 @@ const ProgressChart = ({ scores: userScoresData }: ProgressChartProps) => {
           yScale={{
             type: 'linear',
             min: 0,
-            max: userScores?.reduce((max: any, obj: any) => Math.max(max, obj.wpm), 0) + 15,
+            max: bestSqribWpm ? bestSqribWpm + 15 : 100,
           }}
           xScale={{ type: 'point' }}
           data={[
             {
               "id": "Your progression",
-              "data": formatedScoresForChart
+              "data": scoresToChartFormat
             },
             {
               "id": "Average global Wpm",
@@ -114,7 +116,7 @@ const ProgressChart = ({ scores: userScoresData }: ProgressChartProps) => {
             },
             {
               "id": "Best global Wpm",
-              "data": bestSqribScore
+              "data": bestSqribWpmToChartFormat
             }
           ]}
           tooltip={({ point }: any) => {

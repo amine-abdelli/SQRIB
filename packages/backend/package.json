@@ -10,6 +10,7 @@
     "start": "node -r ts-node/register -r dotenv/config -r tsconfig-paths/register --max_old_space_size=500 ./dist/src/server.js",
     "prisma:sandbox": "ts-node-dev -r dotenv/config -r tsconfig-paths/register --transpile-only sandbox.ts",
     "build": "rm -rf ./dist/ && yarn workspace @sqrib/client build && tsc -p tsconfig.json && node src/build.js",
+    "metrics:reset": "ts-node-dev -r dotenv/config -r tsconfig-paths/register --transpile-only src/scripts/index.ts",
     "lint": "eslint **/**.ts",
     "test": "jest"
   },

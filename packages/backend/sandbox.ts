@@ -1,5 +1,5 @@
 /* eslint-disable max-len */
-import { prisma } from './src/client';
+// import { prisma } from './src/client';
 
 (async () => {
   try {

@@ -9,7 +9,7 @@ import path from 'path';
 import rateLimit from 'express-rate-limit';
 import { handleSocketConnection } from './sockets/socket';
 import Routers from './routers';
-import { errorHandler } from './middlewares/error.middleware';
+import { errorHandler, accessMiddleware } from './middlewares';
 import { HttpError } from './utils';
 
 const app = express();
@@ -48,8 +48,8 @@ const limiter = rateLimit({
   },
   message: { message: 'Too many requests, please try again later.', status: 429 },
 });
+app.use(accessMiddleware);
 app.use(limiter);
-
 app.use(cors(corsOptions));
 
 // Routers

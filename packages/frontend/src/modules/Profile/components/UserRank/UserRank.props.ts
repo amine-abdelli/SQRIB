@@ -1,0 +1,3 @@
+interface UserRankProps {
+  username?: string;
+}

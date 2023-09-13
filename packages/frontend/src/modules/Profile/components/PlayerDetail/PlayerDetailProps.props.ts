@@ -1,0 +1,3 @@
+interface PlayerDetailProps {
+  username?: string;
+}

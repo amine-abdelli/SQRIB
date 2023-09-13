@@ -78,12 +78,20 @@ export async function deleteUserService(email: string, password: string):
   return deleteResponse;
 }
 
-export async function getUserByIdService(userId: string): Promise<User> {
+export async function getUserByIdService(req: Request): Promise<User> {
+  const { userId } = req;
+  const username = req.query.username as string;
+  const isVisitingOwnProfile = !username;
   log.info('Getting user by ID: ', { userId });
   if (!userId) {
     throw new HttpError(400, 'Missing user ID');
   }
-  const user = await getUserByIdRepository(userId);
+  let user: User | null;
+  if (isVisitingOwnProfile) {
+    user = await getUserByIdRepository(userId);
+  } else {
+    user = await getUserByUsernameRepository(username);
+  }
   if (!user) {
     throw new HttpError(404, 'User not found');
   }
@@ -120,8 +128,16 @@ export async function updateUserByIdService(userId: string, data: Partial<User>)
 }
 
 export async function getUserWeeklyTrackerService(req: Request) {
+  const username = req.query.username as string;
+
+  const isVisitingOwnProfile = !username;
   log.info('Getting user weekly tracker');
-  const user = await getUserByIdService(req.userId);
+  let user: User | null;
+  if (!isVisitingOwnProfile) {
+    user = await getUserByUsernameRepository(username);
+  } else {
+    user = await getUserByIdRepository(req.userId);
+  }
   if (!user) {
     throw new HttpError(404, 'User not found');
   }
@@ -129,7 +145,7 @@ export async function getUserWeeklyTrackerService(req: Request) {
   const today = new Date();
   const daysAgo = calculateDaysAgoDate(today);
 
-  const weeklyTracker = await getUserWeeklyTrackerRepository(req.userId, daysAgo) ?? [];
+  const weeklyTracker = await getUserWeeklyTrackerRepository(user.id, daysAgo) ?? [];
 
   const uniqueDates = uniqueDays(weeklyTracker.map((s: Score) => s.created_at.toString()));
 
@@ -148,13 +164,22 @@ export async function getUserWeeklyTrackerService(req: Request) {
 }
 
 export async function getUserStatsService(req: Request) {
+  const username = req.query.username as string;
+  const isVisitingOwnProfile = !username;
   log.info('Getting user stats');
-  const user = await getUserByIdService(req.userId);
+  if (!req.userId) { throw new HttpError(400, 'Missing user ID'); }
+  let user: User | null;
+
+  if (isVisitingOwnProfile) {
+    user = await getUserByIdRepository(req.userId);
+  } else {
+    user = await getUserByUsernameRepository(username);
+  }
+
   if (!user) {
     throw new HttpError(404, 'User not found');
   }
-
-  const palmares = await getUserPalmares(req.userId);
+  const palmares = await getUserPalmares(user.id);
   log.info('User stats retrieved successfully:', { email: user.email });
   return palmares;
 }
@@ -246,14 +271,25 @@ export function setRankingOrder(sortedUsers: (Palmares & { user: User })[], user
 }
 
 export async function getUserRankService(req: Request) {
-  const user = await getUserByIdService(req.userId);
-  if (!user) { throw new HttpError(404, 'User not found'); }
-  const palmares = await getUserPalmares(req.userId);
+  const username = req.query.username as string;
+  const isVisitingOwnProfile = !username;
+
+  let user: User | null;
+
+  if (isVisitingOwnProfile) {
+    user = await getUserByIdRepository(req.userId);
+  } else {
+    user = await getUserByUsernameRepository(username);
+  }
+
+  if (!user?.id) { throw new HttpError(404, 'The user your trying to get palmares from does not exists'); }
+
+  const palmares = await getUserPalmares(user.id ?? req.userId);
   if (!palmares) { throw new HttpError(404, 'Palmares not found'); }
 
   const users = await getAllPalmaresRepository();
   const sortedUsers = users.sort((a, b) => b.best_wpm - a.best_wpm);
-  const userRankIndex = sortedUsers.findIndex((p) => p.user_id === user.id);
+  const userRankIndex = sortedUsers.findIndex((p) => p.user_id === (user?.id ?? ''));
   const userRank = userRankIndex + 1;
 
   const range = setRankingOrder(sortedUsers, userRankIndex).map((i) => ({
@@ -279,14 +315,30 @@ export async function getUserRankService(req: Request) {
 
 export async function getUserScoresService(req: Request) {
   log.info('Getting user scores');
+  // eslint-disable-next-line prefer-destructuring
+  const username = req.query.username;
+
   if (!req.userId) {
     throw new HttpError(400, 'Missing user ID');
   }
+
   const user = await getUserByIdRepository(req.userId);
+
   if (!user) {
     throw new HttpError(404, 'User not found');
   }
+
+  if (username) {
+    const userByUsername = await getUserByUsernameRepository(username as string);
+    if (userByUsername) {
+      const userScore = await getUserScoreRepository(userByUsername.id);
+      return userScore ?? [];
+    }
+    throw new HttpError(404, "The user you're trying to get the scores from does not exist");
+  }
+
   const userScore = await getUserScoreRepository(req.userId);
+
   log.info('User scores retrieved successfully:', { email: user?.email });
   return userScore ?? [];
 }

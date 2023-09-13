@@ -4,9 +4,14 @@ import { UserStatItem } from './subComponents';
 import { useGetUserStats } from '../../../../api/queries/useGetUserStats.hooks';
 import { Text } from '../../../../components/Text/Text.component';
 
-const UserStats = () => {
-  const { data: userStatsData, isLoading } = useGetUserStats();
+const UserStats = ({ username }: UserStatsProps) => {
+  const { data: userStatsData, isLoading, refetch } = useGetUserStats({ username });
   const { session_count, average_wpm, best_points, days_of_activity, average_accuracy, total_words_typed, best_wpm, total_time_in_seconds, total_points } = userStatsData?.data || {};
+
+  React.useEffect(() => {
+    refetch()
+  }, [username])
+
   return (
     <span style={{ display: 'flex', flexDirection: 'column', flex: 1, width: '40rem' }}>
       <Card className='user-stats'>

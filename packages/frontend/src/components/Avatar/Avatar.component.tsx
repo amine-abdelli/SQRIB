@@ -40,7 +40,7 @@ function Avatar({ username, size, avatarUrl, color, style }: AvatarProps) {
         ...style
       }}
     >
-      {typeof username === 'string' ? username?.[0].toLocaleUpperCase() : username}
+      {typeof username === 'string' ? username?.[0]?.toLocaleUpperCase() : username}
     </div>
   );
 }

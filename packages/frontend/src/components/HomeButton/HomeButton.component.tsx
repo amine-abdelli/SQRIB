@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { MAIN_ROUTES } from '../../routes/paths';
 import { IoMdHome } from 'react-icons/io';
 import { Card } from '../Card/Card.component';
+import { ArrowLeft } from 'react-iconly';
 
 const HomeButton = () => {
   return (
@@ -10,4 +11,10 @@ const HomeButton = () => {
   )
 }
 
-export { HomeButton };
+const BackButton = () => {
+  return (
+    <Link to={MAIN_ROUTES.PROFILE} style={{ height: '3rem', width: '3rem' }}><Card shadowed width="30rem" centered style={{ padding: 0, margin: 0, height: '100%', width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center' }} ><ArrowLeft size={24} /></Card></Link>
+  )
+}
+
+export { HomeButton, BackButton };

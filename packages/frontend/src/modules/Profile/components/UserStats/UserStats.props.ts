@@ -1,0 +1,3 @@
+interface UserStatsProps {
+  username?: string;
+}

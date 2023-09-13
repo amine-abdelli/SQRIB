@@ -7,11 +7,14 @@ import { Text } from '../../../../../components/Text/Text.component';
 import '../../../../../components/Scoring/Scoring.style.scss';
 import { CountTracker } from './subComponents/SessionCount';
 import { Spacer, SpacerSize } from '../../../../../components';
+import { WeeklyTrackerProps } from './WeeklyTracker.props';
 import './WeeklyTracker.style.scss';
-import { COLORS } from '../../../../../theme/colors';
 
-const WeeklyTracker = () => {
-  const { data: response } = useGetUserWeeklyTracker();
+const WeeklyTracker = ({ username }: WeeklyTrackerProps) => {
+  const { data: response, refetch } = useGetUserWeeklyTracker({ username });
+  React.useEffect(() => {
+    refetch();
+  }, [username])
   const { data } = response || { data: null };
   const daysOfActivity = data?.daysOfActivity;
   const sessionCount = data?.sessionCount;

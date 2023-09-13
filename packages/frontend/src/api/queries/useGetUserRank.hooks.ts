@@ -4,6 +4,10 @@ import { apiService } from "../api";
 
 export const GET_USER_RANK = 'GET_USER_RANK';
 
-export function useGetUserRank<T>(): UseQueryResult<GetUserRankResponseBody> {
-  return useQuery([GET_USER_RANK], () => apiService.get<T>(ENDPOINTS_FULL_PATH.user.get_user_rank));
+interface GetUserRankParams {
+  username?: string;
+}
+
+export function useGetUserRank<T>({ username }: GetUserRankParams): UseQueryResult<GetUserRankResponseBody> {
+  return useQuery([GET_USER_RANK], () => apiService.get<T>(`${ENDPOINTS_FULL_PATH.user.get_user_rank}${username ? `?username=${username}` : ''}`));
 }

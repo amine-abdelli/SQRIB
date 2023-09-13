@@ -13,9 +13,9 @@ const router = express.Router();
  * @route /create
  * @method POST
  */
-export async function createOneUser({ body }: Request, res: Response, next: NextFunction) {
+export async function createOneUser(req: Request, res: Response, next: NextFunction) {
   try {
-    const user = await createUserService(body);
+    const user = await createUserService(req.body);
     return res.status(200).json({ user });
   } catch (error) {
     return next(error);
@@ -44,7 +44,7 @@ export async function updateOneUser(req: Request, res: Response, next: NextFunct
 export async function getUserData(req: Request, res: Response, next: NextFunction) {
   try {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const { password, ...rest } = await getUserByIdService(req.userId);
+    const { password, ...rest } = await getUserByIdService(req);
     return res.status(200).json(rest);
   } catch (error) {
     return next(error);

@@ -10,16 +10,22 @@ import {
   Home
 } from './elements';
 import { MAIN_ROUTES } from './paths';
+import { AuthGuard } from '../modules/Auth/AuthGuard/AuthGuard.component';
 
 export default function Router() {
   return useRoutes([
-    { path: MAIN_ROUTES.HOME, element: <Home />,  },
+    { path: MAIN_ROUTES.HOME, element: <Home />, },
     { path: MAIN_ROUTES.TRAINING, element: <Training /> },
     { path: MAIN_ROUTES.LEARNING, element: <Learning /> },
-    { path: MAIN_ROUTES.MULTIPLAYER, element: <Multiplayer /> },
+    {
+      path: MAIN_ROUTES.MULTIPLAYER, element: <AuthGuard>
+        <Multiplayer />
+      </AuthGuard>
+    },
     { path: MAIN_ROUTES.LEADERBOARD, element: <LeaderBoard /> },
     { path: MAIN_ROUTES.SETTINGS, element: <Settings /> },
     { path: MAIN_ROUTES.PROFILE, element: <Profile /> },
+    { path: MAIN_ROUTES.PROFILE + '/:username', element: <Profile /> },
     { path: '*', element: <NotFound /> },
     // {
     //   path: '/',

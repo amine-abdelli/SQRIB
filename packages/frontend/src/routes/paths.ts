@@ -10,4 +10,5 @@ export enum MAIN_ROUTES {
   LEADERBOARD = '/leaderboard',
   SETTINGS = '/settings',
   PROFILE = '/profile',
+  USER_PROFILE = '/profile/:username',
 }

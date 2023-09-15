@@ -1,9 +1,6 @@
 import { Suspense, lazy, ElementType } from 'react';
 import Loading from '../pages/Loading.page';
 
-// To replace will real loading screen
-const LoadingScreen = () => <p>Loading ...</p>;
-
 const Loadable = (Component: ElementType) => (props: any) => (
     <Suspense fallback={<Loading />}>
       <Component {...props} />

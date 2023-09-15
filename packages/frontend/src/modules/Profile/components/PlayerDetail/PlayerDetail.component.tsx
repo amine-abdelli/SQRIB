@@ -6,13 +6,14 @@ import Avatar from '../../../../components/Avatar/Avatar.component';
 import { memberSinceDate } from '@sqrib/shared';
 import { COLORS } from '../../../../theme/colors';
 import { capitalizeFirstLetter } from '../../../../utils';
-import { useGetSelf } from '../../../../api/queries';
-import { useMatch, useParams } from 'react-router-dom';
+import { useGetUser } from '../../../../api/queries';
+import { useParams } from 'react-router-dom';
 import './PlayerDetail.style.scss';
 
 const PlayerDetail = ({ username: hihi }: PlayerDetailProps) => {
   const { username: profileUsername } = useParams();
-  const { user, refetch } = useGetSelf({ username: profileUsername });
+  const { data, refetch } = useGetUser({ username: profileUsername });
+  const user = data?.data;
 
   React.useEffect(() => {
     refetch();

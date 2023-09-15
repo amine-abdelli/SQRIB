@@ -8,9 +8,10 @@ import { useGetGlobalMetrics } from '../../../../api/queries/useGetGlobalMetrics
 
 interface ProgressChartProps {
   scores: any;
+  username?: string;
 }
 
-const ProgressChart = ({ scores: userScoresData }: ProgressChartProps) => {
+const ProgressChart = ({ scores: userScoresData, username }: ProgressChartProps) => {
   const { data: globalMetrics } = useGetGlobalMetrics();
   const userScores = userScoresData?.data ?? [];
   const scoresToChartFormat = userScores.length === 1
@@ -21,11 +22,15 @@ const ProgressChart = ({ scores: userScoresData }: ProgressChartProps) => {
   const averageSqribAccuracy = globalMetrics?.data?.average_accuracy ?? 0;
   const bestSqribWpmToChartFormat = [{ x: 0, y: bestSqribWpm }, { x: userScores.length > 1 ? userScores.length - 1 : 1, y: bestSqribWpm }]
   const averageSqribUserScore = [{ x: 0, y: averageSqribAccuracy }, { x: userScores.length > 1 ? userScores.length - 1 : 1, y: averageSqribAccuracy }]
+  const isVisitingOwnProfile = !username;
+
   return (
     <Card style={{ display: 'flex', flex: 1, flexDirection: 'column', padding: '1rem' }}>
-      <Text h1 bold>Track Your Progress </Text>
+      {isVisitingOwnProfile ? <Text h1 bold>Track Your Progress</Text> : <Text h1 bold>Progress chart</Text>}
       <Spacer y size={SpacerSize.MEDIUM} />
-      <Text p thin fira>Watch your typing speed improve and set new goals! The chart below captures your journey by tracking your Words Per Minute (WPM) across various sessions. Compare your progress with the Sqrib community's average and top speeds to see how you measure up. Keep typing, keep improving!🚀</Text>
+      {isVisitingOwnProfile
+        ? <Text p thin fira>Watch your typing speed improve and set new goals! The chart below captures your journey by tracking your Words Per Minute (WPM) across various sessions. Compare your progress with the Sqrib community's average and top speeds to see how you measure up. Keep typing, keep improving!🚀</Text>
+        : <></>}
       <div style={{ height: '22rem' }}>
         <ResponsiveLine
           animate={true}

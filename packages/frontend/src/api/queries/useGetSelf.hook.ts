@@ -14,16 +14,7 @@ interface mutationOptions {
 }
 
 export function useGetSelf(mutationOptions: mutationOptions = {}) {
-  const session_id = Cookies.get('session_id');
-  const username = mutationOptions.username;
-  const { data: userData, isLoading, refetch }: UseQueryResult<GetSelfResponseBody, unknown> = useQuery(
-    [GET_SELF, session_id],
-    () => apiService.get(`${ENDPOINTS_FULL_PATH.user.me}${username ? `?username=${username}` : ''}`),
-    {
-      onSuccess: mutationOptions.onSuccess,
-      onError: mutationOptions.onError
-    }
-  );
+  const { data: userData, isLoading, refetch }: UseQueryResult<GetSelfResponseBody, unknown> = useGetUser(mutationOptions)
 
   const isAuthenticated = Boolean(userData?.data.id);
   return {
@@ -32,4 +23,17 @@ export function useGetSelf(mutationOptions: mutationOptions = {}) {
     loading: isLoading,
     refetch
   };
+}
+
+export function useGetUser(mutationOptions: mutationOptions = {}): UseQueryResult<GetSelfResponseBody, unknown> {
+  const username = mutationOptions.username;
+  const session_id = Cookies.get('session_id');
+  return useQuery(
+    [GET_SELF, session_id],
+    () => apiService.get(`${ENDPOINTS_FULL_PATH.user.me}${username ? `?username=${username}` : ''}`),
+    {
+      onSuccess: mutationOptions.onSuccess,
+      onError: mutationOptions.onError
+    }
+  );
 }

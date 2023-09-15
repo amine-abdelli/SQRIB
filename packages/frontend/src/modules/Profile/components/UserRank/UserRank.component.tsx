@@ -14,6 +14,23 @@ const UserRank = ({ username }: UserRankProps) => {
     refetch();
   }, [username])
 
+  const containerRef = React.useRef<HTMLDivElement>(null);
+  const currentCardRef = React.useRef<HTMLDivElement>(null);
+  // Focus on the current user within the rank container
+  React.useEffect(() => {
+    if (containerRef.current && currentCardRef.current) {
+      const container = containerRef.current;
+      const card = currentCardRef.current;
+
+      // Calculate the position
+      const topPos = card?.getBoundingClientRect().top - container?.getBoundingClientRect().top;
+      console.log('topPos', topPos)
+
+      // Scroll to the position
+      container.scrollTop = topPos;
+    }
+  }, [username, data]);
+
   const isVisitingOwnProfile = !username;
   const range = data?.data?.range ?? []
   const totalUsers = data?.data?.total_users
@@ -29,11 +46,26 @@ const UserRank = ({ username }: UserRankProps) => {
       <Text italic>Total players: </Text><Text bold>{totalUsers}</Text>
       <Spacer y size={SpacerSize.MEDIUM} />
       <UserRankHeader />
-      {range.map((p: any) => (
-        <UserRankCard key={p.username} user={p} isCurrent={isVisitingOwnProfile} />
-      ))}
+      <Spacer y size={SpacerSize.SMALL} />
+      <div
+        className='user--rank__card--wrapper'
+        ref={containerRef}
+        style={{ height: '20rem', width: 'auto', overflowY: 'scroll', overflowX: 'hidden', padding: '0.5rem 0.5rem 0 0' }}
+      >
+        {range.map((p: any) => (
+          <UserRankCard
+            key={p.username}
+            user={p}
+            isCurrent={isVisitingOwnProfile}
+            containerRef={p.current ? currentCardRef : null}
+          />
+        ))}
+      </div>
     </Card>
   )
 }
 
 export { UserRank }
+// ::-webkit-scrollbar{
+//   display: none;
+// }

@@ -35,6 +35,20 @@
 
       .user--rank {
         flex: 1;
+
+        &__card--wrapper {
+          &::-webkit-scrollbar {
+            border-radius: 50px;
+            width: 0.35rem;
+            background-color: $light-grey;
+            scroll-timeline: 1s infinite linear;
+          }
+          
+          &::-webkit-scrollbar-thumb {
+            background-color: $quaternary-full;
+            border-radius: 50px;
+          }
+        }
       }
     }
     // Third section

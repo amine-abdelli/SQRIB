@@ -258,14 +258,38 @@ export function setRankingOrder(sortedUsers: (Palmares & { user: User })[], user
   for (let i = userRankIndex - 2; i < userRankIndex + 3; i += 1) {
     count.push(i);
   }
-  if (userRankIndex === 0 || userRankIndex === 1) {
-    count = [0, 1, 2, 3, 4];
-  } else if (userRankIndex === sortedUsers.length - 1 || userRankIndex === sortedUsers.length - 2) {
-    count = [sortedUsers.length - 5, sortedUsers.length - 4, sortedUsers.length - 3,
-      sortedUsers.length - 2, sortedUsers.length - 1];
+  if (userRankIndex === 0 || userRankIndex === 1 || userRankIndex === 2 || userRankIndex === 3
+    || userRankIndex === 4) {
+    count = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
+  } else if (userRankIndex === sortedUsers.length - 1 || userRankIndex === sortedUsers.length - 2
+    || userRankIndex === sortedUsers.length - 3 || userRankIndex === sortedUsers.length - 4
+    || userRankIndex === sortedUsers.length - 5) {
+    count = [
+      sortedUsers.length - 11,
+      sortedUsers.length - 10,
+      sortedUsers.length - 9,
+      sortedUsers.length - 8,
+      sortedUsers.length - 7,
+      sortedUsers.length - 6,
+      sortedUsers.length - 5,
+      sortedUsers.length - 4,
+      sortedUsers.length - 3,
+      sortedUsers.length - 2,
+      sortedUsers.length - 1];
   } else {
-    count = [userRankIndex - 2, userRankIndex - 1, userRankIndex, userRankIndex + 1,
-      userRankIndex + 2];
+    count = [
+      userRankIndex - 5,
+      userRankIndex - 4,
+      userRankIndex - 3,
+      userRankIndex - 2,
+      userRankIndex - 1,
+      userRankIndex,
+      userRankIndex + 1,
+      userRankIndex + 2,
+      userRankIndex + 3,
+      userRankIndex + 4,
+      userRankIndex + 5,
+    ];
   }
   return count;
 }
@@ -291,13 +315,14 @@ export async function getUserRankService(req: Request) {
   const sortedUsers = users.sort((a, b) => b.best_wpm - a.best_wpm);
   const userRankIndex = sortedUsers.findIndex((p) => p.user_id === (user?.id ?? ''));
   const userRank = userRankIndex + 1;
-
-  const range = setRankingOrder(sortedUsers, userRankIndex).map((i) => ({
-    best_wpm: sortedUsers[i]?.best_wpm,
-    username: sortedUsers[i]?.user.username,
-    average_accuracy: sortedUsers[i]?.average_accuracy,
-    avatar: sortedUsers[i]?.user.avatar,
-    color: sortedUsers[i]?.user.color,
+  // Uncomment this to send only the 5 users before and after the user
+  // const range = setRankingOrder(sortedUsers, userRankIndex).map((i) => ({
+  const range = sortedUsers.map((sortedUser, i) => ({
+    best_wpm: sortedUser?.best_wpm,
+    username: sortedUser?.user.username,
+    average_accuracy: sortedUser?.average_accuracy,
+    avatar: sortedUser?.user.avatar,
+    color: sortedUser?.user.color,
     rank: i + 1,
     current: i === userRankIndex,
   }));

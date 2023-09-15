@@ -11,4 +11,5 @@ export enum MAIN_ROUTES {
   SETTINGS = '/settings',
   PROFILE = '/profile',
   USER_PROFILE = '/profile/:username',
+  EDIT_PROFILE = '/edit/profile',
 }

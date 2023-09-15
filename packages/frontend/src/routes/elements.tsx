@@ -13,5 +13,6 @@ export const Learning = Loadable(lazy(() => import('../pages/Learning.page')));
 export const Multiplayer = Loadable(lazy(() => import('../pages/Multiplayer.page')));
 export const LeaderBoard = Loadable(lazy(() => import('../pages/Leaderboard.page')));
 export const Profile = Loadable(lazy(() => import('../pages/Profile.page')));
+export const EditProfile = Loadable(lazy(() => import('../pages/EditProfile.page')));
 export const Settings = Loadable(lazy(() => import('../pages/Settings.page')));
 export const NotFound = Loadable(lazy(() => import('../pages/NotFound.page')));

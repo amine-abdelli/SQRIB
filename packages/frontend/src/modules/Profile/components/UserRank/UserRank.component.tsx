@@ -5,6 +5,7 @@ import { UserRankCard, UserRankHeader } from './subComponents'
 import { Text } from '../../../../components/Text/Text.component'
 import { Spacer, SpacerSize } from '../../../../components'
 import { capitalizeFirstLetter } from '../../../../utils'
+import { UserRankProps } from './UserRank.props'
 
 const UserRank = ({ username }: UserRankProps) => {
   const { data, refetch } = useGetUserRank({ username });

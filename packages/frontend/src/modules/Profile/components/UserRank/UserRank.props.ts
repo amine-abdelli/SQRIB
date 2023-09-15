@@ -1,3 +1,3 @@
-interface UserRankProps {
+export interface UserRankProps {
   username?: string;
 }

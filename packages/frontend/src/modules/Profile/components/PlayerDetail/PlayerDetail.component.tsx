@@ -10,7 +10,7 @@ import { useGetUser } from '../../../../api/queries';
 import { useParams } from 'react-router-dom';
 import './PlayerDetail.style.scss';
 
-const PlayerDetail = ({ username: hihi }: PlayerDetailProps) => {
+const PlayerDetail = () => {
   const { username: profileUsername } = useParams();
   const { data, refetch } = useGetUser({ username: profileUsername });
   const user = data?.data;

@@ -1,3 +1,3 @@
-interface PlayerDetailProps {
+export interface PlayerDetailProps {
   username?: string;
 }

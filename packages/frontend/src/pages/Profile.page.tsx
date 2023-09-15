@@ -27,7 +27,7 @@ const Profile = () => {
       <div className="profile-container--wrapper">
         <section className='profile-container--top-section'>
           {isVisitingOwnProfile && <EditButton />}
-          <PlayerDetail username={username} />
+          <PlayerDetail />
           <WeeklyTracker username={username} />
         </section>
         <section className='profile-container--user-stats'>

@@ -1,3 +1,3 @@
-interface UserStatsProps {
+export interface UserStatsProps {
   username?: string;
 }

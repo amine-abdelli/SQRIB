@@ -8,6 +8,7 @@ import { MdOutlineMoreVert } from 'react-icons/md';
 import { generatePath, useNavigate } from 'react-router-dom';
 import { MAIN_ROUTES } from '../../../../../../routes/paths';
 import './UserRankCard.style.scss';
+import { Tooltip } from '../../../../../../components/ToolTip/ToolTip.component';
 
 interface UserRankCardProps {
   user: UserRankRange;
@@ -33,7 +34,9 @@ const UserRankCard = ({ user }: UserRankCardProps) => {
         <Text p size={12} style={{ alignSelf: 'flex-end' }} fira >%</Text>
       </span>
       {isTheGoat ? <img width={50} className='first-ranked' src={crown} /> : ''}
-      <Button className='user-rank-card__see-more--button' light stretch onClick={() => {navigate(generatePath(MAIN_ROUTES.USER_PROFILE, { username: user.username }))}} style={{ position: 'absolute', right: '0rem', top: '50%', bottom: '50%', transform: 'translate(0%, -50%)' }}><MdOutlineMoreVert /></Button>
+      <Tooltip size={7} content="Visit profile">
+        <Button className='user-rank-card__see-more--button' light stretch onClick={() => { navigate(generatePath(MAIN_ROUTES.USER_PROFILE, { username: user.username })) }} style={{ position: 'absolute', right: '0rem', top: '50%', bottom: '50%', transform: 'translate(0%, -50%)' }}><MdOutlineMoreVert /></Button>
+      </Tooltip>
     </div>
   )
 }

@@ -3,6 +3,7 @@ import { Card } from '../../../../components/Card/Card.component';
 import { UserStatItem } from './subComponents';
 import { useGetUserStats } from '../../../../api/queries/useGetUserStats.hooks';
 import { Text } from '../../../../components/Text/Text.component';
+import { UserStatsProps } from './UserStats.props';
 
 const UserStats = ({ username }: UserStatsProps) => {
   const { data: userStatsData, isLoading, refetch } = useGetUserStats({ username });

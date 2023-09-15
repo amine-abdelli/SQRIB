@@ -13,7 +13,7 @@ import './UserRankCard.style.scss';
 interface UserRankCardProps {
   user: UserRankRange;
   isCurrent?: boolean;
-  containerRef: React.RefObject<HTMLDivElement>;
+  containerRef: React.RefObject<HTMLDivElement> | null;
 }
 
 const UserRankCard = ({ user, containerRef }: UserRankCardProps) => {

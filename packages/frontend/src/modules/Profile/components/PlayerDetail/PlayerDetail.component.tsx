@@ -26,12 +26,16 @@ const PlayerDetail = () => {
 
   return (
     <Card className='player-detail--wrapper'>
-      <div>
-        <Text bold fira h1>{capitalizeFirstLetter(username ?? '')}</Text>
-        <Spacer size={SpacerSize.SMALL} y />
-        {description ? <Text p>{description}</Text> : <Text p thin italic color={COLORS.GREY}>No bio</Text>}
-        <Spacer size={SpacerSize.SMALL} y />
-        {created_at && <Text thin italic>{memberSinceDate(created_at)}</Text>}
+      <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+        <div>
+          <Text bold fira h1>{capitalizeFirstLetter(username ?? '')}</Text>
+          <Spacer size={SpacerSize.SMALL} y />
+          {description ? <Text p>{description}</Text> : <Text p thin italic color={COLORS.GREY}>No bio</Text>}
+          <Spacer size={SpacerSize.SMALL} y />
+        </div>
+        <div>
+          {created_at && <Text thin italic>{memberSinceDate(created_at)}</Text>}
+        </div>
       </div>
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
         <Avatar username={username ?? ''} avatarUrl={avatar} size={'xlarge'} color={user?.color} />

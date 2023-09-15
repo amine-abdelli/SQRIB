@@ -7,22 +7,23 @@ import { Button } from '../../../../../../components/Button/Button.component';
 import { MdOutlineMoreVert } from 'react-icons/md';
 import { generatePath, useNavigate } from 'react-router-dom';
 import { MAIN_ROUTES } from '../../../../../../routes/paths';
-import './UserRankCard.style.scss';
 import { Tooltip } from '../../../../../../components/ToolTip/ToolTip.component';
+import './UserRankCard.style.scss';
 
 interface UserRankCardProps {
   user: UserRankRange;
   isCurrent?: boolean;
+  containerRef: React.RefObject<HTMLDivElement> | null;
 }
 
-const UserRankCard = ({ user }: UserRankCardProps) => {
+const UserRankCard = ({ user, containerRef }: UserRankCardProps) => {
   const isTheGoat = user.rank === 1;
   const isSecond = user.rank === 2;
   const isThird = user.rank === 3;
   const classes = `user-rank-card ${user.current ? 'user-rank-card--current' : ''} ${isTheGoat ? 'user-rank-card--gold' : ''} ${isSecond ? 'user-rank-card--silver' : ''} ${isThird ? 'user-rank-card--copper' : ''}`;
   const navigate = useNavigate();
   return (
-    <div className={classes}>
+    <div className={classes} ref={containerRef}>
       <Text p fira bold style={{ flex: 1 }}>{user.rank}{orderSuffix(user.rank)}</Text>
       <Text p fira bold style={{ flex: 1 }}>{user.username}</Text>
       <span style={{ display: 'flex', flex: 1 }}>

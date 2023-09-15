@@ -29,7 +29,7 @@ const UserRank = ({ username }: UserRankProps) => {
       <Spacer y size={SpacerSize.MEDIUM} />
       <UserRankHeader />
       {range.map((p: any) => (
-        <UserRankCard user={p} isCurrent={isVisitingOwnProfile} />
+        <UserRankCard key={p.username} user={p} isCurrent={isVisitingOwnProfile} />
       ))}
     </Card>
   )

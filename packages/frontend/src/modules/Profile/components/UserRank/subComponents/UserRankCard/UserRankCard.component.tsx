@@ -20,7 +20,6 @@ const UserRankCard = ({ user }: UserRankCardProps) => {
   const isThird = user.rank === 3;
   const classes = `user-rank-card ${user.current ? 'user-rank-card--current' : ''} ${isTheGoat ? 'user-rank-card--gold' : ''} ${isSecond ? 'user-rank-card--silver' : ''} ${isThird ? 'user-rank-card--copper' : ''}`;
   const navigate = useNavigate();
-  const userProfilePath = generatePath(MAIN_ROUTES.USER_PROFILE, { username: user.username })
   return (
     <div className={classes}>
       <Text p fira bold style={{ flex: 1 }}>{user.rank}{orderSuffix(user.rank)}</Text>
@@ -34,7 +33,7 @@ const UserRankCard = ({ user }: UserRankCardProps) => {
         <Text p size={12} style={{ alignSelf: 'flex-end' }} fira >%</Text>
       </span>
       {isTheGoat ? <img width={50} className='first-ranked' src={crown} /> : ''}
-      <Button className='user-rank-card__see-more--button' light stretch onClick={() => {navigate(userProfilePath)}} style={{ position: 'absolute', right: '0rem', top: '50%', bottom: '50%', transform: 'translate(0%, -50%)' }}><MdOutlineMoreVert /></Button>
+      <Button className='user-rank-card__see-more--button' light stretch onClick={() => {navigate(generatePath(MAIN_ROUTES.USER_PROFILE, { username: user.username }))}} style={{ position: 'absolute', right: '0rem', top: '50%', bottom: '50%', transform: 'translate(0%, -50%)' }}><MdOutlineMoreVert /></Button>
     </div>
   )
 }

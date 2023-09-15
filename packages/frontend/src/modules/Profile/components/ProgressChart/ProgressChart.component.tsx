@@ -27,7 +27,7 @@ const ProgressChart = ({ scores: userScoresData, username }: ProgressChartProps)
   return (
     <Card style={{ display: 'flex', flex: 1, flexDirection: 'column', padding: '1rem' }}>
       {isVisitingOwnProfile ? <Text h1 bold>Track Your Progress</Text> : <Text h1 bold>Progress chart</Text>}
-      <Spacer y size={SpacerSize.MEDIUM} />
+      {isVisitingOwnProfile && <Spacer y size={SpacerSize.MEDIUM} />}
       {isVisitingOwnProfile
         ? <Text p thin fira>Watch your typing speed improve and set new goals! The chart below captures your journey by tracking your Words Per Minute (WPM) across various sessions. Compare your progress with the Sqrib community's average and top speeds to see how you measure up. Keep typing, keep improving!🚀</Text>
         : <></>}

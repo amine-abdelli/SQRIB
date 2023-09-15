@@ -35,7 +35,7 @@ const WeeklyTracker = ({ username }: WeeklyTrackerProps) => {
       <div className='weekly-tracker--wrapper'>
         {weeklyDays.map((day, index) => {
           const indexOfTheDay = weeklyDays.indexOf(today);
-          return <Activity today={today === day} toCome={indexOfTheDay < index} hasPlayed={daysOfActivity?.includes(day)} label={day.charAt(0)} />
+          return <Activity key={day} today={today === day} toCome={indexOfTheDay < index} hasPlayed={daysOfActivity?.includes(day)} label={day.charAt(0)} />
         })}
       </div>
     </Card>

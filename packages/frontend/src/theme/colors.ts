@@ -17,6 +17,7 @@ export enum COLORS {
   GREY = '#778899', // Grey
   LIGHT_GREY = '#E5E5E5',
   VERY_LIGHT_GREY = '#F5F5F5', // Very light grey
+  LIGHT_GREEN_FULL = 'rgb(213, 230, 228)',
   ERROR = '#F31260', // Error
   SUCCESS = '#13A452', // Success
   LINK = '#0070F0'

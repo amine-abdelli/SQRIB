@@ -3,15 +3,21 @@ import { Card } from '../../../../components/Card/Card.component';
 import { UserStatItem } from './subComponents';
 import { useGetUserStats } from '../../../../api/queries/useGetUserStats.hooks';
 import { Text } from '../../../../components/Text/Text.component';
+import { UserStatsProps } from './UserStats.props';
 
-const UserStats = () => {
-  const { data: userStatsData, isLoading } = useGetUserStats();
+const UserStats = ({ username }: UserStatsProps) => {
+  const { data: userStatsData, isLoading, refetch } = useGetUserStats({ username });
   const { session_count, average_wpm, best_points, days_of_activity, average_accuracy, total_words_typed, best_wpm, total_time_in_seconds, total_points } = userStatsData?.data || {};
+  React.useEffect(() => {
+    refetch()
+  }, [username])
+
+  const isVisitingOwnProfile = !username;
   return (
     <span style={{ display: 'flex', flexDirection: 'column', flex: 1, width: '40rem' }}>
       <Card className='user-stats'>
         <Text h1 bold>Summary</Text>
-        <Text thin>Your performance details!</Text>
+        {isVisitingOwnProfile ? <Text p>Your performance details!</Text> : <Text p>Performance details!</Text>}
         <div>
           <UserStatItem isLoading={isLoading} label='Session count' value={session_count ?? 0} />
           <UserStatItem isLoading={isLoading} best label='Best wpm' value={best_wpm ?? 0} />

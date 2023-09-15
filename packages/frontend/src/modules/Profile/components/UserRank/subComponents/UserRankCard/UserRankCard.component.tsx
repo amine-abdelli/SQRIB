@@ -5,10 +5,14 @@ import { orderSuffix } from '../../../../../../utils';
 import crown from '../../../../../../assets/images/crown.png';
 import { Button } from '../../../../../../components/Button/Button.component';
 import { MdOutlineMoreVert } from 'react-icons/md';
+import { generatePath, useNavigate } from 'react-router-dom';
+import { MAIN_ROUTES } from '../../../../../../routes/paths';
 import './UserRankCard.style.scss';
+import { Tooltip } from '../../../../../../components/ToolTip/ToolTip.component';
 
 interface UserRankCardProps {
   user: UserRankRange;
+  isCurrent?: boolean;
 }
 
 const UserRankCard = ({ user }: UserRankCardProps) => {
@@ -16,6 +20,7 @@ const UserRankCard = ({ user }: UserRankCardProps) => {
   const isSecond = user.rank === 2;
   const isThird = user.rank === 3;
   const classes = `user-rank-card ${user.current ? 'user-rank-card--current' : ''} ${isTheGoat ? 'user-rank-card--gold' : ''} ${isSecond ? 'user-rank-card--silver' : ''} ${isThird ? 'user-rank-card--copper' : ''}`;
+  const navigate = useNavigate();
   return (
     <div className={classes}>
       <Text p fira bold style={{ flex: 1 }}>{user.rank}{orderSuffix(user.rank)}</Text>
@@ -29,7 +34,9 @@ const UserRankCard = ({ user }: UserRankCardProps) => {
         <Text p size={12} style={{ alignSelf: 'flex-end' }} fira >%</Text>
       </span>
       {isTheGoat ? <img width={50} className='first-ranked' src={crown} /> : ''}
-      <Button className='user-rank-card__see-more--button' light stretch onClick={() => null} style={{ position: 'absolute', right: '0rem', top: '50%', bottom: '50%', transform: 'translate(0%, -50%)' }}><MdOutlineMoreVert /></Button>
+      <Tooltip size={7} content="Visit profile">
+        <Button className='user-rank-card__see-more--button' light stretch onClick={() => { navigate(generatePath(MAIN_ROUTES.USER_PROFILE, { username: user.username })) }} style={{ position: 'absolute', right: '0rem', top: '50%', bottom: '50%', transform: 'translate(0%, -50%)' }}><MdOutlineMoreVert /></Button>
+      </Tooltip>
     </div>
   )
 }

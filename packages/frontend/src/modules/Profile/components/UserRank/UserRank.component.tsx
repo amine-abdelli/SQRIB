@@ -24,7 +24,6 @@ const UserRank = ({ username }: UserRankProps) => {
 
       // Calculate the position
       const topPos = card?.getBoundingClientRect().top - container?.getBoundingClientRect().top;
-      console.log('topPos', topPos)
 
       // Scroll to the position
       container.scrollTop = topPos;

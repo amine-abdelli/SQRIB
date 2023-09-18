@@ -72,7 +72,7 @@ function Stats(props: StatsProps) {
               <IoInformationCircleOutline size={16} color='grey' />
             </Tooltip>
           </Text>
-          <Text fira bold>{wpm}</Text>
+          <Text fira bold centered>{wpm}</Text>
         </div>
         <div className='score-card--wrapper'>
           <Text fira centered>Accuracy
@@ -88,7 +88,7 @@ function Stats(props: StatsProps) {
               <IoInformationCircleOutline size={16} color='grey' />
             </Tooltip>
           </Text>
-          <Text fira bold>{points}</Text>
+          <Text fira bold centered>{points}</Text>
         </div>
         <div className='score-card--wrapper'>
           <Text fira centered>Incorrect words
@@ -96,7 +96,7 @@ function Stats(props: StatsProps) {
               <IoInformationCircleOutline size={16} color='grey' />
             </Tooltip>
           </Text>
-          <Text fira bold>{incorrectlyTypedWords}</Text>
+          <Text fira bold centered>{incorrectlyTypedWords}</Text>
         </div>
         <div className='score-card--wrapper'>
           <Text fira centered>Correct words
@@ -104,7 +104,7 @@ function Stats(props: StatsProps) {
               <IoInformationCircleOutline size={16} color='grey' />
             </Tooltip>
           </Text>
-          <Text fira bold>{correctlyTypedWords}</Text>
+          <Text fira bold centered>{correctlyTypedWords}</Text>
         </div>
         <div className='score-card--wrapper'>
           <Text fira centered>Keystrokes
@@ -113,7 +113,7 @@ function Stats(props: StatsProps) {
             </Tooltip>
           </Text>
           <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-            <Text fira bold>{totalLetters}</Text>
+            <Text fira bold centered>{totalLetters}</Text>
             <Spacer x size={SpacerSize.SMALL} />
             <Text fira bold size={14} color={COLORS.SUCCESS}>{correctLetters}</Text>
             <Text fira thin color={COLORS.GREY}>|</Text>
@@ -126,7 +126,7 @@ function Stats(props: StatsProps) {
               <IoInformationCircleOutline size={16} color='grey' />
             </Tooltip>
           </Text>
-          <Text fira bold>{totalTypedWords}</Text>
+          <Text fira bold centered>{totalTypedWords}</Text>
         </div>
         <TipGenerator />
         <div style={{ width: '100%', display: misspellings?.length ? '' : 'none' }}>

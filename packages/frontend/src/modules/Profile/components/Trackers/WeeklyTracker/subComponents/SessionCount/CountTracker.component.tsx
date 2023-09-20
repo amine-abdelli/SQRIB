@@ -8,7 +8,7 @@ interface SessionCountProps {
 
 const CountTracker: React.FC<SessionCountProps> = ({ count, label }) => {
   return (
-    <div>
+    <div className='count-tracker'>
       <Text h1 bold fira>{count}</Text>
       <Text fira>{label}</Text>
     </div>

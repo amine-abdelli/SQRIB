@@ -5,6 +5,7 @@ import { Text } from '../../../../components/Text/Text.component';
 import { COLORS } from '../../../../theme/colors';
 import { Spacer, SpacerSize } from '../../../../components';
 import { useGetGlobalMetrics } from '../../../../api/queries/useGetGlobalMetrics.hooks';
+import { useWindowSize } from '../../../../hooks';
 
 interface ProgressChartProps {
   scores: any;
@@ -13,10 +14,10 @@ interface ProgressChartProps {
 
 const ProgressChart = ({ scores: userScoresData, username }: ProgressChartProps) => {
   const { data: globalMetrics } = useGetGlobalMetrics();
-  const userScores = userScoresData?.data ?? [];
+  const userScores = userScoresData?.data ? userScoresData.data : [];
   const scoresToChartFormat = userScores.length === 1
     ? [{ x: 0, y: userScores[0].wpm }, { x: 1, y: userScores[0].wpm }]
-    : userScores.map((score: any, index: string) => ({ x: index, y: score.wpm }));
+    : userScores?.map((score: any, index: string) => ({ x: index, y: score.wpm }));
 
   const bestSqribWpm = globalMetrics?.data?.best_wpm ?? 0;
   const averageSqribAccuracy = globalMetrics?.data?.average_accuracy ?? 0;
@@ -24,14 +25,16 @@ const ProgressChart = ({ scores: userScoresData, username }: ProgressChartProps)
   const averageSqribUserScore = [{ x: 0, y: averageSqribAccuracy }, { x: userScores.length > 1 ? userScores.length - 1 : 1, y: averageSqribAccuracy }]
   const isVisitingOwnProfile = !username;
 
+  const { isMediumScreen } = useWindowSize()
+
   return (
     <Card style={{ display: 'flex', flex: 1, flexDirection: 'column', padding: '1rem' }}>
       {isVisitingOwnProfile ? <Text h1 bold>Track Your Progress</Text> : <Text h1 bold>Progress chart</Text>}
       {isVisitingOwnProfile && <Spacer y size={SpacerSize.MEDIUM} />}
       {isVisitingOwnProfile
-        ? <Text p thin fira>Watch your typing speed improve and set new goals! The chart below captures your journey by tracking your Words Per Minute (WPM) across various sessions. Compare your progress with the Sqrib community's average and top speeds to see how you measure up. Keep typing, keep improving!🚀</Text>
+        ? <Text p thin fira className='progress-chart--description'>Watch your typing speed improve and set new goals! The chart below captures your journey by tracking your Words Per Minute (WPM) across various sessions. Compare your progress with the Sqrib community's average and top speeds to see how you measure up. Keep typing, keep improving!🚀</Text>
         : <></>}
-      <div style={{ height: '22rem' }}>
+      <div style={{ height: isMediumScreen ? '15rem' : '22rem' }}>
         <ResponsiveLine
           animate={true}
           enableGridX={false}
@@ -72,13 +75,13 @@ const ProgressChart = ({ scores: userScoresData, username }: ProgressChartProps)
               itemDirection: 'left-to-right',
               itemWidth: 80,
               itemHeight: 20,
-              itemOpacity: 0.75,
+              itemOpacity: isMediumScreen ? 0 : 0.75,
               symbolSize: 12,
               symbolShape: 'square',
               symbolBorderColor: 'rgba(0, 0, 0, .5)',
             }
           ]}
-          pointSize={4}
+          pointSize={isMediumScreen ? 1 : 4}
           pointBorderWidth={1}
           pointBorderColor={{
             from: 'color',
@@ -106,7 +109,7 @@ const ProgressChart = ({ scores: userScoresData, username }: ProgressChartProps)
               return <></>;
             },
           }}
-          margin={{ top: 50, right: 150, bottom: 50, left: 50 }}
+          margin={{ top: 50, right: isMediumScreen ? 10 : 150, bottom: 50, left: 50 }}
           yScale={{
             type: 'linear',
             min: 0,

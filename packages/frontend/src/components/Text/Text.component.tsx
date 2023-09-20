@@ -25,7 +25,7 @@ const Text: FC<TextProps> = ({ h1, h2, h3, p, bold, color, italic, background, c
   ].join(' ').trim();
 
   return (
-    <Component className={classes} style={{ color, background, fontSize: size ? size : '', ...style }} {...props}>
+    <Component style={{ color, background, fontSize: size ? size : '', ...style }} className={classes} {...props}>
       {children}
     </Component>
   );

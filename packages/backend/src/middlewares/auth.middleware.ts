@@ -15,7 +15,7 @@ function authMiddleware(req: Request, res: Response, next: NextFunction) {
   const authHeader = req.headers.cookie;
   const token = authHeader && authHeader.split('=')[1];
   if (!token) {
-    return res.status(200).json({ message: 'Unauthorized' });
+    return res.status(400).json({ message: 'Unauthorized' });
   }
   const JWT_TOKEN_SECRET = process.env.JWT_SECRET || 'your_jwt_secret';
 

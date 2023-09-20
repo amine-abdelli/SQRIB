@@ -4,8 +4,8 @@ import { expressKeyStyleProperty } from '../../../utils';
 import { notRandomKey } from '../keyBoardLayout';
 import { AiFillWindows, AiOutlineLock } from 'react-icons/ai';
 import { BsCapslock } from 'react-icons/bs';
-import '../KeyBoard.style.scss';
 import { COLORS } from '../../../theme/colors';
+import '../KeyBoard.style.scss';
 
 interface IKeyProps {
   letter: string;

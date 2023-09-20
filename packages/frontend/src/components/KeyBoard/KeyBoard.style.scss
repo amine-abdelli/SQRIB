@@ -3,7 +3,6 @@
 .keyBoardWrapper {
   background-color: $quaternary;
   width: 50rem;
-  height: auto;
   border-radius: 10px;
   overflow: hidden;
   @include thinBorder();
@@ -52,7 +51,6 @@
   }
 
   &--shift {
-    // width: 10rem;
     flex-grow: 1;
   }
 
@@ -80,4 +78,32 @@
 .stretch {
   width: 2rem;
   height: 2rem;
+}
+
+@media screen and (max-width: $lg-screen) {
+  .keyboard--small {
+    width: 35rem;
+    .key {
+      height: 2rem;
+    }
+  }
+}
+
+@media screen and (max-width: $md-screen) {
+  .keyboard--small {
+    width: 27rem;
+    .key {
+      height: 1.5rem;
+    }
+  }
+}
+
+@media screen and (max-width: $sm-screen) {
+  .keyboard--small {
+    width: 25rem;
+    .key {
+      height: 1.2rem;
+    }
+  }
+
 }

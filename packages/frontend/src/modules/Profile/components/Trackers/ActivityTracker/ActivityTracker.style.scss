@@ -1,0 +1,16 @@
+@import "src/theme/index.scss";
+
+.activity-tracker {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  padding: 1rem;
+}
+
+@media screen and (max-width: $md-screen) {
+  .activity-tracker {
+    &--description {
+      font-size: 14px;
+    }
+  }
+}

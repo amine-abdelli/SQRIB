@@ -39,6 +39,7 @@ export const ModalProvider: React.FC<ModalProviderProps> = ({ children }) => {
   return (
     <ModalContext.Provider value={{ activeModalIds, modals, registerModal, openModal, closeModal }}>
       {activeModalIds.map(modalId => <Modal
+        key={modalId}
         isOpen={activeModalIds.includes(modalId)}
         setIsOpen={() => closeModal(modalId)}
         closeable

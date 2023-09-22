@@ -24,3 +24,9 @@
     transform: rotate(-10deg)
   }
 }
+
+@media screen and (max-width: $sm-screen) {
+  .overlay--message {
+    font-size: 12px;
+  }
+}

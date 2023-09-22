@@ -5,11 +5,9 @@
   display: flex;
   height: 100vh;
   background-color: $secondary;
-  padding: 1rem;
 
   // Module layout
   .layout--main {
-    flex-grow: 1;
     padding: 0 20px;
 
     // Vignettage
@@ -22,14 +20,3 @@
   }
 }
 
-@media screen and (max-width: $md-screen) {
-  .layout {
-    .button--primary {
-      margin: 0.5rem;
-      padding: 0.4rem 0.5rem;
-      position: absolute;
-      top: 0;
-      right: 0;
-    }
-  }
-}

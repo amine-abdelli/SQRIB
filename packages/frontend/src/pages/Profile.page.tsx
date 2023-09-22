@@ -20,14 +20,16 @@ const Profile = () => {
 
   return (
     <main className="layout--main profile--main">
-      <span style={{ position: 'absolute', left: '1.5rem', height: '3rem', width: '3rem', top: '1.5rem' }}>
-        {isVisitingOwnProfile ? <HomeButton /> : <BackButton />}
-      </span>
       <MovingBackground />
       <div className="profile-container--wrapper">
         <section className='profile-container--top-section'>
-          {isVisitingOwnProfile && <EditButton />}
-          <PlayerDetail />
+          <div style={{ display: 'flex', flex: 1 }}>
+            <span className='home-button'>
+              {isVisitingOwnProfile ? <HomeButton /> : <BackButton />}
+            </span>
+            {isVisitingOwnProfile && <EditButton />}
+            <PlayerDetail />
+          </div>
           <WeeklyTracker username={username} />
         </section>
         <section className='profile-container--user-stats'>

@@ -14,11 +14,11 @@ const UserStats = ({ username }: UserStatsProps) => {
 
   const isVisitingOwnProfile = !username;
   return (
-    <span style={{ display: 'flex', flexDirection: 'column', flex: 1, width: '40rem' }}>
-      <Card className='user-stats'>
+    <div style={{ display: 'flex', flexDirection: 'column', width: '100%'}}>
+      <Card fullWidth className='user-stats'>
         <Text h1 bold>Summary</Text>
         {isVisitingOwnProfile ? <Text p>Your performance details!</Text> : <Text p>Performance details!</Text>}
-        <div>
+        <div className='user-stats-item--wrapper'>
           <UserStatItem isLoading={isLoading} label='Session count' value={session_count ?? 0} />
           <UserStatItem isLoading={isLoading} best label='Best wpm' value={best_wpm ?? 0} />
           <UserStatItem isLoading={isLoading} label='Average accuracy' value={average_accuracy ?? 0} />
@@ -31,7 +31,7 @@ const UserStats = ({ username }: UserStatsProps) => {
         </div>
       </Card>
       <Card className='custom-quote' style={{ padding: '1rem' }}></Card>
-    </span>
+    </div>
   )
 }
 

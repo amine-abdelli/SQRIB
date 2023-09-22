@@ -20,7 +20,8 @@ export enum COLORS {
   LIGHT_GREEN_FULL = 'rgb(213, 230, 228)',
   ERROR = '#F31260', // Error
   SUCCESS = '#13A452', // Success
-  LINK = '#0070F0'
+  LINK = '#0070F0',
+  WARNING = '#ffe58f'
 }
 
 export enum ERROR_SHADES {

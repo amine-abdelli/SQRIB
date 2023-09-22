@@ -6,15 +6,23 @@
   padding: 1rem;
   overflow-y: scroll;
 
+  // Main wrapper
   .profile-container {
     &--wrapper {
       width: 80%;
       padding: 1rem;
-      margin: 0 1rem;
     }
     // First profile section
     &--top-section {
       display: flex;
+
+      .home-button {
+        position: absolute;
+        left: 1.5rem;
+        height: 3rem;
+        width: 3rem;
+        top: 1.5rem;
+      }
     }
 
     // Second profile section
@@ -22,10 +30,19 @@
       display: flex;
 
       .user-stats {
-        width: 39rem;
         height: 100%;
         flex-wrap: wrap;
         flex-basis: 55%;
+
+        .user-stats-item--wrapper {
+          width: auto;
+          display: flex;
+          flex-wrap: wrap;
+
+          .user-stat-item {
+            flex-grow: 1;
+          }
+        }
       }
 
       .custom-quote {
@@ -35,15 +52,20 @@
 
       .user--rank {
         flex: 1;
+        min-width: 30rem;
 
         &__card--wrapper {
+          height: 20rem;
+          overflow-y: scroll;
+          padding: 0.5rem 0.5rem 0rem 0rem;
+
           &::-webkit-scrollbar {
             border-radius: 50px;
             width: 0.35rem;
             background-color: $light-grey;
             scroll-timeline: 1s infinite linear;
           }
-          
+
           &::-webkit-scrollbar-thumb {
             background-color: $quaternary-full;
             border-radius: 50px;
@@ -62,3 +84,71 @@
     }
   }
 }
+
+@media screen and (max-width: $xl-screen) {
+  .profile--main {
+    .profile-container {
+      &--wrapper {
+        padding: 1rem 0rem 0rem 0.5rem;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: $lg-screen) {
+  .profile--main {
+    .profile-container {
+      &--user-stats {
+        display: flex;
+        flex-direction: column;
+      }
+
+      &--user-stats {
+        .custom-quote {
+          display: none;
+        }
+
+        .user-stats {
+          max-width: 100%;
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: $md-screen) {
+  .profile--main {
+    .progress-chart--description {
+      font-size: 14px;
+    }
+    .profile-container {
+      // First profile section
+      &--top-section {
+        display: flex;
+        flex-direction: column;
+      }
+      &--user-stats {
+        .user--rank {
+          min-width: inherit;
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: $sm-screen) {
+  .profile--main {
+    .profile-container {
+      &--wrapper {
+        width: 105%;
+      }
+
+      &--user-stats {
+        .custom-quote {
+          display: none;
+        }
+      }
+    }
+  }
+}
+

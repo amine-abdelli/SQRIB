@@ -1,4 +1,4 @@
-@import "../index.scss";
+@import "src/theme/index.scss";
 
 .training-page {
   position: relative;
@@ -15,6 +15,22 @@
       display: flex;
       justify-content: center;
       align-items: center;
+    }
+  }
+}
+
+@media screen and (max-width: $sm-screen) {
+  .training-page {
+    .training-page--wrapper {
+      width: 100%;
+    }
+  }
+}
+
+@media screen and (max-width: $md-screen) {
+  .training-page {
+    .training-page--wrapper {
+      height: 90%;
     }
   }
 }

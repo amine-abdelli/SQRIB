@@ -1,9 +1,31 @@
+@import "src/theme/index.scss";
+
 .player-detail {
   &--wrapper {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     padding: 1rem;
-    flex-basis: 60%;
+    width: 100%;
+
+    .player-detail--username {
+      font-size: 25px;
+    }
+
+    .since-date {
+      font-size: 10px;
+    }
+
+    .user-bio {
+      font-size: 10px;
+    }
+  }
+}
+
+@media screen and (max-width: $md-screen) {
+  .player-detail {
+    &--wrapper {
+      flex: 1;
+    }
   }
 }

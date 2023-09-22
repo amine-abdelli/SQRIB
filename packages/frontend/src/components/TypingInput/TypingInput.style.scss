@@ -33,3 +33,13 @@ $disabled-color: lightgray;
     }
   }
 }
+
+@media screen and (max-width: $sm-screen) {
+  .main-input--wrapper {
+    .main-input {
+      &::placeholder {
+        font-size: 12px;
+      }
+    }
+  }
+}

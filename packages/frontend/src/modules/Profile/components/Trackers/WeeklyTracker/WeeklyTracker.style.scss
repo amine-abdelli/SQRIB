@@ -1,7 +1,6 @@
-@import '../../../../../theme/index.scss';
+@import "../../../../../theme/index.scss";
 .weekly-tracker {
   &--card {
-    flex: 1;
     padding: 1rem;
   }
 
@@ -13,5 +12,58 @@
   &--session-count {
     display: flex;
     flex-direction: column;
+  }
+}
+
+
+
+@media screen and (max-width: $lg-screen) {
+  .weekly-tracker--card {
+    .weekly-tracker--header {
+      h1 {
+        font-size: 24px;
+      }
+    }
+
+    .count-tracker {
+      h1 {
+        font-size: 24px;
+      }
+    }
+
+    .weekly-tracker--wrapper {
+      .activity--wrapper {
+        width: 1.75rem !important;
+        height: 1.75rem !important;
+        margin: 0.35rem !important;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 888px) {
+  .weekly-tracker--card {
+    padding: 0.5rem;
+
+    .weekly-tracker--wrapper {
+      .activity--wrapper {
+        width: 1.6rem !important;
+        height: 1.6rem !important;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: $md-screen) {
+  .weekly-tracker--card {
+    padding: 0.5rem;
+
+    .weekly-tracker--wrapper {
+      .activity--wrapper {
+        width: 2rem !important;
+        height: 2rem !important;
+        margin: 0.5rem !important;
+      }
+    }
   }
 }

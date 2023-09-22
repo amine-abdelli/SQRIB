@@ -24,7 +24,6 @@ const UserRank = ({ username }: UserRankProps) => {
 
       // Calculate the position
       const topPos = card?.getBoundingClientRect().top - container?.getBoundingClientRect().top;
-      console.log('topPos', topPos)
 
       // Scroll to the position
       container.scrollTop = topPos;
@@ -50,7 +49,6 @@ const UserRank = ({ username }: UserRankProps) => {
       <div
         className='user--rank__card--wrapper'
         ref={containerRef}
-        style={{ height: '20rem', width: 'auto', overflowY: 'scroll', overflowX: 'hidden', padding: '0.5rem 0.5rem 0 0' }}
       >
         {range.map((p: any) => (
           <UserRankCard

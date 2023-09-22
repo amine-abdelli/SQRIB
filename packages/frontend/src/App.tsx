@@ -9,12 +9,14 @@ import { ModalProvider } from './contexts/ModalContext';
 import { ModalDefinitions } from './components/Modals';
 import { AuthProvider } from './contexts/AuthContext';
 import { Alert } from './modules/Alert/Alert.component';
+import { ResolutionWarning } from './components/ResolutionWarning/ResolutionWarning.component';
 
 
 function App() {
   return (
     <QueryClientProvider client={new QueryClient()}>
       <Alert />
+      <ResolutionWarning />
       <AuthProvider>
         <SoundProvider>
           <ConfettiProvider>

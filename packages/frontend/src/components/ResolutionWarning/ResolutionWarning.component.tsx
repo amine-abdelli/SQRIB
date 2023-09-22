@@ -8,9 +8,11 @@ import { Button } from '../Button/Button.component'
 const ResolutionWarning = () => {
   const [isModalOpen, setIsModalOpen] = React.useState<boolean>(false)
   const { isLargeScreen, width } = useWindowSize()
+
   React.useEffect(() => {
     setIsModalOpen(isLargeScreen)
-  }, [])
+  }, [width])
+
   return (
     <Modal isOpen={isModalOpen} style={{ background: COLORS.WARNING, maxWidth: '95%' }}>
       <Modal.Header>

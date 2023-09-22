@@ -10,7 +10,7 @@ const ResolutionWarning = () => {
   const { isLargeScreen, width } = useWindowSize()
   React.useEffect(() => {
     setIsModalOpen(isLargeScreen)
-  }, [width])
+  }, [])
   return (
     <Modal isOpen={isModalOpen} style={{ background: COLORS.WARNING, maxWidth: '95%' }}>
       <Modal.Header>

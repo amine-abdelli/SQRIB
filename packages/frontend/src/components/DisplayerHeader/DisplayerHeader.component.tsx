@@ -1,8 +1,9 @@
 import React, { Dispatch, SetStateAction } from 'react';
 import { Cursor } from './Cursor/Cursor.component';
-import './WordsCollectionHeader.style.scss';
 import { EngineProps } from '../../modules/Training/Engine';
 import { getFocusedWordLetterColor } from '../../utils/typing.utils';
+import { useWindowSize } from '../../hooks';
+import './WordsCollectionHeader.style.scss';
 
 /* Save letter's position. It helps to position triangle */
 function lettersPosition(
@@ -51,7 +52,8 @@ function WordsCollectionHeader({
 }: EngineProps) {
   const [horizontalPosition, setHorizontalPosition] = React.useState<number>(0);
   const [letterWidth, setLetterWidth] = React.useState<number>(0);
-  const size = 60;
+  const { isMediumScreen } = useWindowSize()
+  const size = isMediumScreen ? 40 : 60;
   return (
     <div className="words-collections-header--wrapper">
       <p

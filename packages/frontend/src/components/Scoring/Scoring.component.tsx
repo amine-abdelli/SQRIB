@@ -2,7 +2,6 @@ import React from 'react';
 import { CountDown } from '../CountDown/CountDown.component';
 import { ScoringItem } from './ScoringItem/ScoringItem.component';
 import { useWindowSize } from '../../hooks/useWindowSize.hook';
-import Avatar from '../Avatar/Avatar.component';
 import { SettingsModalProps } from '../../modules/Training/components/SettingsModal';
 import { Button } from '../Button/Button.component';
 import { AiOutlineEdit } from 'react-icons/ai';
@@ -28,7 +27,7 @@ const SETTINGS_CONVERTER: Record<string, string> = {
 }
 
 function Scoring({ score, timer, setShouldDisplayOption, isRunning, mode, wordCount, language, countDown, typedWords, isZenModeOn }: SettingsModalProps) {
-  const { isSmallScreen, isMediumScreen, isLargeScreen } = useWindowSize();
+  const { isSmallScreen, isMediumScreen, isLargeScreen, isVerySmallScreen } = useWindowSize();
 
   return (
     <>
@@ -78,15 +77,18 @@ function Scoring({ score, timer, setShouldDisplayOption, isRunning, mode, wordCo
               Active
             </span> : ''}
           </div>
-          <Button
+          {!isVerySmallScreen && <Button
             disabled={isRunning}
             color={isRunning ? 'grey' : ''}
-            label={<>{<AiOutlineEdit color={isRunning ? 'grey' : ''} size={22} />}Settings</>}
+            label={<>
+              {<AiOutlineEdit color={isRunning ? 'grey' : ''} size={22} />}
+              {!isLargeScreen && 'Settings'}
+            </>}
             style={{ fontSize: '16px', margin: '10px', padding: '2px 5px' }}
             onClick={() => setShouldDisplayOption((prev) => !prev)}
             secondary
             stretch
-          />
+          />}
         </div>
       </div>
       <Spacer y size={SpacerSize.SMALL} />

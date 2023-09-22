@@ -6,10 +6,9 @@ import { calculateZenModeAccuracy, calculatePoints, calculateWPM } from '../../.
 import { useTimer } from '../../../hooks/useTimer.hook';
 import { FontSize } from '../../../utils/fontsize.enum';
 import { TTrainingMode, TrainingMode, WordsCollectionLayout } from '../../../components/Options/Options.props';
-import { useGetTrainingWordChain, useSaveTrainingScore } from '../../../api/queries';
+import { useGetTrainingWordChain } from '../../../api/queries';
 import { EngineChildren, IScore } from './Engine.props';
 import { useAFKChecker } from '../../../hooks';
-import { useModal } from '../../../contexts';
 
 // World's wpm record held by Sean Wrona since 2010
 const WORLD_WPM_RECORD = 256;
@@ -19,7 +18,7 @@ function TrainingEngine({ children }: EngineChildren) {
   const [input, setInput] = React.useState<string>('');
   const [indexOfProgression, setIndexOfProgression] = React.useState<number>(0);
   const [wordChain, setWordChain] = React.useState<string[]>([]);
-  const [fontSize, setFontSize] = React.useState<FontSize>(FontSize.SMALL);
+  const [fontSize, setFontSize] = React.useState<FontSize>(FontSize.MEDIUM);
   const [language, setLanguage] = React.useState<TLanguages>(Languages.FR);
   const [mode, setMode] = useState<TTrainingMode>(TrainingMode.TIME_TRIAL);
   const [countDown, setCountDown] = useState(60);

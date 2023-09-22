@@ -60,3 +60,22 @@
     border: 3px solid black;
   }
 }
+
+@media screen and (max-width: $xl-screen) {
+  .summary {
+    font-size: 14px;
+  }
+}
+
+@media screen and (max-width: $md-screen) {
+  .summary {
+    font-size: 12px;
+  }
+}
+
+@media screen and (max-width: $xsm-screen) {
+  .summary {
+    width: 100%;
+    font-size: 12px;
+  }
+}

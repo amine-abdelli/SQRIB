@@ -16,6 +16,7 @@ import { TbSortAscendingNumbers } from 'react-icons/tb';
 import { FaGripLines } from 'react-icons/fa';
 import { CheckboxWithLabel } from './SubComponents/CheckboxWithLabel/CheckboxWithLabel.component';
 import { ModeOptionGroup, OptionGroup } from './SubComponents/OptionGroup';
+import { useWindowSize } from '../../../../hooks';
 
 function ModeOptions({ mode, setMode, countDown, setCountDown, wordCount, setWordCount, isZenModeOn, setIsZenModeOn }: SettingsModalProps) {
   const [wordsType, setWordsType] = useState<TWordsType>(WordsType.RANDOM);
@@ -80,6 +81,7 @@ export interface SettingsModalProps extends EngineProps {
 
 function SettingsModal(props: SettingsModalProps) {
   const { fontSize, setFontSize, language, setLanguage, layout, setLayout, isUserAllowToType, isRunning, shouldDisplayOption, setShouldDisplayOption, resetTrainingAndRefetch, closeModal } = props;
+  const { width } = useWindowSize()
   const layoutOptions = [{ value: WordsCollectionLayout.VERTICAL, label: <MdOutlineSubject size={22} /> }, { value: WordsCollectionLayout.HORIZONTAL, label: <FaGripLines size={18} /> }];
   const languageOptions = [{ value: Languages.FR, label: Languages.FRENCH }, { value: Languages.EN, label: Languages.ENGLISH }, { value: Languages.ES, label: Languages.SPANISH }, { value: Languages.DE, label: Languages.GERMAN }];
   const fontSizeOptions = [{ value: FontSize.SMALL, label: FontSize.SMALL }, { value: FontSize.MEDIUM, label: FontSize.MEDIUM }, { value: FontSize.LARGE, label: FontSize.LARGE }, { value: FontSize.X_LARGE, label: FontSize.X_LARGE }];
@@ -88,6 +90,13 @@ function SettingsModal(props: SettingsModalProps) {
     closeModal();
     resetTrainingAndRefetch();
   }
+  React.useEffect(() => {
+    if (width > 1400) {
+      setFontSize(FontSize.X_LARGE)
+    } else if(width < 764) {
+      setFontSize(FontSize.SMALL)
+    }
+  }, [width])
   return (
     <Modal
       isOpen={shouldDisplayOption}

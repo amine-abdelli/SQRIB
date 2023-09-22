@@ -4,6 +4,7 @@ import { CardButton } from "../../../../../../components/CardButton/CardButton.c
 import { WordsCollectionLayout, WordsType } from "../../../../../../components/Options/Options.props";
 import Select from "../../../../../../components/Select/Select.component";
 import { Text } from "../../../../../../components/Text/Text.component";
+import { useWindowSize } from "../../../../../../hooks";
 import { COLORS } from "../../../../../../theme/colors";
 import { OptionProps } from "./OptionGroup.props";
 import './OptionGroup.style.scss';
@@ -19,6 +20,7 @@ export function OptionIcon({ icon }: any) {
 export function ModeOptionGroup({
   icon, options, selected, setSelected, subLabel
 }: OptionProps) {
+  const { isSmallScreen } = useWindowSize()
   return (
     <div className="button-group-container">
       <Spacer x size='small' />
@@ -38,8 +40,9 @@ export function ModeOptionGroup({
               classNames="mode-button"
               color={selected === value ? COLORS.GOLD : ''}
               onClick={() => setSelected(value)}
-              subLabel={subLabel}
+              subLabel={!isSmallScreen ? subLabel : ''}
               label={label}
+              key={label}
             />
             {i === 0 ? <Spacer x size={SpacerSize.SMALL} /> : null}
           </>
@@ -61,19 +64,21 @@ export function OptionGroup({
       <div className='button-group--wrapper' style={{ height: '75%' }}>
         <div>
           <p className='button-group--label'>{label}</p>
-          <p style={{ fontSize: '12px', color: 'GrayText', fontWeight: 300 }}>{subLabel}</p>
+          <p className="button-group--sub-label" style={{ fontSize: '12px', color: 'GrayText', fontWeight: 300 }}>{subLabel}</p>
         </div>
         <Spacer x size={SpacerSize.LARGE} />
         <div className="button-group" style={{ background: 'lightgrey', height: '100%', padding: '0.1rem', borderRadius: '5px' }}>
           {select ? <Select data={options} onChange={setSelected} value={selected} stretch />
-            : options.map(({ label, value }) => (
+            : options.map(({ label, value, i }) => (
               <Button
-                style={{ background: selected === value ? COLORS.WHITE : '', border: selected === value ? '1px solid black' : '',padding: '0.8rem', borderRadius: '5px' }}
+                className='button-group--select-button'
+                style={{ background: selected === value ? COLORS.WHITE : '', border: selected === value ? '1px solid black' : '', padding: '0.8rem', borderRadius: '5px' }}
                 color={selected === value ? COLORS.GOLD : ''}
                 onClick={() => setSelected(value)}
                 light
                 label={label}
                 disabled={value === WordsType.QUOTE || value === WordsType.CUSTOM || value === WordsCollectionLayout.HORIZONTAL}
+                key={i}
               />
             ))}
         </div>

@@ -1,8 +1,9 @@
 import React, { ReactElement } from 'react';
 import { BsKeyboard } from 'react-icons/bs';
 import { OverlayProps } from './Overlay.props';
-import './Overlay.style.scss';
 import { TrainingMode } from '../Options/Options.props';
+import { Text } from '../Text/Text.component';
+import './Overlay.style.scss';
 
 function Overlay({ isVisible, isUserAllowToType, mode }: OverlayProps): ReactElement {
   const message = mode === TrainingMode.TIME_TRIAL ? 'Start typing to launch the count down' : 'Start typing to launch the timer'
@@ -12,7 +13,9 @@ function Overlay({ isVisible, isUserAllowToType, mode }: OverlayProps): ReactEle
     >
       <div className='overlay'>
         <BsKeyboard className='icon' size={40} />
-        {isUserAllowToType ? message : 'Press the START button'}
+        <Text p centered className='overlay--message'>
+          {isUserAllowToType ? message : 'Press the START button'}
+        </Text>
       </div>
     </div>
   );

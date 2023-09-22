@@ -1,5 +1,4 @@
-@import "../../theme/abstracts/mixins";
-@import "../../theme/abstracts/colors";
+@import "src/theme/index.scss";
 
 $zIndex: 2;
 
@@ -28,4 +27,10 @@ $zIndex: 2;
   right: 0;
   background-color: fade-out($color: rgb(75, 73, 73), $amount: 0.5);
   z-index: calc($zIndex - 1);
+}
+
+@media screen and (max-width: $sm-screen) {
+  .modal--wrapper {
+    width: 100%;
+  }
 }

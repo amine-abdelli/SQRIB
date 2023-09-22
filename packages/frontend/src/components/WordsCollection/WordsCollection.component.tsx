@@ -30,6 +30,7 @@ function WordsCollection({
             setCurrentWordSpanPosition={setCurrentWordSpanPosition}
             setMisspellings={setMisspellings}
             isRunning={isRunning}
+            key={index}
           />
           <span style={{ fontSize }}>{' '}</span>
         </>

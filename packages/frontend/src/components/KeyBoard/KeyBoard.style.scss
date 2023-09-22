@@ -100,10 +100,22 @@
 
 @media screen and (max-width: $sm-screen) {
   .keyboard--small {
-    width: 25rem;
+    width: 23rem;
     .key {
+      font-size: 6px;
       height: 1.2rem;
     }
   }
+}
 
+@media screen and (max-width: $xsm-screen) {
+  .keyboard--small {
+    width: 19rem;
+    .key {
+      font-size: 8px;
+      height: 1.3rem;
+      width: 1.3rem;
+      box-shadow: none;
+    }
+  }
 }

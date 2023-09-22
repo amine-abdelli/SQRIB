@@ -1,4 +1,4 @@
-@import "../../../../theme/index.scss";
+@import "src/theme/index.scss";
 
 .options--wrapper {
   position: relative;
@@ -65,4 +65,20 @@
 
 .hidden {
   display: none;
+}
+
+@media screen and (max-width: $sm-screen) {
+  .options--wrapper {
+    .button-group {
+      .button-group--select-button {
+        font-size: 10px;
+      }
+      &--label {
+        font-size: 12px;
+      }
+      &--sub-label {
+        display: none;
+      }
+    }
+  }
 }

@@ -69,7 +69,7 @@ export function OptionGroup({
         <Spacer x size={SpacerSize.LARGE} />
         <div className="button-group" style={{ background: 'lightgrey', height: '100%', padding: '0.1rem', borderRadius: '5px' }}>
           {select ? <Select data={options} onChange={setSelected} value={selected} stretch />
-            : options.map(({ label, value, i }) => (
+            : options.map(({ label, value }, i) => (
               <Button
                 className='button-group--select-button'
                 style={{ background: selected === value ? COLORS.WHITE : '', border: selected === value ? '1px solid black' : '', padding: '0.8rem', borderRadius: '5px' }}

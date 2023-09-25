@@ -30,7 +30,7 @@ function Avatar({ username, size, avatarUrl, color, style }: AvatarProps) {
         background: color ?? colorPicker(),
         color: COLORS.WHITE,
         border: `3px solid ${COLORS.BLACK}`,
-        borderRadius: '50%',
+        borderRadius: '10px',
         fontSize,
         fontWeight: 800,
         width: edgeSize,
@@ -40,7 +40,7 @@ function Avatar({ username, size, avatarUrl, color, style }: AvatarProps) {
         ...style
       }}
     >
-      {typeof username === 'string' ? username?.[0]?.toLocaleUpperCase() : username}
+      {typeof username === 'string' ? username?.[0]?.toLocaleUpperCase() + username?.[1] : username}
     </div>
   );
 }

@@ -8,7 +8,7 @@ interface SpacerProps {
 }
 
 function Spacer({ size, x, y }: SpacerProps) {
-  return <div className={`spacer-${size} ${x && 'horizontal'} ${y && 'vertical'}`} />;
+  return <div className={`spacer spacer-${size} ${x && 'horizontal'} ${y && 'vertical'}`} />;
 }
 
 export { Spacer };

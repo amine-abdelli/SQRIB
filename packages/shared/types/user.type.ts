@@ -30,7 +30,7 @@ export type UserBase = {
   is_locked: boolean
   last_password_update: Date | null
   last_activity: Date
-  color: string | null
+  color: string | undefined
 }
 
 export type UserCredential = UserCredentialWithEmail | IUserCredentialWithUsername;

@@ -1,0 +1,9 @@
+@import 'src/theme/index.scss';
+
+.text-area {
+  @include thinBorder();
+  border-radius: 5px;
+  padding: 1rem;
+  width: 100%;
+  min-height: 120px;
+}

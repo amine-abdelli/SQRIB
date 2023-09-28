@@ -31,9 +31,6 @@ export function useGetUser(mutationOptions: mutationOptions = {}): UseQueryResul
   return useQuery(
     [GET_SELF, session_id],
     () => apiService.get(`${ENDPOINTS_FULL_PATH.user.me}${username ? `?username=${username}` : ''}`),
-    {
-      onSuccess: mutationOptions.onSuccess,
-      onError: mutationOptions.onError
-    }
+    mutationOptions
   );
 }

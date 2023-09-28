@@ -3,6 +3,7 @@ import { serializeBigInt } from '../utils';
 import {
   createUserService, deleteUserService, getUserByIdService, getUserRankService,
   getUserScoresService, getUserStatsService, getUserWeeklyTrackerService,
+  updatePasswordService,
   updateUserByIdService,
 } from '../services';
 
@@ -56,11 +57,10 @@ export async function getUserData(req: Request, res: Response, next: NextFunctio
  * @route /delete
  * @method DELETE
  */
-export async function deleteOneUser({ body }: Request, res: Response, next: NextFunction) {
+export async function deleteOneUser(req: Request, res: Response, next: NextFunction) {
   try {
-    const { email, password } = body;
-    await deleteUserService(email, password);
-    return res.status(200).json({ message: `User ${email} deleted successfully` });
+    await deleteUserService(req);
+    return res.status(200).json({ message: 'User deleted successfully' });
   } catch (error) {
     return next(error);
   }
@@ -127,6 +127,22 @@ export async function getUserScores(
     res.status(200).json(serializeBigInt(userScores));
   } catch (error) {
     next(error);
+  }
+}
+
+/**
+ *
+ * @param req
+ * @param res
+ * @param next
+ * @returns
+ */
+export async function updateUserPassword(req: Request, res: Response, next: NextFunction) {
+  try {
+    const updatedUser = await updatePasswordService(req);
+    return res.status(200).json(updatedUser);
+  } catch (error) {
+    return next(error);
   }
 }
 

@@ -1,14 +1,18 @@
+// @tailwind base;
+// @tailwind components;
+// @tailwind utilities;
+
 // Base
-@import './base';
+@import "./base";
 
 // Abstracts
-@import './abstracts';
+@import "./abstracts";
 
 // Utils
-@import './utils';
+@import "./utils";
 
 // Layout
-@import './layout';
+@import "./layout";
 
 // Components
-@import './components';
+@import "./components";

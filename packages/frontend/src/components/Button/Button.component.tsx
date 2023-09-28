@@ -1,6 +1,7 @@
 import React from 'react';
-import './Button.style.scss';
 import { ButtonProps } from './Button.props';
+
+import './Button.style.scss';
 
 function Button({
   label, onClick, secondary, stretch, disabled, className,

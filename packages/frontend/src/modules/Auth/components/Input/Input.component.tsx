@@ -3,13 +3,13 @@ import React, { ChangeEvent, CSSProperties, useState } from 'react';
 import { InfoCircle } from 'react-iconly';
 import { Popover } from 'react-tiny-popover';
 import { COLORS } from '../../../../theme/colors';
+
 import './Input.style.scss';
 
-export interface InputProps {
+export interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   onChange?: (event: ChangeEvent<HTMLInputElement>) => void,
   placeholder?: string,
   value?: string,
-  type?: 'text' | 'password' | 'email' | 'username',
   stretch?: boolean,
   state?: 'error' | 'success',
   helperColor?: string,

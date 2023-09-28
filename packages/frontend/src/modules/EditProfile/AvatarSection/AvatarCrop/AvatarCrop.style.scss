@@ -1,0 +1,25 @@
+@import "src/theme/index.scss";
+
+.avatar-cropper--wrapper {
+  input[type="file"] {
+    display: none;
+  }
+
+  .file-upload {
+    border: 3px solid black;
+    border-radius: 5px;
+    display: inline-block;
+    padding: 6px 12px;
+    cursor: pointer;
+    box-shadow: $shadow-button;
+    transition: all 0.3s ease-in-out;
+    width: 100%;
+    text-align: center;
+    font-family: $FiraCodefontFamily;
+
+    &:hover {
+      box-shadow: $shadow-button-hovered;
+      transition: all 0.3s ease-in-out;
+    }
+  }
+}

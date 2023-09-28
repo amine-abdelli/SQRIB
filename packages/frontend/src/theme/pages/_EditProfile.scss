@@ -1,128 +1,130 @@
-@import 'src/theme/index.scss';
+@import "src/theme/index.scss";
 
 @mixin editProfileCard {
-    border: 3px solid black;
-    border-radius: 5px;
-    padding: 1rem;
-    margin: 1rem 0;
-  }
+  border: 3px solid black;
+  border-radius: 5px;
+  padding: 1rem;
+  margin: 1rem 0;
+}
 
 .edit-page-container--wrapper {
-    display: flex;
-    justify-content: center;
-    padding-top: 2rem !important;
+  display: flex;
+  justify-content: center;
+  padding-top: 2rem !important;
 
-    .back-button {
-        position: absolute;
-        left: 1.5rem;
-        height: 3rem;
-        width: 3rem;
-        top: 1.5rem;
+  .back-button {
+    position: absolute;
+    left: 1.5rem;
+    height: 3rem;
+    width: 3rem;
+    top: 1.5rem;
+  }
+
+  .edit-page-container {
+    width: 80%;
+    background-color: white;
+    border-radius: 5px;
+    padding: 1rem;
+    border: 3px solid $outline;
+    box-shadow: $shadow-button;
+    overflow-y: scroll;
+
+    .edit-page-avatar {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      margin-top: 0.5rem;
+
+      &--wrapper {
+        @include editProfileCard();
+      }
+
+      .upload-elements {
+        display: flex;
+        flex-direction: column;
+
+        .upload-button {
+          margin-top: 1rem;
+        }
+      }
     }
 
-    .edit-page-container {
-        width: 80%;
-        background-color: white;
-        border-radius: 5px;
-        padding: 1rem;
-        border: 3px solid $outline;
-        box-shadow: $shadow-button;
-        overflow-y: scroll;
+    .edit-page-bio {
+      &--wrapper {
+        @include editProfileCard();
+        display: flex;
+        flex-direction: column;
+      }
 
-        .edit-page-avatar {
-            display: flex;
-            flex-direction: row;
-            align-items: center;
-            margin-top: 0.5rem;
-
-            &--wrapper {
-            @include editProfileCard();
-            }
-
-            .upload-elements {
-              display: flex;
-              flex-direction: column;
-              .upload-button {
-                margin-top: 1rem;
-              }
-            }
-        }
-        
-        .edit-page-bio {
-            &--wrapper {
-                @include editProfileCard();
-                display: flex;
-                flex-direction: column;
-            }
-
-            &--title {
-                display: flex;
-                flex-direction: row;
-                align-items: center;
-                justify-content: space-between
-            }
-        }
-        
-        .edit-page-edit-password {
-            display: flex;
-            justify-content: space-between;
-
-            .change-password--inputs {
-              display: flex;
-
-              input {
-                width: 15rem;
-                margin-right: 1rem; 
-              }
-            }
-
-            &--wrapper {
-                @include editProfileCard();
-            }
-        }
-
-        .edit-page-delete-account {
-            &--wrapper {
-                @include editProfileCard();
-                border-color: $error;
-                display: flex;
-                flex-direction: column;
-            }
-        }
-        
-        .edit-page-language {
-            &--wrapper {
-                @include editProfileCard();
-            }
-        }
+      &--title {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+      }
     }
+
+    .edit-page-edit-password {
+      display: flex;
+      justify-content: space-between;
+      flex-direction: column;
+
+      .change-password--inputs {
+        display: flex;
+
+        input {
+          width: 15rem;
+          margin-right: 1rem;
+        }
+      }
+
+      &--wrapper {
+        @include editProfileCard();
+      }
+    }
+
+    .edit-page-delete-account {
+      &--wrapper {
+        @include editProfileCard();
+        border-color: $error;
+        display: flex;
+        flex-direction: column;
+      }
+    }
+
+    .edit-page-language {
+      &--wrapper {
+        @include editProfileCard();
+      }
+    }
+  }
 }
 
 @media screen and (max-width: $lg-screen) {
   .edit-page-container--wrapper {
     .edit-page-container {
-        .edit-page-edit-password {
+      .edit-page-edit-password {
+        flex-direction: column;
+
+        .change-password--inputs {
+          display: flex;
           flex-direction: column;
 
-          .change-password--inputs {
-            display: flex;
-            flex-direction: column;
-
-            input {
-                width: 100%;
-                margin-right: 0; 
-                margin-bottom: 1rem;
-            }
+          input {
+            width: 100%;
+            margin-right: 0;
+            margin-bottom: 1rem;
           }
         }
       }
     }
+  }
 }
 
 @media screen and (max-width: $sm-screen) {
   .edit-page-container--wrapper {
     .edit-page-container {
       width: 95%;
-      }
     }
+  }
 }

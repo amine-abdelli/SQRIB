@@ -30,6 +30,10 @@ export function createUserRepository(data: CreateUserRequestBody): Promise<User>
 export function deleteUserRepository(userId: string) {
   return prisma.$transaction([
     prisma.palmares.deleteMany({ where: { user_id: userId } }),
+    prisma.userAchievement.deleteMany({ where: { user_id: userId } }),
+    prisma.score.deleteMany({ where: { user_id: userId } }),
+    // When multiplayer will be implemented, we will need to filter solo sessions only
+    prisma.session.deleteMany({ where: { created_by: userId } }),
     prisma.user.delete({ where: { id: userId } }),
   ]);
 }

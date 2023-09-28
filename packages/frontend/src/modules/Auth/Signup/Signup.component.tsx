@@ -33,11 +33,9 @@ function Signup() {
       closeModal(MODAL_ID.SIGNUP)
       openModal(MODAL_ID.LOGIN)
     },
-    onError(error, variables, context) {
-      const axiosError = error as AxiosError
+    onError(error) {
       setSignupForm({ username: '', email: '', password: '', retypedPassword: '' })
-      alertService.error(formatErrorMessage(axiosError), { keepAfterRouteChange: true });
-      // Trigger notification message
+      alertService.error(formatErrorMessage(error), { keepAfterRouteChange: true });
     }
   })
 
@@ -71,7 +69,7 @@ function Signup() {
         <Text h3 bold>Unleash Your Typing Potential</Text>
         <Spacer y size={SpacerSize.SMALL} />
         <Text size={14} p thin italic>
-        Level up your typing skills and signup to save your in-game triumphs, challenge the best, and unlock next-level experiences.
+          Level up your typing skills and signup to save your in-game triumphs, challenge the best, and unlock next-level experiences.
         </Text>
       </Modal.Header>
       <Modal.Body>

@@ -19,11 +19,21 @@ function Avatar({ username, size, avatarUrl, color, style }: AvatarProps) {
   } else if (size === 'xlarge') {
     edgeSize = '5rem';
     fontSize = '60px';
+  } else if (size === 'xxlarge') {
+    edgeSize = '7.5rem';
+    fontSize = '80px';
+  } else if (size === 'xxxlarge') {
+    edgeSize = '10rem';
+    fontSize = '95px';
   }
   const colorPicker = () => React.useMemo(() => colorGenerator(), [username])
   // TODO in future, when user will be able to edit its own profile. Add react-image-crop library
   return (
-    avatarUrl ? <img src={avatarUrl} alt="User's Avatar" style={{ width: '5rem', height: 'auto', borderRadius: '100%', border: '3px solid black' }} /> : <div
+    avatarUrl ? <img src={avatarUrl} alt="User's Avatar" style={{
+      width: edgeSize,
+      height: edgeSize, borderRadius: '10px',
+      border: '3px solid black'
+    }} /> : <div
       className='avatar'
       style={{
         display: 'inline-flex',

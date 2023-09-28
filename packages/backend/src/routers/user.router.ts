@@ -8,10 +8,11 @@ const router = express.Router();
 router.post(ENDPOINTS.user.create, UserController.createOneUser);
 router.put(ENDPOINTS.user.update, ...withAuth(UserController.updateOneUser));
 router.get(ENDPOINTS.user.me, ...withAuth(UserController.getUserData));
-router.delete(ENDPOINTS.user.delete, ...withAuth(UserController.deleteOneUser));
+router.post(ENDPOINTS.user.delete, ...withAuth(UserController.deleteOneUser));
 router.get(ENDPOINTS.user.weekly_tracker, ...withAuth(UserController.getUserWeeklyTracker));
 router.get(ENDPOINTS.user.user_stats, ...withAuth(UserController.getUserStats));
 router.get(ENDPOINTS.user.get_user_rank, ...withAuth(UserController.getUserRank));
 router.get(ENDPOINTS.user.get_user_scores, ...withAuth(UserController.getUserScores));
+router.post(ENDPOINTS.user.update_password, ...withAuth(UserController.updateUserPassword));
 
 export default router;

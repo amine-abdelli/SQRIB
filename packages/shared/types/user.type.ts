@@ -33,6 +33,14 @@ export type UserBase = {
   color: string | undefined
 }
 
+export type UpdateUserRequestBody = {
+  username?: string
+  email?: string
+  description?: string
+  avatar?: string
+  color?: string
+}
+
 export type UserCredential = UserCredentialWithEmail | IUserCredentialWithUsername;
 
 export type CreateUserRequestBody = Register
@@ -85,4 +93,20 @@ export interface UserRank {
 
 export interface GetUserRankResponseBody {
   data: UserRank
+}
+
+export interface UpdateUserPasswordRequestBody {
+  oldPassword: string,
+  newPassword: string,
+  newPasswordConfirm: string,
+}
+
+export type UpdateUserResponseBody = UserBase;
+
+export interface DeleteUserAccountRequestBody {
+  password: string
+}
+
+export interface DeleteUserAccountResponseBody {
+  message: string
 }

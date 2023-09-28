@@ -4,10 +4,10 @@ import './ClosingCross.style.scss';
 import { COLORS } from '../../theme/colors';
 
 // Parent must be position: relative to handle cross absolute position right
-function ClosingCross({ onClose, display, dark }: ClosingCrossProps) {
+function ClosingCross({ onClose, display, dark, fixed }: ClosingCrossProps) {
   return (
     <button
-      style={{ display: display ? '' : 'none', color: dark ? 'black' : COLORS.WHITE }}
+      style={{ position: fixed ? 'inherit' : 'absolute', display: display ? '' : 'none', color: dark ? 'black' : COLORS.WHITE }}
       className="closing-cross"
       onClick={() => onClose(false)}
       type='button'

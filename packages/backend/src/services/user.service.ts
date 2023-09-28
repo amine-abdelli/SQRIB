@@ -1,3 +1,4 @@
+/* eslint-disable indent */
 /* eslint-disable consistent-return */
 import {
   Palmares, Prisma, Score, User,
@@ -59,13 +60,15 @@ export async function createUserService(
   return createdUser;
 }
 
-export async function deleteUserService(email: string, password: string):
-  Promise<[Prisma.BatchPayload, User] | null> {
-  log.info('Deleting user:', { email });
-  if (!email || !password) {
+export async function deleteUserService(req: Request):
+  Promise<[Prisma.BatchPayload, Prisma.BatchPayload, Prisma.BatchPayload,
+    Prisma.BatchPayload, User] | null> {
+  const { password } = req.body;
+  log.info('Deleting user:', { userId: req.userId });
+  if (!password) {
     throw new HttpError(400, 'Email or password parameter missing');
   }
-  const userToDelete = await getUserByEmailRepository(formatEmail(email));
+  const userToDelete = await getUserByIdRepository(req.userId);
   if (!userToDelete) {
     throw new HttpError(404, 'Cannot perform user deletion as user could not be found');
   }
@@ -74,7 +77,7 @@ export async function deleteUserService(email: string, password: string):
     throw new HttpError(401, 'Invalid password');
   }
   const deleteResponse = await deleteUserRepository(userToDelete.id);
-  log.info('User deleted successfully:', { email });
+  log.info('User deleted successfully:', { userId: userToDelete.id });
   return deleteResponse;
 }
 
@@ -202,7 +205,7 @@ export async function updatePalmaresService(userId: string, score: Score) {
       palmares.average_wpm * palmares.session_count) + score.wpm) / (palmares.session_count + 1)),
     average_accuracy: roundToDecimal(((
       palmares.average_accuracy * palmares.session_count) + score.accuracy) / (palmares
-      .session_count + 1)),
+        .session_count + 1)),
     last_activity: new Date(),
     days_of_activity: areTimestampsFromSameDay(palmares?.last_activity, new Date())
       ? palmares.days_of_activity : palmares.days_of_activity + 1,
@@ -231,7 +234,7 @@ export async function updateGlobalMetricsService(score: Score) {
       + score.wpm) / (globalMetrics.game_count + 1)),
     average_accuracy: roundToDecimal(((
       globalMetrics.average_accuracy * globalMetrics.game_count) + score.accuracy) / (globalMetrics
-      .game_count + 1)),
+        .game_count + 1)),
     best_accuracy: score.accuracy > globalMetrics.best_accuracy
       ? score.accuracy
       : globalMetrics.best_accuracy,
@@ -312,7 +315,7 @@ export async function getUserRankService(req: Request) {
   if (!palmares) { throw new HttpError(404, 'Palmares not found'); }
 
   const users = await getAllPalmaresRepository();
-  const sortedUsers = users.sort((a, b) => b.best_wpm - a.best_wpm);
+  const sortedUsers = users.sort((_a, b) => b.best_wpm - _a.best_wpm);
   const userRankIndex = sortedUsers.findIndex((p) => p.user_id === (user?.id ?? ''));
   const userRank = userRankIndex + 1;
   // Uncomment this to send only the 5 users before and after the user
@@ -366,4 +369,24 @@ export async function getUserScoresService(req: Request) {
 
   log.info('User scores retrieved successfully:', { email: user?.email });
   return userScore ?? [];
+}
+
+export async function updatePasswordService(req: Request) {
+  log.info('Updating password', { userId: req.userId });
+  const { oldPassword, newPassword } = req.body;
+  if (!oldPassword || !newPassword) {
+    throw new HttpError(400, 'Missing old or new password');
+  }
+  const user = await getUserByIdRepository(req.userId);
+  if (!user) {
+    throw new HttpError(404, 'User not found');
+  }
+  const isPasswordValid = await bcrypt.compare(oldPassword, user.password);
+  if (!isPasswordValid) {
+    throw new HttpError(401, 'Invalid password');
+  }
+  const hashedPassword = await bcrypt.hash(newPassword, 10);
+  const updatedUser = await updateUserByIdRepository(user.id, { password: hashedPassword });
+  log.info('Password updated successfully:', { email: updatedUser?.email });
+  return updatedUser;
 }

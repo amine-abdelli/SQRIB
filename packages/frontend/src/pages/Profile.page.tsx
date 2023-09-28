@@ -5,6 +5,7 @@ import { useLocation, useParams } from 'react-router-dom';
 import { useGetUserScores } from '../api/queries/useGetScores.hook';
 import { ActivityTracker, PlayerDetail, ProgressChart, UserRank, UserStats, WeeklyTracker } from '../modules/Profile/components';
 import { EditButton } from '../modules/Profile/components/EditButton/EditButton.component';
+
 import '../theme/pages/_Profile.scss';
 
 const Profile = () => {

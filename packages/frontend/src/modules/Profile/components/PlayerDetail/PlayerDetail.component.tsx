@@ -38,7 +38,7 @@ const PlayerDetail = () => {
         </div>
       </div>
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-        <Avatar username={username ?? ''} avatarUrl={avatar} size={'xlarge'} color={user?.color} />
+        <Avatar username={username ?? ''} avatarUrl={avatar} size={'xxlarge'} color={user?.color} />
       </div>
     </Card>
   )

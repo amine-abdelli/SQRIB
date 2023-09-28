@@ -9,17 +9,19 @@ interface FileInputProps {
 
 const FileInput = ({ getNewAvatarUrl }: FileInputProps) => {
   return (
-    <label className='file-upload' style={{ background: COLORS.GOLD }}>
-      <input
-        name='file picker'
-        type="file"
-        accept="image/png, image/jpeg, image/jpg"
-        onChange={getNewAvatarUrl}
-      />
-      <Text fira bold>Choose file</Text>
+    <>
+      <label className='file-upload' style={{ background: COLORS.GOLD }}>
+        <input
+          name='file picker'
+          type="file"
+          accept="image/png, image/jpeg, image/jpg"
+          onChange={getNewAvatarUrl}
+        />
+        <Text fira bold>Choose file</Text>
+      </label>
       <Spacer y size={SpacerSize.SMALL} />
       <Text fira thin centered>Accept .jpg, .jpeg and .png file</Text>
-    </label>
+    </>
   )
 }
 

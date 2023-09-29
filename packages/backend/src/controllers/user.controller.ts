@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import express, { Request, Response, NextFunction } from 'express';
-import { serializeBigInt } from '../utils';
+import { HttpError, serializeBigInt } from '../utils';
 import {
   createUserService, deleteUserService, getUserByIdService, getUserRankService,
   getUserScoresService, getUserStatsService, getUserWeeklyTrackerService,

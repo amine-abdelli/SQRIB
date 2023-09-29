@@ -18,6 +18,8 @@ import {
   updatePalmaresRepository, updateUserByIdRepository,
 } from '../repositories';
 
+const GUEST_USER_ID = '48450d94-305b-4934-8f3f-b55bf1511122';
+
 async function updateUserCountMetric() {
   const globalMetrics = await getGlobalMetricsRepository();
   if (globalMetrics) {
@@ -63,6 +65,9 @@ export async function createUserService(
 export async function deleteUserService(req: Request):
   Promise<[Prisma.BatchPayload, Prisma.BatchPayload, Prisma.BatchPayload,
     Prisma.BatchPayload, User] | null> {
+  if (req.userId === GUEST_USER_ID) {
+    throw new HttpError(400, "Slow down ! You can't change this password or delete guest account. But you can settle down by creating your own ;) !");
+  }
   const { password } = req.body;
   log.info('Deleting user:', { userId: req.userId });
   if (!password) {
@@ -375,6 +380,10 @@ export async function getUserScoresService(req: Request) {
 }
 
 export async function updatePasswordService(req: Request) {
+  if (req.userId === GUEST_USER_ID) {
+    throw new HttpError(400, "Slow down ! You can't change this password or delete guest account. But you can settle down by creating your own ;) !");
+  }
+
   log.info('Updating password', { userId: req.userId });
   const { oldPassword, newPassword } = req.body;
   if (!oldPassword || !newPassword) {

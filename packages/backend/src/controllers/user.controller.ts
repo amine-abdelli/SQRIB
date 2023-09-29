@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import express, { Request, Response, NextFunction } from 'express';
 import { serializeBigInt } from '../utils';
 import {
@@ -30,8 +31,8 @@ export async function createOneUser(req: Request, res: Response, next: NextFunct
  */
 export async function updateOneUser(req: Request, res: Response, next: NextFunction) {
   try {
-    const updatedUser = await updateUserByIdService(req.userId, req.body);
-    return res.status(200).json({ user: updatedUser });
+    const { password, id, ...userRest } = await updateUserByIdService(req.userId, req.body);
+    return res.status(200).json({ user: userRest });
   } catch (error) {
     return next(error);
   }
@@ -44,9 +45,8 @@ export async function updateOneUser(req: Request, res: Response, next: NextFunct
  */
 export async function getUserData(req: Request, res: Response, next: NextFunction) {
   try {
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const { password, ...rest } = await getUserByIdService(req);
-    return res.status(200).json(rest);
+    const { password, id, ...userRest } = await getUserByIdService(req);
+    return res.status(200).json(userRest);
   } catch (error) {
     return next(error);
   }
@@ -139,8 +139,8 @@ export async function getUserScores(
  */
 export async function updateUserPassword(req: Request, res: Response, next: NextFunction) {
   try {
-    const updatedUser = await updatePasswordService(req);
-    return res.status(200).json(updatedUser);
+    const { password, id, ...userRest } = await updatePasswordService(req);
+    return res.status(200).json(userRest);
   } catch (error) {
     return next(error);
   }

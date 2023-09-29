@@ -17,6 +17,25 @@
       align-items: center;
     }
   }
+
+  .down-arrow {
+    position: absolute;
+    right: 0.5rem;
+    top: -1.4rem;
+    animation: moveUpDown 2s ease-in-out infinite;
+  }
+}
+
+@keyframes moveUpDown {
+  0% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-0.3rem);
+  }
+  100% {
+    transform: translateY(0);
+  }
 }
 
 @media screen and (max-width: $sm-screen) {

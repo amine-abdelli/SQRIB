@@ -9,19 +9,19 @@ import { useConfetti } from '../../../../contexts/ConfettiContext'
 
 export interface StatsProps extends ReplayModalProps {
   nextStep: () => void;
-  hasScoreBeenSaved: boolean, 
+  hasScoreBeenSaved: boolean,
   setHasScoreBeenSaved: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const ScoreBoardModal = (props: ReplayModalProps) => {
-  const { shouldOpenVictoryModal, setShouldOpenVictoryModal, resetTraining, resetTrainingAndRefetch, setShouldDisplayOption, setIsUserAllowToType,  } = props;
+  const { shouldOpenVictoryModal, setShouldOpenVictoryModal, resetTraining, resetTrainingAndRefetch, setShouldDisplayOption, setIsUserAllowToType, } = props;
   const [hasScoreBeenSaved, setHasScoreBeenSaved] = React.useState(false);
   const [step, setStep] = React.useState<0 | 1>(0);
   const [shouldTriggerConfetti, setShouldTriggerConfetti] = React.useState(false);
   const { triggerConfetti } = useConfetti();
 
   useEffect(() => {
-    if(shouldOpenVictoryModal && shouldTriggerConfetti === false) {
+    if (shouldOpenVictoryModal && shouldTriggerConfetti === false) {
       triggerConfetti()
       setShouldTriggerConfetti(true)
     }
@@ -40,15 +40,15 @@ const ScoreBoardModal = (props: ReplayModalProps) => {
   }
   const ReplayOptionsProps = { resetTraining, resetTrainingAndRefetch, setShouldDisplayOption, setIsUserAllowToType, closeModal }
   return (
-    <Modal isOpen={shouldOpenVictoryModal} setIsOpen={setShouldOpenVictoryModal}>
+    <Modal isOpen={shouldOpenVictoryModal} setIsOpen={setShouldOpenVictoryModal} closeable>
       <Modal.Header>
-        {step === 1 ? <Button stretch light label={<ArrowLeft size={24} />} onClick={() => setStep(0)} style={{ padding: 0}}/> : null}
+        {step === 1 ? <Button stretch light label={<ArrowLeft size={24} />} onClick={() => setStep(0)} style={{ padding: 0 }} /> : null}
       </Modal.Header>
       <Modal.Body>
-        {step === 0 ? <Stats {...statsProps} />: null}
+        {step === 0 ? <Stats {...statsProps} /> : null}
         {step === 1 ? (
           <ReplayOptions {...ReplayOptionsProps} />
-        ): null}
+        ) : null}
       </Modal.Body>
     </Modal>
   )

@@ -1,4 +1,5 @@
 import React from 'react';
+import { AiOutlineArrowDown } from 'react-icons/ai';
 import {
   EngineProps, Spacer, SpacerSize, WordsCollection,
 } from '../../components';
@@ -14,6 +15,7 @@ import { FaPlay, FaStop } from 'react-icons/fa';
 import { COLORS } from '../../theme/colors';
 import { ScoreBoardModal } from './components/ScoreBoardModal/ScoreBoardModal.component';
 import { useIsInputFocused } from '../../hooks/useIsInputFocused.hook';
+
 import '../../theme/pages/_Training.scss';
 
 function TrainingModule(props: EngineProps) {
@@ -23,16 +25,18 @@ function TrainingModule(props: EngineProps) {
 
   const closeModal = React.useCallback(() => setShouldDisplayReplayModal(false), [setShouldDisplayReplayModal]);
   const openModal = React.useCallback(() => setShouldDisplayReplayModal(true), [setShouldDisplayReplayModal]);
-  const { isUserAllowToType, misspellings } = props;
+  const { isUserAllowToType, misspellings, isRunning } = props;
   const optionProps = { ...props, shouldDisplayOption, setShouldDisplayOption, closeModal }
   const replayProps = { ...props, shouldDisplayReplayModal, setShouldDisplayReplayModal, setShouldDisplayOption, closeModal }
   const inputProps = { ...props, inputRef }
+  const isMainInputDisabled = !isRunning && !isUserAllowToType
   return (
     <section className='training-page--wrapper'>
       <Scoring {...optionProps} />
       <Spacer size={SpacerSize.SMALL} y />
       <WordsCollectionHeader {...props} />
       <div style={{ position: 'relative' }}>
+        {isMainInputDisabled && !shouldDisplayReplayModal && <span className='down-arrow'><AiOutlineArrowDown size={22} color={COLORS.BLACK} /></span>}
         {props.isRunning ? <Button
           style={{ display: 'flex', justifyContent: 'flex-end', position: 'absolute', right: 0, background: COLORS.ERROR }}
           onClick={() => props.resetTraining()}

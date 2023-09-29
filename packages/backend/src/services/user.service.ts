@@ -115,8 +115,8 @@ export async function getUserByEmailService(email: string): Promise<User | null>
   return user;
 }
 
-export async function updateUserByIdService(userId: string, data: Partial<User>):
-  Promise<User | null> {
+export async function updateUserByIdService(userId: string, data: User):
+  Promise<User> {
   log.info('Updating user by ID: ', userId);
   if (!userId) {
     throw new HttpError(400, 'Missing user ID');
@@ -126,6 +126,9 @@ export async function updateUserByIdService(userId: string, data: Partial<User>)
     throw new HttpError(404, 'User not found');
   }
   const updatedUser = await updateUserByIdRepository(user.id, data);
+  if (!updatedUser) {
+    throw new HttpError(500, 'An error occurred while updating user');
+  }
   log.info('User updated successfully:', { email: updatedUser?.email });
   return updatedUser;
 }

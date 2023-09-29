@@ -9,7 +9,6 @@ import { EditButton } from '../modules/Profile/components/EditButton/EditButton.
 import '../theme/pages/_Profile.scss';
 
 const Profile = () => {
-  document.title = 'Profile';
   const location = useLocation()
   const { username } = useParams();
   const isVisitingOwnProfile = !username;
@@ -18,6 +17,8 @@ const Profile = () => {
   React.useEffect(() => {
     refetch();
   }, [username, isVisitingOwnProfile, location])
+
+  document.title = isVisitingOwnProfile ? 'Your profile' : `${username}'s profile`;
 
   return (
     <main className="layout--main profile--main">

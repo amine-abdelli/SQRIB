@@ -16,6 +16,8 @@ import { MODAL_ID } from '../components/Modals/modals.constants'
 
 import '../theme/pages/_EditProfile.scss'
 
+document.title = 'Edit profile';
+
 const EditProfile = () => {
   const { data, isLoading, refetch } = useGetUser();
   const { closeModal } = useModal()

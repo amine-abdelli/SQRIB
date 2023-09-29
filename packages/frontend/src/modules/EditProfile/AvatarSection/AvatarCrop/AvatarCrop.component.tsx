@@ -17,14 +17,15 @@ import FileInput from './subComponent/FileInput/FileInput.component';
 
 interface AvatarCropProps {
   avatarUrl?: string,
-  updateUser: UseMutateAsyncFunction<UserBase, unknown, UpdateUserRequestBody, unknown>
+  updateUser: UseMutateAsyncFunction<UserBase, unknown, UpdateUserRequestBody, unknown>,
+  userColor: string,
 }
 
 export async function deleteAvatarFromBucket(fileName: string) {
   await deleteObject(ref(storage, 'avatars/' + fileName));
 }
 
-const AvatarCrop: React.FC<AvatarCropProps> = ({ avatarUrl, updateUser }) => {
+const AvatarCrop: React.FC<AvatarCropProps> = ({ avatarUrl, updateUser, userColor }) => {
   const [newAvatarUrl, setNewAvatarUrl] = React.useState<string | null>(null);
   const [cropper, setCropper] = React.useState<Cropper | null>(null);
   const [preview, setPreview] = React.useState<Cropper | null>(null);
@@ -56,7 +57,7 @@ const AvatarCrop: React.FC<AvatarCropProps> = ({ avatarUrl, updateUser }) => {
   };
 
   return (<div style={{ padding: '1rem' }} className='avatar-cropper--wrapper'>
-    {!newAvatarUrl && <FileInput getNewAvatarUrl={getNewAvatarUrl} />}
+    {!newAvatarUrl && <FileInput getNewAvatarUrl={getNewAvatarUrl} userColor={userColor} />}
     {newAvatarUrl && !preview && <Cropper
       src={newAvatarUrl as string}
       style={{ width: 400 }}

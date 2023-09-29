@@ -27,7 +27,7 @@ interface AvatarSectionProps {
 
 const AvatarSection: React.FC<AvatarSectionProps> = ({ username, color, updateUser, avatarUrl }) => {
   const { openModal, closeModal } = useModal()
-  const { isVerySmallScreen } = useWindowSize()
+  const { isSmallScreen } = useWindowSize()
 
   async function deleteAvatar() {
     if (avatarUrl) {
@@ -45,15 +45,15 @@ const AvatarSection: React.FC<AvatarSectionProps> = ({ username, color, updateUs
           {username && color && <Avatar avatarUrl={avatarUrl} size='xxlarge' color={color} username={username} />}
         </div>
         <Spacer x size={SpacerSize.LARGE} />
-        <div className='upload-elements'>
-          <Button disabled={!!avatarUrl} className='upload-button' onClick={() => openModal(MODAL_ID.AVATAR_COLOR)} stretch secondary>{'Change avatar color'}</Button>
-          <Button className='upload-button' onClick={() => openModal(MODAL_ID.AVATAR_CROP)} stretch>{isVerySmallScreen ? 'Upload' : 'Upload new avatar'}</Button>
+        <div className='upload-elements' style={isSmallScreen ? { width: '10rem', padding: '1rem' } : {}}>
+          <Button disabled={!!avatarUrl} className='upload-button' onClick={() => openModal(MODAL_ID.AVATAR_COLOR)} stretch secondary>{`Change ${isSmallScreen ? '' : 'avatar'} color`}</Button>
+          <Button className='upload-button' onClick={() => openModal(MODAL_ID.AVATAR_CROP)} stretch>{isSmallScreen ? 'Upload' : 'Upload new avatar'}</Button>
           <Spacer y size={SpacerSize.SMALL} />
           <Text fira>jpg or png is allowed</Text>
         </div>
       </div>
       {username && color && <ModalDef id={MODAL_ID.AVATAR_COLOR} component={<AvatarColorPicker username={username} color={color} onColorSave={updateUser} />} />}
-      {<ModalDef id={MODAL_ID.AVATAR_CROP} component={<AvatarCrop updateUser={updateUser} avatarUrl={avatarUrl} />} />}
+      {<ModalDef id={MODAL_ID.AVATAR_CROP} component={<AvatarCrop updateUser={updateUser} avatarUrl={avatarUrl} userColor={color ?? ''} />} />}
       {<ModalDef id={MODAL_ID.CONFIRM_AVATAR_DELETION} component={<AvatarDeletion deleteAvatar={deleteAvatar} />} />}
     </section>
   )

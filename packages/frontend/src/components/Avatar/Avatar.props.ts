@@ -4,4 +4,5 @@ export interface AvatarProps {
   avatarUrl?: string | null;
   color?: string | null;
   style?: React.CSSProperties;
+  onClick?: () => void;
 }

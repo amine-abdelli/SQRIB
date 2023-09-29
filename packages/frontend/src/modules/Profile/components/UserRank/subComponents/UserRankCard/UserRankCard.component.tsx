@@ -1,6 +1,5 @@
 import React from 'react';
 import { UserRankRange } from '@sqrib/shared';
-import { MdOutlineMoreVert } from 'react-icons/md';
 
 import { Text } from '../../../../../../components/Text/Text.component';
 import { orderSuffix } from '../../../../../../utils';
@@ -8,9 +7,8 @@ import crown from '../../../../../../assets/images/crown.png';
 import { generatePath, useNavigate } from 'react-router-dom';
 import { MAIN_ROUTES } from '../../../../../../routes/paths';
 import { Tooltip } from '../../../../../../components/ToolTip/ToolTip.component';
-import Avatar from '../../../../../../components/Avatar/Avatar.component';
+import { Avatar } from '../../../../../../components/Avatar/Avatar.component';
 import { useWindowSize } from '../../../../../../hooks';
-import { Button } from '../../../../../../components/Button/Button.component';
 
 import './UserRankCard.style.scss';
 

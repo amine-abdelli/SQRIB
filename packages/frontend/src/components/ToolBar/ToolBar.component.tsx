@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button } from '../Button/Button.component';
 import { useAuthContext, useModal } from '../../contexts';
-import Avatar from '../Avatar/Avatar.component';
+import { Avatar } from '../Avatar/Avatar.component';
 import { MODAL_ID } from '../Modals/modals.constants';
 import { Link, useLocation } from 'react-router-dom';
 import { IoMdHome } from 'react-icons/io';

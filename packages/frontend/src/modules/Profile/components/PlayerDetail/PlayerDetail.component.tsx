@@ -2,7 +2,7 @@ import React from 'react'
 import { Card } from '../../../../components/Card/Card.component';
 import { Text } from '../../../../components/Text/Text.component';
 import { Spacer, SpacerSize } from '../../../../components';
-import Avatar from '../../../../components/Avatar/Avatar.component';
+import { Avatar } from '../../../../components/Avatar/Avatar.component';
 import { memberSinceDate } from '@sqrib/shared';
 import { COLORS } from '../../../../theme/colors';
 import { capitalizeFirstLetter } from '../../../../utils';

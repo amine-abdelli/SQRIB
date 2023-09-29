@@ -11,6 +11,4 @@ export interface GetGlobalMetricsResponse {
   total_time_in_seconds: number;
 }
 
-export interface GetGlobalMetricsResponseBody {
-  data: GetGlobalMetricsResponse;
-}
+export type GetGlobalMetricsResponseBody = GetGlobalMetricsResponse;

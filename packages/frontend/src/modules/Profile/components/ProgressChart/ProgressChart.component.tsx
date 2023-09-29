@@ -19,8 +19,8 @@ const ProgressChart = ({ scores: userScoresData, username }: ProgressChartProps)
     ? [{ x: 0, y: userScores[0].wpm }, { x: 1, y: userScores[0].wpm }]
     : userScores?.map((score: any, index: string) => ({ x: index, y: score.wpm }));
 
-  const bestSqribWpm = globalMetrics?.data?.best_wpm ?? 0;
-  const averageSqribAccuracy = globalMetrics?.data?.average_accuracy ?? 0;
+  const bestSqribWpm = globalMetrics?.best_wpm ?? 0;
+  const averageSqribAccuracy = globalMetrics?.average_accuracy ?? 0;
   const bestSqribWpmToChartFormat = [{ x: 0, y: bestSqribWpm }, { x: userScores.length > 1 ? userScores.length - 1 : 1, y: bestSqribWpm }]
   const averageSqribUserScore = [{ x: 0, y: averageSqribAccuracy }, { x: userScores.length > 1 ? userScores.length - 1 : 1, y: averageSqribAccuracy }]
   const isVisitingOwnProfile = !username;

@@ -6,8 +6,9 @@
     "dev": "yarn workspace @sqrib/server dev",
     "start": "yarn workspaces run start",
     "lint": "yarn workspace @sqrib/client lint && yarn workspace @sqrib/server lint && yarn workspace @sqrib/shared lint",
-    "test": "yarn workspace @sqrib/client test && yarn workspace @sqrib/server test && yarn workspace @sqrib/shared test\"",
+    "test": "yarn workspace @sqrib/client test && yarn workspace @sqrib/server test && yarn workspace @sqrib/shared test",
     "build": "yarn workspace @sqrib/client build && yarn workspace @sqrib/server build",
+    "build:ci": "yarn workspace @sqrib/client build:ci && yarn workspace @sqrib/server build:ci",
     "clean": "yarn run delete-eslint-cache && yarn run delete-node-modules && yarn",
     "delete-eslint-cache": "find . -name '*.eslintcache' -type f -delete ",
     "delete-node-modules": "find . -name 'node_modules' -type d -prune -exec rm -rf '{}' +"

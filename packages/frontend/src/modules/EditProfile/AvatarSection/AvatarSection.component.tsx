@@ -3,7 +3,7 @@ import { UseMutateAsyncFunction } from 'react-query';
 import { UpdateUserRequestBody, UserBase } from '@sqrib/shared';
 
 import { Text } from '../../../components/Text/Text.component';
-import Avatar from '../../../components/Avatar/Avatar.component';
+import { Avatar } from '../../../components/Avatar/Avatar.component';
 import { Spacer, SpacerSize } from '../../../components';
 import { Button } from '../../../components/Button/Button.component';
 import { useWindowSize } from '../../../hooks';

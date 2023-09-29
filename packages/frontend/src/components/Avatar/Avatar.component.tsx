@@ -1,6 +1,5 @@
 import React from 'react';
 import { AvatarProps } from './Avatar.props';
-import { COLORS } from '../../theme/colors';
 import { colorGenerator } from '@sqrib/shared';
 import './Avatar.style.scss'
 
@@ -49,4 +48,4 @@ function Avatar({ username, size, avatarUrl, color, style, onClick }: AvatarProp
   );
 }
 
-export default Avatar;
+export { Avatar };

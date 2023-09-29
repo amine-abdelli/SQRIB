@@ -2,7 +2,7 @@ import React from 'react'
 import { SketchPicker } from 'react-color';
 import { Button } from '../../../../components/Button/Button.component';
 import { Spacer, SpacerSize } from '../../../../components';
-import Avatar from '../../../../components/Avatar/Avatar.component';
+import { Avatar } from '../../../../components/Avatar/Avatar.component';
 import { UseMutateAsyncFunction } from 'react-query';
 import { UpdateUserRequestBody, UserBase } from '@sqrib/shared';
 

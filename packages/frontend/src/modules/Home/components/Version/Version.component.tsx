@@ -1,5 +1,5 @@
 import React from 'react'
-import * as JsonPackage from '../../../../../package.json';
+import * as JsonPackage from '../../../../../../../package.json';
 import './Version.style.scss'
 
 const Version = () => {

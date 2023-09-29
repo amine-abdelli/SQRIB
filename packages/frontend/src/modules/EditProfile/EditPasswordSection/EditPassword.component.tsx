@@ -48,14 +48,12 @@ const EditPassword = () => {
           <Input type='password' label='New password' name='New password' stretch onChange={(e) => setPassword(e.target.value)} value={password} />
           <Input type='password' label='Confirm Password' name='Confirm Password' stretch onChange={(e) => setConfirmPassword(e.target.value)} value={confirmPassword} />
         </div>
-        <h1 className="text-3xl font-bold underline">
-          Hello world!
-        </h1>
         <Button
           disabled={isDisabled}
           secondary
           style={{ height: '45px', margin: '1rem 0', width: '10rem' }}
           stretch
+          withTimeout
           onClick={updatePassword}
         >
           Save changes

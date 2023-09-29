@@ -14,4 +14,5 @@ export interface ButtonProps {
   label?: React.ReactNode & Label;
   children?: React.ReactNode & Label;
   link?: boolean;
+  withTimeout?: boolean;
 }

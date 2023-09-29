@@ -142,6 +142,7 @@ function Stats(props: StatsProps) {
         <Spacer y size={SpacerSize.SMALL} />
         <Button
           color={COLORS.WHITE}
+          withTimeout
           onClick={async () => {
             await saveTrainingScore()
             nextStep()

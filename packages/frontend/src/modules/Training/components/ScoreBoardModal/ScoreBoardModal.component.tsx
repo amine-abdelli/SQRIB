@@ -40,7 +40,7 @@ const ScoreBoardModal = (props: ReplayModalProps) => {
   }
   const ReplayOptionsProps = { resetTraining, resetTrainingAndRefetch, setShouldDisplayOption, setIsUserAllowToType, closeModal }
   return (
-    <Modal isOpen={shouldOpenVictoryModal} setIsOpen={setShouldOpenVictoryModal} closeable>
+    <Modal isOpen={shouldOpenVictoryModal} setIsOpen={closeModal} closeable>
       <Modal.Header>
         {step === 1 ? <Button stretch light label={<ArrowLeft size={24} />} onClick={() => setStep(0)} style={{ padding: 0 }} /> : null}
       </Modal.Header>

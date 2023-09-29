@@ -32,7 +32,7 @@ const BioSection = ({ bio, onBioSave }: BioSectionProps) => {
         ? <TextArea value={currentBio} onChange={(e) => setCurrentBio(e.target.value)} />
         : bio ? <Text fira p>{currentBio}</Text> : <Text p fira color={COLORS.GREY}>No bio</Text>}
       <Spacer y size={SpacerSize.SMALL} />
-      {isEditing && <Button stretch secondary style={{ height: '45px', alignSelf: 'flex-end', justifySelf: 'flex-end' }} onClick={async () => {
+      {isEditing && <Button withTimeout stretch secondary style={{ height: '45px', alignSelf: 'flex-end', justifySelf: 'flex-end' }} onClick={async () => {
         await onBioSave({ description: currentBio })
         setIsEditing(false)
       }}>Save changes</Button>}

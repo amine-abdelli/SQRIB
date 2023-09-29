@@ -38,7 +38,7 @@ const DeleteAccountConfirm = () => {
       <Text fira>Once you delete your account, there is no going back. If you want to go further please</Text>{" "}<Text fira bold>input your password.</Text>
       <Spacer y size={SpacerSize.SMALL} />
       <Input name='password' type='password' onChange={(e) => setPassword(e.target.value)} value={password} />
-      <Button onClick={handleDeleteAccount}>Yes, delete my account</Button>
+      <Button withTimeout onClick={handleDeleteAccount}>Yes, delete my account</Button>
     </div>
   )
 }

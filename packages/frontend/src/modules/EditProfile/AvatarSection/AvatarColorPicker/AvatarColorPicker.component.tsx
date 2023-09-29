@@ -23,7 +23,7 @@ const AvatarColorPicker = ({ username, color, onColorSave }: AvatarColorPickerPr
       <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', alignItems: 'center', padding: '2rem 2rem 0.5rem 2rem', width: '15rem' }}>
         <Avatar size='xxxlarge' color={currentColor} username={username} />
         <Spacer y size={SpacerSize.MEDIUM} />
-        <Button onClick={async () => await onColorSave({
+        <Button withTimeout onClick={async () => await onColorSave({
           color: currentColor,
         })}>Save</Button>
       </div>

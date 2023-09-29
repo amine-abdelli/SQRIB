@@ -9,8 +9,6 @@ import { alertService } from '../../../Alert/Alert.service';
 import { extractFilename } from '../../utils/extractFileName.util';
 import { UseMutateAsyncFunction } from 'react-query';
 import { UpdateUserRequestBody, UserBase } from '@sqrib/shared';
-import { Text } from '../../../../components/Text/Text.component';
-import { COLORS } from '../../../../theme/colors';
 
 import './AvatarCrop.style.scss';
 import FileInput from './subComponent/FileInput/FileInput.component';
@@ -73,7 +71,7 @@ const AvatarCrop: React.FC<AvatarCropProps> = ({ avatarUrl, updateUser, userColo
     {preview && <img src={preview?.getCroppedCanvas()?.toDataURL()} width={200} height={200} style={{ borderRadius: '5px', border: '3px solid black' }} />}
     <Spacer y size={SpacerSize.MEDIUM} />
     {cropper && !preview && <Button onClick={() => setPreview(cropper)}>Crop</Button>}
-    {cropper && preview && <Button onClick={getCropData}>Upload</Button>}
+    {cropper && preview && <Button withTimeout onClick={getCropData}>Upload</Button>}
     <Spacer y size={SpacerSize.SMALL} />
     {cropper && preview && <Button onClick={() => {
       setPreview(null);

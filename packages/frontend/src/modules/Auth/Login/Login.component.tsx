@@ -1,7 +1,7 @@
 
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import Modal from '../../../components/Modal/Modal.component';
-import { Logo, Spacer, SpacerSize } from '../../../components';
+import { Spacer, SpacerSize } from '../../../components';
 import { Button } from '../../../components/Button/Button.component';
 import { Input } from '../components/Input/Input.component';
 import { useLogin } from '../../../api/queries';
@@ -13,23 +13,20 @@ import { Text } from '../../../components/Text/Text.component';
 import { COLORS } from '../../../theme/colors';
 
 function Login() {
-  const [login, setLogin] = useState({
-    // Can be email or username
-    email: '',
-    password: ''
-  });
+  // Can be email or username
+  const [login, setLogin] = useState({ email: '', password: '' });
+
   const [triggerLoginChecking, setTriggerLoginChecking] = useState(false);
   const { closeModal, openModal } = useModal()
   const { mutateAsync: loginUser } = useLogin({
-    onSuccess(data, variables, context) {
+    onSuccess() {
       setLogin({ email: '', password: '' });
       setTriggerLoginChecking(false);
       closeModal(MODAL_ID.LOGIN)
       alertService.success('You\'ve been successfully logged in :) !', {});
-      // ! FIX RELOADING THING
       window.location.reload()
     },
-    onError(error, variables, context) {
+    onError(error) {
       alertService.error(formatErrorMessage(error), {});
     }
   })

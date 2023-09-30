@@ -1,13 +1,16 @@
 import React from 'react'
+import { useParams } from 'react-router-dom';
+import { memberSinceDate } from '@sqrib/shared';
+
 import { Card } from '../../../../components/Card/Card.component';
 import { Text } from '../../../../components/Text/Text.component';
 import { Spacer, SpacerSize } from '../../../../components';
 import { Avatar } from '../../../../components/Avatar/Avatar.component';
-import { memberSinceDate } from '@sqrib/shared';
 import { COLORS } from '../../../../theme/colors';
 import { capitalizeFirstLetter } from '../../../../utils';
 import { useGetUser } from '../../../../api/queries';
-import { useParams } from 'react-router-dom';
+import { useWindowSize } from '../../../../hooks';
+
 import './PlayerDetail.style.scss';
 
 const PlayerDetail = () => {
@@ -24,6 +27,8 @@ const PlayerDetail = () => {
   const created_at = user?.created_at;
   const avatar = user?.avatar;
 
+  const { isSmallScreen } = useWindowSize();
+
   return (
     <Card className='player-detail--wrapper'>
       <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
@@ -38,7 +43,7 @@ const PlayerDetail = () => {
         </div>
       </div>
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-        <Avatar username={username ?? ''} avatarUrl={avatar} size={'xxlarge'} color={user?.color} />
+        <Avatar username={username ?? ''} avatarUrl={avatar} size={isSmallScreen ? 'xlarge' : 'xxlarge'} color={user?.color} />
       </div>
     </Card>
   )

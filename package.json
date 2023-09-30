@@ -1,7 +1,7 @@
 {
   "name": "sqrib",
   "private": true,
-  "version": "1.0.5",
+  "version": "1.1.0",
   "scripts": {
     "dev": "yarn workspace @sqrib/server dev",
     "start": "yarn workspaces run start",

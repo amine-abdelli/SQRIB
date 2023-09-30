@@ -13,13 +13,13 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Get the base ref name
-        id: get_base_ref_name
-        run: echo ::set-output name=branch::${{ github.event.pull_request.base.ref }}
+      - name: Get the source branch name
+        id: get_source_branch_name
+        run: echo ::set-output name=branch::${{ github.event.pull_request.head.ref }}
       
       - name: Update package version
         run: |
-          BRANCH_NAME="${{ steps.get_base_ref_name.outputs.branch }}"
+          BRANCH_NAME="${{ steps.get_source_branch_name.outputs.branch }}"
           if [[ $BRANCH_NAME == break/* ]]; then
             npm version major --no-git-tag-version
           elif [[ $BRANCH_NAME == feat/* ]]; then

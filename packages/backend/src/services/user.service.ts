@@ -76,7 +76,6 @@ export async function deleteUserService(req: Request):
   if (!userToDelete) {
     throw new HttpError(404, 'Cannot perform user deletion as user could not be found');
   }
-
   const isPasswordValid = await bcrypt.compare(password, userToDelete.password);
   if (!isPasswordValid) {
     throw new HttpError(401, 'Invalid password');

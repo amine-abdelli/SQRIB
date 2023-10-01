@@ -1,12 +1,14 @@
 import React from 'react';
+
 import { Logo, NavLinks, Spacer, SpacerSize } from '../components';
 import { Button } from '../components/Button/Button.component';
 import { MODAL_ID } from '../components/Modals/modals.constants';
 import { useAuthContext, useModal } from '../contexts';
-import '../theme/pages/_Home.scss';
 import { MovingBackground } from '../components/MovingBackground/MovingBackground.component';
 import { Version } from '../modules/Home/components';
 import { GithubLink } from '../modules/Home/components/GithubLink';
+
+import '../theme/pages/_Home.scss';
 
 function Home() {
   document.title = 'SQRIB.IO';

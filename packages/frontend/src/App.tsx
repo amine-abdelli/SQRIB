@@ -10,6 +10,7 @@ import { ModalDefinitions } from './components/Modals';
 import { AuthProvider } from './contexts/AuthContext';
 import { Alert } from './modules/Alert/Alert.component';
 import { ResolutionWarning } from './components/ResolutionWarning/ResolutionWarning.component';
+import { SocketProvider } from './contexts/SocketContext';
 
 function App() {
   return (
@@ -19,14 +20,16 @@ function App() {
       <AuthProvider>
         <SoundProvider>
           <ConfettiProvider>
-            <ModalProvider>
-              <BrowserRouter>
-                <Layout>
-                  <Router />
-                  <ModalDefinitions />
-                </Layout>
-              </BrowserRouter>
-            </ModalProvider>
+            <SocketProvider>
+              <ModalProvider>
+                <BrowserRouter>
+                  <Layout>
+                    <Router />
+                    <ModalDefinitions />
+                  </Layout>
+                </BrowserRouter>
+              </ModalProvider>
+            </SocketProvider>
           </ConfettiProvider>
         </SoundProvider>
       </AuthProvider>

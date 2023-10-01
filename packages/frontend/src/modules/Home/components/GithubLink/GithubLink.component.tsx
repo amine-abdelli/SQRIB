@@ -1,7 +1,9 @@
 import React from 'react'
 import { BsGithub } from 'react-icons/bs'
-import './GithubLink.style.scss'
+
 import { Button } from '../../../../components/Button/Button.component'
+
+import './GithubLink.style.scss'
 
 const GithubLink = () => {
   return (

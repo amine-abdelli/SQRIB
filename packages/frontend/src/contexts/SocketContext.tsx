@@ -1,10 +1,9 @@
 import React, { createContext, useContext, useEffect, useRef } from 'react';
 import io, { Socket } from 'socket.io-client';
+import { BACKEND_URL } from '../config-global';
 
-const ENDPOINT = 'http://localhost:4000';
 
-
-const socket = io(ENDPOINT, {
+const socket = io(BACKEND_URL, {
   transports: ['websocket'],
   autoConnect: false,
 });

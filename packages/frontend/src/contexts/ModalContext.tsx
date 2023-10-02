@@ -1,7 +1,6 @@
 import React, { createContext, useContext, useState, ReactNode } from 'react';
 import Modal from '../components/Modal/Modal.component';
 import { MODAL_ID } from '../components/Modals/modals.constants';
-import { useAuthContext } from './AuthContext';
 
 interface ModalContextType {
   activeModalIds: string[];

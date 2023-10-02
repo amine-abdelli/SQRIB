@@ -2,8 +2,8 @@
 
 @mixin BaseText {
   white-space: normal;
-  overflow-wrap: break-word;
-  word-wrap: break-word;
+  overflow-wrap: break-word !important;
+  word-wrap: break-word !important;
 }
 
 .text {
@@ -18,7 +18,8 @@
   &.h3 {
     @include BaseText();
     font-size: 1.25rem;
-  } &.p {
+  }
+  &.p {
     @include BaseText();
   }
   &.bold {

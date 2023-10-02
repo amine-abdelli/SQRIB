@@ -24,7 +24,7 @@ export interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> 
 
 function Input({
   onChange, placeholder, value, type, stretch, helperColor, helperText, name, disabled, fullWidth, label,
-  rightContent, style
+  rightContent, style, onKeyDown
 }: InputProps) {
   const [isPopoverOpen, setIsPopoverOpen] = useState(false);
   const rightContentStyle: CSSProperties = rightContent ? { display: 'flex', flexDirection: 'row' } : {};
@@ -84,6 +84,7 @@ function Input({
         value={value}
         name={name}
         disabled={disabled}
+        onKeyDown={onKeyDown}
       />
       {rightContent && (
         <span>

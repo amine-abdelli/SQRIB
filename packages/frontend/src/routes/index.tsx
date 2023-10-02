@@ -9,15 +9,30 @@ import {
   Profile,
   Home,
   EditProfile,
+  MultiplayerHome,
+  MultiplayerRoom,
+  MultiplayerSelection,
 } from './elements';
 import { MAIN_ROUTES } from './paths';
+import { SocketProvider } from '../contexts/SocketContext';
 
 export default function Router() {
   return useRoutes([
     { path: MAIN_ROUTES.HOME, element: <Home />, },
     { path: MAIN_ROUTES.TRAINING, element: <Training /> },
     { path: MAIN_ROUTES.LEARNING, element: <Learning /> },
-    { path: MAIN_ROUTES.MULTIPLAYER, element: <Multiplayer /> },
+    {
+      path: MAIN_ROUTES.MULTIPLAYER,
+      element:
+        <SocketProvider>
+          <Multiplayer />
+        </SocketProvider>,
+      children: [
+        { path: MAIN_ROUTES.MULTIPLAYER_HOME, element: <MultiplayerHome />, index: true },
+        { path: MAIN_ROUTES.MULTIPLAYER_SELECTION, element: <MultiplayerSelection /> },
+        { path: MAIN_ROUTES.MULTIPLAYER_ROOM, element: <MultiplayerRoom /> },
+      ]
+    },
     { path: MAIN_ROUTES.LEADERBOARD, element: <LeaderBoard /> },
     { path: MAIN_ROUTES.SETTINGS, element: <Settings /> },
     { path: MAIN_ROUTES.PROFILE, element: <Profile /> },

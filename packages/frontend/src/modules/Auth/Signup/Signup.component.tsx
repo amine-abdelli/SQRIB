@@ -2,14 +2,13 @@ import React, { useEffect, useState } from 'react';
 import { emailPolicy, passwordPolicy, usernamePolicy } from '@sqrib/shared';
 import Modal from '../../../components/Modal/Modal.component';
 import { Logo, Spacer, SpacerSize } from '../../../components';
-import { onFormChange } from '../../../utils/form.utils';
+import { onFormChange, validateInput } from '../../../utils/form.utils';
 import { Input } from '../components';
 import { Button } from '../../../components/Button/Button.component';
 import { Text } from '../../../components/Text/Text.component';
 import { useCreateUser } from '../../../api/queries';
 import { useModal } from '../../../contexts/ModalContext';
 import { MODAL_ID } from '../../../components/Modals/modals.constants';
-import { AxiosError } from 'axios';
 import { alertService } from '../../Alert/Alert.service';
 import { formatErrorMessage } from '../../../utils';
 
@@ -106,6 +105,7 @@ function Signup() {
             name="retypedPassword"
             helperColor={(triggerLoginChecking && (!isValid.retypedPassword ? 'error' : 'success')) as string}
             helperText={triggerLoginChecking && (!isValid.retypedPassword ? 'Vos deux mots de passe doivent être identiques.' : '') as string}
+            onKeyDown={(e) => validateInput(e, onFormSubmit)}
           />
         </form>
 

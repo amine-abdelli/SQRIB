@@ -9,12 +9,12 @@ interface ISoundContextValue {
 const soundPath = 'src/assets/sounds/keyboardSoundA.mp3';
 export const SoundContext = createContext<ISoundContextValue>({
   isSoundOn: true,
-  setSoundOn: (value: boolean) => {},
+  setSoundOn: (value: boolean) => { },
   selectedSound: soundPath,
-  setSelectedSound: (value: string) => {},
+  setSelectedSound: (value: string) => { },
 });
 
-export const SoundProvider = React.memo(({ children }: React.PropsWithChildren<object>)  => {
+export const SoundProvider = React.memo(({ children }: React.PropsWithChildren<object>) => {
   const [isSoundOn, setSoundOn] = useState(true);
   const [selectedSound, setSelectedSound] = useState(soundPath);
 
@@ -25,7 +25,7 @@ export const SoundProvider = React.memo(({ children }: React.PropsWithChildren<o
   );
 });
 
-SoundProvider.displayName = 'ScanningProvider';
+SoundProvider.displayName = 'SoundProvider';
 
 export const useSound = () => {
   return useContext(SoundContext);

@@ -11,11 +11,11 @@ import { MODAL_ID } from '../../../components/Modals/modals.constants';
 import { useModal } from '../../../contexts/ModalContext';
 import { Text } from '../../../components/Text/Text.component';
 import { COLORS } from '../../../theme/colors';
+import { validateInput } from '../../../utils/form.utils';
 
 function Login() {
   // Can be email or username
   const [login, setLogin] = useState({ email: '', password: '' });
-
   const [triggerLoginChecking, setTriggerLoginChecking] = useState(false);
   const { closeModal, openModal } = useModal()
   const { mutateAsync: loginUser } = useLogin({
@@ -70,6 +70,7 @@ function Login() {
           type='password'
           // placeholder='password' // TODO ADD A PADLOCK IN PASSWORD PLACEHOLDER ON THE LEFT
           onChange={(e) => setLogin({ ...login, password: e.target.value })}
+          onKeyDown={(e) => validateInput(e, onFinish)}
           value={login.password}
         />
       </Modal.Body>

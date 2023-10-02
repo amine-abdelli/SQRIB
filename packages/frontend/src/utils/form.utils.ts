@@ -10,3 +10,9 @@ export function onFormChange(
 ) {
   setState({ ...form, [event.target.name]: event.target.value });
 }
+
+export function validateInput(e: React.KeyboardEvent<HTMLInputElement>, cb: () => void) {
+  if (e.key === 'Enter') {
+    cb()
+  }
+}

@@ -1,8 +1,11 @@
+@import "src/theme/index.scss";
+
 .notification {
   padding: 16px;
   margin: 16px 0;
   border: 3px solid #ccc;
   border-radius: 4px;
+  font-family: $FiraCodefontFamily;
 }
 
 .notification.info {

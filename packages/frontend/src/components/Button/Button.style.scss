@@ -27,10 +27,7 @@
       color: grey;
       border: 3px solid grey;
       box-shadow: 4px 4px 0px grey;
-      &:hover {
-        color: grey !important;
-        background-color: inherit !important;
-      }
+      background-color: fade-out($primary, 0.1);
     }
 
     &:hover {
@@ -44,6 +41,10 @@
     &:hover {
       background-color: $light-grey;
     }
+
+    &:disabled {
+      background-color: $light-grey;
+    }
   }
 
   &--light {
@@ -55,9 +56,9 @@
 
     &:disabled {
       scale: 1;
-      cursor: not-allowed;
       border: none;
       box-shadow: none;
+      background-color: inherit;
     }
 
     &:hover {

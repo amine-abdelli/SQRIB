@@ -1,9 +1,10 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import express, { Request, Response, NextFunction } from 'express';
-import { HttpError, serializeBigInt } from '../utils';
+import { serializeBigInt } from '../utils';
 import {
   createUserService, deleteUserService, getUserByIdService, getUserRankService,
   getUserScoresService, getUserStatsService, getUserWeeklyTrackerService,
+  isUsernameAvailableService,
   updatePasswordService,
   updateUserByIdService,
 } from '../services';
@@ -141,6 +142,15 @@ export async function updateUserPassword(req: Request, res: Response, next: Next
   try {
     const { password, ...userRest } = await updatePasswordService(req);
     return res.status(200).json(userRest);
+  } catch (error) {
+    return next(error);
+  }
+}
+
+export async function usernameAvailability(req: Request, res: Response, next: NextFunction) {
+  try {
+    const isUsernameAvailable = await isUsernameAvailableService(req.query.username as string);
+    return res.status(200).json({ isAvailable: isUsernameAvailable });
   } catch (error) {
     return next(error);
   }

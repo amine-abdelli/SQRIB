@@ -36,15 +36,14 @@ export function countCorrectlyTypedWords(typedWords: string[], wordChain: string
   return correctlyTypedWords
 }
 
-
 export function countOccurrences(arr: string[]) {
   return arr.reduce((acc: any, letter: string) => {
-      if (acc[letter]) {
-          acc[letter]++;
-      } else {
-          acc[letter] = 1;
-      }
-      return acc;
+    if (acc[letter]) {
+      acc[letter]++;
+    } else {
+      acc[letter] = 1;
+    }
+    return acc;
   }, {});
 }
 

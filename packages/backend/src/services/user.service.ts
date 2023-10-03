@@ -402,3 +402,10 @@ export async function updatePasswordService(req: Request) {
   log.info('Password updated successfully:', { email: updatedUser?.email });
   return updatedUser;
 }
+
+export const isUsernameAvailableService = async (username: string): Promise<boolean> => {
+  log.info('Checking if username is available', { username });
+  const user = await getUserByUsernameRepository(username);
+  log.info('Username availability checked successfully:', { isAvailable: !user });
+  return !user;
+};

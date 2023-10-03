@@ -81,10 +81,6 @@ function convertSecondsToTimerFormat(timer: number): string {
   return `${minutes < 10 ? `0${minutes}` : minutes}:${seconds < 10 ? `0${seconds}` : seconds}`;
 }
 
-export {
-  calculateWPM, calculateZenModeAccuracy, calculatePoints, convertSecondsToTimerFormat,
-};
-
 export function orderSuffix(rank: number) {
   let suffix = 'th';
   if (rank === 1 || rank === 21 || rank === 31) {
@@ -96,3 +92,7 @@ export function orderSuffix(rank: number) {
   }
   return suffix
 }
+
+export {
+  calculateWPM, calculateZenModeAccuracy, calculatePoints, convertSecondsToTimerFormat,
+};

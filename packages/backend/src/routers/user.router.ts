@@ -14,5 +14,6 @@ router.get(ENDPOINTS.user.user_stats, ...withAuth(UserController.getUserStats));
 router.get(ENDPOINTS.user.get_user_rank, ...withAuth(UserController.getUserRank));
 router.get(ENDPOINTS.user.get_user_scores, ...withAuth(UserController.getUserScores));
 router.post(ENDPOINTS.user.update_password, ...withAuth(UserController.updateUserPassword));
+router.get(ENDPOINTS.user.username_availability, UserController.usernameAvailability);
 
 export default router;

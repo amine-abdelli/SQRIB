@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { emailPolicy, passwordPolicy, usernamePolicy } from '@sqrib/shared';
 import Modal from '../../../components/Modal/Modal.component';
-import { Logo, Spacer, SpacerSize } from '../../../components';
+import { Spacer, SpacerSize } from '../../../components';
 import { onFormChange, validateInput } from '../../../utils/form.utils';
 import { Input } from '../components';
 import { Button } from '../../../components/Button/Button.component';
@@ -11,6 +11,9 @@ import { useModal } from '../../../contexts/ModalContext';
 import { MODAL_ID } from '../../../components/Modals/modals.constants';
 import { alertService } from '../../Alert/Alert.service';
 import { formatErrorMessage } from '../../../utils';
+import { COLORS } from '../../../theme/colors';
+import { generateRandomUsername } from '../../../utils/username.util';
+import { LuRefreshCcw } from 'react-icons/lu';
 
 function Signup() {
   const [isValid, setIsValid] = useState({
@@ -37,7 +40,6 @@ function Signup() {
       alertService.error(formatErrorMessage(error), { keepAfterRouteChange: true });
     }
   })
-
 
   useEffect(() => {
     setIsValid({
@@ -73,14 +75,21 @@ function Signup() {
       </Modal.Header>
       <Modal.Body>
         <form>
-          <Input
-            name="username"
-            label="Username"
-            onChange={(event) => onFormChange(event, setSignupForm, signupForm)}
-            placeholder="e.g john_doe"
-            helperColor={(triggerLoginChecking && (!isValid.username ? 'error' : 'success')) as string}
-            helperText={triggerLoginChecking && (!isValid.username ? 'Lettres, chiffres, tirets et tirets du bas uniquement.' : '')}
-          />
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <Input
+              name="username"
+              label="Username"
+              onChange={(event) => onFormChange(event, setSignupForm, signupForm)}
+              value={signupForm.username}
+              placeholder="e.g john_doe"
+              helperColor={(triggerLoginChecking && (!isValid.username ? 'error' : 'success')) as string}
+              helperText={triggerLoginChecking && (!isValid.username ? 'Lettres, chiffres, tirets et tirets du bas uniquement.' : '')}
+              style={{ width: '100%' }}
+            />
+            <Button stretch light style={{ alignSelf: 'flex-end', marginBottom: '10px' }} onClick={() => setSignupForm({ ...signupForm, username: generateRandomUsername() })}>
+              <LuRefreshCcw color={COLORS.BLACK} size={24} />
+            </Button>
+          </div>
           <Input
             type="email"
             name="email"

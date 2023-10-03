@@ -15,6 +15,7 @@ import {
 } from './elements';
 import { MAIN_ROUTES } from './paths';
 import { SocketProvider } from '../contexts/SocketContext';
+import { PlayerProvider } from '../contexts/PlayerContext';
 
 export default function Router() {
   return useRoutes([
@@ -25,7 +26,9 @@ export default function Router() {
       path: MAIN_ROUTES.MULTIPLAYER,
       element:
         <SocketProvider>
-          <Multiplayer />
+          <PlayerProvider>
+            <Multiplayer />
+          </PlayerProvider>
         </SocketProvider>,
       children: [
         { path: MAIN_ROUTES.MULTIPLAYER_HOME, element: <MultiplayerHome />, index: true },

@@ -10,6 +10,7 @@ export const ENDPOINTS_FULL_PATH = Object.freeze({
     get_user_scores: '/user/get-user-scores',
     upload_avatar: '/user/upload-avatar',
     update_password: '/user/update-password',
+    username_availability: '/user/username-availability',
   },
   auth: {
     login: '/auth/login',
@@ -40,6 +41,7 @@ export const ENDPOINTS = Object.freeze({
     get_user_scores: '/get-user-scores',
     upload_avatar: '/upload-avatar',
     update_password: '/update-password',
+    username_availability: '/username-availability',
   },
   auth: {
     login: '/login',

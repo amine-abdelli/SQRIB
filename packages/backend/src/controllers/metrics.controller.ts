@@ -8,7 +8,7 @@ const router = express.Router();
  * @route /login
  * @method GET
  */
-export async function getGlobalMetrics(req: Request, res: Response, next: NextFunction) {
+export async function getGlobalMetrics(_: Request, res: Response, next: NextFunction) {
   try {
     const globalMetrics = await getGlobalMetricsService();
     res.status(200).json(globalMetrics);

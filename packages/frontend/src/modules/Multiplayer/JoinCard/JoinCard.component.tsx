@@ -17,6 +17,7 @@ import { MAIN_ROUTES } from '../../../routes/paths'
 const JoinCard = () => {
   const { mutateAsync, data } = useUsernameChecker()
   const { username, setUsername, isAuthenticated } = usePlayer()
+  // Local username
   const [_username, _setUsername] = React.useState(username || generateRandomUsername())
   const navigate = useNavigate()
 

@@ -12,7 +12,7 @@ import { Tooltip } from '../../../../components/ToolTip/ToolTip.component';
 import { useAuthContext } from '../../../../contexts/AuthContext';
 import { StatsProps } from '../ScoreBoardModal/ScoreBoardModal.component';
 import { useSaveTrainingScore } from '../../../../api/queries';
-import { TrainingMode } from '../../../../components/Options/Options.props';
+import { SessionMode } from '../../../../components/Options/Options.props';
 import { alertService } from '../../../Alert/Alert.service';
 import { SessionType } from '@sqrib/shared';
 
@@ -49,8 +49,8 @@ function Stats(props: StatsProps) {
         session: {
           language: props.language,
           mode: props.mode,
-          word_count: props.mode === TrainingMode.SPEED_CHALLENGE ? props.wordCount : undefined,
-          count_down: props.mode === TrainingMode.TIME_TRIAL ? props.countDown : undefined,
+          word_count: props.mode === SessionMode.SPEED_CHALLENGE ? props.wordCount : undefined,
+          count_down: props.mode === SessionMode.TIME_TRIAL ? props.countDown : undefined,
           type: SessionType.TRAINING as unknown as string,
           zen_mode: props.isZenModeOn,
         }

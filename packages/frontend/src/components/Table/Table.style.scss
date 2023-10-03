@@ -1,0 +1,90 @@
+@import "src/theme/index.scss";
+
+.tableWrapper {
+  background: $tertiary;
+  padding: 0;
+  height: 100%;
+  border-radius: 5px !important;
+
+  .tableRow:hover {
+    td {
+      background-color: fade-out($color: $primary, $amount: 0.9) !important;
+      color: black !important;
+    }
+  }
+
+  table {
+    @include thinBorder();
+    font-family: "Fira Code";
+
+    .headerWrapper {
+      td {
+        border: 3px solid $outline;
+      }
+    }
+
+    thead {
+      height: 2rem;
+      tr {
+        margin: 0;
+        padding: 0;
+        th {
+          // To comment
+          border: 3px solid $outline;
+          margin: 0;
+          padding: 0;
+        }
+      }
+    }
+
+    tbody {
+      tr {
+        td {
+          // To comment
+          border-left: 3px solid $outline;
+          border-right: 3px solid $outline;
+          height: "5px";
+        }
+
+        &:last-child {
+          height: 100%;
+        }
+      }
+    }
+  }
+}
+
+.clickedRow {
+  background-color: fade-out($color: $primary, $amount: 0.9) !important;
+}
+
+@media screen and (max-width: $xsm-screen) {
+  .tableWrapper {
+    table {
+      .headerWrapper {
+        td {
+          // Works for h1, h2, h3 passed via header props only
+          & h1,
+          h2,
+          h3 {
+            font-size: 28px;
+          }
+        }
+      }
+      thead {
+        tr {
+          th {
+            font-size: 14px;
+          }
+        }
+      }
+      tbody {
+        tr {
+          td {
+            font-size: 12px;
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,7 +1,9 @@
 import React from 'react';
+import { generateRandomColor } from '@sqrib/shared';
+
 import { AvatarProps } from './Avatar.props';
-import { colorGenerator } from '@sqrib/shared';
-import './Avatar.style.scss'
+
+import './Avatar.style.scss';
 
 function Avatar({ username, size, avatarUrl, color, style, onClick }: AvatarProps) {
   let edgeSize = '2.2rem';
@@ -25,7 +27,7 @@ function Avatar({ username, size, avatarUrl, color, style, onClick }: AvatarProp
     edgeSize = '10rem';
     fontSize = '95px';
   }
-  const colorPicker = () => React.useMemo(() => colorGenerator(), [username])
+  const colorPicker = () => React.useMemo(() => generateRandomColor(), [username])
   // TODO in future, when user will be able to edit its own profile. Add react-image-crop library
   return (
     avatarUrl ? <img onClick={onClick} src={avatarUrl} alt="User's Avatar" style={{

@@ -1,12 +1,12 @@
 import React, { ReactElement } from 'react';
 import { BsKeyboard } from 'react-icons/bs';
 import { OverlayProps } from './Overlay.props';
-import { TrainingMode } from '../Options/Options.props';
+import { SessionMode } from '../Options/Options.props';
 import { Text } from '../Text/Text.component';
 import './Overlay.style.scss';
 
 function Overlay({ isVisible, isUserAllowToType, mode }: OverlayProps): ReactElement {
-  const message = mode === TrainingMode.TIME_TRIAL ? 'Start typing to launch the count down' : 'Start typing to launch the timer'
+  const message = mode === SessionMode.TIME_TRIAL ? 'Start typing to launch the count down' : 'Start typing to launch the timer'
   return (
     <div
       className={`overlay--wrapper ${isVisible ? '' : 'hidden'}`}

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useSocket } from '../../contexts/SocketContext';
 import { Button } from '../../components/Button/Button.component';
 import { MultiplayerSocketEventsListenerEnum } from '@sqrib/shared';
@@ -15,11 +15,12 @@ const MultiplayerRoom = () => {
   };
   const navigate = useNavigate();
   const location = useLocation();
-  if (!location?.state?.roomId) {
-    console.log('Navigating to multiplayer')
-    // Trigger notification
-    navigate(MAIN_ROUTES.MULTIPLAYER)
-  };
+  useEffect(() => {
+    if (!location?.state?.roomId) {
+      // TODO Trigger notification
+      navigate(MAIN_ROUTES.MULTIPLAYER)
+    };
+  }, [])
   console.log(location?.state);
   return (
     <section>

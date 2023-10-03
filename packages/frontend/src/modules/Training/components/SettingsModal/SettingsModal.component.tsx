@@ -93,8 +93,8 @@ function SettingsModal(props: SettingsModalProps) {
   React.useEffect(() => {
     if (width > 1400) {
       setFontSize(FontSize.X_LARGE)
-    } else if(width < 764) {
-      setFontSize(FontSize.SMALL)
+    } else if (width < 764) {
+      setFontSize(FontSize.LARGE)
     }
   }, [width])
   return (

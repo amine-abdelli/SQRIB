@@ -7,7 +7,7 @@ import { Button } from '../Button/Button.component';
 import { AiOutlineEdit } from 'react-icons/ai';
 import { Spacer, SpacerSize } from '../Spacer';
 import { Game, TimeCircle } from 'react-iconly';
-import { TrainingMode } from '../Options/Options.props';
+import { SessionMode } from '../Options/Options.props';
 import { TbSortAscendingNumbers } from 'react-icons/tb';
 import { MdOutlineTypeSpecimen } from 'react-icons/md';
 import './Scoring.style.scss';
@@ -18,8 +18,8 @@ import { PiFlowerLotusLight } from 'react-icons/pi';
 import { HomeButton } from '../HomeButton/HomeButton.component';
 
 const SETTINGS_CONVERTER: Record<string, string> = {
-  [TrainingMode.SPEED_CHALLENGE]: 'Speed Challenge',
-  [TrainingMode.TIME_TRIAL]: 'Time Trial',
+  [SessionMode.SPEED_CHALLENGE]: 'Speed Challenge',
+  [SessionMode.TIME_TRIAL]: 'Time Trial',
   [Languages.FR]: 'French',
   [Languages.EN]: 'English',
   [Languages.DE]: 'German',
@@ -44,7 +44,7 @@ function Scoring({ score, timer, setShouldDisplayOption, isRunning, mode, wordCo
             </span>
             <Spacer x size={SpacerSize.SMALL} />
             <span className={`summary ${isMediumScreen ? 'hidden' : ''}`}>
-              {mode === TrainingMode.SPEED_CHALLENGE
+              {mode === SessionMode.SPEED_CHALLENGE
                 ?
                 <>
                   <OptionIcon icon={<TbSortAscendingNumbers size={16} />} />
@@ -95,7 +95,7 @@ function Scoring({ score, timer, setShouldDisplayOption, isRunning, mode, wordCo
       <div className="scoring">
         <div className="scoring--wrapper" >
           <ScoringItem label="wpm" value={score.wpm} />
-          {!isSmallScreen && <ScoringItem label={mode === TrainingMode.TIME_TRIAL ? "Typed words" : '/' + wordCount} value={`${typedWords.length}`} />}
+          {!isSmallScreen && <ScoringItem label={mode === SessionMode.TIME_TRIAL ? "Typed words" : '/' + wordCount} value={`${typedWords.length}`} />}
           {!isMediumScreen && <ScoringItem label="% Accuracy" value={`${score.accuracy}`} />}
           {!isLargeScreen && <ScoringItem label="Points" value={score.points} />}
         </div>

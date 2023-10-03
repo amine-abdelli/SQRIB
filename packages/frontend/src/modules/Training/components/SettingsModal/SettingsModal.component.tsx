@@ -1,27 +1,30 @@
 import React, { useState } from 'react'
-import { EngineProps } from '../../Engine'
-import Modal from '../../../../components/Modal/Modal.component';
-import { TWordsType, TrainingMode, WordsCollectionLayout, WordsType } from '../../../../components/Options/Options.props';
-import { FontSize } from '../../../../utils';
-import { Button } from '../../../../components/Button/Button.component';
 import { Languages } from '@sqrib/shared';
-import './SettingsModal.style.scss';
-import { Category, Game, TimeCircle } from 'react-iconly';
-import { Logo, Spacer, SpacerSize } from '../../../../components';
-import { IoLanguageOutline } from 'react-icons/io5';
-import { MdOutlineTypeSpecimen, MdOutlineSubject } from 'react-icons/md';
 import { RiFontSize } from 'react-icons/ri';
 import { PiFlowerLotusLight } from 'react-icons/pi';
 import { TbSortAscendingNumbers } from 'react-icons/tb';
 import { FaGripLines } from 'react-icons/fa';
+import { IoLanguageOutline } from 'react-icons/io5';
+import { MdOutlineTypeSpecimen, MdOutlineSubject } from 'react-icons/md';
+import { Category, Game, TimeCircle } from 'react-iconly';
+
+import { EngineProps } from '../../Engine'
+import Modal from '../../../../components/Modal/Modal.component';
+import { TWordsType, SessionMode, WordsCollectionLayout, WordsType } from '../../../../components/Options/Options.props';
+import { FontSize } from '../../../../utils';
+import { Button } from '../../../../components/Button/Button.component';
+import { Logo, Spacer, SpacerSize } from '../../../../components';
 import { CheckboxWithLabel } from './SubComponents/CheckboxWithLabel/CheckboxWithLabel.component';
 import { ModeOptionGroup, OptionGroup } from './SubComponents/OptionGroup';
+
 import { useWindowSize } from '../../../../hooks';
+
+import './SettingsModal.style.scss';
 
 function ModeOptions({ mode, setMode, countDown, setCountDown, wordCount, setWordCount, isZenModeOn, setIsZenModeOn }: SettingsModalProps) {
   const [wordsType, setWordsType] = useState<TWordsType>(WordsType.RANDOM);
 
-  const modeOptions = [{ value: TrainingMode.TIME_TRIAL, label: 'Time Trial', subLabel: 'Race against the clock and type as many words as possible in your chosen timeframe.' }, { value: TrainingMode.SPEED_CHALLENGE, label: 'Speed Challenge', subLabel: 'Choose a word count and type it out as quickly as you can.' }];
+  const modeOptions = [{ value: SessionMode.TIME_TRIAL, label: 'Time Trial', subLabel: 'Race against the clock and type as many words as possible in your chosen timeframe.' }, { value: SessionMode.SPEED_CHALLENGE, label: 'Speed Challenge', subLabel: 'Choose a word count and type it out as quickly as you can.' }];
   const wordCountOptions = [{ value: 25, label: 25 }, { value: 50, label: 50 }, { value: 75, label: 75 }, { value: 100, label: 100 }, { value: 125, label: 125 }, { value: 150, label: 150 }];
   const durationOptions = [{ value: 15, label: 15 }, { value: 30, label: 30 }, { value: 60, label: 60 }, { value: 75, label: 75 }, { value: 90, label: 90 }, { value: 120, label: 120 }];
   const wordTypeOptions = [{ value: 'random', label: 'random' }, { value: 'quote', label: 'quote' }, { value: 'custom', label: 'custom' }];
@@ -45,7 +48,7 @@ function ModeOptions({ mode, setMode, countDown, setCountDown, wordCount, setWor
       />
       <Spacer y size={SpacerSize.SMALL} />
       {/* You have 15, 30, 45, 60, 75 or 90seconds to type as many words as possible  */}
-      {mode === TrainingMode.TIME_TRIAL &&
+      {mode === SessionMode.TIME_TRIAL &&
         <OptionGroup
           icon={<TimeCircle set="light" />}
           label='Timer'
@@ -55,7 +58,7 @@ function ModeOptions({ mode, setMode, countDown, setCountDown, wordCount, setWor
           setSelected={setCountDown}
         />}
       {/* You have 25, 50, 75, 100, 125 or 150 words to type as fast as possible  */}
-      {mode === TrainingMode.SPEED_CHALLENGE &&
+      {mode === SessionMode.SPEED_CHALLENGE &&
         <OptionGroup
           icon={<TbSortAscendingNumbers />}
           subLabel='Number of words you want to type' label='Word Count' options={wordCountOptions}

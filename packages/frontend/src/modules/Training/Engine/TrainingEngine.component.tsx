@@ -5,7 +5,7 @@ import { useTimestamp } from '../../../hooks/useTimestamp.hook';
 import { calculateZenModeAccuracy, calculatePoints, calculateWPM } from '../../../utils';
 import { useTimer } from '../../../hooks/useTimer.hook';
 import { FontSize } from '../../../utils/fontsize.enum';
-import { TTrainingMode, TrainingMode, WordsCollectionLayout } from '../../../components/Options/Options.props';
+import { TTrainingMode, SessionMode, WordsCollectionLayout } from '../../../components/Options/Options.props';
 import { useGetTrainingWordChain } from '../../../api/queries';
 import { EngineChildren, IScore } from './Engine.props';
 import { useAFKChecker } from '../../../hooks';
@@ -20,7 +20,7 @@ function TrainingEngine({ children }: EngineChildren) {
   const [wordChain, setWordChain] = React.useState<string[]>([]);
   const [fontSize, setFontSize] = React.useState<FontSize>(FontSize.MEDIUM);
   const [language, setLanguage] = React.useState<TLanguages>(Languages.FR);
-  const [mode, setMode] = useState<TTrainingMode>(TrainingMode.TIME_TRIAL);
+  const [mode, setMode] = useState<TTrainingMode>(SessionMode.TIME_TRIAL);
   const [countDown, setCountDown] = useState(60);
   const [wordCount, setWordCount] = useState(75);
   const [isRunning, setIsRunning] = React.useState(false);
@@ -37,7 +37,7 @@ function TrainingEngine({ children }: EngineChildren) {
     wpm: 0, accuracy: 0, points: 0, startTime: 0, endTime: 0
   });
 
-  const isTimeTrialMode = mode === TrainingMode.TIME_TRIAL;
+  const isTimeTrialMode = mode === SessionMode.TIME_TRIAL;
 
   const { data, refetch } = useGetTrainingWordChain({ count: isTimeTrialMode ? ((WORLD_WPM_RECORD * 1.1) / 60) * countDown : wordCount, language });
 
@@ -113,7 +113,7 @@ function TrainingEngine({ children }: EngineChildren) {
 
   // Time Trial : End of game, trigger the victory modal
   useEffect(() => {
-    if (!isUserAllowToType && mode === TrainingMode.TIME_TRIAL && timer === 0) {
+    if (!isUserAllowToType && mode === SessionMode.TIME_TRIAL && timer === 0) {
       setIsUserAllowToType(false);
       setShouldOpenVictoryModal(true)
     }

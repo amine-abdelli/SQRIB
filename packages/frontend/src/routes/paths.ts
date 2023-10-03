@@ -6,10 +6,12 @@ export enum MAIN_ROUTES {
   HOME = '/',
   TRAINING = '/training',
   LEARNING = '/learning',
+
   MULTIPLAYER = '/multiplayer',
   MULTIPLAYER_HOME = '',
-  MULTIPLAYER_ROOM = 'room/:roomId',
+  MULTIPLAYER_ROOM = 'room',
   MULTIPLAYER_SELECTION = 'room-selection',
+
   LEADERBOARD = '/leaderboard',
   SETTINGS = '/settings',
   PROFILE = '/profile',

@@ -9,7 +9,7 @@ export enum WordsCollectionLayout {
   HORIZONTAL = 'horizontal',
 }
 
-export enum TrainingMode {
+export enum SessionMode {
   SPEED_CHALLENGE = 'SPEED_CHALLENGE',
   TIME_TRIAL = 'TIME_TRIAL',
 }
@@ -26,4 +26,4 @@ export type TWordsCollectionLayout = WordsCollectionLayout;
 
 export type TDifficulty = Difficulty;
 
-export type TTrainingMode = TrainingMode.SPEED_CHALLENGE | TrainingMode.TIME_TRIAL;
+export type TTrainingMode = SessionMode.SPEED_CHALLENGE | SessionMode.TIME_TRIAL;

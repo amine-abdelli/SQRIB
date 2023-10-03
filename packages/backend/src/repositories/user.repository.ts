@@ -2,7 +2,7 @@ import {
   GlobalMetrics, Palmares, Score, User,
 } from '@prisma/client';
 
-import { CreateUserRequestBody, colorGenerator } from '@sqrib/shared';
+import { CreateUserRequestBody, generateRandomColor } from '@sqrib/shared';
 import { prisma } from '../client';
 
 /**
@@ -15,7 +15,7 @@ export function createUserRepository(data: CreateUserRequestBody): Promise<User>
       email: data.email,
       username: data.username,
       password: data.password,
-      color: colorGenerator(),
+      color: generateRandomColor(),
       Palmares: {
         create: {},
       },

@@ -27,7 +27,11 @@
       color: grey;
       border: 3px solid grey;
       box-shadow: 4px 4px 0px grey;
-      background-color: fade-out($primary, 0.1);
+      background-color: white;
+
+      &:hover {
+        background-color: white;
+      }
     }
 
     &:hover {

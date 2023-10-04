@@ -4,6 +4,7 @@ import Select from "../Select/Select.component";
 import { ColumnProps, HeaderProps, TableProps } from "./Table.props";
 import { useWindowSize } from "../../hooks";
 import { COLORS } from "../../theme/colors";
+import { alertService } from "../../modules/Alert/Alert.service";
 
 import "./Table.style.scss";
 
@@ -48,8 +49,10 @@ function Body({
   const [clickedRowIndex, setClickedRowIndex] = React.useState<number | undefined>(undefined);
   function handleClickedRow(data: Record<string, string>, index: number | undefined) {
     if (onRowClick) {
-      onRowClick(clickedRowIndex !== undefined ? {} : data);
-      setClickedRowIndex(clickedRowIndex !== undefined ? undefined : index);
+      const isSessionFull = Number(data?.players) === 5;
+      isSessionFull && alertService.warn('This session is full', {})
+      onRowClick(isSessionFull || clickedRowIndex === index ? {} : data);
+      setClickedRowIndex(isSessionFull || clickedRowIndex === index ? undefined : index);
     }
   }
   const wrapperRef = React.useRef<any>(null);

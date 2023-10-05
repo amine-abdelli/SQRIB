@@ -5,12 +5,12 @@ import { JoinCard } from '../../modules/Multiplayer'
 
 const MultiplayerHome = () => {
   return (
-    <section style={{ padding: '1rem', height: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+    <section style={{ padding: '1rem', height: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center', position: 'relative' }}>
       <div style={{ width: '40rem', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
         <HomeHeader />
         <JoinCard />
       </div>
-    </section>
+    </section >
   )
 }
 

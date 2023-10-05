@@ -13,7 +13,7 @@ const MultiplayerRoomSelection = () => {
     }
   }, [])
   return (
-    <section className='layout--main' style={{ padding: '2rem', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+    <section className='layout--main' style={{ padding: '2rem', display: 'flex', justifyContent: 'center', alignItems: 'center', position: 'relative' }}>
       <RoomList />
     </section>
   )

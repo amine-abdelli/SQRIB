@@ -11,6 +11,7 @@ export enum MAIN_ROUTES {
   MULTIPLAYER_HOME = '',
   MULTIPLAYER_ROOM = 'room',
   MULTIPLAYER_SELECTION = 'room-selection',
+  MULTIPLAYER_CREATE_SESSION = 'create',
 
   LEADERBOARD = '/leaderboard',
   SETTINGS = '/settings',

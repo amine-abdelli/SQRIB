@@ -7,6 +7,7 @@ import { Spacer, SpacerSize } from '../../../components';
 import { Card } from '../../../components/Card/Card.component';
 import { Text } from '../../../components/Text/Text.component';
 import { generatePath, useNavigate } from 'react-router-dom';
+import { MAIN_ROUTES } from '../../../routes/paths';
 
 // Mocks
 const roomList = [
@@ -65,12 +66,15 @@ const roomList = [
   },
 ]
 
+export function concatPath(root: string, endPath: string) {
+  return root + '/' + endPath;
+}
 const RoomList = () => {
   const [roomId, setRoomId] = React.useState<string>('');
   const isJoinButtonDisabled = !roomId || roomList.find((room) => room.id === roomId)?.players === 5;
   const navigate = useNavigate();
   function joinSession() {
-    navigate(generatePath('/multiplayer/room'), { state: { roomId } })
+    navigate(generatePath(concatPath(MAIN_ROUTES.MULTIPLAYER, MAIN_ROUTES.MULTIPLAYER_ROOM)), { state: { roomId } })
   }
   return (
     <Card style={{ padding: '2rem', width: '50rem' }}>
@@ -89,7 +93,7 @@ const RoomList = () => {
         Join a session
       </Button>
       <Spacer y size={SpacerSize.SMALL} />
-      <Button secondary onClick={() => console.log(roomId)}>
+      <Button secondary onClick={() => navigate(concatPath(MAIN_ROUTES.MULTIPLAYER, MAIN_ROUTES.MULTIPLAYER_CREATE_SESSION))}>
         Create a session
       </Button>
     </Card>

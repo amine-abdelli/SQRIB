@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { alertService } from '../modules/Alert/Alert.service';
 
 interface AFKCheckerProps {

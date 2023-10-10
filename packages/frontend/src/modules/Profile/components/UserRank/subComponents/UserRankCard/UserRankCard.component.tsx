@@ -2,7 +2,7 @@ import React from 'react';
 import { UserRankRange } from '@sqrib/shared';
 
 import { Text } from '../../../../../../components/Text/Text.component';
-import { capitalizeFirstLetter, orderSuffix } from '../../../../../../utils';
+import { upperFirst, orderSuffix } from '../../../../../../utils';
 import crown from '../../../../../../assets/images/crown.png';
 import { generatePath, useNavigate } from 'react-router-dom';
 import { MAIN_ROUTES } from '../../../../../../routes/paths';
@@ -40,7 +40,7 @@ const UserRankCard = ({ user, containerRef }: UserRankCardProps) => {
       <Tooltip enable={!isMediumScreen && !isOwnProfile} size={14} content={`Visit ${user.username}'s profile`} direction='right'>
         <Avatar style={{ padding: 0, margin: '0 0.3rem' }} color={user.color} username={user.username} avatarUrl={user.avatar} />
       </Tooltip>
-      <Text p fira bold style={{ flex: 1 }}>{capitalizeFirstLetter(user.username)}</Text>
+      <Text p fira bold style={{ flex: 1 }}>{upperFirst(user.username)}</Text>
       <span style={{ display: 'flex', flex: 1 }}>
         <Text p bold>{user.best_wpm}</Text>
         <Text p size={12} style={{ alignSelf: 'flex-end' }} fira>WPM</Text>

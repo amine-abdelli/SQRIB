@@ -8,74 +8,40 @@ import { Card } from '../../../components/Card/Card.component';
 import { Text } from '../../../components/Text/Text.component';
 import { generatePath, useNavigate } from 'react-router-dom';
 import { MAIN_ROUTES } from '../../../routes/paths';
+import { useSocket } from '../../../contexts/SocketContext';
+import { SocketPreGameEventsEnum } from '@sqrib/shared';
+import { usePlayer } from '../../../contexts/PlayerContext';
 
-// Mocks
-const roomList = [
-  {
-    name: 'session 1',
-    players: 3,
-    lang: 'fr',
-    id: '1',
-    mode: 'Time trial',
-  },
-  {
-    name: 'session 2',
-    players: 2,
-    lang: 'en',
-    id: '2',
-    mode: 'Speed challenge',
-    word_count: 60
-  },
-  {
-    name: 'session 3',
-    players: 4,
-    lang: 'en',
-    id: '3',
-    mode: 'Speed challenge',
-    word_count: 60
-  },
-  {
-    name: 'session 4',
-    players: 5,
-    lang: 'fr',
-    id: '4',
-    mode: 'Time trial'
-  },
-  {
-    name: 'session 1',
-    players: 3,
-    lang: 'fr',
-    id: '5',
-    mode: 'Time trial',
-  },
-  {
-    name: 'session 2',
-    players: 2,
-    lang: 'en',
-    id: '6',
-    mode: 'Speed challenge',
-    word_count: 60
-  },
-  {
-    name: 'session 3',
-    players: 4,
-    lang: 'en',
-    id: '7',
-    mode: 'Speed challenge',
-    word_count: 60
-  },
-]
 
 export function concatPath(root: string, endPath: string) {
   return root + '/' + endPath;
 }
-const RoomList = () => {
-  const [roomId, setRoomId] = React.useState<string>('');
+
+interface RoomListProps {
+  roomId: string;
+  setRoomId: (roomId: string) => void;
+  roomList: any[];
+}
+
+const RoomList = ({ roomId, setRoomId, roomList }: RoomListProps) => {
+  const { emit, listen } = useSocket();
+  const { username, color, avatar } = usePlayer();
+
   const isJoinButtonDisabled = !roomId || roomList.find((room) => room.id === roomId)?.players === 5;
   const navigate = useNavigate();
+
   function joinSession() {
-    navigate(generatePath(concatPath(MAIN_ROUTES.MULTIPLAYER, MAIN_ROUTES.MULTIPLAYER_ROOM)), { state: { roomId } })
+    emit(SocketPreGameEventsEnum.JOIN_SESSION, roomId, { username, color, avatar })
   }
+
+  listen(SocketPreGameEventsEnum.JOIN_SESSION, () => {
+    navigate(generatePath(MAIN_ROUTES.MULTIPLAYER_ROOM, { roomId }))
+  })
+
+  function createSession() {
+    navigate(MAIN_ROUTES.MULTIPLAYER_CREATE_SESSION)
+  }
+
   return (
     <Card style={{ padding: '2rem', width: '50rem' }}>
       <Text h1 centered fira bold>SELECTION</Text>
@@ -93,7 +59,7 @@ const RoomList = () => {
         Join a session
       </Button>
       <Spacer y size={SpacerSize.SMALL} />
-      <Button secondary onClick={() => navigate(concatPath(MAIN_ROUTES.MULTIPLAYER, MAIN_ROUTES.MULTIPLAYER_CREATE_SESSION))}>
+      <Button secondary onClick={createSession}>
         Create a session
       </Button>
     </Card>

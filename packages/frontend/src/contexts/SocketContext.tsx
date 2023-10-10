@@ -1,7 +1,9 @@
 import React, { createContext, useContext, useEffect, useRef } from 'react';
 import io, { Socket } from 'socket.io-client';
-import { BACKEND_URL } from '../config-global';
+import toast from 'react-hot-toast';
 
+import { SocketChoreEventsEnum } from '@sqrib/shared';
+import { BACKEND_URL } from '../config-global';
 
 const socket = io(BACKEND_URL, {
   transports: ['websocket'],
@@ -18,7 +20,11 @@ export const SocketProvider: React.FC<any> = ({ children }) => {
 
   useEffect(() => {
     socketRef.connect();
+    socketRef.on(SocketChoreEventsEnum.ERROR, ({ message }) => {
+      toast.error(message)
+    })
     return () => {
+      socketRef.off(SocketChoreEventsEnum.ERROR);
       socketRef.disconnect();
     };
   }, []);

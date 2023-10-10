@@ -10,8 +10,10 @@ export interface Player {
   id: string;
   username: string;
   color: string;
-  avatar?: string;
+  avatar: string;
+  isHost: boolean;
   wordIndex: number;
+  isAuthenticated: boolean;
   status: PlayerOrSessionStatus;
   wrongWords: number;
   correctLetters: number;
@@ -22,25 +24,46 @@ export interface Player {
   mpm: number;
 }
 
-export interface MultiplayerSessionOptions {
+export interface PlayerSubscribe {
+  username: string;
+  color: string;
+  avatar: string;
+  isAuthenticated: boolean;
+}
+
+export interface SessionOptions {
   name: string;
-  wordCount: number;
-  word_set_id: string;
+  word_set_id?: string;
   language: TLanguages;
   mode: SessionMode;
-  time: number;
+  wordCount?: number;
+  time?: number;
 }
 
-export interface MultiplayerSession {
+export interface Session {
   id: string;
-  options: MultiplayerSessionOptions;
+  options: SessionOptions;
   status: PlayerOrSessionStatus;
-  players: Record<string, Player>;
+  players?: Record<string, Player>;
 }
 
-export type MultiplayerSessionList = Omit<MultiplayerSession, 'players'>[];
+export type GetSessionInfo = Pick<Session, 'status' | 'options'>
+
+export interface Room {
+  id: string;
+  name: string;
+  players: number;
+  language: TLanguages;
+  mode: SessionMode;
+  wordCount?: number;
+  time?: number;
+}
+
+export type IRoomList = Room[]
+
+export type SessionList = Omit<Session, 'players'>[];
 
 export interface GetRoomListResponse {
-  rooms: MultiplayerSessionList;
+  rooms: SessionList;
   total: number;
 }

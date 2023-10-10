@@ -1,12 +1,13 @@
 import React from 'react'
+import toast from 'react-hot-toast'
+
 import { Input } from '../../Auth/components';
 import { ChevronDownCircle, Document } from 'react-iconly';
 import { COLORS } from '../../../theme/colors';
-import { alertService } from '../../Alert/Alert.service';
 
 export function copyToClipboard(text: string) {
   navigator.clipboard.writeText(text);
-  alertService.success('Lien copié dans clipboard', { keepAfterRouteChange: false });
+  toast.success('Copied in clipboard');
 }
 
 function onCopyButtonClick(setIsClicked: (isClicked: boolean) => void, url: string) {
@@ -32,10 +33,7 @@ export function ClipBoard({ url }: { url: string }) {
           value={url}
           aria-labelledby="Game url link to share"
           rightContent={(
-            <span
-              onClick={() => onCopyButtonClick(setIsClicked, url)}
-              className='clipboard'
-            >
+            <span className='clipboard'>
               {isClicked ? <ChevronDownCircle style={{ color: 'green' }} /> : <Document style={{ color: COLORS.GOLD }} />}
             </span>
           )}

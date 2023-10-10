@@ -1,4 +1,7 @@
 import React, { useEffect, useState } from 'react';
+import { LuRefreshCcw } from 'react-icons/lu';
+import toast from 'react-hot-toast';
+
 import { emailPolicy, passwordPolicy, usernamePolicy } from '@sqrib/shared';
 import Modal from '../../../components/Modal/Modal.component';
 import { Spacer, SpacerSize } from '../../../components';
@@ -9,11 +12,9 @@ import { Text } from '../../../components/Text/Text.component';
 import { useCreateUser } from '../../../api/queries';
 import { useModal } from '../../../contexts/ModalContext';
 import { MODAL_ID } from '../../../components/Modals/modals.constants';
-import { alertService } from '../../Alert/Alert.service';
 import { formatErrorMessage } from '../../../utils';
 import { COLORS } from '../../../theme/colors';
 import { generateRandomUsername } from '../../../utils/username.util';
-import { LuRefreshCcw } from 'react-icons/lu';
 
 function Signup() {
   const [isValid, setIsValid] = useState({
@@ -31,13 +32,13 @@ function Signup() {
     onSuccess(data, variables) {
       setSignupForm({ username: '', email: '', password: '', retypedPassword: '' })
       setTriggerLoginChecking(false)
-      alertService.success('You\'ve been successfully signed up', { keepAfterRouteChange: true });
+      toast.success('You\'ve been successfully signed up');
       closeModal(MODAL_ID.SIGNUP)
       openModal(MODAL_ID.LOGIN)
     },
     onError(error) {
       setSignupForm({ username: '', email: '', password: '', retypedPassword: '' })
-      alertService.error(formatErrorMessage(error), { keepAfterRouteChange: true });
+      toast.error(formatErrorMessage(error));
     }
   })
 

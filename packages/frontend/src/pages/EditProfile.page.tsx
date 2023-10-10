@@ -1,4 +1,5 @@
 import React from 'react'
+import toast from 'react-hot-toast'
 
 import { MovingBackground } from '../components/MovingBackground/MovingBackground.component'
 import { BackButton } from '../components/HomeButton/HomeButton.component'
@@ -10,7 +11,6 @@ import { BioSection } from '../modules/EditProfile/BioSection/BioSection.compone
 import { EditPassword } from '../modules/EditProfile/EditPasswordSection/EditPassword.component'
 import { DeleteAccountSection } from '../modules/EditProfile/DeleteAccountSection/DeleteAccountSection.component'
 import { useUpdateUser } from '../api/queries/useUpdateUser.hook'
-import { alertService } from '../modules/Alert/Alert.service'
 import { useModal } from '../contexts'
 import { MODAL_ID } from '../components/Modals/modals.constants'
 
@@ -24,12 +24,12 @@ const EditProfile = () => {
   const { mutateAsync } = useUpdateUser({
     onSuccess: () => {
       refetch()
-      alertService.success('Avatar updated successfully.', {})
+      toast.success('Avatar updated successfully.')
       closeModal(MODAL_ID.AVATAR_COLOR)
       closeModal(MODAL_ID.AVATAR_CROP)
     },
     onError: () => {
-      alertService.error('An error occured while updating avatar.', {})
+      toast.error('An error occured while updating avatar.')
     }
   })
 

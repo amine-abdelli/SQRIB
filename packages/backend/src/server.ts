@@ -61,7 +61,7 @@ app.use(errorHandler);
 /**
  * Socket entry point
  */
-io.on('connection', (socket: Socket) => handleSocketConnection(socket));
+io.on('connection', (socket: Socket) => handleSocketConnection(socket, io));
 
 /**
  * This is for production only

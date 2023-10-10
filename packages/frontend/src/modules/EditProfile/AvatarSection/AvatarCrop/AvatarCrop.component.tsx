@@ -1,17 +1,17 @@
 import React from 'react';
 import Cropper from 'react-cropper';
+import toast from 'react-hot-toast';
+import { UseMutateAsyncFunction } from 'react-query';
+import { UpdateUserRequestBody, UserBase } from '@sqrib/shared';
 import { ref, uploadBytes, getDownloadURL, deleteObject } from "firebase/storage";
 
 import { Button } from '../../../../components/Button/Button.component';
 import { Spacer, SpacerSize } from '../../../../components';
 import { storage } from '../../../../services/firebase.service';
-import { alertService } from '../../../Alert/Alert.service';
 import { extractFilename } from '../../utils/extractFileName.util';
-import { UseMutateAsyncFunction } from 'react-query';
-import { UpdateUserRequestBody, UserBase } from '@sqrib/shared';
+import FileInput from './subComponent/FileInput/FileInput.component';
 
 import './AvatarCrop.style.scss';
-import FileInput from './subComponent/FileInput/FileInput.component';
 
 interface AvatarCropProps {
   avatarUrl?: string,
@@ -45,7 +45,7 @@ const AvatarCrop: React.FC<AvatarCropProps> = ({ avatarUrl, updateUser, userColo
         // TODO Compress images before saving theme
         const stored = await uploadBytes(storageRef, blob);
         if (!stored) {
-          alertService.error('An error occured while uploading avatar', {});
+          toast.error('An error occured while uploading avatar');
         }
         const _avatarUrl = await getDownloadURL(storageRef);
         await updateUser({ avatar: _avatarUrl })

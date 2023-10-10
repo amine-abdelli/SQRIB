@@ -1,11 +1,12 @@
 
 import React, { useState } from 'react';
+import toast from 'react-hot-toast';
+
 import Modal from '../../../components/Modal/Modal.component';
 import { Spacer, SpacerSize } from '../../../components';
 import { Button } from '../../../components/Button/Button.component';
 import { Input } from '../components/Input/Input.component';
 import { useLogin } from '../../../api/queries';
-import { alertService } from '../../Alert/Alert.service';
 import { formatErrorMessage } from '../../../utils';
 import { MODAL_ID } from '../../../components/Modals/modals.constants';
 import { useModal } from '../../../contexts/ModalContext';
@@ -23,11 +24,11 @@ function Login() {
       setLogin({ email: '', password: '' });
       setTriggerLoginChecking(false);
       closeModal(MODAL_ID.LOGIN)
-      alertService.success('You\'ve been successfully logged in :) !', {});
+      toast.success('You\'ve been successfully logged in 🚀 !')
       window.location.reload()
     },
     onError(error) {
-      alertService.error(formatErrorMessage(error), {});
+      toast.error(formatErrorMessage(error));
     }
   })
 

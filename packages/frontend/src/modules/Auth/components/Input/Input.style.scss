@@ -1,13 +1,13 @@
-@import '../../../../theme/index.scss';
+@import "../../../../theme/index.scss";
 
 .input {
-  @include thinBorder(); 
+  @include thinBorder();
   padding-inline-start: 15px;
   margin: 5px 0;
   height: 45px;
   transition: all 1px ease-in-out;
   font-weight: 700;
-  
+
   &::placeholder {
     font-style: italic;
     font-weight: 400;

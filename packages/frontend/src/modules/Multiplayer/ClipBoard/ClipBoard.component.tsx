@@ -1,7 +1,6 @@
 import React from 'react'
 import toast from 'react-hot-toast'
 
-import { Input } from '../../Auth/components';
 import { ChevronDownCircle, Document } from 'react-iconly';
 import { COLORS } from '../../../theme/colors';
 
@@ -21,25 +20,15 @@ function onCopyButtonClick(setIsClicked: (isClicked: boolean) => void, url: stri
 export function ClipBoard({ url }: { url: string }) {
   const [isClicked, setIsClicked] = React.useState(false);
   return (
-    <div>
-      <div
-        onClick={() => onCopyButtonClick(setIsClicked, url)}
-        className='flex align-center'
-      >
-        <Input
-          name=''
-          fullWidth
-          style={{ cursor: 'pointer' }}
-          value={url}
-          aria-labelledby="Game url link to share"
-          rightContent={(
-            <span className='clipboard'>
-              {isClicked ? <ChevronDownCircle style={{ color: 'green' }} /> : <Document style={{ color: COLORS.GOLD }} />}
-            </span>
-          )}
-        />
-
-      </div>
+    <div
+      onClick={() => onCopyButtonClick(setIsClicked, url)}
+      className='flex align-center'
+      style={{ cursor: 'pointer', background: 'white', padding: '0.5rem', borderRadius: '5px', overflow: 'hidden', display: 'flex', alignItems: 'center', border: '3px solid black', width: '24.5rem' }}
+    >
+      <input className='fira' style={{ width: '100%', border: 'none', cursor: 'pointer' }} readOnly value={url} />
+      <span className='clipboard'>
+        {isClicked ? <ChevronDownCircle style={{ color: 'green' }} /> : <Document style={{ color: COLORS.GOLD }} />}
+      </span>
     </div>
   );
 }

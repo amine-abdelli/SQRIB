@@ -14,7 +14,11 @@ import Notification from '../../../components/Notification/Notification.componen
 import { usePlayer } from '../../../contexts/PlayerContext'
 import { MAIN_ROUTES } from '../../../routes/paths'
 
-const JoinCard = () => {
+interface JoinCardProps {
+  redirectTo?: string
+}
+
+const JoinCard = ({ redirectTo }: JoinCardProps) => {
   const { mutateAsync, data } = useUsernameChecker()
   const { username, setUsername, isAuthenticated } = usePlayer()
   // Local username
@@ -33,7 +37,11 @@ const JoinCard = () => {
 
   function join() {
     setUsername(_username)
-    navigate(MAIN_ROUTES.MULTIPLAYER_SELECTION)
+    if (redirectTo) {
+      navigate(redirectTo)
+    } else {
+      navigate(MAIN_ROUTES.MULTIPLAYER_SELECTION)
+    }
   }
   const isJoinButtonDisabled = isAuthenticated ? false : !data?.data || !data?.data.isAvailable || _username.length < 4
   const greetSentence = [

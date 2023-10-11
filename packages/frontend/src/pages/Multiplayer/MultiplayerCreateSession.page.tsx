@@ -44,7 +44,6 @@ const MultiplayerCreateSession = () => {
     if (name) {
       setIsValid(true)
       const subscriptionData: PlayerSubscribe = { username, color, avatar, isAuthenticated }
-      console.log('subscriptionData : ', subscriptionData)
       const sessionOptions: SessionOptions = {
         language,
         mode,

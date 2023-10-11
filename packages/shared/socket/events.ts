@@ -2,11 +2,12 @@
 export enum SocketPreGameEventsEnum {
   CREATE_SESSION = 'create-session',
   JOIN_SESSION = 'join-session',
-  GET_SESSIONS = 'get-sessions',
+  GET_SESSION_LIST = 'get-sessions',
   GET_PLAYERS = 'get-players',
   CHECK_SESSION_ID_VALIDITY = 'check-session-id-validity',
-  GET_ROOM_INFO = 'get-room-info',
+  GET_SESSION_INFO = 'get-session-info',
   START_SESSION = 'start-session',
+  LEAVE_SESSION = 'leave-session',
 }
 
 export enum SocketInGameEventsEnum {

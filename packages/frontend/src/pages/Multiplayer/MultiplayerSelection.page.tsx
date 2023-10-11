@@ -12,20 +12,20 @@ const MultiplayerRoomSelection = () => {
   const { emit, listen } = useSocket()
 
   useEffect(() => {
-    emit(SocketPreGameEventsEnum.GET_SESSIONS)
+    emit(SocketPreGameEventsEnum.GET_SESSION_LIST)
     return () => {
       toast.dismiss(TOAST_ID.PICK_USERNAME_WARNING)
     }
   }, [])
 
   // Populate room list
-  listen(SocketPreGameEventsEnum.GET_SESSIONS, (data) => {
+  listen(SocketPreGameEventsEnum.GET_SESSION_LIST, (data) => {
     setRoomList(data.sessions)
   })
 
 
   return (
-    <section className='layout--main' style={{ padding: '2rem', display: 'flex', justifyContent: 'center', alignItems: 'center', position: 'relative' }}>
+    <section className='session-selection'>
       <RoomList roomList={roomList} roomId={roomId} setRoomId={setRoomId} />
     </section >
   )

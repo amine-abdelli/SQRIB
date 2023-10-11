@@ -1,24 +1,35 @@
 import React, { useEffect } from 'react'
-import { generatePath, useNavigate, useParams } from 'react-router-dom';
+import { generatePath, useLocation, useNavigate, useParams } from 'react-router-dom';
 import toast from 'react-hot-toast';
-import { GetSessionInfo, PlayerOrSessionStatus, SocketPreGameEventsEnum } from '@sqrib/shared';
+import { GetSessionInfo, PlayerOrSessionStatus, Session, SocketPreGameEventsEnum } from '@sqrib/shared';
 
 import { MAIN_ROUTES } from '../../routes/paths';
 import { useSocket } from '../../contexts/SocketContext';
 import { Text } from '../../components/Text/Text.component';
+import { usePlayer } from '../../contexts/PlayerContext';
 
 const MultiplayerRoom = () => {
   const [sessionProperties, setSessionProperties] = React.useState<GetSessionInfo>();
   const { roomId } = useParams();
-  const { emit, listen } = useSocket();
+  const location = useLocation();
+
+  const { emit, listen, socket } = useSocket();
+  const { username, color, avatar } = usePlayer();
   const navigate = useNavigate();
 
   useEffect(() => {
     if (!roomId) {
       navigate(MAIN_ROUTES.MULTIPLAYER)
     };
+    // ! DUPLICATE CODE
+    // ! Create a wrapper for this ???
+    if (!username) {
+      return navigate(`${MAIN_ROUTES.MULTIPLAYER}?redirectTo=${location.pathname}`)
+    }
+    // Is user already in game ?
+    // Check if socket.id is already in the room if not, do a JOIN_ROOM.
     emit(SocketPreGameEventsEnum.CHECK_SESSION_ID_VALIDITY, roomId)
-    emit(SocketPreGameEventsEnum.GET_ROOM_INFO, roomId)
+    emit(SocketPreGameEventsEnum.GET_SESSION_INFO, roomId)
   }, [])
 
   listen(SocketPreGameEventsEnum.CHECK_SESSION_ID_VALIDITY, ({ isValid }) => {
@@ -28,7 +39,14 @@ const MultiplayerRoom = () => {
     }
   })
 
-  listen(SocketPreGameEventsEnum.GET_ROOM_INFO, ({ options, status }: GetSessionInfo) => {
+  listen(SocketPreGameEventsEnum.GET_SESSION_INFO, ({ options, status, players }: Session) => {
+    // If player not in room yet, join
+    // ! DUPLICATE CODE
+    // ! Create a wrapper for this ???
+    const sockerId = socket?.id
+    const player = Object.values(players ?? {})?.find(player => player.id === sockerId)
+    if (!player) emit(SocketPreGameEventsEnum.JOIN_SESSION, roomId, { username, color, avatar })
+
     if (roomId && status === PlayerOrSessionStatus.STAGING) {
       navigate(generatePath(MAIN_ROUTES.MULTIPLAYER_STAGING, { roomId }))
     }
@@ -38,6 +56,7 @@ const MultiplayerRoom = () => {
   return (
     <section>
       <Text p fira>{sessionProperties?.options.name}</Text>
+      <Text p fira>{username}</Text>
       Room n°{roomId}
     </section>
   )

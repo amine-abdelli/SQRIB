@@ -4,23 +4,14 @@
   display: none;
 }
 
-.react-calendar-heatmap .color-scale-1 { 
-  // fill: ??; 
-}
-.react-calendar-heatmap .color-scale-2 { 
-  // fill: ??; 
-}
-.react-calendar-heatmap .color-scale-3 {
-  // fill: ??; 
-}
-.react-calendar-heatmap .color-scale-4 { 
-  // fill: ??; 
-}
-
 .react-calendar-heatmap .color-empty {
   fill: $quaternary;
 }
 
 .react-calendar-heatmap .color-filled {
   fill: $primary;
+}
+
+.fira {
+  font-family: $FiraCodefontFamily;
 }

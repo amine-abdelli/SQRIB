@@ -2,7 +2,7 @@
   "name": "sqrib",
   "private": true,
   "homepage": "https://www.sqrib.io",
-  "version": "1.5.0",
+  "version": "1.6.0",
   "scripts": {
     "dev": "yarn workspace @sqrib/server dev",
     "start": "yarn workspaces run start",

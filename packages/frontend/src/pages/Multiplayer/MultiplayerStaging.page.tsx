@@ -1,22 +1,24 @@
 import React, { useEffect } from 'react'
 import { generatePath, useNavigate, useParams } from 'react-router-dom'
-import { useSocket } from '../../contexts/SocketContext'
-import { GetSessionInfo, Player, PlayerOrSessionStatus, SessionMode, SocketPreGameEventsEnum } from '@sqrib/shared'
 import toast from 'react-hot-toast'
+import { BsFillShieldFill } from 'react-icons/bs'
+import ProgressBar from '@ramonak/react-progress-bar'
+import { GetSessionInfo, Player, PlayerOrSessionStatus, SessionMode, SocketPreGameEventsEnum } from '@sqrib/shared'
+
+import { useSocket } from '../../contexts/SocketContext'
 import { MAIN_ROUTES } from '../../routes/paths'
 import { Card } from '../../components/Card/Card.component'
 import { ClipBoard } from '../../modules/Multiplayer/ClipBoard/ClipBoard.component'
 import { COLORS } from '../../theme/colors'
 import { Avatar } from '../../components/Avatar/Avatar.component'
 import { Text } from '../../components/Text/Text.component'
-import ProgressBar from '@ramonak/react-progress-bar'
 import { usePlayer } from '../../contexts/PlayerContext'
 import { TOAST_ID, warnToast } from '../../theme/toast'
 import { Button } from '../../components/Button/Button.component'
 import { Spacer, SpacerSize } from '../../components'
 import { upperFirst } from '../../utils'
-import { BsFillShieldFill } from 'react-icons/bs'
 import { Tooltip } from '../../components/ToolTip/ToolTip.component'
+import { MultiplayerLayout } from '../../layouts/desktop/MultiplayerLayout.desktop'
 
 interface Players {
   players: Player[]
@@ -24,22 +26,19 @@ interface Players {
 
 const MultiplayerStaging = () => {
   const { roomId } = useParams()
-  const { emit, listen, socket } = useSocket()
-  const { username, color, avatar } = usePlayer()
+  const { emit, listen } = useSocket()
+  const { username } = usePlayer()
   const [players, setPlayers] = React.useState<Player[]>([])
   const [sessionProperties, setSessionProperties] = React.useState<GetSessionInfo>()
   const navigate = useNavigate()
 
   useEffect(() => {
     if (!roomId) navigate(MAIN_ROUTES.MULTIPLAYER_SELECTION)
-
-    // ! DUPLICATE CODE
-    // ! Create a wrapper for this ???
     if (!username) {
-      return navigate(`${MAIN_ROUTES.MULTIPLAYER}?redirectTo=${generatePath(MAIN_ROUTES.MULTIPLAYER_STAGING, { roomId: roomId ?? '' })
-        } `)
+      return navigate(`${MAIN_ROUTES.MULTIPLAYER}?redirectTo=${generatePath(MAIN_ROUTES.MULTIPLAYER_ROOM, { roomId: roomId ?? '' })}`)
     }
     emit(SocketPreGameEventsEnum.CHECK_SESSION_ID_VALIDITY, roomId)
+    emit(SocketPreGameEventsEnum.GET_SESSION_INFO, roomId)
     emit(SocketPreGameEventsEnum.GET_PLAYERS, roomId)
   }, [])
 
@@ -50,8 +49,8 @@ const MultiplayerStaging = () => {
     }
   })
 
-  listen(SocketPreGameEventsEnum.GET_PLAYERS, ({ players }: Players) => {
-    setPlayers(players)
+  listen(SocketPreGameEventsEnum.GET_PLAYERS, ({ players: playersInSession }: Players) => {
+    setPlayers(playersInSession)
   })
 
   useEffect(() => {
@@ -59,21 +58,12 @@ const MultiplayerStaging = () => {
       toast.success('This room is full', { ...warnToast, id: TOAST_ID.FULL_ROOM })
       navigate(generatePath(MAIN_ROUTES.MULTIPLAYER_SELECTION))
     }
-    emit(SocketPreGameEventsEnum.GET_SESSION_INFO, roomId)
     return () => {
       toast.dismiss(TOAST_ID.FULL_ROOM)
     }
   }, [players])
 
   listen(SocketPreGameEventsEnum.GET_SESSION_INFO, ({ options, status }: GetSessionInfo) => {
-    // If player not in room yet, join
-    // ! DUPLICATE CODE
-    // ! Create a wrapper for this ???
-    const sockerId = socket?.id
-    const player = Object.values(players ?? {})?.find(player => player.id === sockerId)
-    if (!player) emit(SocketPreGameEventsEnum.JOIN_SESSION, roomId, { username, color, avatar })
-
-
     if (status !== PlayerOrSessionStatus.STAGING) {
       navigate(generatePath(MAIN_ROUTES.MULTIPLAYER_ROOM, { roomId: roomId ?? '' }))
     }
@@ -88,7 +78,7 @@ const MultiplayerStaging = () => {
   const options = sessionProperties?.options;
   const isHost = players.find((player) => player.isHost)?.username === username
   return (
-    <main style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column', height: '100%' }}>
+    <MultiplayerLayout column>
       <Card style={{ padding: '2rem' }}>
         <Text fira h1 bold centered>Lobby</Text>
         <Text fira h2 thin centered>{sessionProperties?.options.name}</Text>
@@ -120,16 +110,19 @@ const MultiplayerStaging = () => {
                   </Tooltip>
                   : ''}
               </div>
-              <ProgressBar width='100%' completed={100} bgColor={player.color} />
+              <ProgressBar labelAlignment='center' width='100%' completed={100} customLabel='Lvl. 12' bgColor={player.color} />
             </div>
           </div>
         ))}
         <Button
-          disabled={players.length === 1 || players.length === 0 || !isHost}
+          // disabled={players.length === 0 || !isHost}
+          disabled
           onClick={() => {
             if (roomId) emit(SocketPreGameEventsEnum.START_SESSION, roomId)
           }
           }>Start</Button>
+        <Spacer y size={SpacerSize.SMALL} />
+        <Text thin fira size={12} centered color={COLORS.GREY}>We are working hard to make this happen :)</Text>
         <Spacer y size={SpacerSize.SMALL} />
         <Button
           secondary
@@ -140,7 +133,7 @@ const MultiplayerStaging = () => {
         >Leave</Button>
       </Card>
       {roomId && <ClipBoard url={`${import.meta.env.VITE_FRONTEND_URL}${generatePath(MAIN_ROUTES.MULTIPLAYER_ROOM, { roomId })} `} />}
-    </main>
+    </MultiplayerLayout>
   )
 }
 

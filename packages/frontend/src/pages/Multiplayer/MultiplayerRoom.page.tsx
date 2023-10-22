@@ -7,6 +7,7 @@ import { MAIN_ROUTES } from '../../routes/paths';
 import { useSocket } from '../../contexts/SocketContext';
 import { Text } from '../../components/Text/Text.component';
 import { usePlayer } from '../../contexts/PlayerContext';
+import { MultiplayerLayout } from '../../layouts/desktop/MultiplayerLayout.desktop';
 
 const MultiplayerRoom = () => {
   const [sessionProperties, setSessionProperties] = React.useState<GetSessionInfo>();
@@ -21,8 +22,6 @@ const MultiplayerRoom = () => {
     if (!roomId) {
       navigate(MAIN_ROUTES.MULTIPLAYER)
     };
-    // ! DUPLICATE CODE
-    // ! Create a wrapper for this ???
     if (!username) {
       return navigate(`${MAIN_ROUTES.MULTIPLAYER}?redirectTo=${location.pathname}`)
     }
@@ -40,9 +39,7 @@ const MultiplayerRoom = () => {
   })
 
   listen(SocketPreGameEventsEnum.GET_SESSION_INFO, ({ options, status, players }: Session) => {
-    // If player not in room yet, join
-    // ! DUPLICATE CODE
-    // ! Create a wrapper for this ???
+    // If player not in room yet, join it
     const sockerId = socket?.id
     const player = Object.values(players ?? {})?.find(player => player.id === sockerId)
     if (!player) emit(SocketPreGameEventsEnum.JOIN_SESSION, roomId, { username, color, avatar })
@@ -54,11 +51,9 @@ const MultiplayerRoom = () => {
   })
 
   return (
-    <section>
-      <Text p fira>{sessionProperties?.options.name}</Text>
-      <Text p fira>{username}</Text>
-      Room n°{roomId}
-    </section>
+    <MultiplayerLayout column>
+      <Text h1>In progress ...</Text>
+    </MultiplayerLayout>
   )
 }
 

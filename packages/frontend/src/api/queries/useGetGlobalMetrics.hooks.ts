@@ -1,6 +1,6 @@
-import { UseMutationOptions, UseQueryOptions, UseQueryResult, useQuery } from "react-query";
-import { apiService } from "../api";
+import { UseQueryResult, useQuery } from "react-query";
 import { ENDPOINTS_FULL_PATH, GetGlobalMetricsResponseBody } from "@sqrib/shared";
+import { apiService } from "../api";
 
 const GET_GLOBAL_METRICS = 'GET_GLOBAL_METRICS';
 

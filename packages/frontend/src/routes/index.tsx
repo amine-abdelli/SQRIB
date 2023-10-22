@@ -18,6 +18,7 @@ import {
 import { MAIN_ROUTES } from './paths';
 import { SocketProvider } from '../contexts/SocketContext';
 import { PlayerProvider } from '../contexts/PlayerContext';
+import { AuthGuard } from '../modules/Auth/AuthGuard/AuthGuard.component';
 
 export default function Router() {
   return useRoutes([
@@ -42,7 +43,7 @@ export default function Router() {
     },
     { path: MAIN_ROUTES.LEADERBOARD, element: <LeaderBoard /> },
     { path: MAIN_ROUTES.SETTINGS, element: <Settings /> },
-    { path: MAIN_ROUTES.PROFILE, element: <Profile /> },
+    { path: MAIN_ROUTES.PROFILE, element: <AuthGuard><Profile /></AuthGuard> },
     { path: MAIN_ROUTES.USER_PROFILE, element: <Profile /> },
     { path: MAIN_ROUTES.EDIT_PROFILE, element: <EditProfile /> },
     { path: '*', element: <NotFound /> },

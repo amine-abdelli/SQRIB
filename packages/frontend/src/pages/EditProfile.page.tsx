@@ -2,7 +2,7 @@ import React from 'react'
 import toast from 'react-hot-toast'
 
 import { MovingBackground } from '../components/MovingBackground/MovingBackground.component'
-import { BackButton } from '../components/HomeButton/HomeButton.component'
+import { GoToButton } from '../components/HomeButton/HomeButton.component'
 import { Text } from '../components/Text/Text.component'
 import { useGetUser } from '../api/queries'
 import Loading from './Loading.page'
@@ -42,7 +42,7 @@ const EditProfile = () => {
     <main className='layout--main edit-page-container--wrapper'>
       <MovingBackground />
       <div className='back-button'>
-        <BackButton />
+        <GoToButton />
       </div>
       <div className='edit-page-container'>
         <Text h1>Edit profile</Text>

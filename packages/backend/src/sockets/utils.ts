@@ -16,10 +16,8 @@ export function sendUserNotification(io: IO, userId: string, message: string) {
   return io.to(userId).emit(SocketChoreEventsEnum.PLAYER_NOTIFICATION, { message });
 }
 
-function handlePlayerLeave(socket: Socket, io: IO, roomId: string) {
+export function handlePlayerLeave(socket: Socket, io: IO, roomId: string) {
   const currentSession = SESSIONS[roomId];
-
-  // TODO: Set this block in a function
   if (currentSession?.players?.[socket.id]) {
     // if user is the host, attribute this status to someone else
     if (currentSession.players[socket.id]?.isHost

@@ -5,6 +5,7 @@ import { IRoomList, SocketPreGameEventsEnum } from '@sqrib/shared'
 import { RoomList } from '../../modules/Multiplayer/RoomList/RoomList.component'
 import { useSocket } from '../../contexts/SocketContext'
 import { TOAST_ID } from '../../theme/toast'
+import { MultiplayerLayout } from '../../layouts/desktop/MultiplayerLayout.desktop'
 
 const MultiplayerRoomSelection = () => {
   const [roomId, setRoomId] = React.useState<string>('')
@@ -25,9 +26,9 @@ const MultiplayerRoomSelection = () => {
 
 
   return (
-    <section className='session-selection'>
+    <MultiplayerLayout>
       <RoomList roomList={roomList} roomId={roomId} setRoomId={setRoomId} />
-    </section >
+    </MultiplayerLayout>
   )
 }
 

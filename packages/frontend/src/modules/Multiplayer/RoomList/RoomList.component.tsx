@@ -12,11 +12,6 @@ import { useSocket } from '../../../contexts/SocketContext';
 import { SocketPreGameEventsEnum } from '@sqrib/shared';
 import { usePlayer } from '../../../contexts/PlayerContext';
 
-
-export function concatPath(root: string, endPath: string) {
-  return root + '/' + endPath;
-}
-
 interface RoomListProps {
   roomId: string;
   setRoomId: (roomId: string) => void;
@@ -61,6 +56,10 @@ const RoomList = ({ roomId, setRoomId, roomList }: RoomListProps) => {
       <Spacer y size={SpacerSize.SMALL} />
       <Button secondary onClick={createSession}>
         Create a session
+      </Button>
+      <Spacer y size={SpacerSize.SMALL} />
+      <Button secondary onClick={() => navigate(MAIN_ROUTES.MULTIPLAYER)}>
+        Back
       </Button>
     </Card>
   )

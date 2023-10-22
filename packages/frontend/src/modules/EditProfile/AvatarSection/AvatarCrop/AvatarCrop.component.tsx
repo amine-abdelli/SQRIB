@@ -2,8 +2,9 @@ import React from 'react';
 import Cropper from 'react-cropper';
 import toast from 'react-hot-toast';
 import { UseMutateAsyncFunction } from 'react-query';
-import { UpdateUserRequestBody, UserBase } from '@sqrib/shared';
 import { ref, uploadBytes, getDownloadURL, deleteObject } from "firebase/storage";
+import imageCompression from 'browser-image-compression';
+import { UpdateUserRequestBody, UserBase } from '@sqrib/shared';
 
 import { Button } from '../../../../components/Button/Button.component';
 import { Spacer, SpacerSize } from '../../../../components';
@@ -21,6 +22,11 @@ interface AvatarCropProps {
 
 export async function deleteAvatarFromBucket(fileName: string) {
   await deleteObject(ref(storage, 'avatars/' + fileName));
+}
+
+function blobToFile(blob: Blob, fileName: string): File {
+  const newFile = new File([blob], fileName, { type: blob.type, lastModified: Date.now() });
+  return newFile;
 }
 
 const AvatarCrop: React.FC<AvatarCropProps> = ({ avatarUrl, updateUser, userColor }) => {
@@ -42,8 +48,8 @@ const AvatarCrop: React.FC<AvatarCropProps> = ({ avatarUrl, updateUser, userColo
         const fileName = Date.now() + '.png';
         const storageRef = ref(storage, 'avatars/' + fileName);
         const currentFileName = extractFilename(avatarUrl ?? '');
-        // TODO Compress images before saving theme
-        const stored = await uploadBytes(storageRef, blob);
+        const compressedBlob = await imageCompression(blobToFile(blob, ''), { maxSizeMB: 0.1, useWebWorker: true })
+        const stored = await uploadBytes(storageRef, compressedBlob);
         if (!stored) {
           toast.error('An error occured while uploading avatar');
         }

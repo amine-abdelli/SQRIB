@@ -32,7 +32,8 @@ export const PlayerProvider = React.memo(({ children }: React.PropsWithChildren<
   })
 
   useEffect(() => {
-    setUsername(user?.username || '')
+    const usernameFromLocalStorage = localStorage.getItem('mp_username');
+    setUsername(user?.username || usernameFromLocalStorage || '')
   }, [user])
 
   return (

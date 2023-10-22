@@ -1,12 +1,13 @@
-import {
-  PlayerSubscribe, PlayerOrSessionStatus, SocketPreGameEventsEnum,
-  SessionOptions, SocketChoreEventsEnum, Session,
-} from '@sqrib/shared';
 import { Socket } from 'socket.io';
 import { v4 as uuid } from 'uuid';
+import {
+  PlayerSubscribe, PlayerOrSessionStatus, SocketPreGameEventsEnum, SessionOptions,
+  SocketChoreEventsEnum, Session,
+} from '@sqrib/shared';
+
 import { SESSIONS, ROOM_ID_WHITELIST, IO } from '../socket';
 import { basePlayer, toRoomList } from '../mapper';
-import { isRoomIdValid, sendRoomNotification } from '../utils';
+import { handlePlayerLeave, isRoomIdValid, sendRoomNotification } from '../utils';
 
 export function getSessions(_: Socket, io: IO) {
   const roomList = toRoomList(SESSIONS);
@@ -113,39 +114,6 @@ export function startSession(socket: Socket, io: IO, roomId: string) {
 }
 
 export function leaveSession(socket: Socket, io: IO, roomId: string) {
-  const currentSession = SESSIONS[roomId];
-
-  // TODO: Set this block in a function
-  if (currentSession?.players?.[socket.id]) {
-    // if user is the host, attribute this status to someone else
-    if (currentSession.players[socket.id]?.isHost
-      && Object.values(currentSession.players)?.length > 1) {
-      const newHostID = Object.values(currentSession.players)?.[1]?.id;
-      if (currentSession.players[newHostID]) {
-        currentSession.players[newHostID].isHost = true;
-        sendRoomNotification(io, currentSession.id, `${currentSession.players[newHostID].username} is the new host`);
-      }
-    }
-    delete currentSession.players[socket.id];
-    socket.leave(roomId);
-
-    // Remove roomID from legit token
-    if (Object.values(currentSession.players)?.length === 0) {
-      const indexOfGameInLegitTokensArray = ROOM_ID_WHITELIST.indexOf(currentSession.id);
-      ROOM_ID_WHITELIST.splice(indexOfGameInLegitTokensArray, 1);
-      delete SESSIONS[currentSession.id];
-      // Clear and delete timer
-      // delete TIMERS[currentSession.id];
-    }
-    // Update room player list in live when someone leave the room
-    if (SESSIONS[currentSession.id]?.players) {
-      getSessions(socket, io);
-      getPlayersInRoom(socket, io, currentSession.id);
-    }
-  }
-  // TODO: END - Set this block in a function
-
-  getSessions(socket, io);
-  getPlayersInRoom(socket, io, roomId);
+  handlePlayerLeave(socket, io, roomId);
   sendRoomNotification(io, roomId, 'A user has left the room');
 }

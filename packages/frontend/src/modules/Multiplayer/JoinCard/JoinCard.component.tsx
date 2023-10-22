@@ -13,6 +13,7 @@ import { useUsernameChecker } from '../../../api/queries/useUsernameChecker.hook
 import Notification from '../../../components/Notification/Notification.component'
 import { usePlayer } from '../../../contexts/PlayerContext'
 import { MAIN_ROUTES } from '../../../routes/paths'
+import { getTodaysGreeting } from './greet'
 
 interface JoinCardProps {
   redirectTo?: string
@@ -37,27 +38,16 @@ const JoinCard = ({ redirectTo }: JoinCardProps) => {
 
   function join() {
     setUsername(_username)
-    if (redirectTo) {
-      navigate(redirectTo)
-    } else {
-      navigate(MAIN_ROUTES.MULTIPLAYER_SELECTION)
-    }
+    localStorage.setItem('mp_username', _username)
+    return redirectTo ? navigate(redirectTo) : navigate(MAIN_ROUTES.MULTIPLAYER_SELECTION)
   }
   const isJoinButtonDisabled = isAuthenticated ? false : !data?.data || !data?.data.isAvailable || _username.length < 4
-  const greetSentence = [
-    `Hey ${username}, welcome to the battleground of words! Ready to prove your skills? Click JOIN and let the typing duel begin!`,
-    `Hey ${username}, you've entered the arena of keystrokes! Eager to claim victory? Hit JOIN and let's get typing!`,
-    `Hey ${username}, the ultimate typing challenge awaits! Are you up for it? Click JOIN to unleash your speed!`,
-    `Hey ${username}, welcome to the world of fast fingers and flying words! Ready to jump in? Click JOIN to get started!`,
-    `Hey ${username}, the keyboard is your sword, the words your shield. Ready for battle? Click JOIN to enter the fray!`,
-    `Hey ${username}, you've just stepped into the typing ring! Want to be the champion? Click JOIN and show us what you've got!`
-  ]
   return (
     <Card style={{ width: '100%', padding: '2rem 1.5rem' }}>
       <Text h2 fira>WELCOME TO SQRIB.IO MULTIPLAYER</Text>
       <Spacer y size={SpacerSize.SMALL} />
       {isAuthenticated
-        ? <Text p fira>{greetSentence[1]}</Text>
+        ? <Text p fira>{getTodaysGreeting()}</Text>
         : <Text p fira>Get ready to unleash your typing skills and conquer the leaderboard! Are you the fastest typer in the universe? There's only one way to find out.</Text>}
       <Spacer y size={SpacerSize.MEDIUM} />
       {!isAuthenticated && <Text p fira>Use this random username or enter your own.</Text>}
@@ -73,6 +63,8 @@ const JoinCard = ({ redirectTo }: JoinCardProps) => {
       </div>
       <Notification type='error' message='SQRIB.IO is in alpha. Please report bugs when you see them!' />
       <Button disabled={isJoinButtonDisabled} onClick={join}>JOIN</Button>
+      <Spacer y size={SpacerSize.SMALL} />
+      <Button secondary onClick={() => navigate(MAIN_ROUTES.HOME)}>Leave</Button>
     </Card>
   )
 }

@@ -133,6 +133,8 @@ const MultiplayerCreateSession = () => {
         <Select data={languageOptions} onChange={setLanguage} value={language} />
         <Spacer y size={SpacerSize.SMALL} />
         <Button onClick={createSession}>Create session</Button>
+        <Spacer y size={SpacerSize.SMALL} />
+        <Button secondary onClick={() => navigate(MAIN_ROUTES.MULTIPLAYER_SELECTION)}>Leave</Button>
       </Card>
     </section>
   )

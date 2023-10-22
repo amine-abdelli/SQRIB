@@ -23,6 +23,7 @@ export const MultiplayerSelection = Loadable(lazy(() => import('../pages/Multipl
 export const MultiplayerRoom = Loadable(lazy(() => import('../pages/Multiplayer/MultiplayerRoom.page')));
 export const MultiplayerHome = Loadable(lazy(() => import('../pages/Multiplayer/MultiplayerHome.page')));
 export const MultiplayerCreateSession = Loadable(lazy(() => import('../pages/Multiplayer/MultiplayerCreateSession.page')));
+export const MultiplayerStaging = Loadable(lazy(() => import('../pages/Multiplayer/MultiplayerStaging.page')));
 /* Edit profile */
 export const EditProfile = Loadable(lazy(() => import('../pages/EditProfile.page')));
 /* Settings */

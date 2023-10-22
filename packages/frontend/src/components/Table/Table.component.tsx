@@ -1,10 +1,11 @@
 import React from "react";
+import toast from "react-hot-toast";
 
-import Select from "../Select/Select.component";
 import { ColumnProps, HeaderProps, TableProps } from "./Table.props";
 import { useWindowSize } from "../../hooks";
 import { COLORS } from "../../theme/colors";
-import { alertService } from "../../modules/Alert/Alert.service";
+import Select from "../Select/Select.component";
+import { warnToast } from "../../theme/toast";
 
 import "./Table.style.scss";
 
@@ -50,7 +51,7 @@ function Body({
   function handleClickedRow(data: Record<string, string>, index: number | undefined) {
     if (onRowClick) {
       const isSessionFull = Number(data?.players) === 5;
-      isSessionFull && alertService.warn('This session is full', {})
+      isSessionFull && toast.success('This session is full', warnToast)
       onRowClick(isSessionFull || clickedRowIndex === index ? {} : data);
       setClickedRowIndex(isSessionFull || clickedRowIndex === index ? undefined : index);
     }

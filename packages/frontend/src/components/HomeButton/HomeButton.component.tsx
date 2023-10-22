@@ -13,14 +13,15 @@ const HomeButton = () => {
   )
 }
 
-interface BackButtonProps {
+interface GoToButtonProps {
   isStatic?: boolean;
+  to?: string;
 }
 
-const BackButton = ({ isStatic }: BackButtonProps) => {
+const GoToButton = ({ isStatic, to }: GoToButtonProps) => {
   const navigate = useNavigate();
   return (
-    <div className={isStatic ? '' : 'home-button'} onClick={() => navigate(-1)} style={{ height: '3rem', width: '3rem' }}>
+    <div className={isStatic ? '' : 'home-button'} onClick={() => to ? navigate(to) : navigate(-1)} style={{ height: '3rem', width: '3rem' }}>
       <Card shadowed width="30rem" centered style={{ padding: 0, margin: 0, height: '100%', width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center' }} >
         <Tooltip size={12} direction='right' content="Back to your profile">
           <ArrowLeft size={24} />
@@ -30,4 +31,4 @@ const BackButton = ({ isStatic }: BackButtonProps) => {
   )
 }
 
-export { HomeButton, BackButton };
+export { HomeButton, GoToButton };

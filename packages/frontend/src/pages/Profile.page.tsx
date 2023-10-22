@@ -1,6 +1,6 @@
 import React from 'react';
 import { MovingBackground } from '../components/MovingBackground/MovingBackground.component';
-import { BackButton, HomeButton } from '../components/HomeButton/HomeButton.component';
+import { GoToButton, HomeButton } from '../components/HomeButton/HomeButton.component';
 import { useLocation, useParams } from 'react-router-dom';
 import { useGetUserScores } from '../api/queries/useGetScores.hook';
 import { ActivityTracker, PlayerDetail, ProgressChart, UserRank, UserStats, WeeklyTracker } from '../modules/Profile/components';
@@ -27,7 +27,7 @@ const Profile = () => {
         <section className='profile-container--top-section'>
           <div style={{ display: 'flex', flex: 1 }}>
             <span className='home-button'>
-              {isVisitingOwnProfile ? <HomeButton /> : <BackButton />}
+              {isVisitingOwnProfile ? <HomeButton /> : <GoToButton />}
             </span>
             {isVisitingOwnProfile && <EditButton />}
             <PlayerDetail />

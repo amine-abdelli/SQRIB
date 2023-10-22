@@ -17,8 +17,8 @@ export enum SessionType {
 }
 
 export enum SessionMode {
-  TIME_TRIAL,
-  SPEED_CHALLENGE
+  TIME_TRIAL = 'TIME_TRIAL',
+  SPEED_CHALLENGE = 'SPEED_CHALLENGE'
 }
 /** ********  MODELS ******** */
 interface UserModel {

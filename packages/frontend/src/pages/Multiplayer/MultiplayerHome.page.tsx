@@ -2,15 +2,19 @@ import React from 'react'
 
 import { HomeHeader } from '../../modules/Multiplayer/HomeHeader/HomeHeader.component'
 import { JoinCard } from '../../modules/Multiplayer'
+import { MultiplayerLayout } from '../../layouts/desktop/MultiplayerLayout.desktop'
 
 const MultiplayerHome = () => {
+  const searchParams = new URLSearchParams(document.location.search)
+  const redirectTo = searchParams.get('redirectTo') ?? undefined
+
   return (
-    <section style={{ padding: '1rem', height: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center', position: 'relative' }}>
+    <MultiplayerLayout>
       <div style={{ width: '40rem', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
         <HomeHeader />
-        <JoinCard />
+        <JoinCard redirectTo={redirectTo} />
       </div>
-    </section >
+    </MultiplayerLayout>
   )
 }
 

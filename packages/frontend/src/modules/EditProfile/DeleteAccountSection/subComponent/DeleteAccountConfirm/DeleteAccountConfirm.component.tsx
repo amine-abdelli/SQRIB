@@ -1,11 +1,12 @@
 import React from 'react'
+import toast from 'react-hot-toast'
+
 import { Text } from '../../../../../components/Text/Text.component'
 import { Button } from '../../../../../components/Button/Button.component'
 import { Spacer, SpacerSize } from '../../../../../components'
 import { useDeleteAccount } from '../../../../../api/queries/useDeleteAccount.hook'
 import { Input } from '../../../../Auth/components'
 import { MAIN_ROUTES } from '../../../../../routes/paths'
-import { alertService } from '../../../../Alert/Alert.service'
 import { formatErrorMessage } from '../../../../../utils'
 import { useModal } from '../../../../../contexts'
 import { MODAL_ID } from '../../../../../components/Modals/modals.constants'
@@ -15,11 +16,11 @@ const DeleteAccountConfirm = () => {
   const { closeModal } = useModal()
   const { mutateAsync: deleteAccount } = useDeleteAccount({
     onSuccess() {
-      alertService.success('Account deleted successfully.', {})
+      toast.success('Account deleted successfully.')
       window.location.href = MAIN_ROUTES.HOME
     },
     onError(err) {
-      alertService.error(formatErrorMessage(err), {})
+      toast.error(formatErrorMessage(err))
       setPassword('')
       closeModal(MODAL_ID.CONFIRM_DELETE_ACCOUNT)
     }

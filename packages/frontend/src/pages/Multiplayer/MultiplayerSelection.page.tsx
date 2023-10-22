@@ -1,21 +1,34 @@
 import React, { useEffect } from 'react'
-import { usePlayer } from '../../contexts/PlayerContext'
-import { useNavigate } from 'react-router-dom'
-import { MAIN_ROUTES } from '../../routes/paths'
+import toast from 'react-hot-toast'
+import { IRoomList, SocketPreGameEventsEnum } from '@sqrib/shared'
+
 import { RoomList } from '../../modules/Multiplayer/RoomList/RoomList.component'
+import { useSocket } from '../../contexts/SocketContext'
+import { TOAST_ID } from '../../theme/toast'
+import { MultiplayerLayout } from '../../layouts/desktop/MultiplayerLayout.desktop'
 
 const MultiplayerRoomSelection = () => {
-  const { username } = usePlayer()
-  const navigate = useNavigate()
+  const [roomId, setRoomId] = React.useState<string>('')
+  const [roomList, setRoomList] = React.useState<IRoomList>([])
+  const { emit, listen } = useSocket()
+
   useEffect(() => {
-    if (!username) {
-      navigate(MAIN_ROUTES.MULTIPLAYER)
+    emit(SocketPreGameEventsEnum.GET_SESSION_LIST)
+    return () => {
+      toast.dismiss(TOAST_ID.PICK_USERNAME_WARNING)
     }
   }, [])
+
+  // Populate room list
+  listen(SocketPreGameEventsEnum.GET_SESSION_LIST, (data) => {
+    setRoomList(data.sessions)
+  })
+
+
   return (
-    <section className='layout--main' style={{ padding: '2rem', display: 'flex', justifyContent: 'center', alignItems: 'center', position: 'relative' }}>
-      <RoomList />
-    </section>
+    <MultiplayerLayout>
+      <RoomList roomList={roomList} roomId={roomId} setRoomId={setRoomId} />
+    </MultiplayerLayout>
   )
 }
 

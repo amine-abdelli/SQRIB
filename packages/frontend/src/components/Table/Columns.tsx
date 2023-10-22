@@ -8,8 +8,8 @@ export function roomListColumns(fn?: any) {
     },
     {
       title: 'Language', // What is displayed by in the table header
-      dataIndex: 'lang', // The key corresponding to our data
-      key: 'lang',
+      dataIndex: 'language', // The key corresponding to our data
+      key: 'language',
       align: 'start',
     },
     {
@@ -27,8 +27,8 @@ export function roomListColumns(fn?: any) {
     },
     {
       title: 'Word count',
-      dataIndex: 'word_count',
-      key: 'word_count',
+      dataIndex: 'wordCount',
+      key: 'wordCount',
       align: 'start',
     }
   ];

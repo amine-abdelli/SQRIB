@@ -1,8 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { NavLinkProps } from './NavLink.props';
-import './NavLink.style.scss';
 import { AuthGuard } from '../../../../modules/Auth/AuthGuard/AuthGuard.component';
+
+import './NavLink.style.scss';
 
 function NavLink({ to, label, currentPath, withAuth, disabled }: NavLinkProps) {
   const handleLinkClick = React.useCallback((e: React.MouseEvent<HTMLAnchorElement>) => {

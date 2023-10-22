@@ -10,11 +10,18 @@ import { ModalDefinitions } from './components/Modals';
 import { AuthProvider } from './contexts/AuthContext';
 import { Alert } from './modules/Alert/Alert.component';
 import { ResolutionWarning } from './components/ResolutionWarning/ResolutionWarning.component';
+import { Toaster } from 'react-hot-toast';
+import { ToasterConfigs } from './theme/toast';
 
 function App() {
   return (
     <QueryClientProvider client={new QueryClient()}>
       <Alert />
+      <Toaster
+        position="top-right"
+        reverseOrder={false}
+        toastOptions={ToasterConfigs}
+      />
       <ResolutionWarning />
       <AuthProvider>
         <SoundProvider>

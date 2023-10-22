@@ -9,9 +9,10 @@ export enum MAIN_ROUTES {
 
   MULTIPLAYER = '/multiplayer',
   MULTIPLAYER_HOME = '',
-  MULTIPLAYER_ROOM = 'room',
-  MULTIPLAYER_SELECTION = 'room-selection',
-  MULTIPLAYER_CREATE_SESSION = 'create',
+  MULTIPLAYER_SELECTION = '/multiplayer/room-selection',
+  MULTIPLAYER_CREATE_SESSION = '/multiplayer/create',
+  MULTIPLAYER_STAGING = '/multiplayer/staging/:roomId',
+  MULTIPLAYER_ROOM = '/multiplayer/room/:roomId',
 
   LEADERBOARD = '/leaderboard',
   SETTINGS = '/settings',

@@ -1,12 +1,14 @@
 import React from 'react'
+import toast from 'react-hot-toast'
+
+import { passwordPolicy } from '@sqrib/shared'
+
 import { Text } from '../../../components/Text/Text.component'
 import { Spacer, SpacerSize } from '../../../components'
 import { Input } from '../../Auth/components'
 import { Button } from '../../../components/Button/Button.component'
 import Notification from '../../../components/Notification/Notification.component'
 import { useUpdatePassword } from '../../../api/queries/useUpdatePassword.hook'
-import { alertService } from '../../Alert/Alert.service'
-import { passwordPolicy } from '@sqrib/shared'
 import { formatErrorMessage } from '../../../utils'
 
 const EditPassword = () => {
@@ -17,7 +19,7 @@ const EditPassword = () => {
 
   const { mutateAsync: updateUserPassword } = useUpdatePassword({
     onSuccess: () => {
-      alertService.success('Password updated successfully.', {})
+      toast.success('Password updated successfully.')
     },
     onError: (err) => {
       setError(formatErrorMessage(err));

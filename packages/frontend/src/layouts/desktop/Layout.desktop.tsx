@@ -1,7 +1,7 @@
 import React from 'react';
 import '../../theme/components/_layout.scss';
 
-type LayoutProps = {
+export type LayoutProps = {
   children: React.ReactNode;
 };
 

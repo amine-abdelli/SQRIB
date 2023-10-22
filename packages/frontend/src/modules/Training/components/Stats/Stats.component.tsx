@@ -1,5 +1,7 @@
 import React from 'react';
-import './Stats.style.scss';
+import toast from 'react-hot-toast';
+import { SessionType } from '@sqrib/shared';
+
 import { COLORS } from '../../../../theme/colors';
 import { Logo, Spacer, SpacerSize } from '../../../../components';
 import { countCorrectlyTypedWords, countLetters } from '../../../../utils';
@@ -13,8 +15,8 @@ import { useAuthContext } from '../../../../contexts/AuthContext';
 import { StatsProps } from '../ScoreBoardModal/ScoreBoardModal.component';
 import { useSaveTrainingScore } from '../../../../api/queries';
 import { SessionMode } from '../../../../components/Options/Options.props';
-import { alertService } from '../../../Alert/Alert.service';
-import { SessionType } from '@sqrib/shared';
+
+import './Stats.style.scss';
 
 function Stats(props: StatsProps) {
   const { score, nextStep, wordChain, typedWords, misspellings, hasScoreBeenSaved, setHasScoreBeenSaved } = props;
@@ -31,7 +33,7 @@ function Stats(props: StatsProps) {
 
   const { mutateAsync: saveScore } = useSaveTrainingScore({
     onSuccess: () => {
-      alertService.success('Score saved successfully.', {});
+      toast.success('Score saved successfully.');
       setHasScoreBeenSaved(true)
     }
   });

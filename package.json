@@ -1,6 +1,7 @@
 {
   "name": "sqrib",
   "private": true,
+  "homepage": "https://www.sqrib.io",
   "version": "1.5.0",
   "scripts": {
     "dev": "yarn workspace @sqrib/server dev",

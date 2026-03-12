@@ -5,9 +5,14 @@ import {
   SocketChoreEventsEnum, Session,
 } from '@sqrib/shared';
 
-import { SESSIONS, ROOM_ID_WHITELIST, IO } from '../socket';
+import { generateWordSet } from '../../utils';
+import {
+  SESSIONS, ROOM_ID_WHITELIST, IO, WORD_SETS,
+} from '../socket';
 import { basePlayer, toRoomList } from '../mapper';
 import { handlePlayerLeave, isRoomIdValid, sendRoomNotification } from '../utils';
+import { emitSessionProgression } from './inGame.handler';
+import { startGameCountdown } from './common.handler';
 
 export function getSessions(_: Socket, io: IO) {
   const roomList = toRoomList(SESSIONS);
@@ -26,6 +31,9 @@ export function createSession(
   // Store it in whitelist
   ROOM_ID_WHITELIST.push(roomId);
   socket.join(roomId);
+
+  WORD_SETS[roomId] = generateWordSet(sessionOptions?.language, 400);
+
   // create session
   SESSIONS[roomId] = {
     id: roomId,
@@ -65,7 +73,6 @@ export function checkSessionIdValidity(socket: Socket, _: IO, roomId: string) {
 }
 
 export function getPlayersInRoom(_: Socket, io: IO, roomId: string) {
-  // eslint-disable-next-line prefer-destructuring
   const players = SESSIONS[roomId]?.players ?? {};
   io.to(roomId).emit(SocketPreGameEventsEnum.GET_PLAYERS, {
     players: Object.values(players),
@@ -93,9 +100,11 @@ export function joinSession(socket: Socket, io: IO, roomId: string, data: Player
       },
     },
   };
+
   getPlayersInRoom(socket, io, roomId);
   getSessions(socket, io);
   sendRoomNotification(io, roomId, `${data.username} has joined the room`);
+  emitSessionProgression(socket, io, roomId);
   return socket.emit(SocketPreGameEventsEnum.JOIN_SESSION);
 }
 
@@ -106,11 +115,15 @@ export function getSessionInfo(socket: Socket, _: IO, sessionId: string) {
 }
 
 export function startSession(socket: Socket, io: IO, roomId: string) {
-  SESSIONS[roomId].status = PlayerOrSessionStatus.PLAYING;
+  const session = SESSIONS[roomId];
+  session.status = PlayerOrSessionStatus.PLAYING;
+  // Store totalWords so clients can compute progress percentages
+  session.totalWords = session.options?.wordCount ?? WORD_SETS[roomId]?.length ?? 0;
   io.to(roomId).emit(SocketPreGameEventsEnum.START_SESSION);
   getSessions(socket, io);
   getPlayersInRoom(socket, io, roomId);
   sendRoomNotification(io, roomId, 'The game has started');
+  startGameCountdown(socket, io, roomId);
 }
 
 export function leaveSession(socket: Socket, io: IO, roomId: string) {

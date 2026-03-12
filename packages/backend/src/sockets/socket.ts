@@ -8,6 +8,12 @@ import { onPlayerDisconnection } from './utils';
 export type IO = Server<DefaultEventsMap, DefaultEventsMap, DefaultEventsMap, any>
 
 export const SESSIONS: Record<string, Session> = {};
+export const WORD_SETS: Record<string, string[]> = {};
+export const TIMERS: Record<string, {
+  time: number
+  interval: ReturnType<typeof setInterval>
+}> = {};
+
 export const LEGIT_ROOMID: string[] = [];
 export const ROOM_ID_WHITELIST: string[] = [];
 

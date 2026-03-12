@@ -14,7 +14,7 @@ export function toRoomList(sessions: Record<string, Session>) {
 }
 
 export const basePlayer = {
-  wordIndex: 0,
+  indexOfProgression: 0,
   wrongWords: 0,
   correctLetters: 0,
   totalLetters: 0,

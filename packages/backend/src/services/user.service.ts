@@ -1,6 +1,8 @@
 /* eslint-disable indent */
 /* eslint-disable consistent-return */
+
 import {
+  GlobalMetrics,
   Palmares, Prisma, Score, User,
 } from '@prisma/client';
 import { Request } from 'express';
@@ -233,7 +235,7 @@ export async function updateGlobalMetricsService(score: Score) {
     throw new HttpError(404, 'An error occured while updating global metrics');
   }
 
-  const newGlobalMetrics = {
+  const newGlobalMetrics: Partial<GlobalMetrics> = {
     ...globalMetrics,
     game_count: globalMetrics.game_count + 1,
     best_wpm: score.wpm > globalMetrics.best_wpm ? score.wpm : globalMetrics.best_wpm,
@@ -257,7 +259,7 @@ export async function updateGlobalMetricsService(score: Score) {
       Number(score.start_time),
       Number(score.end_time),
     ),
-    // total_typed_words: globalMetrics.total_typed_words + (score.typed_words || 0),
+    total_typed_words: globalMetrics.total_typed_words + (score.typed_words || 0),
   };
 
   await updateGlobalMetricsRepository(globalMetrics.id, newGlobalMetrics);

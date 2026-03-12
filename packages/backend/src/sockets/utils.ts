@@ -1,7 +1,9 @@
 import { Socket } from 'socket.io';
 
 import { SocketChoreEventsEnum } from '@sqrib/shared';
-import { IO, ROOM_ID_WHITELIST, SESSIONS } from './socket';
+import {
+  IO, ROOM_ID_WHITELIST, SESSIONS, TIMERS,
+} from './socket';
 import { getPlayersInRoom, getSessions } from './multiplayer/preGame.handler';
 
 export function isRoomIdValid(roomId: string): boolean {
@@ -37,7 +39,7 @@ export function handlePlayerLeave(socket: Socket, io: IO, roomId: string) {
       ROOM_ID_WHITELIST.splice(indexOfGameInLegitTokensArray, 1);
       delete SESSIONS[currentSession.id];
       // Clear and delete timer
-      // delete TIMERS[currentSession.id];
+      delete TIMERS[currentSession.id];
     }
 
     getSessions(socket, io);

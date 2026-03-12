@@ -1,5 +1,5 @@
 -- CreateEnum
-CREATE TYPE "Language" AS ENUM ('FR', 'EN', 'ES', 'DE');
+CREATE TYPE "Language" AS ENUM ('FR', 'EN', 'ES', 'DE', 'IT');
 
 -- CreateEnum
 CREATE TYPE "SessionMode" AS ENUM ('TIME_TRIAL', 'SPEED_CHALLENGE');
@@ -15,6 +15,7 @@ CREATE TABLE "User" (
     "password" TEXT NOT NULL,
     "description" TEXT,
     "avatar" TEXT,
+    "color" TEXT NOT NULL,
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "is_confirmed" BOOLEAN NOT NULL DEFAULT false,
     "is_locked" BOOLEAN NOT NULL DEFAULT false,
@@ -49,14 +50,17 @@ CREATE TABLE "UserAchievement" (
 CREATE TABLE "Palmares" (
     "id" TEXT NOT NULL,
     "role" TEXT NOT NULL DEFAULT 'user',
-    "game_count" INTEGER NOT NULL DEFAULT 0,
+    "session_count" INTEGER NOT NULL DEFAULT 0,
     "best_wpm" INTEGER NOT NULL DEFAULT 0,
-    "best_accuracy" DOUBLE PRECISION NOT NULL DEFAULT 0,
+    "average_wpm" INTEGER NOT NULL DEFAULT 0,
     "average_accuracy" DOUBLE PRECISION NOT NULL DEFAULT 0,
     "best_points" INTEGER NOT NULL DEFAULT 0,
     "total_points" INTEGER NOT NULL DEFAULT 0,
     "total_xp" INTEGER NOT NULL DEFAULT 0,
     "total_time_in_seconds" INTEGER NOT NULL DEFAULT 0,
+    "total_words_typed" INTEGER NOT NULL DEFAULT 0,
+    "last_activity" TIMESTAMP(3),
+    "days_of_activity" INTEGER NOT NULL DEFAULT 0,
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "user_id" TEXT NOT NULL,
 
@@ -66,16 +70,17 @@ CREATE TABLE "Palmares" (
 -- CreateTable
 CREATE TABLE "Session" (
     "id" TEXT NOT NULL,
-    "type" "SessionType" NOT NULL,
-    "mode" "SessionMode" NOT NULL,
+    "type" TEXT NOT NULL,
+    "mode" TEXT NOT NULL,
     "name" TEXT,
     "zen_mode" BOOLEAN,
-    "language" "Language" NOT NULL,
-    "word_count" INTEGER NOT NULL,
+    "language" TEXT NOT NULL,
+    "word_count" INTEGER,
+    "count_down" INTEGER,
     "total_duration" INTEGER NOT NULL,
     "word_set_id" TEXT,
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "userId" TEXT NOT NULL,
+    "created_by" TEXT,
 
     CONSTRAINT "Session_pkey" PRIMARY KEY ("id")
 );
@@ -87,8 +92,9 @@ CREATE TABLE "Score" (
     "accuracy" DOUBLE PRECISION NOT NULL DEFAULT 0,
     "points" INTEGER NOT NULL DEFAULT 0,
     "xp" INTEGER NOT NULL DEFAULT 0,
-    "start_time" TIMESTAMP(3) NOT NULL,
-    "end_time" TIMESTAMP(3) NOT NULL,
+    "typed_words" INTEGER NOT NULL DEFAULT 0,
+    "start_time" BIGINT NOT NULL,
+    "end_time" BIGINT NOT NULL,
     "user_id" TEXT,
     "session_id" TEXT,
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -133,7 +139,7 @@ ALTER TABLE "UserAchievement" ADD CONSTRAINT "UserAchievement_user_id_fkey" FORE
 ALTER TABLE "Palmares" ADD CONSTRAINT "Palmares_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Session" ADD CONSTRAINT "Session_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "Session" ADD CONSTRAINT "Session_created_by_fkey" FOREIGN KEY ("created_by") REFERENCES "User"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Score" ADD CONSTRAINT "Score_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "User"("id") ON DELETE SET NULL ON UPDATE CASCADE;

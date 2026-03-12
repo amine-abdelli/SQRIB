@@ -13,6 +13,7 @@ export function errorHandler(err: Error, _: Request, res: Response, next: NextFu
     message = err.message;
   }
   let stackTrace;
+
   if (process.env.NODE_ENV !== 'production') {
     stackTrace = err.stack;
     if (typeof err === 'string') {

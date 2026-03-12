@@ -1,3 +1,0 @@
--- AlterTable
-ALTER TABLE "Score" ALTER COLUMN "start_time" SET DATA TYPE BIGINT,
-ALTER COLUMN "end_time" SET DATA TYPE BIGINT;

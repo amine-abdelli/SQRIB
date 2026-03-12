@@ -5,7 +5,7 @@ import { getFocusedWordLetterColor, getLetterColor, getTextDecorationColor } fro
 import './Word.style.scss';
 
 export const Word = React.memo(function Word({
-  word, isFocused, comparison, indexOfProgression, currentIndex, input, fontSize, setCurrentWordSpanPosition, setNextWordSpanPosition, setMisspellings
+  word, isFocused, comparison, indexOfProgression, currentIndex, input, fontSize, setCurrentWordSpanPosition, setNextWordSpanPosition, setMisspellings, horizontal
 }: WordProps) {
   const [prevLength, setPrevLength] = React.useState<number>(0);
   const wordsFontSize = { fontSize: `${fontSize}px` };
@@ -31,7 +31,7 @@ export const Word = React.memo(function Word({
         <span
           className='word--focused'
           key={joinedWordOfReference}
-          ref={(e) => setCurrentWordSpanPosition(e?.getBoundingClientRect()?.y ?? 0)}
+          ref={(e) => setCurrentWordSpanPosition(horizontal ? (e?.getBoundingClientRect()?.x ?? 0) : (e?.getBoundingClientRect()?.y ?? 0))}
           style={wordsFontSize}
         >
           {wordFromDictionnay?.map((aLetter: string, i: number) => <span key={aLetter + i + joinedWordOfReference} style={{ color: getFocusedWordLetterColor(aLetter, wordUserIsCurrentlyTyping?.[i], i, wordUserIsCurrentlyTyping.length) }}>{aLetter}</span>)}
@@ -39,7 +39,7 @@ export const Word = React.memo(function Word({
       ) : (
         <span
           key={joinedWordOfReference}
-          style={{ textDecoration: getTextDecorationColor(word, comparison, indexOfProgression, currentIndex), ...wordsFontSize }} ref={(e) => currentIndex === indexOfProgression + 1 ? setNextWordSpanPosition(e?.getBoundingClientRect().y ?? 0) : null}>
+          style={{ textDecoration: getTextDecorationColor(word, comparison, indexOfProgression, currentIndex), ...wordsFontSize }} ref={(e) => currentIndex === indexOfProgression + 1 ? setNextWordSpanPosition(horizontal ? (e?.getBoundingClientRect().x ?? 0) : (e?.getBoundingClientRect().y ?? 0)) : null}>
           {wordFromDictionnay?.map((aLetter: string, i: number) => (<span key={aLetter + i + joinedWordOfReference} style={{ color: getLetterColor(aLetter, wordTypedByUser?.[i], indexOfProgression, currentIndex, isFocused) }}>{aLetter}</span>))}
         </span>
       )

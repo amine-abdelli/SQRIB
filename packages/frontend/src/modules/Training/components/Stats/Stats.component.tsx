@@ -55,6 +55,7 @@ function Stats(props: StatsProps) {
           count_down: props.mode === SessionMode.TIME_TRIAL ? props.countDown : undefined,
           type: SessionType.TRAINING as unknown as string,
           zen_mode: props.isZenModeOn,
+          word_set_id: '',
         }
       })
     }

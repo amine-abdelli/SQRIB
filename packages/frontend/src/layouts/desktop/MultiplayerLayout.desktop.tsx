@@ -11,7 +11,7 @@ const MultiplayerLayout = ({ children, column }: MultiplayerLayoutProps) => {
   return (
     <section className={`layout--multiplayer ${column ? 'column' : ''}`}>
       {children}
-    </section>
+    </section >
   )
 }
 

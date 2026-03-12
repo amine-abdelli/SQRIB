@@ -2,17 +2,17 @@ import React from 'react'
 import { LuRefreshCcw } from 'react-icons/lu'
 import { useNavigate } from 'react-router-dom'
 
-import { Card } from '../../../components/Card/Card.component'
-import { Text } from '../../../components/Text/Text.component'
-import { Input } from '../../Auth/components'
-import { Button } from '../../../components/Button/Button.component'
-import { Spacer, SpacerSize } from '../../../components'
-import { generateRandomUsername } from '../../../utils/username.util'
-import { COLORS } from '../../../theme/colors'
-import { useUsernameChecker } from '../../../api/queries/useUsernameChecker.hook'
-import Notification from '../../../components/Notification/Notification.component'
-import { usePlayer } from '../../../contexts/PlayerContext'
-import { MAIN_ROUTES } from '../../../routes/paths'
+import { Card } from '../../../../components/Card/Card.component'
+import { Text } from '../../../../components/Text/Text.component'
+import { Input } from '../../../Auth/components'
+import { Button } from '../../../../components/Button/Button.component'
+import { Spacer, SpacerSize } from '../../../../components'
+import { generateRandomUsername } from '../../../../utils/username.util'
+import { COLORS } from '../../../../theme/colors'
+import { useUsernameChecker } from '../../../../api/queries/useUsernameChecker.hook'
+import Notification from '../../../../components/Notification/Notification.component'
+import { usePlayer } from '../../../../contexts/PlayerContext'
+import { MAIN_ROUTES } from '../../../../routes/paths'
 import { getTodaysGreeting } from './greet'
 
 interface JoinCardProps {
@@ -41,7 +41,7 @@ const JoinCard = ({ redirectTo }: JoinCardProps) => {
     localStorage.setItem('mp_username', _username)
     return redirectTo ? navigate(redirectTo) : navigate(MAIN_ROUTES.MULTIPLAYER_SELECTION)
   }
-  const isJoinButtonDisabled = isAuthenticated ? false : !data?.data || !data?.data.isAvailable || _username.length < 4
+  const isJoinButtonDisabled = isAuthenticated ? false : _username.length < 4
   return (
     <Card style={{ width: '100%', padding: '2rem 1.5rem' }}>
       <Text h2 fira>WELCOME TO SQRIB.IO MULTIPLAYER</Text>

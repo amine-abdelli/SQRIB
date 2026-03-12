@@ -1,7 +1,7 @@
 import React from 'react'
-import { useGetGlobalMetrics } from '../../../api/queries/useGetGlobalMetrics.hooks'
-import { Text } from '../../../components/Text/Text.component'
-import { COLORS } from '../../../theme/colors'
+import { useGetGlobalMetrics } from '../../../../api/queries/useGetGlobalMetrics.hooks'
+import { Text } from '../../../../components/Text/Text.component'
+import { COLORS } from '../../../../theme/colors'
 
 const HomeHeader = () => {
   const { data } = useGetGlobalMetrics()

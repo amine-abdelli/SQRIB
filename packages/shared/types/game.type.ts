@@ -100,7 +100,7 @@ interface SessionModel {
   language: TLanguages;
   word_count: number;
   total_duration: number;
-  word_set_id?: string;
+  word_set_id: string;
   scores: ScoreModel[];
   created_at: Date;
   created_by?: UserModel;
@@ -126,7 +126,7 @@ export interface SessionRequestBody {
   language: TLanguages;
   word_count?: number; // For speed challenge only
   count_down?: number; // For time trial only
-  word_set_id?: string;
+  word_set_id: string;
 }
 
 /** @POST /game/save-score */
@@ -150,7 +150,7 @@ export interface SaveTrainingSessionRequestModel {
   word_count?: number // for speedChallenge Number of words to type
   count_down?: number // for TimeTrial
   total_duration: number // Total time available for the session in seconds
-  word_set_id?: string
+  word_set_id: string
   created_by: string
 }
 

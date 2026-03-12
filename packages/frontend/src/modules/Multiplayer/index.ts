@@ -1,2 +1,2 @@
-export * from './HomeHeader'
-export * from './JoinCard'
+export * from './Lobby'
+export * from './Modes'

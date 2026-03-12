@@ -8,5 +8,5 @@ import { GameType, GameStatus } from '../constants';
 export function hasEveryPlayerEnded(game: GameType) {
   const players = Object.values(game?.clients)
     .filter((p) => p.status === GameStatus.PLAYING);
-  return players.every((p) => p.wordIndex === game.wordAmount);
+  return players.every((p) => p.indexOfProgression === game.wordAmount);
 }

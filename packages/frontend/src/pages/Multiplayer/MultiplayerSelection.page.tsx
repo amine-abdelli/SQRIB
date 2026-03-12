@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import toast from 'react-hot-toast'
 import { IRoomList, SocketPreGameEventsEnum } from '@sqrib/shared'
 
-import { RoomList } from '../../modules/Multiplayer/RoomList/RoomList.component'
+import { RoomList } from '../../modules/Multiplayer/Lobby/RoomList/RoomList.component'
 import { useSocket } from '../../contexts/SocketContext'
 import { TOAST_ID } from '../../theme/toast'
 import { MultiplayerLayout } from '../../layouts/desktop/MultiplayerLayout.desktop'

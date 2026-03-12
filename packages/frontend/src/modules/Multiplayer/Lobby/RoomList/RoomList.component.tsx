@@ -1,16 +1,16 @@
 import React from 'react'
 
-import Table from '../../../components/Table/Table.component';
-import { roomListColumns } from '../../../components/Table/Columns';
-import { Button } from '../../../components/Button/Button.component';
-import { Spacer, SpacerSize } from '../../../components';
-import { Card } from '../../../components/Card/Card.component';
-import { Text } from '../../../components/Text/Text.component';
+import Table from '../../../../components/Table/Table.component';
+import { roomListColumns } from '../../../../components/Table/Columns';
+import { Button } from '../../../../components/Button/Button.component';
+import { Spacer, SpacerSize } from '../../../../components';
+import { Card } from '../../../../components/Card/Card.component';
+import { Text } from '../../../../components/Text/Text.component';
 import { generatePath, useNavigate } from 'react-router-dom';
-import { MAIN_ROUTES } from '../../../routes/paths';
-import { useSocket } from '../../../contexts/SocketContext';
+import { MAIN_ROUTES } from '../../../../routes/paths';
+import { useSocket } from '../../../../contexts/SocketContext';
 import { SocketPreGameEventsEnum } from '@sqrib/shared';
-import { usePlayer } from '../../../contexts/PlayerContext';
+import { usePlayer } from '../../../../contexts/PlayerContext';
 
 interface RoomListProps {
   roomId: string;

@@ -13,4 +13,5 @@ export interface WordProps {
   setNextWordSpanPosition: Dispatch<SetStateAction<number>>,
   setMisspellings: Dispatch<SetStateAction<string[]>>,
   isRunning: boolean,
+  horizontal?: boolean,
 }

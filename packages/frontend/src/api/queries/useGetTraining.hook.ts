@@ -9,8 +9,6 @@ export function useGetTrainingWordChain<T>(
 ): UseQueryResult<TrainingGamesResponseBody> {
   return useQuery(
     [GET_TRAINING_WORD_CHAIN, requestBody],
-    () => apiService.get<T>(ENDPOINTS_FULL_PATH.game.training, requestBody),
-    // Fetch data only when we trigger refetch method
-    { enabled: false }
+    () => apiService.get<T>(ENDPOINTS_FULL_PATH.game.training, requestBody)
   );
 }

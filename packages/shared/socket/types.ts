@@ -12,7 +12,7 @@ export interface Player {
   color: string;
   avatar: string;
   isHost: boolean;
-  wordIndex: number;
+  indexOfProgression: number;
   isAuthenticated: boolean;
   status: PlayerOrSessionStatus;
   wrongWords: number;
@@ -40,11 +40,22 @@ export interface SessionOptions {
   time?: number;
 }
 
+export interface PlayerProgressPayload {
+  indexOfProgression: number;
+  wrongWords: number;
+  correctLetters: number;
+  totalLetters: number;
+  wrongLetters: number;
+  precision: number;
+  mpm: number;
+}
+
 export interface Session {
   id: string;
   options: SessionOptions;
   status: PlayerOrSessionStatus;
   players?: Record<string, Player>;
+  totalWords?: number;
 }
 
 export type GetSessionInfo = Pick<Session, 'status' | 'options'>

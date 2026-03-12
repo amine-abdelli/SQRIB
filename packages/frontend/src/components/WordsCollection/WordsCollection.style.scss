@@ -1,4 +1,4 @@
-@import '../../theme/index.scss';
+@import "../../theme/index.scss";
 
 .words-collection--wrapper {
   position: relative;
@@ -13,6 +13,39 @@
   div {
     span {
       font-family: $FiraCodefontFamily;
+    }
+  }
+
+  // ── Horizontal / single-line scrolling mode ──────────────────────────────
+  &--horizontal {
+    overflow: hidden;
+    height: 3.2rem;
+    display: flex;
+    align-items: center;
+    flex: none;
+    padding: 0 1.5rem;
+
+    // Fade-out on left and right edges
+    mask-image: linear-gradient(
+      to right,
+      transparent 0%,
+      black 12%,
+      black 88%,
+      transparent 100%
+    );
+    -webkit-mask-image: linear-gradient(
+      to right,
+      transparent 0%,
+      black 12%,
+      black 88%,
+      transparent 100%
+    );
+
+    > div {
+      white-space: nowrap;
+      display: flex;
+      align-items: center;
+      transition: translate 0.15s ease-out;
     }
   }
 }

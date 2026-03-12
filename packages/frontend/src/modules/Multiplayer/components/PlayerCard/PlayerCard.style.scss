@@ -1,0 +1,30 @@
+@import "src/theme/index.scss";
+
+.player-card {
+  background: $tertiary;
+  padding: 1rem;
+  border-radius: 10px;
+  margin-bottom: 0.5rem;
+  border: 3px solid $outline;
+  display: flex;
+  width: 20rem;
+  box-shadow: 4px 4px 0px $outline;
+
+  &--highlighted {
+    border: 3px solid $primary;
+  }
+
+  &--progression {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 100%;
+    margin-left: 0.5rem;
+    padding: 3px;
+
+    &__username {
+      display: flex;
+      justify-content: space-between;
+    }
+  }
+}

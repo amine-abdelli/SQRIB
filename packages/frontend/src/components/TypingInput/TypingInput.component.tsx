@@ -1,22 +1,27 @@
 import React from 'react';
+
 import { useWindowSize } from '../../hooks/useWindowSize.hook';
 import { EngineProps } from '../../modules/Training/Engine';
-import './TypingInput.style.scss';
 import { COLORS } from '../../theme/colors';
+
+import './TypingInput.style.scss';
 
 function TypingInput({
   input, setInput, setTypedWords, setIndexOfProgression, isRunning,
   isUserAllowToType, wordChain, indexOfProgression, isZenModeOn, setMisspellings, inputRef, resetTraining
-}: EngineProps & { inputRef: React.RefObject<HTMLInputElement> }) {
+}: EngineProps & { inputRef?: React.RefObject<HTMLInputElement> }) {
   const { isMediumScreen } = useWindowSize();
+
   const isDisabled = !isRunning && !isUserAllowToType;
   const wordCurrentlyTyping = wordChain[indexOfProgression];
   const isCorrect = wordCurrentlyTyping?.slice(0, input.length) === input;
+
   React.useEffect(() => {
     if (inputRef && inputRef.current) {
       inputRef.current.focus();
     }
   }, [resetTraining]);
+
   return (
     <div className='main-input--wrapper'>
       <input

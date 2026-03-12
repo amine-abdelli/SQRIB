@@ -7,21 +7,26 @@ $disabled-color: lightgray;
   margin: 0 0 10px 0;
 
   .main-input {
-    border: none;
-    border-bottom: 2px solid black;
-    background-color: white;
+    border: 3px solid $outline;
+    border-radius: 6px;
+    background-color: $tertiary;
     font-weight: 800;
     font-size: 20px;
     font-family: $FiraCodefontFamily;
-    background-color: transparent;
+    padding: 6px 14px;
+    box-shadow: $shadow-button;
+    width: 100%;
 
     &::placeholder {
       font-family: $FiraCodefontFamily;
+      color: $grey;
+      font-weight: 400;
     }
 
     &:disabled {
       cursor: not-allowed;
-      border-bottom: 2px solid $disabled-color;
+      border-color: $disabled-color;
+      box-shadow: none;
 
       &::placeholder {
         color: $disabled-color;

@@ -26,6 +26,5 @@
   "main": "index.js",
   "repository": "https://github.com/amine-abdelli/SQRIB.git",
   "author": "Amine Abdelli <amine.abdelli@outlook.fr>",
-  "license": "MIT",
-  "packageManager": "yarn@3.0.0-rc.6"
+  "license": "MIT"
 }

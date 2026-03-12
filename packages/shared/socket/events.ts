@@ -11,7 +11,15 @@ export enum SocketPreGameEventsEnum {
 }
 
 export enum SocketInGameEventsEnum {
+  SESSION_PROGRESSION = 'session-progression',
+  UPDATE_PLAYER_PROGRESS = 'update-player-progress',
+  GAME_COUNTDOWN = 'game-countdown',
+  GAME_ENDED = 'game-ended',
+}
 
+export enum SocketCommonEventsEnum {
+  LAUNCH_TIMER = 'launch-timer',
+  STOP_TIMER = 'stop-timer',
 }
 
 export enum SocketChoreEventsEnum {

@@ -1,0 +1,98 @@
+@import "src/theme/index.scss";
+
+.classic-mode {
+  display: flex;
+  flex-direction: column;
+  width: 92%;
+  max-width: 1200px;
+  height: 100%;
+  padding: 1.5rem 0;
+
+  // ── Header ──────────────────────────────────────────────────────────────
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.6rem 1rem;
+    border: 3px solid $outline;
+    border-radius: 8px;
+    background: $tertiary;
+    box-shadow: 4px 4px 0px $outline;
+    flex-shrink: 0;
+  }
+
+  &__meta {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  &__badge {
+    font-family: $FiraCodefontFamily;
+    font-size: 12px;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 20px;
+    border: 2px solid $outline;
+    background: $secondary;
+    color: $tertiary;
+
+    &--secondary {
+      background: $quaternary-full;
+      color: $outline;
+    }
+  }
+
+  &__timer {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+  }
+
+  &__timer-label {
+    font-family: $FiraCodefontFamily;
+    font-size: 10px;
+    color: $grey;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  &__timer-value {
+    font-family: $FiraCodefontFamily;
+    font-size: 24px;
+    font-weight: 800;
+    color: $secondary;
+    line-height: 1;
+  }
+
+  // ── Body ──────────────────────────────────────────────────────────────
+  &__body {
+    display: flex;
+    flex: 1;
+    min-height: 0;
+    margin-top: 0;
+  }
+
+  &__typing-area {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-width: 0;
+  }
+
+  // ── Players sidebar ────────────────────────────────────────────────────
+  &__players {
+    display: flex;
+    flex-direction: column;
+    width: 280px;
+    flex-shrink: 0;
+    background: $tertiary;
+    border: 3px solid $outline;
+    border-radius: 8px;
+    box-shadow: 4px 4px 0px $outline;
+    padding: 1rem;
+    overflow-y: auto;
+    align-self: flex-start;
+    max-height: 100%;
+  }
+}

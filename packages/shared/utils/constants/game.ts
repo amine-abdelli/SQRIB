@@ -4,7 +4,7 @@ export type ClientType = {
   id: string;
   userId: string | null;
   username: string;
-  wordIndex: number;
+  indexOfProgression: number;
   color: string;
   wordAmount?: number;
   status: 'staging' | 'playing' | 'finished';

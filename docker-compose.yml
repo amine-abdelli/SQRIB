@@ -1,0 +1,17 @@
+version: '3.9'
+
+services:
+  db:
+    image: postgres:15-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: L4mbsbread
+      POSTGRES_DB: sqrib_database
+    ports:
+      - '2345:5432'
+    volumes:
+      - sqrib_db_data:/var/lib/postgresql/data
+
+volumes:
+  sqrib_db_data:

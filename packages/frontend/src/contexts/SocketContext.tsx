@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useEffect, useRef } from 'react';
+import React, { createContext, useCallback, useContext, useEffect, useRef } from 'react';
 import io, { Socket } from 'socket.io-client';
 import toast from 'react-hot-toast';
 
@@ -45,7 +45,7 @@ export const useSocket = () => {
     }
   };
 
-  const listen = (receiveEventName: string, callback: (...args: any[]) => void) => {
+  const listen = useCallback((receiveEventName: string, callback: (...args: any[]) => void) => {
     useEffect(() => {
       if (socket) {
         socket.on(receiveEventName, callback);
@@ -56,7 +56,7 @@ export const useSocket = () => {
         };
       }
     }, [socket, receiveEventName, callback]);
-  };
+  }, [socket]);
 
   return { socket, emit, listen };
 };

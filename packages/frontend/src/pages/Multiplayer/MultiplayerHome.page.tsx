@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { HomeHeader } from '../../modules/Multiplayer/HomeHeader/HomeHeader.component'
+import { HomeHeader } from '../../modules/Multiplayer/Lobby/HomeHeader/HomeHeader.component'
 import { JoinCard } from '../../modules/Multiplayer'
 import { MultiplayerLayout } from '../../layouts/desktop/MultiplayerLayout.desktop'
 

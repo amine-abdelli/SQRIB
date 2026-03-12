@@ -1,0 +1,87 @@
+@import "src/theme/index.scss";
+
+.game-results {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  width: 100%;
+  padding: 2rem 1rem;
+  overflow-y: auto;
+
+  &__card {
+    background: $tertiary;
+    border: 3px solid $outline;
+    border-radius: 10px;
+    box-shadow: 6px 6px 0px $outline;
+    padding: 2rem 2.5rem;
+    width: 100%;
+    max-width: 580px;
+  }
+
+  &__list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  &__player {
+    display: flex;
+    align-items: center;
+    gap: 0.9rem;
+    padding: 0.9rem 1rem;
+    border-radius: 8px;
+    border: 3px solid $light-grey;
+    background: $very-light-grey;
+    transition: border-color 0.15s;
+
+    &--winner {
+      border-color: $primary;
+      background: lighten($primary, 30%);
+    }
+  }
+
+  &__rank {
+    min-width: 2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  &__info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+    min-width: 0;
+  }
+
+  &__name-row {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  &__badge {
+    font-family: $FiraCodefontFamily;
+    font-size: 11px;
+    font-weight: 700;
+    color: $outline;
+    padding: 2px 7px;
+    border-radius: 20px;
+    border: 2px solid $outline;
+  }
+
+  &__stats {
+    display: flex;
+    gap: 1rem;
+    font-family: $FiraCodefontFamily;
+    font-size: 13px;
+    font-weight: 700;
+    color: $secondary;
+
+    small {
+      font-weight: 400;
+      color: $grey;
+    }
+  }
+}

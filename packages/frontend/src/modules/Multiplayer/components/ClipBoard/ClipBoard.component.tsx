@@ -2,7 +2,7 @@ import React from 'react'
 import toast from 'react-hot-toast'
 
 import { ChevronDownCircle, Document } from 'react-iconly';
-import { COLORS } from '../../../theme/colors';
+import { COLORS } from '../../../../theme/colors';
 
 export function copyToClipboard(text: string) {
   navigator.clipboard.writeText(text);
